@@ -3,7 +3,7 @@
 <style>
     img {
         position: fixed;
-        bottom: 0;
-        left: 0;
+        top: 0;
+        right: 0;
     }
 </style>
