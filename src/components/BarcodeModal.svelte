@@ -29,5 +29,7 @@ button {
   border-radius: 28px;
   font-size: 2em;
   padding: 5px 10px;
+  border: none;
+  box-shadow: 10px 0 15px black;
 }
 </style>

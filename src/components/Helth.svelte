@@ -1,4 +1,8 @@
-<img src='../../static/helth.jpg' alt="Helth doctor" width="200" height="auto"/>
+<script>
+  import helth from '$static/helth.jpg'
+</script>
+
+<img src='{helth}' alt="Helth doctor" width="200" height="auto"/>
 
 <style>
     img {

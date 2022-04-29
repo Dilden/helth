@@ -27,6 +27,7 @@
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 2;
+
     }
     .controls {
         grid-column-start: 1;
@@ -36,7 +37,7 @@
     }
     button, input {
         margin: 0;
-        padding: 0 5px;
+        padding: 5px 10px;
         vertical-align: center;
         font-size: 2em;
     }
