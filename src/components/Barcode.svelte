@@ -29,7 +29,7 @@
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:fly={{ y: 50 }} on:introstart on:outroend>
+  <div role="dialog" class="modal">
     <div class="scanner">
       {#await codeReader.listVideoInputDevices()}
         <p>..waiting</p>
@@ -61,7 +61,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 75px 1fr 50px;
-    box-shadow: 0px 0px 4px 15px #969191;
     position: absolute;
     top: 20px;
     right: 20px;
