@@ -28,6 +28,7 @@
   "type": "module",
   "dependencies": {
     "@sveltejs/adapter-static": "^1.0.0-next.29",
-    "@zxing/library": "^0.19.1"
+    "@zxing/library": "^0.19.1",
+    "svelte-modals": "^1.1.0"
   }
 }

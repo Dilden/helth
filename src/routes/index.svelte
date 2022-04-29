@@ -2,9 +2,9 @@
     import Water from '../components/Water.svelte';
     import Calories from '../components/Calories.svelte';
     import Salt from '../components/Salt.svelte';
-    import Helth from '../components/Helth.svelte';
+    //import Helth from '../components/Helth.svelte';
     import Date from '../components/Date.svelte';
-    import Barcode from '../components/Barcode.svelte';
+    import BarcodeModal from '../components/BarcodeModal.svelte';
 
 </script>
 <div class="container">
@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class='col-md-12'>
-            <Barcode />
+            <BarcodeModal />
         </div>
     </div>
     <div class="row">
@@ -30,4 +30,3 @@
         </div>
     </div>
 </div>
-<Helth />
