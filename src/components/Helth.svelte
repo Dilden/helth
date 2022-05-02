@@ -1,4 +1,5 @@
 <script>
+  // dynamically import the image src
   import helth from '$static/helth.jpg'
 </script>
 
