@@ -1,23 +1,15 @@
 <script>
-    import { Modals, closeModal, openModal, modals } from 'svelte-modals'
-	import { fade } from 'svelte/transition'
 	import Barcode from './Barcode.svelte'
 
 	function toggle() {
-		openModal(Barcode);
 	}
 </script>
 
 <button on:click={toggle}>📷</button>
 
-<Modals>
   <div
-    slot="backdrop"
-    class="backdrop"
-		transition:fade
-    on:click={closeModal}
+    on:click={toggle}
   />
-</Modals>
 
 <style>
 button {

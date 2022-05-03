@@ -1,7 +1,5 @@
 <script>
   import {BrowserMultiFormatReader} from '@zxing/library';
-  import { closeModal, modals } from 'svelte-modals'
-  import { fly } from 'svelte/transition'
 
   export let isOpen;
 
@@ -23,7 +21,6 @@
 
   function cancel() {
       codeReader.reset();
-      closeModal();
   }
 
 </script>
