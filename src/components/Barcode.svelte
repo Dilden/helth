@@ -60,7 +60,7 @@
     right: 20px;
     bottom: 20px;
     z-index: 100;
-    background: #ed5a42;
+    background: #1ab8b8;
     border-radius: 28px;
     font-size: 2em;
     padding: 5px 10px;
