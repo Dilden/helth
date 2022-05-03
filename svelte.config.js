@@ -11,9 +11,6 @@ const config = {
             default: true
         },
         trailingSlash: 'always',
-        paths: {
-            base: '/helth'
-        },
         vite: {
             resolve: {
                 alias: {
