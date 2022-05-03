@@ -68,7 +68,7 @@
     box-shadow: 10px 0 15px black;
   }
   .scanner {
-    background: #d4cece;
+    background: #34474c;
     padding: 15px 20px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -77,7 +77,8 @@
     top: 20px;
     right: 20px;
     left: 20px;
-    bottom: 60px;
+    bottom: 20px;
+    box-shadow: 10px 0 15px black;
   }
   .controls {
     grid-column-start: 1;
