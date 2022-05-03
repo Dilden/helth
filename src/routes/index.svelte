@@ -3,7 +3,7 @@
     import Calories from '../components/Calories.svelte';
     import Salt from '../components/Salt.svelte';
     import Date from '../components/Date.svelte';
-    import BarcodeModal from '../components/BarcodeModal.svelte';
+    import Barcode from '../components/Barcode.svelte';
 
 </script>
 <div class='container'>
@@ -12,7 +12,7 @@
     <div class='item'><Calories/></div>
     <div class='item'><Salt/></div>
 </div>
-<BarcodeModal />
+<Barcode />
 
 <style>
     .container {
