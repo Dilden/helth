@@ -1,6 +1,6 @@
 <script>
   import {BrowserMultiFormatReader} from '@zxing/library';
-  import {Modal} from 'sveltestrap/src';
+  import Modal from '$components/Modal.svelte';
   // modal
   let open = false;
   const toggle = () => (open = !open);
@@ -29,8 +29,8 @@
 
 </script>
 
-<button on:click={toggle} color="primary" class="toggle">📷</button>
-<Modal isOpen={open} {toggle} class="modal">
+<button on:click={toggle} color="primary" class="toggler">📷</button>
+<Modal class="modal">
   <div class="scanner">
     {#await codeReader.listVideoInputDevices()}
       <p>..waiting</p>
@@ -55,7 +55,7 @@
 </Modal>
 
 <style>
-  .toggle {
+  .toggler {
     position: fixed;
     right: 20px;
     bottom: 20px;
