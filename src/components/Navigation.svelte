@@ -14,20 +14,20 @@
   const toggle = () => (isOpen = !isOpen);
 </script>
 
-<Navbar color="dark" dark>
+<Navbar color="dark" dark class="sticky-top">
     <NavbarBrand class="me-auto" href="/">
         <Helth />
     </NavbarBrand>
     <NavbarToggler on:click={toggle} class="me-2" />
-    <Collapse {isOpen} navbar>
-        <Nav navbar class="sticky-top">
-            <NavItem>
+    <Collapse {isOpen} navbar class="">
+        <Nav navbar class="text-end">
+            <NavItem class="">
                 <NavLink href="/">Today</NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem class="">
                 <NavLink href="/">History</NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem class="">
                 <NavLink href="/">Profile</NavLink>
             </NavItem>
         </Nav>
