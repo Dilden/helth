@@ -1,9 +1,6 @@
 <script>
   import {BrowserMultiFormatReader} from '@zxing/library';
   import Modal from '$components/Modal.svelte';
-  // modal
-  let open = false;
-  const toggle = () => (open = !open);
 
   // scanner
   let selected;
@@ -24,13 +21,11 @@
 
   function cancel() {
       codeReader.reset();
-      open = false;
   }
 
 </script>
 
-<button on:click={toggle} color="primary" class="toggler">📷</button>
-<Modal class="modal">
+<Modal>
   <div class="scanner">
     {#await codeReader.listVideoInputDevices()}
       <p>..waiting</p>
@@ -55,18 +50,6 @@
 </Modal>
 
 <style>
-  .toggler {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 100;
-    background: #1ab8b8;
-    border-radius: 28px;
-    font-size: 2em;
-    padding: 5px 10px;
-    border: none;
-    box-shadow: 10px 0 15px black;
-  }
   .scanner {
     background: #34474c;
     padding: 15px 20px;
