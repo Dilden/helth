@@ -1,4 +1,5 @@
 import adapter from '@sveltejs/adapter-static';
+import { resolve } from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,6 +9,15 @@ const config = {
         }),
         prerender: {
             default: true
+        },
+        trailingSlash: 'always',
+        vite: {
+            resolve: {
+                alias: {
+                    // set an alias so images can be dynamically imported
+                    $static: resolve('static/')
+                }
+            }
         }
     }
 };

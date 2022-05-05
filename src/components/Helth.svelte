@@ -1,9 +1,23 @@
-<img src='../../static/helth.jpg' alt="Helth doctor" width="200" height="auto"/>
+<script>
+  // dynamically import the image src
+  import helth from '$static/helth.jpg'
+</script>
 
+<img src='{helth}' alt="Helth doctor" width="200" height="auto"/>
+<h1>helth app</h1>
 <style>
     img {
-        position: fixed;
-        top: 0;
-        right: 0;
+      width: auto;
+      max-width: 150px;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    h1 {
+      display: inline-block;
+      color: #65C144;
+      vertical-align: middle;
     }
 </style>

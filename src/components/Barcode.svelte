@@ -1,10 +1,11 @@
 <script>
   import {BrowserMultiFormatReader} from '@zxing/library';
-  import { closeModal, modals } from 'svelte-modals'
-  import { fly } from 'svelte/transition'
+  import {Modal} from 'sveltestrap/src';
+  // modal
+  let open = false;
+  const toggle = () => (open = !open);
 
-  export let isOpen;
-
+  // scanner
   let selected;
   let code = '';
 
@@ -23,50 +24,61 @@
 
   function cancel() {
       codeReader.reset();
-      closeModal();
+      open = false;
   }
 
 </script>
 
-{#if isOpen}
-  <div role="dialog" class="modal" transition:fly={{ y: 50 }} on:introstart on:outroend>
-    <div class="scanner">
-      {#await codeReader.listVideoInputDevices()}
-        <p>..waiting</p>
-      {:then inputs}
-      <div class="controls">
-          <label for="inputs">Select device</label>
-          <select id="inputs" name="inputs" bind:value={selected} on:change="{() => scan()}">
-            {#each inputs as input}
-              <option value={input}>{input.label}</option>
-            {/each}
-          </select>
+<button on:click={toggle} color="primary" class="toggle">📷</button>
+<Modal isOpen={open} {toggle} class="modal">
+  <div class="scanner">
+    {#await codeReader.listVideoInputDevices()}
+      <p>..waiting</p>
+    {:then inputs}
+    <div class="controls">
+        <label for="inputs">Select device</label>
+        <select id="inputs" name="inputs" bind:value={selected} on:change="{() => scan()}">
+          {#each inputs as input}
+            <option value={input}>{input.label}</option>
+          {/each}
+        </select>
 
-        <button class='scan_button' on:click={scan}>📷 Scan</button>
-        <button class='cancel_button' on:click={cancel}>❌ Stop</button>
-      </div>
-      <p class='value'>{code}</p>
-      {:catch error}
-        <p class=".error">oops!</p>
-      {/await}
-      <video id="scanner" name="scanner"><track kind="captions"/></video>
+      <button class='scan_button' on:click={scan}>📷 Scan</button>
+      <button class='cancel_button' on:click={cancel}>❌ Stop</button>
     </div>
+    <p class='value'>{code}</p>
+    {:catch error}
+      <p class=".error">oops!</p>
+    {/await}
+    <video id="scanner" name="scanner"><track kind="captions"/></video>
   </div>
-{/if}
+</Modal>
 
 <style>
+  .toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 100;
+    background: #1ab8b8;
+    border-radius: 28px;
+    font-size: 2em;
+    padding: 5px 10px;
+    border: none;
+    box-shadow: 10px 0 15px black;
+  }
   .scanner {
-    background: #d4cece;
+    background: #34474c;
     padding: 15px 20px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 75px 1fr 50px;
-    box-shadow: 0px 0px 4px 15px #969191;
     position: absolute;
     top: 20px;
     right: 20px;
     left: 20px;
-    bottom: 60px;
+    bottom: 20px;
+    box-shadow: 10px 0 15px black;
   }
   .controls {
     grid-column-start: 1;

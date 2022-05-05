@@ -5,7 +5,7 @@
     let dateObj = new Date($today.date);
     let format = dateObj.getMonth() + 1  + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
 </script>
-<h2>helth app - {format}</h2>
+<h2>{format}</h2>
 <style>
 
     h2 {
