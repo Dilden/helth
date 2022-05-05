@@ -48,7 +48,7 @@
   }
   .menu {
     position: fixed;
-    top: 0px;
+    top: 20px;
     right: 0px;
     content: " ";
     padding: 15px 60px 15px 20px;
