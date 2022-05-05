@@ -7,7 +7,7 @@
     Nav,
     NavItem,
     NavLink
-  } from 'sveltestrap/src';
+  } from 'sveltestrap';
   import Helth from '../components/Helth.svelte';
 
   let isOpen = false;
@@ -21,13 +21,13 @@
     <NavbarToggler on:click={toggle} class="me-2" />
     <Collapse {isOpen} navbar class="">
         <Nav navbar class="text-end">
-            <NavItem class="">
+            <NavItem class="fs-3">
                 <NavLink href="/">Today</NavLink>
             </NavItem>
-            <NavItem class="">
+            <NavItem class="fs-3">
                 <NavLink href="/">History</NavLink>
             </NavItem>
-            <NavItem class="">
+            <NavItem class="fs-3">
                 <NavLink href="/">Profile</NavLink>
             </NavItem>
         </Nav>
