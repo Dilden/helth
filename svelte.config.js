@@ -16,7 +16,8 @@ const config = {
                 alias: {
                     // set an alias so images can be dynamically imported
                     $static: resolve('static/'),
-                    $components: resolve('src/components/')
+                    $components: resolve('src/components/'),
+                    $utils: resolve('src/utils/')
                 }
             }
         }
