@@ -11,12 +11,12 @@
   async function scan() {
     console.log('Selected device ID: ' + selected.deviceId);
 
-    codeReader.decodeOnceFromVideoDevice(selected.deviceId, 'scanner').then((result) => {
-      if(result) {
-        code = result.getText();
-        codeReader.reset();
-      }
-    });
+    codeReader.decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
+      .then(result => fetch(`/upc?barcode=${result.getText()}`))
+      .then((response) => response.text())
+      .then(json => console.log(json))
+      .catch(error => console.error(error))
+      .finally(() => codeReader.reset());
   }
 
   function cancel() {
