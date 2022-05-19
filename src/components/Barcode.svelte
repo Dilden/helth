@@ -1,7 +1,6 @@
 <script>
   import {BrowserMultiFormatReader} from '@zxing/library';
   import Modal from '$components/Modal.svelte';
-  import {lookup} from '../utils/upc';
 
   // scanner
   let selected;
@@ -13,12 +12,11 @@
     console.log('Selected device ID: ' + selected.deviceId);
 
     codeReader.decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-      .then(result => lookup(result))
-      .then((data) => {
-        console.log(data);
-        code = data;
-        codeReader.reset();
-      });
+      .then(result => fetch(`/upc?barcode=${result.getText()}`))
+      .then((response) => response.text())
+      .then(json => console.log(json))
+      .catch(error => console.error(error))
+      .finally(() => codeReader.reset());
   }
 
   function cancel() {
