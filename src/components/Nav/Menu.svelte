@@ -10,8 +10,8 @@
 <nav class="{isOpen ? 'shown' : ''}">
   <ul>
     <li><a href="/">today 📅 </a></li>
-    <li><a href="/">history 📈 </a></li>
-    <li><a href="/">profile 👤 </a></li>
+    <li><a href="/history">history 📈 </a></li>
+    <li><a href="/goals">goals 🥇 </a></li>
   </ul>
 </nav>
 
