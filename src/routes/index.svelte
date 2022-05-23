@@ -6,7 +6,7 @@
     import Barcode from '../components/Barcode.svelte';
 
 </script>
-<h2>today 📅 </h2>
+<h2>tracker 💪</h2>
 <div class='container'>
     <div class='date'><Date /></div>
     <div class='item'><Water/></div>
