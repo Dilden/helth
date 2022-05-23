@@ -49,6 +49,9 @@
 </div>
 
 <style>
+    h2 {
+        text-align: center;
+    }
     .container {
         width: 500px;
         height: auto;

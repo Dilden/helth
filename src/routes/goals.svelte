@@ -21,6 +21,9 @@
 </div>
 
 <style>
+    h2 {
+        text-align: center;
+    }
     .container {
         text-align: center;
         display: grid;

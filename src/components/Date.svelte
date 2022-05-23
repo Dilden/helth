@@ -11,10 +11,10 @@
         dateObj.getFullYear();
 </script>
 
-<h2>{format}</h2>
+<h3>{format}</h3>
 
 <style>
-    h2 {
+    h3 {
         text-align: center;
     }
 </style>
