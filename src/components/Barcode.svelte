@@ -1,102 +1,107 @@
 <script>
-  import {BrowserMultiFormatReader} from '@zxing/library';
-  import Modal from '$components/Modal.svelte';
+    import { BrowserMultiFormatReader } from '@zxing/library';
+    import Modal from '$components/Modal.svelte';
 
-  // scanner
-  let selected;
-  let code = '';
+    // scanner
+    let selected;
+    let code = '';
 
-  const codeReader = new BrowserMultiFormatReader();
+    const codeReader = new BrowserMultiFormatReader();
 
-  async function scan() {
-    console.log('Selected device ID: ' + selected.deviceId);
+    async function scan() {
+        console.log('Selected device ID: ' + selected.deviceId);
 
-    codeReader.decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-      .then(result => fetch(`/upc?barcode=${result.getText()}`))
-      .then((response) => response.text())
-      .then(json => console.log(json))
-      .catch(error => console.error(error))
-      .finally(() => codeReader.reset());
-  }
+        codeReader
+            .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
+            .then((result) => fetch(`/upc?barcode=${result.getText()}`))
+            .then((response) => response.text())
+            .then((json) => console.log(json))
+            .catch((error) => console.error(error))
+            .finally(() => codeReader.reset());
+    }
 
-  function cancel() {
-      codeReader.reset();
-  }
-
+    function cancel() {
+        codeReader.reset();
+    }
 </script>
 
 <Modal>
-  <div class="scanner">
-    {#await codeReader.listVideoInputDevices()}
-      <p>..waiting</p>
-    {:then inputs}
-    <div class="controls">
-        <label for="inputs">Select device</label>
-        <select id="inputs" name="inputs" bind:value={selected} on:change="{() => scan()}">
-          {#each inputs as input}
-            <option value={input}>{input.label}</option>
-          {/each}
-        </select>
+    <div class="scanner">
+        {#await codeReader.listVideoInputDevices()}
+            <p>..waiting</p>
+        {:then inputs}
+            <div class="controls">
+                <label for="inputs">Select device</label>
+                <select
+                    id="inputs"
+                    name="inputs"
+                    bind:value={selected}
+                    on:change={() => scan()}
+                >
+                    {#each inputs as input}
+                        <option value={input}>{input.label}</option>
+                    {/each}
+                </select>
 
-      <button class='scan_button' on:click={scan}>📷 Scan</button>
-      <button class='cancel_button' on:click={cancel}>❌ Stop</button>
+                <button class="scan_button" on:click={scan}>📷 Scan</button>
+                <button class="cancel_button" on:click={cancel}>❌ Stop</button>
+            </div>
+            <p class="value">{code}</p>
+        {:catch error}
+            <p class=".error">oops!</p>
+        {/await}
+        <video id="scanner" name="scanner"><track kind="captions" /></video>
     </div>
-    <p class='value'>{code}</p>
-    {:catch error}
-      <p class=".error">oops!</p>
-    {/await}
-    <video id="scanner" name="scanner"><track kind="captions"/></video>
-  </div>
 </Modal>
 
 <style>
-  .scanner {
-    background: #34474c;
-    padding: 15px 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 75px 1fr 50px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    left: 20px;
-    bottom: 20px;
-    box-shadow: 10px 0 15px black;
-  }
-  .controls {
-    grid-column-start: 1;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 1;
-    text-align: center;
-  }
-  .controls label {
-    font-size: .9em;
-  }
-  .controls select {
-    border: solid 1px grey;
-  }
-  .controls button {
-    padding: 5px 10px;
-  }
-  .value {
-    color: #16bdbd;
-    font-size: 2rem;
-    text-align: center;
-    grid-column-start: 1;
-    grid-column-end: 4;
-    grid-row-start: 3;
-    grid-row-end: 4;
-  }
-  video {
-    grid-column-start: 1;
-    grid-column-end: 4;
-    grid-row-start: 2;
-    grid-row-end: 3;
-    display: block;
-    margin: 0 auto;
-    min-width: 100%;
-    height: auto;
-    max-height: 100%;
-  }
+    .scanner {
+        background: #34474c;
+        padding: 15px 20px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 75px 1fr 50px;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        left: 20px;
+        bottom: 20px;
+        box-shadow: 10px 0 15px black;
+    }
+    .controls {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        text-align: center;
+    }
+    .controls label {
+        font-size: 0.9em;
+    }
+    .controls select {
+        border: solid 1px grey;
+    }
+    .controls button {
+        padding: 5px 10px;
+    }
+    .value {
+        color: #16bdbd;
+        font-size: 2rem;
+        text-align: center;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+    video {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        display: block;
+        margin: 0 auto;
+        min-width: 100%;
+        height: auto;
+        max-height: 100%;
+    }
 </style>

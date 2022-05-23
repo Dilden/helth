@@ -1,1 +1,1 @@
-<h2>history 📈 </h2>
+<h2>history 📈</h2>

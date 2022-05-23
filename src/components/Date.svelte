@@ -1,12 +1,19 @@
 <script>
-    import {todayStore} from '../stores/local';
+    import { todayStore } from '../stores/local';
 
     let dateObj = new Date($todayStore.date);
-    let format = dateObj.getMonth() + 1  + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+    let format =
+        dateObj.getMonth() +
+        1 +
+        '/' +
+        dateObj.getDate() +
+        '/' +
+        dateObj.getFullYear();
 </script>
-<h2>{format}</h2>
-<style>
 
+<h2>{format}</h2>
+
+<style>
     h2 {
         text-align: center;
     }

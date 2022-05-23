@@ -4,14 +4,14 @@
     import Salt from '../components/Salt.svelte';
     import Date from '../components/Date.svelte';
     import Barcode from '../components/Barcode.svelte';
-
 </script>
+
 <h2>tracker 💪</h2>
-<div class='container'>
-    <div class='date'><Date /></div>
-    <div class='item'><Water/></div>
-    <div class='item'><Calories/></div>
-    <div class='item'><Salt/></div>
+<div class="container">
+    <div class="date"><Date /></div>
+    <div class="item"><Water /></div>
+    <div class="item"><Calories /></div>
+    <div class="item"><Salt /></div>
 </div>
 <Barcode />
 
@@ -26,5 +26,4 @@
         grid-column-start: 1;
         grid-column-end: 4;
     }
-
 </style>

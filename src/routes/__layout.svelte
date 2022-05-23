@@ -4,6 +4,4 @@
 
 <Navigation />
 
-<slot>
-
-</slot>
+<slot />

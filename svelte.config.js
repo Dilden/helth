@@ -1,5 +1,5 @@
 import adapter from '@sveltejs/adapter-node';
-import { resolve } from 'path';
+import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -12,12 +12,18 @@ const config = {
         },
         trailingSlash: 'always',
         vite: {
+            server: {
+                fs: {
+                    allow: ['static']
+                }
+            },
             resolve: {
                 alias: {
                     // set an alias so images can be dynamically imported
-                    $static: resolve('static/'),
-                    $components: resolve('src/components/'),
-                    $utils: resolve('src/utils/')
+                    $static: path.resolve('./static'),
+                    $components: path.resolve('./src/components'),
+                    $utils: path.resolve('./src/utils'),
+                    $stores: path.resolve('./src/stores')
                 }
             }
         }

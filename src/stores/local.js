@@ -1,6 +1,6 @@
 import { browser } from '$app/env';
 import { writable } from 'svelte/store';
-import { thePast } from '../utils/dates';
+import { thePast } from '$utils/dates';
 
 let currentDay, defaultDay;
 currentDay = defaultDay = {
