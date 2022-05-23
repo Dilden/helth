@@ -1,8 +1,8 @@
 <script>
-    import {today} from '../stores/local';
+    import {todayStore} from '../stores/local';
     import {thePast} from '../utils/dates';
 
-    let dateObj = new Date($today.date);
+    let dateObj = new Date($todayStore.date);
     let format = dateObj.getMonth() + 1  + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
 </script>
 <h2>{format}</h2>

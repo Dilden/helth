@@ -1,5 +1,5 @@
 import { browser } from '$app/env';
-import { writable } from 'svelte/store';
+import { writable, readable } from 'svelte/store';
 import { thePast } from '../utils/dates';
 
 let currentDay, defaultDay;
@@ -29,11 +29,12 @@ if (browser) {
 }
 
 // set today store to current day
-export const today = writable(currentDay);
+export const todayStore = writable(currentDay);
+//export const historyStore = readable(history);
 
 if (browser) {
     // update local 'today ' storage if values change
-    today.subscribe((value) =>
+    todayStore.subscribe((value) =>
         localStorage.setItem('today', JSON.stringify(value))
     );
     localStorage.setItem('history', JSON.stringify(history));
