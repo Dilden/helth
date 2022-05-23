@@ -3,15 +3,15 @@
   const toggle = () => (isOpen = !isOpen);
 </script>
 
-<a class="menu {isOpen ? 'moved' : ''}" href="/" on:click={toggle}>
+<span class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
   menu
   <i class="hamburger {isOpen ? 'open' : ''}"></i>
-</a>
+</span>
 <nav class="{isOpen ? 'shown' : ''}">
   <ul>
-    <li><a href="/">today 📅 </a></li>
-    <li><a href="/history">history 📈 </a></li>
-    <li><a href="/goals">goals 🥇 </a></li>
+    <li><a href="/" on:click={toggle} >today 📅 </a></li>
+    <li><a href="/history" on:click={toggle} >history 📈 </a></li>
+    <li><a href="/goals" on:click={toggle} >goals 🥇 </a></li>
   </ul>
 </nav>
 
