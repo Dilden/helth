@@ -7,12 +7,16 @@
 </script>
 
 <h2>tracker 💪</h2>
+
 <div class="container">
-    <div class="date"><Date /></div>
+  <Date />
+  <div class="wrapper">
     <div class="item"><Water /></div>
-    <div class="item"><Calories /></div>
-    <div class="item"><Salt /></div>
+      <div class="item"><Calories /></div>
+      <div class="item"><Salt /></div>
+  </div>
 </div>
+
 <Barcode />
 
 <style>
@@ -20,13 +24,22 @@
         text-align: center;
     }
     .container {
-        text-align: center;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 1fr 1fr;
+      padding: 0 15px;
     }
     .date {
         grid-column-start: 1;
         grid-column-end: 4;
+    }
+    .wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      width: 100%;
+      gap: 15px;
+    }
+    .item {
+      flex: 1 1 auto;
+      width: 30%;
+      padding: 0 15px;
     }
 </style>

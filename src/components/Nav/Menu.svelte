@@ -20,10 +20,11 @@
         position: fixed;
         z-index: 100;
         right: -250px;
-        width: 250px;
+        min-width: 250px;
         height: 100%;
         background-color: var(--back-color);
         transition: all 0.3s ease-in-out;
+        top: 0;
     }
     nav.shown {
         right: 0;
@@ -57,6 +58,9 @@
         color: var(--fore-color);
         text-decoration: none;
         transition: all 0.3s ease-in-out;
+        background-color: var(--back-color);
+        box-shadow: -10px 0px 10px 0px black;
+        z-index: 110;
     }
     .menu.moved {
         right: 250px;
