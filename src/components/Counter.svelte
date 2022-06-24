@@ -15,7 +15,7 @@
 </div>
 
 <style>
-    .container {
+    h2 {
       text-align: center;
     }
     .controls {
@@ -29,10 +29,10 @@
     }
     button {
       flex: 1 1 auto;
-      min-width: 24%;
+      width: 24%;
     }
     input[type='text'] {
       flex: 2 1 auto;
-      min-width: 49%;
+      width: 49%;
     }
 </style>
