@@ -12,8 +12,8 @@
   <Date />
   <div class="wrapper">
     <div class="item"><Water /></div>
-      <div class="item"><Calories /></div>
-      <div class="item"><Salt /></div>
+    <div class="item"><Calories /></div>
+    <div class="item"><Salt /></div>
   </div>
 </div>
 
@@ -39,7 +39,7 @@
     }
     .item {
       flex: 1 1 auto;
-      width: 30%;
-      padding: 0 15px;
+      max-width: 32%;
+      padding: 0;
     }
 </style>
