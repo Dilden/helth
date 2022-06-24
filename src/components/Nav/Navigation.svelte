@@ -14,6 +14,6 @@
         position: sticky;
         display: flex;
         flex-direction: row;
-        box-shadow: 0 0 10px black;
+        box-shadow: 0 0 25px black;
     }
 </style>

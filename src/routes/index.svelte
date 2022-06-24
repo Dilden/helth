@@ -26,10 +26,6 @@
     .container {
       padding: 0 15px;
     }
-    .date {
-        grid-column-start: 1;
-        grid-column-end: 4;
-    }
     .wrapper {
       display: flex;
       flex-flow: row wrap;
