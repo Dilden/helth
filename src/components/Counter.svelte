@@ -2,46 +2,37 @@
     export let count;
     export let title;
 
-    function decrement() {
-
-    }
+    function decrement() {}
 </script>
+
 <div class="container">
     <h2>{title}</h2>
     <div class="controls">
         <button on:click={() => count--}> - </button>
-        <input bind:value={count} type="text" min='0'>
+        <input bind:value={count} type="text" min="0" />
         <button on:click={() => count++}> + </button>
     </div>
 </div>
 
 <style>
-    .container {
-        text-align: center;
-        display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
-        grid-template-rows: 1fr 1fr;
-    }
     h2 {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 2;
-
+      text-align: center;
     }
     .controls {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 3;
+      display: flex;
+      gap: 0;
     }
-    button, input {
-        margin: 0;
-        padding: 5px 10px;
-        vertical-align: center;
-        font-size: 2em;
+    button,
+    input {
+      padding: 5px 10px;
+      font-size: 2em;
     }
-    input[type=text] {
-        width: 5em;
+    button {
+      flex: 1 1 auto;
+      width: 24%;
+    }
+    input[type='text'] {
+      flex: 2 1 auto;
+      width: 49%;
     }
 </style>

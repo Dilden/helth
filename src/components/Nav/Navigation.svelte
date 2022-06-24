@@ -1,11 +1,11 @@
 <script>
-  import Helth from '$components/Helth.svelte';
-  import Menu from '$components/Nav/Menu.svelte';
+    import Helth from '$components/Helth.svelte';
+    import Menu from '$components/Nav/Menu.svelte';
 </script>
 
 <header>
-  <Helth />
-  <Menu />
+    <Helth />
+    <Menu />
 </header>
 
 <style>
