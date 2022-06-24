@@ -42,4 +42,9 @@
       max-width: 32%;
       padding: 0;
     }
+    @media screen and (max-width: 925px) {
+      .item {
+        max-width: 65%;
+      }
+    }
 </style>
