@@ -1,28 +1,27 @@
 <script>
-    import { BrowserMultiFormatReader } from '@zxing/library';
-    import Modal from '$components/Modal.svelte';
+  import { BrowserMultiFormatReader } from '@zxing/library';
+  import Modal from '$components/Modal.svelte';
 
-    // scanner
-    let selected;
-    let code = '';
+  // scanner
+  let selected;
+  let code = '';
 
-    const codeReader = new BrowserMultiFormatReader();
+  const codeReader = new BrowserMultiFormatReader();
 
-    async function scan() {
-        console.log('Selected device ID: ' + selected.deviceId);
+  async function scan() {
+      //console.log('Selected device ID: ' + selected.deviceId);
+      codeReader
+          .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
+          .then(result => fetch(`/upc?barcode=${result.getText()}`))
+          .then(response => response.text())
+          .then(val => console.log(val)) // {"calories": 120}
+          .catch(error => console.error(error))
+          .finally(() => codeReader.reset());
+  }
 
-        codeReader
-            .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-            .then((result) => fetch(`/upc?barcode=${result.getText()}`))
-            .then((response) => response.text())
-            .then((json) => console.log(json))
-            .catch((error) => console.error(error))
-            .finally(() => codeReader.reset());
-    }
-
-    function cancel() {
-        codeReader.reset();
-    }
+  function cancel() {
+      codeReader.reset();
+  }
 </script>
 
 <Modal>
