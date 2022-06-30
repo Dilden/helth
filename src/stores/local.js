@@ -7,6 +7,7 @@ currentDay = defaultDay = {
     date: new Date(),
     water: 0,
     calories: 0,
+    protein: 0,
     salt: 0
 };
 let history = [];
@@ -15,6 +16,7 @@ let goals = {
 };
 let limits = {
     calories: 2000,
+    protein: 200,
     salt: 1500
 };
 
