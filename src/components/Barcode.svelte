@@ -1,6 +1,7 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
   import Modal from '$components/Modal.svelte';
+  import { todayStore } from '../stores/local';
 
   // scanner
   let selected;
@@ -13,8 +14,10 @@
       codeReader
           .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
           .then(result => fetch(`/upc?barcode=${result.getText()}`))
-          .then(response => response.text())
-          .then(val => console.log(val)) // {"calories": 120}
+          .then(response => response.json())
+          .then(val => {
+              $todayStore.calories = $todayStore.calories + val.calories;
+            })
           .catch(error => console.error(error))
           .finally(() => codeReader.reset());
   }
