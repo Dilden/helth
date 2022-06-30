@@ -6,6 +6,7 @@
   // scanner
   let selected;
   let code = '';
+  let open = false;
 
   const codeReader = new BrowserMultiFormatReader();
 
@@ -19,6 +20,7 @@
               $todayStore.calories = $todayStore.calories + val.calories.quantity;
               $todayStore.salt = $todayStore.salt + val.sodium.quantity;
               $todayStore.protein = $todayStore.protein + val.protein.quantity;
+              open = false;
             })
           .catch(error => console.error(error))
           .finally(() => codeReader.reset());
@@ -26,10 +28,11 @@
 
   function cancel() {
       codeReader.reset();
+      open = false;
   }
 </script>
 
-<Modal>
+<Modal bind:open={open}>
     <div class="scanner">
         {#await codeReader.listVideoInputDevices()}
             <p>..waiting</p>
