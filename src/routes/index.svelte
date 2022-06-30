@@ -1,9 +1,10 @@
 <script>
-    import Water from '../components/Water.svelte';
-    import Calories from '../components/Calories.svelte';
-    import Salt from '../components/Salt.svelte';
-    import Date from '../components/Date.svelte';
-    import Barcode from '../components/Barcode.svelte';
+  import Water from '../components/Water.svelte';
+  import Calories from '../components/Calories.svelte';
+  import Salt from '../components/Salt.svelte';
+  import Date from '../components/Date.svelte';
+  import Barcode from '../components/Barcode.svelte';
+
 </script>
 
 <h2>tracker 💪</h2>
