@@ -16,7 +16,9 @@
           .then(result => fetch(`/upc?barcode=${result.getText()}`))
           .then(response => response.json())
           .then(val => {
-              $todayStore.calories = $todayStore.calories + val.calories;
+              $todayStore.calories = $todayStore.calories + val.calories.quantity;
+              $todayStore.salt = $todayStore.salt + val.sodium.quantity;
+              $todayStore.protein = $todayStore.protein + val.protein.quantity;
             })
           .catch(error => console.error(error))
           .finally(() => codeReader.reset());
