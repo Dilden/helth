@@ -49,11 +49,9 @@
                         <option value={input}>{input.label}</option>
                     {/each}
                 </select>
-
                 <button class="scan_button" on:click={scan}>📷 Scan</button>
                 <button class="cancel_button" on:click={cancel}>❌ Stop</button>
             </div>
-            <p class="value">{code}</p>
         {:catch error}
             <p class=".error">oops!</p>
         {/await}
@@ -74,6 +72,7 @@
         left: 20px;
         bottom: 20px;
         box-shadow: 10px 0 15px black;
+        max-width: 100%;
     }
     .controls {
         grid-column-start: 1;
@@ -91,15 +90,6 @@
     .controls button {
         padding: 5px 10px;
     }
-    .value {
-        color: #16bdbd;
-        font-size: 2rem;
-        text-align: center;
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 3;
-        grid-row-end: 4;
-    }
     video {
         grid-column-start: 1;
         grid-column-end: 4;
@@ -110,5 +100,6 @@
         min-width: 100%;
         height: auto;
         max-height: 100%;
+        max-width: 100%;
     }
 </style>
