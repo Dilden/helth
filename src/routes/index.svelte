@@ -43,6 +43,9 @@
       padding: 0;
     }
     @media screen and (max-width: 925px) {
+      .wrapper {
+        justify-content: center;
+      }
       .item {
         max-width: 65%;
       }
