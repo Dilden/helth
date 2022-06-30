@@ -10,7 +10,6 @@ export const facts = async (id) => {
         ({ ...resultObj, [camelCase(currentObj.name)]: currentObj }),
         {}
       );
-      console.log(nutrientsObj);
       return nutrientsObj;
     });
 }
