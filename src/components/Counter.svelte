@@ -1,8 +1,6 @@
 <script>
-    export let count;
-    export let title;
-
-    function decrement() {}
+  export let count;
+  export let title;
 </script>
 
 <div class="container">

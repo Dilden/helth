@@ -1,9 +1,11 @@
 <script>
-    import Water from '../components/Water.svelte';
-    import Calories from '../components/Calories.svelte';
-    import Salt from '../components/Salt.svelte';
-    import Date from '../components/Date.svelte';
-    import Barcode from '../components/Barcode.svelte';
+  import Water from '../components/Water.svelte';
+  import Calories from '../components/Calories.svelte';
+  import Salt from '../components/Salt.svelte';
+  import Protein from '../components/Protein.svelte';
+  import Date from '../components/Date.svelte';
+  import Barcode from '../components/Barcode.svelte';
+
 </script>
 
 <h2>tracker 💪</h2>
@@ -14,6 +16,7 @@
     <div class="item"><Water /></div>
     <div class="item"><Calories /></div>
     <div class="item"><Salt /></div>
+    <div class="item"><Protein /></div>
   </div>
 </div>
 
@@ -29,8 +32,9 @@
     .wrapper {
       display: flex;
       flex-flow: row wrap;
-      justify-content: center;
+      justify-content: flex-start;
       width: 100%;
+      row-gap: 30px;
       gap: 15px;
     }
     .item {

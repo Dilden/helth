@@ -1,28 +1,32 @@
 <script>
-    import { BrowserMultiFormatReader } from '@zxing/library';
-    import Modal from '$components/Modal.svelte';
+  import { BrowserMultiFormatReader } from '@zxing/library';
+  import Modal from '$components/Modal.svelte';
+  import { todayStore } from '../stores/local';
 
-    // scanner
-    let selected;
-    let code = '';
+  // scanner
+  let selected;
+  let code = '';
 
-    const codeReader = new BrowserMultiFormatReader();
+  const codeReader = new BrowserMultiFormatReader();
 
-    async function scan() {
-        console.log('Selected device ID: ' + selected.deviceId);
+  async function scan() {
+      //console.log('Selected device ID: ' + selected.deviceId);
+      codeReader
+          .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
+          .then(result => fetch(`/upc?barcode=${result.getText()}`))
+          .then(response => response.json())
+          .then(val => {
+              $todayStore.calories = $todayStore.calories + val.calories.quantity;
+              $todayStore.salt = $todayStore.salt + val.sodium.quantity;
+              $todayStore.protein = $todayStore.protein + val.protein.quantity;
+            })
+          .catch(error => console.error(error))
+          .finally(() => codeReader.reset());
+  }
 
-        codeReader
-            .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-            .then((result) => fetch(`/upc?barcode=${result.getText()}`))
-            .then((response) => response.text())
-            .then((json) => console.log(json))
-            .catch((error) => console.error(error))
-            .finally(() => codeReader.reset());
-    }
-
-    function cancel() {
-        codeReader.reset();
-    }
+  function cancel() {
+      codeReader.reset();
+  }
 </script>
 
 <Modal>
