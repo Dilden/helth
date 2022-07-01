@@ -1,5 +1,5 @@
 <script>
-    import Helth from '$components/Helth.svelte';
+    import Helth from '$components/Nav/Helth.svelte';
     import Menu from '$components/Nav/Menu.svelte';
 </script>
 
