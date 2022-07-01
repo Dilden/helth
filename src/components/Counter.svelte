@@ -20,16 +20,16 @@
       display: flex;
       gap: 0;
     }
-    button,
-    input {
+    .controls button,
+    .controls input {
       padding: 5px 10px;
       font-size: 2em;
     }
-    button {
+    .controls button {
       flex: 1 1 auto;
       width: 24%;
     }
-    input[type='text'] {
+    .controls input[type='text'] {
       flex: 2 1 auto;
       width: 49%;
     }
