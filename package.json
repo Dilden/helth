@@ -5,7 +5,7 @@
         "dev": "vite dev --https",
         "build": "vite build",
         "package": "vite package",
-        "preview": "vite preview",
+        "preview": "vite preview --https",
         "prepare": "vite sync",
         "test": "playwright test",
         "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
