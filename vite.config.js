@@ -8,7 +8,33 @@ import { VitePWA } from 'vite-plugin-pwa';
 const config = {
   plugins: [
     sveltekit(),
-    VitePWA({ registerType: 'autoUpdate'})
+    VitePWA({ 
+      sourceDir: './build,',
+      outDir: './build',
+      injectRegister: 'auto',
+      devOptions: {
+        enabled: true
+      },
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,jpg,png}'],
+      },
+      manifest: {
+        'background_color': '#213439',
+        'theme_color': '#65c144',
+        'name': 'helth app',
+        'short_name': 'helth app',
+        'display': 'standalone',
+        'icons': [
+          {
+            'src': '/static/favicon-196.png',
+            'sizes': '196x196',
+            'type': 'image/png',
+            'purpose': 'maskable any'
+          }
+        ]
+      }
+    })
   ],
   server: {
       fs: {
@@ -23,7 +49,7 @@ const config = {
           $utils: path.resolve('./src/utils'),
           $stores: path.resolve('./src/stores')
       }
-  }
+  },
 };
 
 export default config;
