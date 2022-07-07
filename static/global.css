@@ -22,7 +22,8 @@
 }
 
 html {
-    font-size: 18px;
+  font-size: 18px;
+  height: 100%;
 }
 
 a,
@@ -51,9 +52,14 @@ html,
 }
 
 body {
-    margin: 0;
-    color: var(--fore-color);
-    background: var(--back-color);
+  margin: 0;
+  color: var(--fore-color);
+  background: var(--back-color);
+  height: 100%;
+}
+
+body > div {
+  height: 100%;
 }
 
 details {
