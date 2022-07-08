@@ -25,10 +25,15 @@
       text-align: center;
     }
     .chart {
-        width: 500px;
+        max-width: 500px;
         height: auto;
         text-align: center;
         margin: 0 auto;
         display: inline-block;
+    }
+    @media screen and (max-width: 925px) {
+      .chart {
+          min-width: 80%;
+      }
     }
 </style>
