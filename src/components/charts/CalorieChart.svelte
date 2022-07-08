@@ -1,7 +1,9 @@
 <script>
   import Chart from '$components/charts/Chart.svelte';
-  let data = [12, 19, 3, 5, 2, 30];
-  let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Pickle'];
+  import { historyStore } from '$stores/local';
+
+  let data = $historyStore.map(el => el.calories);
+  let labels = $historyStore.map(el => new Date( el.date ).getDate() + '/' + new Date( el.date ).getMonth() + '/' + new Date( el.date ).getFullYear());
 </script>
 
-<Chart chartType="line" data={data} labels={labels} title='Calories'/>
+<Chart chartType="line" data={data} labels={labels} title='Calories' color='#fc173e'/>
