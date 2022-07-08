@@ -10,7 +10,7 @@ currentDay = defaultDay = {
     protein: 0,
     salt: 0
 };
-let history = [{}];
+let history = [];
 let goals = {
     water: 0
 };
