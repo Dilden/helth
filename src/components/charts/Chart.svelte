@@ -6,8 +6,6 @@
   export let chartType = 'line';
   export let data = [];
   export let labels = [];
-  export let title = '';
-  export let color = '#000000';
 
   onMount(()=> {
       const ctx = chart.getContext('2d');
@@ -15,13 +13,7 @@
           type: chartType,
           data: {
               labels: labels,
-              datasets: [{
-                  label: title,
-                  data: data,
-                  backgroundColor: color,
-                  borderColor: color,
-                  borderWidth: 1
-              }]
+              datasets: data
           },
           options: {
               scales: {

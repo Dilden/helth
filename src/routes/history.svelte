@@ -1,15 +1,19 @@
 <script>
   import CalorieChart from '$components/charts/CalorieChart.svelte';
   import WaterChart from '$components/charts/WaterChart.svelte';
+  import NutrientsChart from '$components/charts/NutrientsChart.svelte';
 </script>
 
-<h2>history 📈</h2>
-<div class='charts'>
-  <div class='container'>
+<div class='container'>
+  <h2>history 📈</h2>
+  <div class='chart'>
     <CalorieChart />
   </div>
-  <div class='container'>
+  <div class='chart'>
     <WaterChart />
+  </div>
+  <div class='chart'>
+    <NutrientsChart />
   </div>
 </div>
 
@@ -17,10 +21,10 @@
     h2 {
         text-align: center;
     }
-    .charts {
+    .container {
       text-align: center;
     }
-    .container {
+    .chart {
         width: 500px;
         height: auto;
         text-align: center;
