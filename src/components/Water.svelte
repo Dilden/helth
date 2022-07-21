@@ -1,8 +1,9 @@
 <script>
-    import Counter from '$components/Counter.svelte';
-    import { todayStore } from '$stores/local';
+  import Counter from '$components/Counter.svelte';
+  import { todayStore } from '$stores/local';
 
-    let title = '💧';
+  let title = '💧 water (mL)';
+  let incr = 10;
 </script>
 
-<Counter {title} bind:count={$todayStore.water} />
+<Counter {title} incr={incr} bind:count={$todayStore.water} />

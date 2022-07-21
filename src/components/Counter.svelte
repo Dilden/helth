@@ -1,14 +1,22 @@
 <script>
   export let count;
   export let title;
+  export let incr = 1;
+
+  function increment() {
+    return count = count + incr;
+  }
+  function decrement() {
+    return count = count - incr;
+  }
 </script>
 
 <div class="container">
     <h2>{title}</h2>
     <div class="controls">
-        <button on:click={() => count--}> - </button>
-        <input bind:value={count} type="text" min="0" />
-        <button on:click={() => count++}> + </button>
+        <button on:click={decrement}> - </button>
+        <input value={count} type="text" min="0" />
+        <button on:click={increment}> + </button>
     </div>
 </div>
 
