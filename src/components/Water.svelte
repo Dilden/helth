@@ -3,7 +3,7 @@
   import { todayStore } from '$stores/local';
 
   let title = '💧 water (mL)';
-  let incr = 10;
+  let incr = 50;
 </script>
 
 <Counter {title} incr={incr} bind:count={$todayStore.water} />
