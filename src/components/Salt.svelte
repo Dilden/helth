@@ -2,6 +2,7 @@
     import Counter from '../components/Counter.svelte';
     import { todayStore } from '../stores/local';
     let title = '🧂 sodium (mg)';
+    let incr = 10;
 </script>
 
-<Counter {title} bind:count={$todayStore.salt} />
+<Counter {title} {incr} bind:count={$todayStore.salt} />
