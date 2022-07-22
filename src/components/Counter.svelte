@@ -25,7 +25,6 @@
 <style>
     .container {
       text-align: center;
-      position: relative;
     }
     .controls {
       display: flex;
