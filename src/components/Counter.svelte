@@ -8,7 +8,11 @@
     return count = count + incr;
   }
   function decrement() {
-    return count = count - incr;
+    count = count - incr;
+    if(count <= 0) {
+      count = 0;
+    }
+    return count;
   }
 </script>
 
