@@ -4,6 +4,7 @@
 
   let title = '💧 water (mL)';
   let incr = 50;
+  let max = 1000;
 </script>
 
-<Counter {title} incr={incr} bind:count={$todayStore.water} />
+<Counter {title} {max} incr={incr} bind:count={$todayStore.water} />
