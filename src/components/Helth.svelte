@@ -28,4 +28,9 @@
         font-size: calc( 1rem * var(--heading-ratio) * var(--heading-ratio) * var(--heading-ratio) );
       }
     }
+    @media screen and (max-width: 500px) {
+      h1 {
+        font-size: calc( 1rem * var(--heading-ratio) );
+      }
+    }
 </style>
