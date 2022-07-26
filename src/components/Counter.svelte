@@ -45,6 +45,7 @@
       border: none;
       margin: auto;
       padding: 10px;
+      color: #000000;
     }
     input[type='text'] {
       -webkit-box-flex: 2 1 auto;
