@@ -30,6 +30,10 @@
       padding: 0 15px;
     }
     .wrapper {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
       flex-flow: row wrap;
       justify-content: flex-start;
@@ -38,11 +42,18 @@
       gap: 15px;
     }
     .item {
-      flex: 1 1 auto;
-      max-width: 32%;
-      padding: 0;
+      -webkit-box-flex: 2 1 auto;
+      -moz-box-flex: 2 1 auto;
+      -webkit-flex: 2 1 auto;
+      -ms-flex: 2 1 auto;
+      flex: 2 1 auto;
+      margin: auto;
+      max-width: 30%;
     }
     @media screen and (max-width: 925px) {
+      .container {
+        padding: 0 10px;
+      }
       .wrapper {
         justify-content: center;
       }

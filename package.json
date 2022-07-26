@@ -1,11 +1,11 @@
 {
     "name": "helth",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "scripts": {
-        "dev": "svelte-kit dev --https",
+        "dev": "svelte-kit dev --https --host",
         "build": "svelte-kit build",
         "package": "svelte-kit package",
-        "preview": "svelte-kit preview",
+        "preview": "svelte-kit preview --host",
         "prepare": "svelte-kit sync",
         "test": "playwright test",
         "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",

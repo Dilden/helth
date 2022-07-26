@@ -12,8 +12,7 @@
     header {
         background-color: #34474c;
         position: sticky;
-        display: flex;
-        flex-direction: row;
         box-shadow: 0 0 25px black;
+        max-height: 110px;
     }
 </style>
