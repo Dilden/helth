@@ -32,5 +32,9 @@
       h1 {
         font-size: calc( 1rem * var(--heading-ratio) );
       }
+      img {
+          width: auto;
+          max-width: 120px;
+      }
     }
 </style>
