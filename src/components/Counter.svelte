@@ -4,6 +4,8 @@
   export let incr = 1;
   export let max = 100;
 
+  let sliderShown = false;
+
   function increment() {
     return count = count + incr;
   }
@@ -17,13 +19,15 @@
 </script>
 
 <div class="container">
-    <h2>{title}</h2>
+  <h2 on:click="{() => sliderShown = !sliderShown}">{title}</h2>
     <div class="controls">
         <button on:click={decrement}> -{incr} </button>
         <input value={count} type="text" min="0" />
         <button on:click={increment}> +{incr} </button>
     </div>
-    <input type="range" min=1 max={max} bind:value={incr}/>
+    {#if sliderShown}
+      <input type="range" min=1 max={max} bind:value={incr}/>
+    {/if}
 </div>
 
 <style>
