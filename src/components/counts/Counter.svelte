@@ -71,6 +71,7 @@
       opacity: 1 !important;
     }
     button {
+      -webkit-appearance: none;
       -webkit-box-flex: 1 1 auto;
       -moz-box-flex: 1 1 auto;
       -webkit-flex: 1 1 auto;
@@ -80,13 +81,11 @@
       transition: all 0.2s ease-in-out;
     }
     button:first-child {
-      -webkit-appearance: none;
       -webkit-border-radius: 10px 0 0 10px;
       -moz-border-radius: 10px 0 0 10px;
       border-radius: 10px 0 0 10px;
     }
     button:last-child {
-      -webkit-appearance: none;
       -webkit-border-radius: 0 10px 10px 0;
       -moz-border-radius: 0 10px 10px 0;
       border-radius: 0 10px 10px 0;
