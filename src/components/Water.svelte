@@ -6,4 +6,4 @@
   let max = 1000;
 </script>
 
-<Counter {title} {max} bind:incr={$settingStore.waterIncr} bind:count={$todayStore.water} />
+<Counter {title} {max} bind:incr={$settingStore.waterInterval} bind:count={$todayStore.water} />

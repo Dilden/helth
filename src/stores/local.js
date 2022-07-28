@@ -21,10 +21,10 @@ let limits = {
 };
 
 let settings = {
-  waterIncr: 1,
-  calorieIncr: 75,
-  sodiumIncr: 10,
-  proteinIncr: 5
+  waterInterval: 1,
+  calorieInterval: 75,
+  sodiumInterval: 10,
+  proteinInterval: 5
 };
 
 if (browser) {

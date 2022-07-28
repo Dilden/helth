@@ -4,4 +4,4 @@
   let title = '🍗 protein (g)';
 </script>
 
-<Counter {title} bind:incr={$settingStore.proteinIncr} bind:count={$todayStore.protein}/>
+<Counter {title} bind:incr={$settingStore.proteinInterval} bind:count={$todayStore.protein}/>

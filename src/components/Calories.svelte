@@ -4,4 +4,4 @@
   let title = '⚡ calories';
 </script>
 
-<Counter {title} bind:incr={$settingStore.calorieIncr} bind:count={$todayStore.calories}/>
+<Counter {title} bind:incr={$settingStore.calorieInterval} bind:count={$todayStore.calories}/>
