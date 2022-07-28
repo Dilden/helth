@@ -5,7 +5,7 @@
 </script>
 
 <div class='container'>
-  <h2>history 📈</h2>
+  <h2>charts 📈</h2>
   <div class='chart'>
     <CalorieChart />
   </div>

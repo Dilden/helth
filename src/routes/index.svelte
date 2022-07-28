@@ -9,7 +9,7 @@
 </script>
 
 <Date />
-<h2>tracker 💪</h2>
+<h2>track 🗒</h2>
 
 <div class="container">
   <div class="wrapper">

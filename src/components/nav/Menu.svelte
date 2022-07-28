@@ -9,8 +9,8 @@
 </span>
 <nav class={isOpen ? 'shown' : ''}>
     <ul>
-        <li><a href="/" on:click={toggle}>tracker 💪 </a></li>
-        <li><a href="/history" on:click={toggle}>history 📈 </a></li>
+        <li><a href="/" on:click={toggle}>track 🗒  </a></li>
+        <li><a href="/charts" on:click={toggle}>charts 📈 </a></li>
         <li><a href="/goals" on:click={toggle}>goals 🥇 </a></li>
     </ul>
 </nav>
