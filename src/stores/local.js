@@ -20,11 +20,19 @@ let limits = {
     salt: 1500
 };
 
+let settings = {
+  waterIncr: 1,
+  calorieIncr: 75,
+  sodiumIncr: 10,
+  proteinIncr: 5
+};
+
 if (browser) {
     // get local 'today' if it exists; if it doesn't get empty day object
     currentDay = JSON.parse(localStorage.getItem('today')) || defaultDay;
     goals = JSON.parse(localStorage.getItem('goals')) || goals;
     limits = JSON.parse(localStorage.getItem('limits')) || limits;
+    settings = JSON.parse(localStorage.getItem('settings')) || settings;
 
     // get local 'history' if it exists; otherwise empty array
     history = JSON.parse(localStorage.getItem('history') || '[]');
@@ -43,6 +51,7 @@ if (browser) {
 export const todayStore = writable(currentDay);
 export const goalStore = writable(goals);
 export const limitStore = writable(limits);
+export const settingStore = writable(settings);
 export const historyStore = readable(history);
 
 if (browser) {
@@ -55,6 +64,9 @@ if (browser) {
     );
     limitStore.subscribe((value) =>
         localStorage.setItem('limits', JSON.stringify(value))
+    );
+    settingStore.subscribe((value) =>
+        localStorage.setItem('settings', JSON.stringify(value))
     );
     localStorage.setItem('history', JSON.stringify(history));
 }
