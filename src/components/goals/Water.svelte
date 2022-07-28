@@ -1,5 +1,5 @@
 <script>
-    import Counter from '$components/Counter.svelte';
+    import Counter from '$components/counts/Counter.svelte';
     import { goalStore } from '$stores/local.js';
 
     let title = '💧';

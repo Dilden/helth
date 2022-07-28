@@ -1,10 +1,10 @@
 <script>
-  import Water from '../components/Water.svelte';
-  import Calories from '../components/Calories.svelte';
-  import Salt from '../components/Salt.svelte';
-  import Protein from '../components/Protein.svelte';
-  import Date from '../components/Date.svelte';
-  import Barcode from '../components/Barcode.svelte';
+  import Water from '$components/counts/Water.svelte';
+  import Calories from '$components/counts/Calories.svelte';
+  import Salt from '$components/counts/Salt.svelte';
+  import Protein from '$components/counts/Protein.svelte';
+  import Date from '$components/Date.svelte';
+  import Barcode from '$components/Barcode.svelte';
 
 </script>
 
