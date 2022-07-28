@@ -8,10 +8,10 @@
 
 </script>
 
+<Date />
 <h2>tracker 💪</h2>
 
 <div class="container">
-  <Date />
   <div class="wrapper">
     <div class="item"><Water /></div>
     <div class="item"><Calories /></div>

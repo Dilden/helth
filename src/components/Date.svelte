@@ -14,7 +14,13 @@
 <h3>{format}</h3>
 
 <style>
+  h3 {
+    text-align: center;
+    position: absolute;
+  }
+  @media screen and (max-width: 620px) {
     h3 {
-        text-align: center;
+      position: relative;
     }
+  }
 </style>
