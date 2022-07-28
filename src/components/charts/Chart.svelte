@@ -16,6 +16,7 @@
               datasets: data
           },
           options: {
+              responsive: true,
               scales: {
                   y: {
                       beginAtZero: true
@@ -28,4 +29,4 @@
 
 </script>
 
-<canvas bind:this={chart} width={400} height={400} />
+<canvas bind:this={chart} />
