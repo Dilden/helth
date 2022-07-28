@@ -5,13 +5,13 @@
   let data = [
     {
       label: 'Protein',
-      data: $historyStore.map(el => {el.protein}),
+      data: $historyStore.map(el => el.protein),
       backgroundColor: "#fce417",
       borderColor: "#fce417"
     },
     {
       label: 'Salt',
-      data: $historyStore.map(el => {el.salt}),
+      data: $historyStore.map(el => el.salt),
       backgroundColor: "#ffffff",
       borderColor: "#ffffff"
     }
