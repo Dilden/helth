@@ -4,4 +4,4 @@
     let title = '🧂 sodium (mg)';
 </script>
 
-<Counter {title} bind:incr={$settingStore.sodiumInterval} bind:count={$todayStore.salt} />
+<Counter {title} bind:interval={$settingStore.sodiumInterval} bind:count={$todayStore.salt} />

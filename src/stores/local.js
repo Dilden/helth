@@ -21,7 +21,7 @@ let limits = {
 };
 
 let settings = {
-  waterInterval: 1,
+  waterInterval: 500,
   calorieInterval: 75,
   sodiumInterval: 10,
   proteinInterval: 5

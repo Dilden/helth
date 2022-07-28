@@ -1,16 +1,16 @@
 <script>
   export let count;
   export let title;
-  export let incr = 1;
+  export let interval = 1;
   export let max = 100;
 
   let sliderShown = false;
 
   function increment() {
-    return count = count + incr;
+    return count = count + interval;
   }
   function decrement() {
-    count = count - incr;
+    count = count - interval;
     if(count <= 0) {
       count = 0;
     }
@@ -21,12 +21,12 @@
 <div class="container">
   <h2 on:click="{() => sliderShown = !sliderShown}">{title}</h2>
     <div class="controls">
-        <button on:click={decrement}> -{incr} </button>
+        <button on:click={decrement}> -{interval} </button>
         <input value={count} type="text" min="0" />
-        <button on:click={increment}> +{incr} </button>
+        <button on:click={increment}> +{interval} </button>
     </div>
     {#if sliderShown}
-      <input type="range" min=1 max={max} bind:value={incr}/>
+      <input type="range" min=1 max={max} bind:value={interval}/>
     {/if}
 </div>
 
