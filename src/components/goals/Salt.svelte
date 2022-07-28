@@ -1,5 +1,5 @@
 <script>
-    import Counter from '../Counter.svelte';
+    import Counter from '$components/counts/Counter.svelte';
     import { limitStore } from '$stores/local.js';
     let title = '🧂 sodium (mg)';
 </script>

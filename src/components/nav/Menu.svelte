@@ -9,8 +9,8 @@
 </span>
 <nav class={isOpen ? 'shown' : ''}>
     <ul>
-        <li><a href="/" on:click={toggle}>tracker 💪 </a></li>
-        <li><a href="/history" on:click={toggle}>history 📈 </a></li>
+        <li><a href="/" on:click={toggle}>track 🗒  </a></li>
+        <li><a href="/charts" on:click={toggle}>charts 📈 </a></li>
         <li><a href="/goals" on:click={toggle}>goals 🥇 </a></li>
     </ul>
 </nav>
@@ -42,10 +42,14 @@
     }
     li a {
         display: block;
-        padding: 10px 0;
-        margin: 15px 0;
+        padding: 20px 0;
+        margin: 0;
         text-decoration: none;
         color: var(--a-link-color);
+        transition: all 0.4s ease-in-out;
+    }
+    li a:hover {
+      background-color: #03221b;
     }
     .menu {
         position: fixed;
