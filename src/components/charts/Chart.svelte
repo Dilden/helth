@@ -29,4 +29,4 @@
 
 </script>
 
-<canvas bind:this={chart} />
+<canvas bind:this={chart} width={1000} />
