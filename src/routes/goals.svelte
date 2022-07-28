@@ -2,22 +2,27 @@
     import Water from '$components/goals/Water.svelte';
     import Calories from '$components/goals/Calories.svelte';
     import Salt from '$components/goals/Salt.svelte';
+    import Protein from '$components/goals/Protein.svelte';
 </script>
 
 <h2>goals 🥇</h2>
 <div class="container">
     <div class="wrapper">
       <div class="item">
-        <p>Set your water intake goal</p>
+        <p>Set your water goal (ml)</p>
         <Water />
       </div>
       <div class="item">
-        <p>Set your calorie intake limit</p>
+        <p>Set your calorie limit</p>
         <Calories />
       </div>
       <div class="item">
-        <p>Set your sodium intake limit (mg)</p>
+        <p>Set your sodium limit (mg)</p>
         <Salt />
+      </div>
+      <div class="item">
+        <p>Set your protein goal</p>
+        <Protein />
       </div>
   </div>
 </div>

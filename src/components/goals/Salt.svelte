@@ -4,4 +4,4 @@
     let title = '🧂 sodium (mg)';
 </script>
 
-<Counter {title} bind:count={$limitStore.salt} />
+<Counter {title} bind:count={$limitStore.salt} interval={25} max={100} />

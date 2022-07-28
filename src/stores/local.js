@@ -12,11 +12,11 @@ currentDay = defaultDay = {
 };
 let history = [];
 let goals = {
-    water: 0
+    water: 2000,
+    protein: 50
 };
 let limits = {
     calories: 2000,
-    protein: 200,
     salt: 1500
 };
 
