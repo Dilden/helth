@@ -9,8 +9,12 @@
       backgroundColor: "#fc173e",
       borderColor: "#fc173e"
     }];
-  let labels = $historyStore.map(el => new Date( el.date ).getDate() + '/' + new Date( el.date ).getMonth() + '/' + new Date( el.date ).getFullYear());
+  let labels = $historyStore.map(el => {
+          let date = new Date(el.date);
+          return date.toLocaleDateString();
+      }
+    );
 </script>
 
 <h3>Calories</h3>
-<Chart chartType="line" data={data} labels={labels} color='#fc173e'/>
+<Chart chartType="line" {data} {labels} />

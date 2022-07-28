@@ -16,8 +16,12 @@
       borderColor: "#ffffff"
     }
     ]
-  let labels = $historyStore.map(el => new Date( el.date ).getDate() + '/' + new Date( el.date ).getMonth() + '/' + new Date( el.date ).getFullYear());
+  let labels = $historyStore.map(el => {
+          let date = new Date(el.date);
+          return date.toLocaleDateString();
+      }
+    );
 </script>
 
 <h3>Nutrients</h3>
-<Chart chartType="line" data={data} labels={labels} />
+<Chart chartType="line" {data} {labels} />
