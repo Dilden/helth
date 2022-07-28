@@ -4,7 +4,7 @@
   export let interval = 1;
   export let max = 100;
 
-  let sliderShown = false;
+  let sliderShow = false;
 
   function increment() {
     return count = count + interval;
@@ -19,15 +19,13 @@
 </script>
 
 <div class="container">
-  <h2 on:click="{() => sliderShown = !sliderShown}">{title}</h2>
+  <h2 on:click="{() => sliderShow = !sliderShow}">{title}</h2>
     <div class="controls">
         <button on:click={decrement}> -{interval} </button>
         <input value={count} type="text" min="0" />
         <button on:click={increment}> +{interval} </button>
     </div>
-    {#if sliderShown}
-      <input type="range" min=1 max={max} bind:value={interval}/>
-    {/if}
+    <input class:show={sliderShow} type="range" min=1 max={max} bind:value={interval}/>
 </div>
 
 <style>
@@ -66,6 +64,11 @@
     input[type='range'] {
       width: 90%;
       font-size: 3em;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+    }
+    .show {
+      opacity: 1 !important;
     }
     button {
       -webkit-box-flex: 1 1 auto;
