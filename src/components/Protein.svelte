@@ -1,8 +1,7 @@
 <script>
   import Counter from '../components/Counter.svelte';
-  import { todayStore } from '../stores/local';
+  import { todayStore, settingStore } from '../stores/local';
   let title = '🍗 protein (g)';
-  let incr = 5;
 </script>
 
-<Counter {title} {incr} bind:count={$todayStore.protein}/>
+<Counter {title} bind:incr={$settingStore.proteinIncr} bind:count={$todayStore.protein}/>
