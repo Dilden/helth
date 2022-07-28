@@ -20,7 +20,7 @@
   }
   @media screen and (max-width: 620px) {
     h3 {
-      position: relative;
+      position: inherit;
     }
   }
 </style>
