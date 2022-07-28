@@ -4,4 +4,4 @@
     let title = '⚡ calories';
 </script>
 
-<Counter {title} bind:count={$limitStore.calories} />
+<Counter {title} bind:count={$limitStore.calories} interval={200} max={600} />

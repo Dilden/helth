@@ -4,4 +4,4 @@
     let title = '🍗 protein (g)';
 </script>
 
-<Counter {title} bind:count={$goalStore.protein} />
+<Counter {title} bind:count={$goalStore.protein} interval={5} max={20} />

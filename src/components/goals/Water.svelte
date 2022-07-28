@@ -2,7 +2,7 @@
     import Counter from '$components/counts/Counter.svelte';
     import { goalStore } from '$stores/local.js';
 
-    let title = '💧';
+    let title = '💧 water (ml)';
 </script>
 
-<Counter {title} bind:count={$goalStore.water} />
+<Counter {title} interval={500} max={1000} bind:count={$goalStore.water} />
