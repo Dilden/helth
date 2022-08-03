@@ -11,13 +11,11 @@
 <Date />
 <h2>track 🗒</h2>
 
-<div class="container">
-  <div class="wrapper">
-    <div class="item"><Water /></div>
-    <div class="item"><Calories /></div>
-    <div class="item"><Salt /></div>
-    <div class="item"><Protein /></div>
-  </div>
+<div class="wrapper">
+  <div class="item"><Water /></div>
+  <div class="item"><Calories /></div>
+  <div class="item"><Salt /></div>
+  <div class="item"><Protein /></div>
 </div>
 
 <Barcode />
@@ -25,9 +23,6 @@
 <style>
     h2 {
         text-align: center;
-    }
-    .container {
-      padding: 0 15px;
     }
     .wrapper {
       display: -webkit-box;

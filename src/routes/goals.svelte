@@ -6,33 +6,28 @@
 </script>
 
 <h2>goals 🥇</h2>
-<div class="container">
-    <div class="wrapper">
-      <div class="item">
-        <p>Set your water goal (ml)</p>
-        <Water />
-      </div>
-      <div class="item">
-        <p>Set your calorie limit</p>
-        <Calories />
-      </div>
-      <div class="item">
-        <p>Set your sodium limit (mg)</p>
-        <Salt />
-      </div>
-      <div class="item">
-        <p>Set your protein goal</p>
-        <Protein />
-      </div>
-  </div>
+  <div class="wrapper">
+    <div class="item">
+      <p>Set your water goal (ml)</p>
+      <Water />
+    </div>
+    <div class="item">
+      <p>Set your calorie limit</p>
+      <Calories />
+    </div>
+    <div class="item">
+      <p>Set your sodium limit (mg)</p>
+      <Salt />
+    </div>
+    <div class="item">
+      <p>Set your protein goal</p>
+      <Protein />
+    </div>
 </div>
 
 <style>
     h2 {
         text-align: center;
-    }
-    .container {
-      padding: 0 15px;
     }
     .wrapper {
       display: flex;

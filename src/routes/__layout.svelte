@@ -21,6 +21,7 @@
   }
   .content {
     flex: 1 0 auto;
+    padding: 0 15px;
   }
   .footer {
     flex-shrink: 0;
