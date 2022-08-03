@@ -2,6 +2,7 @@
   import CalorieChart from '$components/charts/CalorieChart.svelte';
   import WaterChart from '$components/charts/WaterChart.svelte';
   import NutrientsChart from '$components/charts/NutrientsChart.svelte';
+  import ProteinChart from '$components/charts/ProteinChart.svelte';
 </script>
 
 <div class='container'>
@@ -14,6 +15,9 @@
   </div>
   <div class='chart'>
     <NutrientsChart />
+  </div>
+  <div class='chart'>
+    <ProteinChart />
   </div>
 </div>
 

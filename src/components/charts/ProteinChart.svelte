@@ -3,13 +3,13 @@
   import { historyStore, goalStore } from '$stores/local';
 
   let data = [
-      {
-        label: 'Water',
-        data: $historyStore.map(el => el.water),
-        backgroundColor: "#2417fc",
-        borderColor: "#2417fc"
-      }
-    ];
+    {
+      label: 'Protein',
+      data: $historyStore.map(el => el.protein),
+      backgroundColor: "#fce417",
+      borderColor: "#fce417"
+    }
+    ]
   let labels = $historyStore.map(el => {
           let date = new Date(el.date);
           return date.toLocaleDateString();
@@ -17,5 +17,5 @@
     );
 </script>
 
-<h3>Water</h3>
-<Chart chartType="line" goal={$goalStore.water} {data} {labels} unit={"ml"} />
+<h3>Protein</h3>
+<Chart chartType="line" {data} {labels} goal={$goalStore.protein} unit={'grams'} />

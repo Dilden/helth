@@ -1,14 +1,8 @@
 <script>
   import Chart from '$components/charts/Chart.svelte';
-  import { historyStore } from '$stores/local';
+  import { historyStore, limitStore } from '$stores/local';
 
   let data = [
-    {
-      label: 'Protein',
-      data: $historyStore.map(el => el.protein),
-      backgroundColor: "#fce417",
-      borderColor: "#fce417"
-    },
     {
       label: 'Salt',
       data: $historyStore.map(el => el.salt),
@@ -23,5 +17,5 @@
     );
 </script>
 
-<h3>Nutrients</h3>
-<Chart chartType="line" {data} {labels} />
+<h3>Sodium</h3>
+<Chart chartType="line" {data} {labels} goal={$limitStore.salt} unit={'mg'} />

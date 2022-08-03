@@ -1,6 +1,6 @@
 <script>
   import Chart from '$components/charts/Chart.svelte';
-  import { historyStore } from '$stores/local';
+  import { historyStore, limitStore } from '$stores/local';
 
   let data = [
     {
@@ -17,4 +17,4 @@
 </script>
 
 <h3>Calories</h3>
-<Chart chartType="line" {data} {labels} />
+<Chart chartType="line" {data} goal={$limitStore.calories} {labels} />

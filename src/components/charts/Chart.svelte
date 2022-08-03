@@ -6,6 +6,8 @@
   export let chartType = 'line';
   export let data = [];
   export let labels = [];
+  export let unit = '';
+  export let goal = 0;
 
   onMount(()=> {
       const ctx = chart.getContext('2d');
@@ -19,7 +21,20 @@
               responsive: true,
               scales: {
                   y: {
-                      beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                      text: unit,
+                      display: true
+                    },
+                    ticks: {
+                        callback: function(value, index, ticks) {
+                          let retStr = '';
+                            if(goal > 0 && value == goal) {
+                            retStr = 'goal - ';
+                          }
+                          return retStr + Chart.Ticks.formatters.numeric.apply(this, [value, index, ticks]);
+                        }
+                    }
                   }
               }
           }
