@@ -3,6 +3,7 @@
   export let title;
   export let interval = 1;
   export let max = 100;
+  export let diffString = '';
 
   let sliderShow = false;
 
@@ -20,12 +21,13 @@
 
 <div class="container">
   <h2 on:click="{() => sliderShow = !sliderShow}">{title}</h2>
-    <div class="controls">
-        <button on:click={decrement}> -{interval} </button>
-        <input value={count} type="text" min="0" />
-        <button on:click={increment}> +{interval} </button>
-    </div>
-    <input class:show={sliderShow} type="range" min=1 max={max} bind:value={interval}/>
+  <h5>{diffString}</h5> 
+  <div class="controls">
+      <button on:click={decrement}> -{interval} </button>
+      <input value={count} type="text" min="0" />
+      <button on:click={increment}> +{interval} </button>
+  </div>
+  <input disabled={!sliderShow} class:show={sliderShow} type="range" min=1 max={max} bind:value={interval}/>
 </div>
 
 <style>
