@@ -67,7 +67,7 @@
       width: 90%;
       font-size: 3em;
       opacity: 0;
-      transition: all 0.3s ease-in-out;
+      transition: opacity 0.3s ease-in-out;
     }
     .show {
       opacity: 1 !important;
