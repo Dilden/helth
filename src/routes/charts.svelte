@@ -7,37 +7,17 @@
 
 <div class='container'>
   <h2>charts 📈</h2>
-  <div class='chart'>
-    <CalorieChart />
-  </div>
-  <div class='chart'>
-    <WaterChart />
-  </div>
-  <div class='chart'>
-    <NutrientsChart />
-  </div>
-  <div class='chart'>
-    <ProteinChart />
-  </div>
+  <CalorieChart />
+  <WaterChart />
+  <NutrientsChart />
+  <ProteinChart />
 </div>
 
 <style>
     h2 {
-        text-align: center;
+      text-align: center;
     }
     .container {
       text-align: center;
-    }
-    .chart {
-        max-width: 500px;
-        height: auto;
-        text-align: center;
-        margin: 0 auto;
-        display: inline-block;
-    }
-    @media screen and (max-width: 925px) {
-      .chart {
-          min-width: 80%;
-      }
     }
 </style>

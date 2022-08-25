@@ -44,4 +44,17 @@
 
 </script>
 
-<canvas bind:this={chart} width={1000} />
+<div class="chart">
+  <canvas bind:this={chart} width={1000} />
+</div>
+
+<style>
+  .chart {
+    position: relative;
+    margin: 0 auto;
+    display: inline-block;
+    width: 90vw;
+    height: auto;
+    max-width: 1000px;
+  }
+</style>
