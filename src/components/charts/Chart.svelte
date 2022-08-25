@@ -55,5 +55,6 @@
     display: inline-block;
     width: 90vw;
     height: auto;
+    max-width: 1000px;
   }
 </style>
