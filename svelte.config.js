@@ -25,6 +25,9 @@ const config = {
                     $utils: path.resolve('./src/utils'),
                     $stores: path.resolve('./src/stores')
                 }
+            },
+            ssr: {
+              noExternal: ['chart.js']
             }
         }
     }
