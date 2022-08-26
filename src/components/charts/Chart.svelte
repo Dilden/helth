@@ -1,6 +1,9 @@
 <script>
   import { onMount } from 'svelte';
-  import { Chart } from 'chart.js/auto/auto.js';
+  import { Chart, registerables } from 'chart.js';
+  import annotationPlugin from 'chartjs-plugin-annotation/dist/chartjs-plugin-annotation.js';
+  
+  Chart.register(...registerables, annotationPlugin);
 
   let chart;
   export let chartType = 'line';
@@ -9,8 +12,22 @@
   export let unit = '';
   export let goal = 0;
 
+  const annotation = {
+      type: 'line',
+      borderColor: 'grey',
+      borderWidth: 3,
+      scaleID: 'y',
+      value: goal,
+      label: {
+          content: "Goal",
+          display: true,
+          position: 'end'
+      }
+  };
+
   onMount(()=> {
       const ctx = chart.getContext('2d');
+
       const myChart = new Chart(ctx, {
           type: chartType,
           data: {
@@ -20,24 +37,23 @@
           options: {
               responsive: true,
               scales: {
-                  y: {
-                    beginAtZero: true,
-                    title: {
-                      text: unit,
-                      display: true
-                    },
-                    ticks: {
-                        callback: function(value, index, ticks) {
-                          let retStr = '';
-                            if(goal > 0 && value == goal) {
-                            retStr = 'goal - ';
-                          }
-                          return retStr + Chart.Ticks.formatters.numeric.apply(this, [value, index, ticks]);
-                        }
-                    }
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    text: unit,
+                    display: true
                   }
+                }
+              },
+              plugins: {
+                autocolors: false,
+                annotation: {
+                  annotations: {
+                    annotation
+                  }
+                }
               }
-          }
+            }
       });
   });
 
