@@ -18,4 +18,4 @@
 </script>
 
 <h3>Sodium</h3>
-<Chart chartType="line" {data} {labels} goal={$limitStore.salt} unit={'mg'} />
+<Chart chartType="line" {data} {labels} limit={$limitStore.salt} unit={'mg'} />

@@ -17,4 +17,4 @@
 </script>
 
 <h3>Calories</h3>
-<Chart chartType="line" {data} goal={$limitStore.calories} {labels} />
+<Chart chartType="line" {data} limit={$limitStore.calories} {labels} />
