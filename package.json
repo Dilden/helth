@@ -5,7 +5,7 @@
         "dev": "svelte-kit dev --https --host",
         "build": "svelte-kit build",
         "package": "svelte-kit package",
-        "preview": "svelte-kit preview --host",
+        "preview": "svelte-kit preview --host --port=3001",
         "prepare": "svelte-kit sync",
         "test": "playwright test",
         "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
