@@ -18,5 +18,11 @@ npm run build
 
 You can preview the production build with `npm run preview`. Helth app uses the node [adapter](https://kit.svelte.dev/docs/adapters) and requires a Node.js backend to fully function.
 
+## Packages
+This app makes use of the following packages:
++ [sveltekit](https://github.com/sveltejs/kit/)
++ [chart.js](https://www.chartjs.org/)
++ [zxing-js](https://github.com/zxing-js/library)
+
 ## Layout
 Various reusable components are located in `src/components/`. All data is stored locally in the user's browser and is managed via `src/stores/`.
