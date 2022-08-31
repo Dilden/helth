@@ -11,15 +11,16 @@
   export let labels = [];
   export let unit = '';
   export let goal = 0;
+  export let limit = 0;
 
   const annotation = {
       type: 'line',
       borderColor: 'grey',
       borderWidth: 3,
       scaleID: 'y',
-      value: goal,
+      value: (goal) ? goal : limit,
       label: {
-          content: "Goal",
+          content: (goal) ? "Your goal" : "Your limit",
           display: true,
           position: 'end'
       }
