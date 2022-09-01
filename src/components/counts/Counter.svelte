@@ -20,7 +20,7 @@
 </script>
 
 <div class="container">
-  <h2 on:click="{() => sliderShow = !sliderShow}">{title}</h2>
+  <h3 on:click="{() => sliderShow = !sliderShow}">{title}</h3>
   <h5>{diffString}</h5> 
   <div class="controls">
       <button on:click={decrement}> -{interval} </button>

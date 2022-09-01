@@ -46,9 +46,6 @@
       max-width: 30%;
     }
     @media screen and (max-width: 925px) {
-      .container {
-        padding: 0 10px;
-      }
       .wrapper {
         justify-content: center;
       }
