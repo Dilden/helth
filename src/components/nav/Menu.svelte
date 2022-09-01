@@ -52,19 +52,20 @@
       background-color: #03221b;
     }
     .menu {
-        position: fixed;
-        top: 20px;
-        right: 0px;
-        content: ' ';
-        padding: 15px 60px 15px 20px;
-        text-align: left;
-        text-shadow: 0 0 5px black;
-        color: var(--fore-color);
-        text-decoration: none;
-        transition: all 0.3s ease-in-out;
-        background-color: var(--back-color);
-        box-shadow: -10px 0px 10px 0px black;
-        z-index: 110;
+      position: fixed;
+      top: 20px;
+      right: 0px;
+      content: ' ';
+      padding: 15px 60px 15px 20px;
+      text-align: left;
+      text-shadow: 0 0 5px black;
+      color: var(--fore-color);
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+      background-color: var(--back-color);
+      box-shadow: -10px 0px 10px 0px black;
+      z-index: 110;
+      touch-action: manipulation;
     }
     .menu.moved {
         right: 250px;

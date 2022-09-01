@@ -50,6 +50,7 @@
       margin: auto;
       padding: 10px;
       color: #000000;
+      touch-action: manipulation;
     }
     input[type='text'] {
       -webkit-box-flex: 2 1 auto;
