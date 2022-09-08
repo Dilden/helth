@@ -5,7 +5,6 @@
 
   // scanner
   let selected;
-  let code = '';
   let open = false;
 
   const codeReader = new BrowserMultiFormatReader();
