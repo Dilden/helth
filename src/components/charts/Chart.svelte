@@ -73,5 +73,6 @@
     width: 90vw;
     height: auto;
     max-width: 1000px;
+    z-index: -1;
   }
 </style>

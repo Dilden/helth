@@ -1,4 +1,4 @@
-import { browser } from '$app/env';
+import { browser } from '$app/environment';
 import { writable, readable } from 'svelte/store';
 import { thePast } from '$utils/dates';
 

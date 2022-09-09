@@ -18,7 +18,7 @@
   }
   .modal {
       display: none;
-      position: absolute;
+      position: fixed;
       max-width: 100%;
       height: 95%;
       z-index: 95;
