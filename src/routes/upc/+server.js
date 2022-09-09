@@ -7,8 +7,10 @@ export async function GET({ url }) {
   .then(response => response.json())
   .then(json => facts(json.data.product_by_barcode.tcin));
 
+  // SvelteKit server endpoints must return a Response object
+  // https://kit.svelte.dev/docs/routing#server
   if(res) {
-    return new Response(res.blob());
+    return new Response(JSON.stringify(res));
   }
 
   const error = new Response(new String(), {status: 404, statusText: 'UPC not found'});
