@@ -48,9 +48,15 @@
     @media screen and (max-width: 925px) {
       .wrapper {
         justify-content: center;
+        row-gap: 10px;
       }
       .item {
         max-width: 65%;
+      }
+    }
+    @media screen and (max-width: 525px) {
+      .item {
+        max-width: 95%;
       }
     }
 </style>
