@@ -24,7 +24,7 @@
   <h5>{diffString}</h5> 
   <div class="controls">
       <button on:click={decrement}> -{interval} </button>
-      <input value={count} type="text" min="0" />
+      <input bind:value={count} type="number" min="0" />
       <button on:click={increment}> +{interval} </button>
   </div>
   <input disabled={!sliderShow} class:show={sliderShow} type="range" min=1 max={max} bind:value={interval}/>
@@ -52,17 +52,23 @@
       color: #000000;
       touch-action: manipulation;
     }
-    input[type='text'] {
+    input[type='number'] {
       -webkit-box-flex: 2 1 auto;
       -moz-box-flex: 2 1 auto;
       -webkit-flex: 2 1 auto;
       -ms-flex: 2 1 auto;
+      -moz-appearance: textfield;
       flex: 2 1 auto;
       width: 50%;
       -webkit-border-radius: 0;
       -moz-border-radius: 0;
       border-radius: 0;
       min-width: 75px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
     input[type='range'] {
       width: 90%;
