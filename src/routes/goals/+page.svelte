@@ -47,4 +47,9 @@
         max-width: 65%;
       }
     }
+    @media screen and (max-width: 525px) {
+      .item {
+        max-width: 95%;
+      }
+    }
 </style>
