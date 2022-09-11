@@ -1,16 +1,18 @@
 <script>
-    // modal
-    export let open = false;
-    const toggle = () => (open = !open);
+  import { fade } from 'svelte/transition';
+  // modal
+  export let open = false;
+  const toggle = () => (open = !open);
 </script>
 
 <div class="modal {open ? 'open' : ''}">
   <slot />
 </div>
 
-<button on:click={toggle} color="primary" class="toggler"
-    >{open ? '❌' : '📷'}</button
->
+{#key open}
+<button on:click={toggle} transition:fade class="toggler"
+    >{open ? '❌' : '📷'}</button>
+{/key}
 
 <style>
   .modal.open {
@@ -40,4 +42,5 @@
     box-shadow: 10px 0 15px black;
     touch-action: manipulation;
   }
+
 </style>
