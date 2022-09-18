@@ -12,18 +12,17 @@
   async function scan() {
       //console.log('Selected device ID: ' + selected.deviceId);
       codeReader
-          .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-          .then(result => fetch(`/upc?barcode=${result.getText()}`))
-          .then(response => response.json())
-          .then(val => {
-            $todayStore.calories = $todayStore.calories + val.calories.quantity;
-            $todayStore.salt = $todayStore.salt + val.sodium.quantity;
-            $todayStore.protein = $todayStore.protein + val.protein.quantity;
-            open = false;
-          })
-      // JSON.parse error
-          .catch(error => console.log(error))
-          .finally(() => codeReader.reset());
+        .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
+        .then(result => fetch(`/upc?barcode=${result.getText()}`))
+        .then(response => response.json())
+        .then(val => {
+          $todayStore.calories = $todayStore.calories + val.calories.quantity;
+          $todayStore.salt = $todayStore.salt + val.sodium.quantity;
+          $todayStore.protein = $todayStore.protein + val.protein.quantity;
+          open = false;
+        })
+        .catch(error => console.log(error))
+        .finally(() => codeReader.reset());
   }
 
   function cancel() {
