@@ -11,7 +11,8 @@ const config = {
     },
     https: true,
     port: 3000,
-    strictPort: true
+    strictPort: true,
+    hmr: true // set to 'false' for testing on old iOS devices
   },
   resolve: {
     alias: {
