@@ -19,7 +19,7 @@
     }
     h1 {
         display: inline-block;
-        color: #65c144;
+        color: var(--fore-color);
         vertical-align: middle;
     }
     @media screen and (max-width: 925px) {

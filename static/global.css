@@ -4,10 +4,10 @@
 */
 /* Core module CSS variable definitions */
 :root {
-    --fore-color: #65c144;
-    --secondary-fore-color: #ea4115;
+    --fore-color: #26B170;
+    --secondary-fore-color: #36D48A;
     --back-color: #213439;
-    --secondary-back-color: #54ea15;
+    --secondary-back-color: #476E79;
 
     --blockquote-color: #f57c00;
     --pre-color: #1565c0;
