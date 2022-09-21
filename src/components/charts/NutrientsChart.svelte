@@ -1,6 +1,6 @@
 <script>
   import Chart from '$components/charts/Chart.svelte';
-  import { historyStore, limitStore } from '$stores/local';
+  import { todayStore, historyStore, limitStore } from '$stores/local';
 
   let data = [
     {
@@ -15,6 +15,9 @@
           return date.toLocaleDateString();
       }
     );
+  // push today onto data + labels
+  data[0].data.push($todayStore.salt);
+  labels.push('today');
 </script>
 
 <h3>Sodium</h3>

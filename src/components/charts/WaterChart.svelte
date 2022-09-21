@@ -1,6 +1,6 @@
 <script>
   import Chart from '$components/charts/Chart.svelte';
-  import { historyStore, goalStore } from '$stores/local';
+  import { todayStore, historyStore, goalStore } from '$stores/local';
 
   let data = [
       {
@@ -10,11 +10,15 @@
         borderColor: "#2417fc"
       }
     ];
+
   let labels = $historyStore.map(el => {
           let date = new Date(el.date);
           return date.toLocaleDateString();
       }
     );
+  // push today onto data + labels
+  data[0].data.push($todayStore.water);
+  labels.push('today');
 </script>
 
 <h3>Water</h3>
