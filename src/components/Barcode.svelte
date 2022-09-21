@@ -33,6 +33,7 @@
 
 <Modal bind:open={open}>
     <div class="scanner">
+        <video id="scanner" name="scanner"><track kind="captions" /></video>
         {#await codeReader.listVideoInputDevices()}
             <p>..waiting</p>
         {:then inputs}
@@ -48,40 +49,39 @@
                         <option value={input}>{input.label}</option>
                     {/each}
                 </select>
-                <button class="scan_button" on:click={scan}>📷 Scan</button>
-                <button class="cancel_button" on:click={cancel}>❌ Stop</button>
+                <button class="scan_button" on:click={scan}>📷 SCAN</button>
+                <button class="cancel_button" on:click={cancel}>❌ STOP</button>
             </div>
         {:catch error}
             <p class=".error">oops!</p>
         {/await}
-        <video id="scanner" name="scanner"><track kind="captions" /></video>
     </div>
 </Modal>
 
 <style>
     .scanner {
         background: #34474c;
-        padding: 15px 20px;
+        padding: 0;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 75px 1fr 50px;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        left: 20px;
-        bottom: 20px;
-        box-shadow: 10px 0 15px black;
-        max-width: 100%;
+        grid-template-rows: repeat(2, 1fr);
+        column-gap: 5px;
+        row-gap: 5px;
+        width: 100%;
+        height: 100%;
     }
     .controls {
         grid-column-start: 1;
         grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 1;
+        grid-row-start: 2;
+        grid-row-end: 3;
         text-align: center;
+        display: grid;
+        text-transform: uppercase;
+        row-gap: 5px;
     }
     .controls label {
-        font-size: 0.9em;
+        font-size: 1.4em;
     }
     .controls select {
         border: solid 1px grey;
@@ -92,13 +92,11 @@
     video {
         grid-column-start: 1;
         grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
         display: block;
         margin: 0 auto;
-        min-width: 100%;
+        width: 100%;
         height: auto;
-        max-height: 100%;
-        max-width: 100%;
     }
 </style>

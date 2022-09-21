@@ -21,9 +21,9 @@
   .modal {
       display: none;
       position: fixed;
-      max-width: 100%;
-      height: 95%;
-      z-index: 95;
+      width: 100%;
+      height: 100%;
+      z-index: 120;
       top: 0;
       bottom: 0;
       right: 0;
