@@ -28,6 +28,7 @@
   function cancel() {
       codeReader.reset();
       open = false;
+      document.body.classList.remove('modal-open')
   }
 </script>
 
@@ -49,8 +50,8 @@
                         <option value={input}>{input.label}</option>
                     {/each}
                 </select>
-                <button class="scan_button" on:click={scan}>📷 SCAN</button>
                 <button class="cancel_button" on:click={cancel}>❌ STOP</button>
+                <button class="scan_button" on:click={scan}>📷 SCAN</button>
             </div>
         {:catch error}
             <p class=".error">oops!</p>
@@ -60,43 +61,60 @@
 
 <style>
     .scanner {
-        background: #34474c;
-        padding: 0;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: [video] 2fr [controls] 1fr [end] 25px;
         column-gap: 5px;
-        row-gap: 5px;
+        row-gap: 15px;
         width: 100%;
         height: 100%;
-    }
-    .controls {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 3;
-        text-align: center;
-        display: grid;
-        text-transform: uppercase;
-        row-gap: 5px;
-    }
-    .controls label {
-        font-size: 1.4em;
-    }
-    .controls select {
-        border: solid 1px grey;
-    }
-    .controls button {
-        padding: 5px 10px;
+        background: #34474c;
+        padding: 0;
+        overflow-y: scroll;
     }
     video {
-        grid-column-start: 1;
-        grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 2;
         display: block;
         margin: 0 auto;
         width: 100%;
         height: auto;
+    }
+    .controls {
+        display: grid;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        grid-template-rows: repeat(2, 1fr);
+        text-align: center;
+        text-transform: uppercase;
+        row-gap: 15px;
+        column-gap: 15px;
+        padding: 0 10px;
+    }
+    .controls label {
+        font-size: 1.4em;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .controls select {
+        border: solid 1px grey;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .controls button {
+        padding: 5px 10px;
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+    .controls button.scan_button {
+        grid-column-start: 2;
+        grid-column-end: 3;
+    }
+    .controls button.cancel_button {
+        grid-column-start: 1;
+        grid-column-end: 2;
     }
 </style>

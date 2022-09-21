@@ -2,7 +2,16 @@
   import { fade } from 'svelte/transition';
   // modal
   export let open = false;
-  const toggle = () => (open = !open);
+  const toggle = () => {
+      open = !open;
+      if(open) {
+        // keep the body from moving
+        // check global.css for more rules
+        document.body.classList.add('modal-open')
+      } else {
+        document.body.classList.remove('modal-open')
+      }
+    };
 </script>
 
 <div class="modal {open ? 'open' : ''}">

@@ -58,6 +58,11 @@ body {
   height: 100%;
 }
 
+body.modal-open {
+  overflow: hidden !important;
+  position: fixed;
+}
+
 body > div {
   height: 100%;
 }
