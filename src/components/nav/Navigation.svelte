@@ -10,9 +10,8 @@
 
 <style>
     header {
-        background-color: #34474c;
+        background-color: var(--back-color);
         position: sticky;
-        box-shadow: 0 0 25px black;
         max-height: 110px;
     }
 </style>

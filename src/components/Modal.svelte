@@ -11,7 +11,7 @@
 
 {#key open}
 <button on:click={toggle} transition:fade class="toggler"
-    >{open ? '❌' : '📷'}</button>
+    >{open ? '❌' : '➕'}</button>
 {/key}
 
 <style>
@@ -21,9 +21,9 @@
   .modal {
       display: none;
       position: fixed;
-      max-width: 100%;
-      height: 95%;
-      z-index: 95;
+      width: 100%;
+      height: 100%;
+      z-index: 120;
       top: 0;
       bottom: 0;
       right: 0;
@@ -31,13 +31,13 @@
   }
   .toggler {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 25px;
+    bottom: 30px;
     z-index: 100;
     background: #1ab8b8;
-    border-radius: 28px;
+    border-radius: 10px;
     font-size: 2em;
-    padding: 5px 10px;
+    padding: 10px;
     border: none;
     box-shadow: 10px 0 15px black;
     touch-action: manipulation;

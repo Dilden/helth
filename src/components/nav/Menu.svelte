@@ -4,7 +4,6 @@
 </script>
 
 <span class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
-    menu
     <i class="hamburger {isOpen ? 'open' : ''}" />
 </span>
 <nav class={isOpen ? 'shown' : ''}>
@@ -18,7 +17,7 @@
 <style>
     nav {
         position: fixed;
-        z-index: 100;
+        z-index: 110;
         right: -250px;
         min-width: 250px;
         height: 100%;
@@ -28,7 +27,7 @@
     }
     nav.shown {
         right: 0;
-        box-shadow: 0 0 10px black;
+        box-shadow: 0px 65px 10px 0px black;
     }
     ul {
         list-style: none;
@@ -49,23 +48,24 @@
         transition: all 0.4s ease-in-out;
     }
     li a:hover {
-      background-color: #03221b;
+      background-color: var(--secondary-back-color);
     }
     .menu {
       position: fixed;
-      top: 20px;
-      right: 0px;
+      top: 0;
+      right: 0;
       content: ' ';
-      padding: 15px 60px 15px 20px;
+      padding: 30px;
       text-align: left;
       text-shadow: 0 0 5px black;
       color: var(--fore-color);
       text-decoration: none;
       transition: all 0.3s ease-in-out;
       background-color: var(--back-color);
-      box-shadow: -10px 0px 10px 0px black;
-      z-index: 110;
+      border-radius: 0 0 0 10px;
+      box-shadow: 0px 0px 10px 0px black;
       touch-action: manipulation;
+      z-index: 100;
     }
     .menu.moved {
         right: 250px;
@@ -78,12 +78,12 @@
     .hamburger::after {
         display: block;
         content: ' ';
-        width: 25px;
-        height: 3px;
+        width: 30px;
+        padding: 1px;
         transition: all 0.3s ease-in-out;
         background-color: var(--fore-color);
         position: absolute;
-        right: 20px;
+        right: 10px;
     }
 
     .hamburger::before {
