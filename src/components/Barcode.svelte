@@ -20,6 +20,7 @@
           $todayStore.salt = $todayStore.salt + val.sodium.quantity;
           $todayStore.protein = $todayStore.protein + val.protein.quantity;
           open = false;
+          document.body.classList.remove('modal-open')
         })
         .catch(error => console.log(error))
         .finally(() => codeReader.reset());
@@ -77,6 +78,7 @@
         display: block;
         margin: 0 auto;
         width: 100%;
+        max-width: 1100px;
         height: auto;
     }
     .controls {
