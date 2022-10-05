@@ -16,13 +16,18 @@ const config = {
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}']
       },
-      includeAssets: ['favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png','favicon-192.png', 'favicon.png', ],
+      includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', ],
       manifest: {
         name: 'helth app',
         short_name: 'HelthApp',
         description: 'health tracking app',
         theme_color: '#213439',
         icons: [
+          {
+            src: 'static/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
           {
             src: 'static/favicon-512.png',
             sizes: '512x512',
@@ -35,6 +40,11 @@ const config = {
           },
           {
             src: 'static/favicon-192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'static/icon-192.png',
             sizes: '192x192',
             type: 'image/png'
           },
