@@ -16,7 +16,7 @@ const config = {
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}']
       },
-      includeAssets: ['favicon.png', 'apple-touch-icon.png', 'favicon-300.png'],
+      includeAssets: ['favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png','favicon-192.png', 'favicon.png', ],
       manifest: {
         name: 'helth app',
         short_name: 'HelthApp',
@@ -29,12 +29,28 @@ const config = {
             type: 'image/png'
           },
           {
+            src: 'static/favicon-196.png',
+            sizes: '196x196',
+            type: 'image/png'
+          },
+          {
             src: 'static/favicon-192.png',
             sizes: '192x192',
             type: 'image/png'
+          },
+          {
+            src: 'static/favicon-180.png',
+            sizes: '180x180',
+            type: 'image/png'
+          },
+          {
+            src: 'static/favicon.png',
+            sizes: '32x32',
+            type: 'image/png'
           }
         ]
-      }
+      },
+      display: 'fullscreen'
     })
   ],
   server: {
