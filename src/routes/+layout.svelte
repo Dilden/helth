@@ -2,18 +2,18 @@
   import Navigation from '$components/nav/Navigation.svelte';
   import Footer from '$components/nav/Footer.svelte';
   import { onMount } from 'svelte';
-  import { browser, dev } from '$app/environment';
+  import { pwaInfo } from 'virtual:pwa-info';
 
   let ReloadPrompt;
   onMount(async() => {
-      !dev && browser && (ReloadPrompt = (await import('$components/ReloadPrompt.svelte')).default)
+      pwaInfo && (ReloadPrompt = (await import('$components/ReloadPrompt.svelte')).default)
     });
+
+  $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
 <svelte:head>
-  {#if (!dev && browser)}
-    <link rel="manifest" href="/manifest.webmanifest">
-  {/if}
+  {@html webManifest}
 </svelte:head>
 
 <div class='main'>

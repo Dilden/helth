@@ -3,6 +3,11 @@
 
   const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
     onRegistered(swr) {
+        // uncomment to poll for updates
+        swr && setInterval(() => {
+           console.log('Checking for sw update')
+           swr.update()
+        }, 20000 /* 20s for testing purposes */)
       console.log(`SW registered: ${swr}`);
     },
     onRegisterError(error) {
@@ -19,10 +24,7 @@
 </script>
 
 {#if toast}
-  <div
-    class="pwa-toast"
-    role="alert"
-  >
+  <div class="pwa-toast" role="alert">
     <div class="message">
       {#if $offlineReady}
       <span>
