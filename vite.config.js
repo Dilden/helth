@@ -20,41 +20,41 @@ const config = {
       manifest: {
         name: 'helth app',
         short_name: 'HelthApp',
-        description: 'health tracking app',
+        description: 'its uh, one of those health tracking app things',
         theme_color: '#213439',
         icons: [
           {
-            src: 'static/icon-512.png',
+            src: 'icon-512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'static/favicon-512.png',
+            src: 'favicon-512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'static/favicon-196.png',
+            src: 'favicon-196.png',
             sizes: '196x196',
             type: 'image/png'
           },
           {
-            src: 'static/favicon-192.png',
+            src: 'favicon-192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'static/icon-192.png',
+            src: 'icon-192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'static/favicon-180.png',
+            src: 'favicon-180.png',
             sizes: '180x180',
             type: 'image/png'
           },
           {
-            src: 'static/favicon.png',
+            src: 'favicon.png',
             sizes: '32x32',
             type: 'image/png'
           }
@@ -79,8 +79,7 @@ const config = {
       $components: path.resolve('./src/components'),
       $utils: path.resolve('./src/utils'),
       $stores: path.resolve('./src/stores')
-    }
-  },
+    } },
   ssr: {
     noExternal: ['chart.js']
   }
