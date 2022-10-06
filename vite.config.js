@@ -19,9 +19,10 @@ const config = {
       includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', ],
       manifest: {
         name: 'helth app',
-        short_name: 'HelthApp',
+        short_name: 'helth app',
         description: 'its uh, one of those health tracking app things',
         theme_color: '#213439',
+        background_color: '#213439',
         icons: [
           {
             src: 'icon-512.png',
