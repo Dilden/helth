@@ -11,6 +11,7 @@
         <li><a href="/" on:click={toggle}>track 🗒  </a></li>
         <li><a href="/charts" on:click={toggle}>charts 📈 </a></li>
         <li><a href="/goals" on:click={toggle}>goals 🥇 </a></li>
+        <li><a href="/data" on:click={toggle}>data 💾 </a></li>
     </ul>
 </nav>
 

@@ -14,7 +14,7 @@ const config = {
         enabled: true
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+        globPatterns: ['**/*.{js,css,html,png}']
       },
       includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', ],
       manifest: {
@@ -23,6 +23,7 @@ const config = {
         description: 'its uh, one of those health tracking app things',
         theme_color: '#213439',
         background_color: '#213439',
+        start_url: '/',
         icons: [
           {
             src: 'icon-512.png',

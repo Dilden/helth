@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { writable, readable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import { thePast } from '$utils/dates';
 
 let currentDay, defaultDay;
@@ -52,7 +52,7 @@ export const todayStore = writable(currentDay);
 export const goalStore = writable(goals);
 export const limitStore = writable(limits);
 export const settingStore = writable(settings);
-export const historyStore = readable(history);
+export const historyStore = writable(history);
 
 if (browser) {
     // update local 'today ' storage if values change
@@ -68,5 +68,7 @@ if (browser) {
     settingStore.subscribe((value) =>
         localStorage.setItem('settings', JSON.stringify(value))
     );
-    localStorage.setItem('history', JSON.stringify(history));
+    historyStore.subscribe((value) =>
+        localStorage.setItem('history', JSON.stringify(value))
+    );
 }
