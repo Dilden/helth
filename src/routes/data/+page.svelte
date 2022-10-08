@@ -4,8 +4,8 @@
 </script>
 
 <div class="container">
-  <span><ExportData /></span>
-  <span><ImportData /></span>
+  <div><ExportData /></div>
+  <div><ImportData /></div>
 </div>
 
 <style>
@@ -13,7 +13,7 @@
     padding: 30px;
     text-align: center;
   }
-  .container span {
-    margin: 10px;
+  .container div {
+    margin: 25px auto;
   }
 </style>
