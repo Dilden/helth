@@ -1,9 +1,18 @@
 <script>
   import Counter from '$components/counts/Counter.svelte';
-  import { todayStore, settingStore, limitStore } from '$stores/local';
+  import { settingStore, limitStore } from '$stores/local';
+  import { today } from '$stores/stores';
+  import Spinner from '$components/Spinner.svelte';
+
   let title = '🧂 sodium (mg)';
-  $: diff = $limitStore.salt - $todayStore.salt;
+  $: diff = $limitStore.salt - $today.salt;
   $: diffString = (diff >= 0 ) ? diff + ' remaining' : -diff + ' over limit 😢';
 </script>
 
-<Counter {title} {diffString} bind:interval={$settingStore.sodiumInterval} bind:count={$todayStore.salt} />
+{#await today.init()}
+  <Spinner />
+{:then}
+  <Counter {title} {diffString} bind:interval={$settingStore.sodiumInterval} bind:count={$today.salt} />
+{:catch error}
+  <p>error</p>
+{/await}
