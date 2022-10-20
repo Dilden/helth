@@ -1,4 +1,4 @@
-import { Dexie, liveQuery} from 'dexie';
+import { Dexie } from 'dexie';
 import { thePast } from '$utils/dates';
 import { browser } from '$app/environment';
 
@@ -20,7 +20,19 @@ db.open().then((db) => {
     if(!record || thePast(record.date)) {
       addDay();
     }
-  })
+  });
+
+  // TODO set defaults for:
+  // + settings
+  // + limits
+  // + goals
+  //db.settings
+  //.where('name')
+  //.equals('waterInterval')
+  //  .first()
+  //  .then((interval) => {
+  //    !interval ? 500 : interval;
+  //  });
 });
 
 export async function addDay() {
@@ -38,9 +50,16 @@ export async function addDay() {
   }
 }
 
-export const getLatestDay = liveQuery(async () => {
+export const updateLatestDay = (date, changes) => {
+  if(browser) {
+    return db.journal.update(date, changes);
+  }
+  return {};
+};
+
+export const getLatestDay = () => {
   if(browser) {
     return db.journal.orderBy('date').reverse().first();
   }
   return {};
-});
+};
