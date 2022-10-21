@@ -1,7 +1,7 @@
 <script>
   import Counter from '$components/counts/Counter.svelte';
   import { settingStore, goalStore } from '$stores/local';
-  import { today } from '$stores/stores';
+  import { today, settings } from '$stores/stores';
   import Spinner from '$components/Spinner.svelte';
 
   let title = '💧 water (mL)';
@@ -13,7 +13,11 @@
 {#await today.init()}
   <Spinner />
 {:then}
-  <Counter {title} {max} {diffString} bind:interval={$settingStore.waterInterval} bind:count={$today.water} />
+  {#await settings.init()}
+    <Spinner />
+  {:then}
+    <Counter {title} {max} {diffString} bind:interval={$settings.waterInterval.value} bind:count={$today.water} />
+  {/await}
 {:catch error}
   <p>error</p>
 {/await}
