@@ -68,7 +68,7 @@ db.open().then((db) => {
   .equals('protein')
     .first()
     .then((proteinGoal) => {
-      !proteinGoal ? addGoal('water', 50) : proteinGoal;
+      !proteinGoal ? addGoal('protein', 50) : proteinGoal;
     });
 
   // TODO set defaults for:
