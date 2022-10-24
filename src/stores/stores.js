@@ -25,7 +25,6 @@ function createTodayStore() {
 }
 
 function createSettingsStore() {
-
   const store = writable({});
 
   return {
@@ -46,6 +45,28 @@ function createSettingsStore() {
   }
 }
 
+function createGoalsStore() {
+  const store = writable({});
+
+  return {
+    ...store,
+    init: async () => {
+      const goals = dbfun.getGoals();
+      goals.then(values => {
+        store.set(values);
+      })
+      return goals;
+    },
+    set: async (newVal) => {
+      dbfun.updateGoals(Object.keys(newVal).map((key) => {
+        return {name: key, value: newVal[key].value}
+      }));
+      store.set(newVal);
+    }
+  }
+}
+
 export const today = createTodayStore();
 export const settings = createSettingsStore();
+export const goals = createGoalsStore();
 

@@ -12,7 +12,6 @@ db.version(1).stores({
 });
 
 db.open().then((db) => {
-
   // check if today's date is most recent
   // add empty day if it is not
   db.journal.orderBy('date').reverse().first()
@@ -55,9 +54,25 @@ db.open().then((db) => {
       !interval ? addSetting('proteinInterval', 5) : interval;
     });
 
+  // goal defaults
+  db.goals
+  .where('name')
+  .equals('water')
+    .first()
+    .then((waterGoal) => {
+      !waterGoal ? addGoal('water', 2000) : waterGoal;
+    });
+
+  db.goals
+  .where('name')
+  .equals('protein')
+    .first()
+    .then((proteinGoal) => {
+      !proteinGoal ? addGoal('water', 50) : proteinGoal;
+    });
+
   // TODO set defaults for:
   // + limits
-  // + goals
 });
 
 
@@ -116,6 +131,37 @@ export const getSettings = () => {
   // so app doesn't need a store for each setting
   if(browser) {
     return db.settings.toArray()
+    .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
+   
+  }
+  return {};
+}
+
+// goals
+async function addGoal(name, value) {
+  try {
+    const goal = await db.goals.add({
+      name: name,
+      value: value
+    });
+    console.log(`added ${goal}`);
+  } catch (error) {
+    console.log('error adding goal');
+  }
+}
+
+export const updateGoals = (items) => {
+  if(browser) {
+    return db.goals.bulkPut(items);
+  }
+  return {};
+}
+
+export const getGoals = () => {
+  // spread all of the settings onto one object
+  // so app doesn't need a store for each setting
+  if(browser) {
+    return db.goals.toArray()
     .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
    
   }

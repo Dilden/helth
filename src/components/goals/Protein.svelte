@@ -1,7 +1,14 @@
 <script>
-    import Counter from '$components/counts/Counter.svelte';
-    import { goalStore } from '$stores/local.js';
-    let title = '🍗 protein (g)';
+  import Counter from '$components/counts/Counter.svelte';
+  import { goals } from '$stores/stores';
+  import Spinner from '$components/Spinner.svelte';
+  let title = '🍗 protein (g)';
 </script>
 
-<Counter {title} bind:count={$goalStore.protein} interval={5} max={20} />
+{#await goals.init()}
+  <Spinner />
+{:then}
+  <Counter {title} bind:count={$goals.protein.value} interval={5} max={20} />
+{:catch error}
+  <p>error</p>
+{/await}
