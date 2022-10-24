@@ -1,26 +1,30 @@
 <script>
-  import Counter from '$components/counts/Counter.svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { today, settings, goals } from '$stores/stores';
-  import { afterUpdate } from 'svelte';
+  import Counter from '$components/counts/Counter.svelte';
   import Spinner from '$components/Spinner.svelte';
 
   let title = '💧 water (mL)';
   let max = 1000;
   $: diff = 0;
-  $: diffString = 'loading...';
-
-  const updateDiff = () => {
-    diff = $goals.water.value - $today.water;
-    diffString = (diff >= 0 ) ? diff + ' remaining' : -diff + ' over goal!';
+  $: diffString = `loading...`;
+  
+  const diffUpdate = () => {
+    if('water' in $goals) {
+      diff = $goals.water.value - $today.water;
+      diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over goal!`;
+    }
   }
 
-  afterUpdate(() => {
+  onMount(() => {
     goals.init()
-    .then(goalObj => {
-      updateDiff();
+    .then(() => {
+      diffUpdate();
     })
-  });
-
+  })
+  afterUpdate(() => {
+    diffUpdate();
+  })
 </script>
 
 {#await today.init()}

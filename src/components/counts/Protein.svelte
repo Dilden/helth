@@ -1,12 +1,31 @@
 <script>
+  import { onMount, afterUpdate } from 'svelte';
+  import { today, settings, goals } from '$stores/stores';
   import Counter from '$components/counts/Counter.svelte';
-  import { settingStore, goalStore } from '$stores/local';
-  import { today, settings } from '$stores/stores';
   import Spinner from '$components/Spinner.svelte';
 
   let title = '🍗 protein (g)';
-  $: diff = $goalStore.protein - $today.protein;
-  $: diffString = (diff >= 0 ) ? diff + ' remaining' : -diff + ' over goal!';
+
+  $: diff = 0;
+  $: diffString = 'loading...';
+
+
+  const diffUpdate = () => {
+    if('protein' in $goals) {
+      diff = $goals.protein.value - $today.protein;
+      diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over goal!`;
+    }
+  }
+
+  onMount(() => {
+    goals.init()
+    .then(() => {
+      diffUpdate();
+    })
+  })
+  afterUpdate(() => {
+    diffUpdate();
+  })
 </script>
 
 {#await today.init()}
