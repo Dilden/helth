@@ -24,49 +24,28 @@ function createTodayStore() {
   }
 }
 
-function createSettingsStore() {
+function createNameValueStore(tableName) {
   const store = writable({});
 
   return {
     ...store,
     init: async () => {
-      const settings = dbfun.getSettings();
-      settings.then(values => {
+      const items = dbfun.getItems(tableName);
+      items.then(values => {
         store.set(values);
       })
-      return settings;
+      return items;
     },
     set: async (newVal) => {
-      dbfun.updateSettings(Object.keys(newVal).map((key) => {
+      dbfun.updateItems(tableName, Object.keys(newVal).map((key) => {
         return {name: key, value: newVal[key].value}
       }));
       store.set(newVal);
     }
   }
 }
-
-function createGoalsStore() {
-  const store = writable({});
-
-  return {
-    ...store,
-    init: async () => {
-      const goals = dbfun.getGoals();
-      goals.then(values => {
-        store.set(values);
-      })
-      return goals;
-    },
-    set: async (newVal) => {
-      dbfun.updateGoals(Object.keys(newVal).map((key) => {
-        return {name: key, value: newVal[key].value}
-      }));
-      store.set(newVal);
-    }
-  }
-}
-
 export const today = createTodayStore();
-export const settings = createSettingsStore();
-export const goals = createGoalsStore();
+export const settings = createNameValueStore('settings');
+export const goals = createNameValueStore('goals');
+export const limits = createNameValueStore('limits');
 
