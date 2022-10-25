@@ -98,7 +98,7 @@ async function addDay() {
       water: 0,
       calories: 0,
       protein: 0,
-      salt: 0
+      sodium: 0
     });
     console.log(`added ${today}`);
   } catch (error) {

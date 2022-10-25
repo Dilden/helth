@@ -1,7 +1,14 @@
 <script>
-    import Counter from '$components/counts/Counter.svelte';
-    import { limitStore } from '$stores/local.js';
-    let title = '🧂 sodium (mg)';
+  import Counter from '$components/counts/Counter.svelte';
+  import { limits } from '$stores/stores';
+  import Spinner from '$components/Spinner.svelte';
+  let title = '🧂 sodium (mg)';
 </script>
 
-<Counter {title} bind:count={$limitStore.salt} interval={25} max={100} />
+{#await limits.init()}
+  <Spinner />
+{:then}
+  <Counter {title} bind:count={$limits.sodium.value} interval={25} max={100} />
+{:catch error}
+  <p>error</p>
+{/await}

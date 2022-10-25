@@ -1,12 +1,28 @@
 <script>
+  import { onMount, afterUpdate } from 'svelte';
+  import { today, settings, limits } from '$stores/stores';
   import Counter from '$components/counts/Counter.svelte';
-  import { settingStore, limitStore } from '$stores/local';
-  import { today, settings } from '$stores/stores';
   import Spinner from '$components/Spinner.svelte';
 
   let title = '⚡ calories';
-  $: diff = $limitStore.calories - $today.calories;
-  $: diffString = (diff >= 0 ) ? diff + ' remaining' : -diff + ' over limit 😢';
+  $: diff = 0;
+  $: diffString = 'loading...';
+
+  const diffUpdate = () => {
+    if('calories' in $limits) {
+      diff = $limits.calories.value - $today.calories;
+      diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over limit 😢`;
+    }
+  }
+  onMount(() => {
+    limits.init()
+    .then(() => {
+      diffUpdate();
+    })
+  })
+  afterUpdate(() => {
+    diffUpdate();
+  })
 </script>
 
 {#await today.init()}
