@@ -1,7 +1,7 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
   import Modal from '$components/Modal.svelte';
-  import { todayStore } from '../stores/local';
+  import { today } from '$stores/stores';
 
   // scanner
   let selected;
@@ -16,9 +16,9 @@
         .then(result => fetch(`/upc?barcode=${result.getText()}`))
         .then(response => response.json())
         .then(val => {
-          $todayStore.calories = $todayStore.calories + val.calories.quantity;
-          $todayStore.salt = $todayStore.salt + val.sodium.quantity;
-          $todayStore.protein = $todayStore.protein + val.protein.quantity;
+          $today.calories = $today.calories + val.calories.quantity;
+          $today.sodium = $today.sodium + val.sodium.quantity;
+          $today.protein = $today.protein + val.protein.quantity;
           open = false;
           document.body.classList.remove('modal-open')
         })
