@@ -120,6 +120,13 @@ export const getLatestDay = () => {
   return {};
 };
 
+export const getJournal = () => {
+  if(browser) {
+    return db.journal.toArray();
+  }
+  return {};
+};
+
 // settings, goals, items are all identical structurally
 // they can use the same logic
 // just specify a table name
