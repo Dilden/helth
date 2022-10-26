@@ -1,5 +1,5 @@
 <script>
-  import { todayStore, goalStore, limitStore, settingStore, historyStore } from '$stores/local';
+  import { today, goals, limits, settings, history } from '$stores/stores';
 
   const upload = event => {
     if(event.target.files && event.target.files.length > 0) {
@@ -7,11 +7,14 @@
         const stream = event.target.files[0].text();
         stream.then(data => JSON.parse(data))
           .then(json => {
-            $todayStore = json.today;
-            $goalStore = json.goals;
-            $limitStore = json.limits;
-            $settingStore = json.settings;
-            $historyStore = json.history;
+            $today = json.today;
+            $goals = json.goals;
+            $limits = json.limits;
+            $settings = json.settings;
+            $history = json.history;
+          })
+          .catch(error => {
+              alert(`Error importing data: ${error}`);
           });
       }
     }

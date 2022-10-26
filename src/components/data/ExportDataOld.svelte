@@ -1,18 +1,18 @@
 <script>
-  import { today, goals, limits, settings, history } from '$stores/stores';
+  import { todayStore, goalStore, limitStore, settingStore, historyStore } from '$stores/local';
 
   const exportData = () => {
     return JSON.stringify({
-      today: $today,
-      history: $history,
-      goals: $goals,
-      limits: $limits,
-      settings: $settings
+      today: $todayStore,
+      history: $historyStore,
+      goals: $goalStore,
+      limits: $limitStore,
+      settings: $settingStore
     });
   }
 </script>
 
-<a href="data:text/json;charset=utf-8,{exportData()}" download="helth_app_{Date.now()}.json">Export Your Data</a>
+<a href="data:text/json;charset=utf-8,{exportData()}" download="helth_app_{Date.now()}.json">Export Your Data (old)</a>
 
 <style>
   a {
