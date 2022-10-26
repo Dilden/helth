@@ -24,6 +24,26 @@ function createTodayStore() {
   }
 }
 
+function createHistoryStore() {
+
+  const store = writable({});
+
+  return {
+    ...store,
+    init: async () => {
+      const journal = dbfun.getJournal();
+      journal.then(entries => {
+        store.set(entries);
+      })
+      return journal;
+    },
+    set: async (newVal) => {
+      dbfun.updateItems('journal', newVal);
+      store.set(newVal);
+    }
+  }
+}
+
 function createNameValueStore(tableName) {
   const store = writable({});
 
@@ -45,6 +65,7 @@ function createNameValueStore(tableName) {
   }
 }
 export const today = createTodayStore();
+export const history = createHistoryStore();
 export const settings = createNameValueStore('settings');
 export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
