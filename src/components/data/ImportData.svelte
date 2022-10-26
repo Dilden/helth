@@ -1,6 +1,14 @@
 <script>
+  import { onMount } from 'svelte';
   import { today, goals, limits, settings, history } from '$stores/stores';
 
+  onMount(() => {
+    today.init();
+    goals.init();
+    limits.init();
+    settings.init();
+    history.init();
+  });
   const upload = event => {
     if(event.target.files && event.target.files.length > 0) {
       if(confirm("Continuing the import will overwrite any existing data on your device. Would you like to continue?")) {
@@ -8,10 +16,10 @@
         stream.then(data => JSON.parse(data))
           .then(json => {
             $today = json.today;
+            $history = json.history;
             $goals = json.goals;
             $limits = json.limits;
             $settings = json.settings;
-            $history = json.history;
           })
           .catch(error => {
               alert(`Error importing data: ${error}`);

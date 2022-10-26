@@ -1,5 +1,14 @@
 <script>
+  import { onMount } from 'svelte';
   import { today, goals, limits, settings, history } from '$stores/stores';
+
+  onMount(() => {
+    today.init();
+    goals.init();
+    limits.init();
+    settings.init();
+    history.init();
+  });
 
   const exportData = () => {
     return JSON.stringify({
