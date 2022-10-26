@@ -12,7 +12,7 @@
   }
 </script>
 
-<a href="data:text/json;charset=utf-8,{exportData()}" download="helth_app_{Date.now()}.json">Export Your Data</a>
+<a href="data:text/json;charset=utf-8,{exportData()}" download="helth_app_{Date.now()}.json">Export Your Data (localStorage)</a>
 
 <style>
   a {
