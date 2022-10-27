@@ -1,24 +1,35 @@
 <script>
+  import { history, limits } from '$stores/stores';
   import Chart from '$components/charts/Chart.svelte';
-  import { todayStore, historyStore, limitStore } from '$stores/local';
+  import Spinner from '$components/Spinner.svelte';
 
-  let data = [
+  const data = () => {
+    return [
     {
-      label: 'Salt',
-      data: $historyStore.map(el => el.salt),
+      label: 'Sodium',
+      data: $history.map(el => el.sodium),
       backgroundColor: "#ffffff",
       borderColor: "#ffffff"
-    }
-    ]
-  let labels = $historyStore.map(el => {
+    }];
+  }   
+  const labels = () => {
+    return $history.map(el => {
           let date = new Date(el.date);
           return date.toLocaleDateString();
       }
     );
-  // push today onto data + labels
-  data[0].data.push($todayStore.salt);
-  labels.push('today');
+  }
 </script>
 
 <h3>Sodium</h3>
-<Chart chartType="line" {data} {labels} limit={$limitStore.salt} unit={'mg'} />
+{#await history.init()}
+  <Spinner />
+{:then}
+  {#await limits.init()}
+  <Spinner />
+  {:then}
+    <Chart chartType="line" data={data()} labels={labels()} limit={$limits.sodium.value} unit={'mg'} />
+  {/await}
+{:catch error}
+  <p>error</p>
+{/await}

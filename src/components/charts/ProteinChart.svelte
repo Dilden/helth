@@ -1,24 +1,34 @@
 <script>
+  import { history, goals } from '$stores/stores';
   import Chart from '$components/charts/Chart.svelte';
-  import { todayStore, historyStore, goalStore } from '$stores/local';
+  import Spinner from '$components/Spinner.svelte';
 
-  let data = [
+  const data = () => {
+    return [
     {
       label: 'Protein',
-      data: $historyStore.map(el => el.protein),
+      data: $history.map(el => el.protein),
       backgroundColor: "#fce417",
       borderColor: "#fce417"
-    }
-    ]
-  let labels = $historyStore.map(el => {
+    }];
+  } 
+  const labels = () => {
+    return $history.map(el => {
           let date = new Date(el.date);
           return date.toLocaleDateString();
-      }
-    );
-  // push today onto data + labels
-  data[0].data.push($todayStore.protein);
-  labels.push('today');
+      });
+  } 
 </script>
 
 <h3>Protein</h3>
-<Chart chartType="line" {data} {labels} goal={$goalStore.protein} unit={'grams'} />
+{#await history.init()}
+  <Spinner />
+{:then}
+  {#await goals.init()}
+  <Spinner />
+  {:then}
+    <Chart chartType="line" data={data()} labels={labels()} goal={$goals.protein.value} unit={'grams'} />
+  {/await}
+{:catch error}
+  <p>error</p>
+{/await}
