@@ -13,5 +13,6 @@
         background-color: var(--back-color);
         position: sticky;
         max-height: 110px;
+        z-index: 10;
     }
 </style>
