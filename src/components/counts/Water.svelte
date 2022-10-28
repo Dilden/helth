@@ -14,6 +14,9 @@
       diff = $goals.water.value - $today.water;
       diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over goal!`;
     }
+    else {
+        diffString = `<a data-sveltekit-reload href='/'>Oops! Click to refresh</a>`;
+    }
   }
 
   onMount(() => {
@@ -34,7 +37,9 @@
     <Spinner />
   {:then}
     <Counter {title} {max} {diffString} bind:interval={$settings.waterInterval.value} bind:count={$today.water} />
+  {:catch error}
+    <p>Settings error: {error}</p>
   {/await}
 {:catch error}
-  <p>error</p>
+  <p>Error creating 'today': {error}</p>
 {/await}

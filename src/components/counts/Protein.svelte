@@ -9,11 +9,13 @@
   $: diff = 0;
   $: diffString = 'loading...';
 
-
   const diffUpdate = () => {
     if('protein' in $goals) {
       diff = $goals.protein.value - $today.protein;
       diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over goal!`;
+    }
+    else {
+      diffString = `<a data-sveltekit-reload href='/'>Oops! Click to refresh</a>`;
     }
   }
 
@@ -35,7 +37,9 @@
     <Spinner />
   {:then}
     <Counter {title} {diffString} bind:interval={$settings.proteinInterval.value} bind:count={$today.protein}/>
+  {:catch error}
+    <p>Settings error: {error}</p>
   {/await}
 {:catch error}
-  <p>error</p>
+  <p>Error creating 'today': {error}</p>
 {/await}
