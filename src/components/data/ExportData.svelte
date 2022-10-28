@@ -1,13 +1,22 @@
 <script>
-  import { todayStore, goalStore, limitStore, settingStore, historyStore } from '$stores/local';
+  import { onMount } from 'svelte';
+  import { today, goals, limits, settings, history } from '$stores/stores';
+
+  onMount(() => {
+    today.init();
+    goals.init();
+    limits.init();
+    settings.init();
+    history.init();
+  });
 
   const exportData = () => {
     return JSON.stringify({
-      today: $todayStore,
-      history: $historyStore,
-      goals: $goalStore,
-      limits: $limitStore,
-      settings: $settingStore
+      today: $today,
+      history: $history,
+      goals: $goals,
+      limits: $limits,
+      settings: $settings
     });
   }
 </script>

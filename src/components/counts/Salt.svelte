@@ -1,9 +1,43 @@
 <script>
+  import { onMount, afterUpdate } from 'svelte';
+  import { today, settings, limits } from '$stores/stores';
   import Counter from '$components/counts/Counter.svelte';
-  import { todayStore, settingStore, limitStore } from '$stores/local';
+  import Spinner from '$components/Spinner.svelte';
+
   let title = '🧂 sodium (mg)';
-  $: diff = $limitStore.salt - $todayStore.salt;
-  $: diffString = (diff >= 0 ) ? diff + ' remaining' : -diff + ' over limit 😢';
+  $: diff = 0;
+  $: diffString = 'loading...';
+
+  const diffUpdate = () => {
+    if('sodium' in $limits) {
+      diff = $limits.sodium.value - $today.sodium;
+      diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over limit 😢`;
+    }
+    else {
+      diffString = `<a data-sveltekit-reload href='/'>Oops! Click to refresh</a>`;
+    }
+  }
+  onMount(() => {
+    limits.init()
+    .then(() => {
+      diffUpdate();
+    })
+  })
+  afterUpdate(() => {
+    diffUpdate();
+  })
 </script>
 
-<Counter {title} {diffString} bind:interval={$settingStore.sodiumInterval} bind:count={$todayStore.salt} />
+{#await today.init()}
+  <Spinner />
+{:then}
+  {#await settings.init()}
+    <Spinner />
+  {:then}
+    <Counter {title} {diffString} bind:interval={$settings.sodiumInterval.value} bind:count={$today.sodium} />
+  {:catch error}
+    <p>Settings error: {error}</p>
+  {/await}
+{:catch error}
+  <p>Error creating 'today': {error}</p>
+{/await}

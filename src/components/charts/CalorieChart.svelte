@@ -1,23 +1,35 @@
 <script>
+  import { history, limits } from '$stores/stores';
   import Chart from '$components/charts/Chart.svelte';
-  import { todayStore, historyStore, limitStore } from '$stores/local';
+  import Spinner from '$components/Spinner.svelte';
 
-  let data = [
+  const data = () => {
+    return [
     {
       label: 'Calories',
-      data: $historyStore.map(el => el.calories),
+      data: $history.map(el => el.calories),
       backgroundColor: "#fc173e",
       borderColor: "#fc173e"
     }];
-  let labels = $historyStore.map(el => {
+  } 
+  const labels = () => {
+    return $history.map(el => {
           let date = new Date(el.date);
           return date.toLocaleDateString();
       }
     );
-  // push today onto data + labels
-  data[0].data.push($todayStore.calories);
-  labels.push('today');
+  } 
 </script>
 
 <h3>Calories</h3>
-<Chart chartType="line" {data} limit={$limitStore.calories} {labels} />
+{#await history.init()}
+  <Spinner />
+{:then}
+  {#await limits.init()}
+  <Spinner />
+  {:then}
+    <Chart chartType="line" data={data()} limit={$limits.calories.value} labels={labels()} />
+  {/await}
+{:catch error}
+  <p>error</p>
+{/await}

@@ -1,7 +1,14 @@
 <script>
-    import Counter from '$components/counts/Counter.svelte';
-    import { limitStore } from '$stores/local';
-    let title = '⚡ calories';
+  import Counter from '$components/counts/Counter.svelte';
+  import { limits } from '$stores/stores';
+  import Spinner from '$components/Spinner.svelte';
+  let title = '⚡ calories';
 </script>
 
-<Counter {title} bind:count={$limitStore.calories} interval={200} max={600} />
+{#await limits.init()}
+  <Spinner />
+{:then}
+  <Counter {title} bind:count={$limits.calories.value} interval={200} max={600} />
+{:catch error}
+  <p>error</p>
+{/await}

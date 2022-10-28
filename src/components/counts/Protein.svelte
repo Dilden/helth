@@ -1,9 +1,45 @@
 <script>
+  import { onMount, afterUpdate } from 'svelte';
+  import { today, settings, goals } from '$stores/stores';
   import Counter from '$components/counts/Counter.svelte';
-  import { todayStore, settingStore, goalStore } from '$stores/local';
+  import Spinner from '$components/Spinner.svelte';
+
   let title = '🍗 protein (g)';
-  $: diff = $goalStore.protein - $todayStore.protein;
-  $: diffString = (diff >= 0 ) ? diff + ' remaining' : -diff + ' over goal!';
+
+  $: diff = 0;
+  $: diffString = 'loading...';
+
+  const diffUpdate = () => {
+    if('protein' in $goals) {
+      diff = $goals.protein.value - $today.protein;
+      diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over goal!`;
+    }
+    else {
+      diffString = `<a data-sveltekit-reload href='/'>Oops! Click to refresh</a>`;
+    }
+  }
+
+  onMount(() => {
+    goals.init()
+    .then(() => {
+      diffUpdate();
+    })
+  })
+  afterUpdate(() => {
+    diffUpdate();
+  })
 </script>
 
-<Counter {title} {diffString} bind:interval={$settingStore.proteinInterval} bind:count={$todayStore.protein}/>
+{#await today.init()}
+  <Spinner />
+{:then}
+  {#await settings.init()}
+    <Spinner />
+  {:then}
+    <Counter {title} {diffString} bind:interval={$settings.proteinInterval.value} bind:count={$today.protein}/>
+  {:catch error}
+    <p>Settings error: {error}</p>
+  {/await}
+{:catch error}
+  <p>Error creating 'today': {error}</p>
+{/await}
