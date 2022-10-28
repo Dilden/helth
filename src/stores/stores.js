@@ -8,11 +8,10 @@ function createTodayStore() {
   return {
     ...store,
     init: async () => {
-      const latestDay = dbfun.getLatestDay();
-      latestDay.then(day => {
-        store.set(day);
-      })
-      return latestDay;
+      return dbfun.getLatestDay()
+        .then(day => {
+          (day) ? store.set(day) : store.set(dbfun.defaultDay);
+        });
     },
     set: async (newVal) => {
       dbfun.getLatestDay()
@@ -33,7 +32,7 @@ function createHistoryStore() {
     init: async () => {
       const journal = dbfun.getJournal();
       journal.then(entries => {
-        store.set(entries);
+        (entries) ? store.set(entries) : store.set([]);
       })
       return journal;
     },
@@ -52,7 +51,7 @@ function createNameValueStore(tableName) {
     init: async () => {
       const items = dbfun.getItems(tableName);
       items.then(values => {
-        store.set(values);
+        (values) ? store.set(values) : store.set(dbfun[tableName]);
       })
       return items;
     },
