@@ -1,6 +1,6 @@
 # helth app
 
-Helth app aims to be a minimalist web app for tracking calories, sodium, and water intake. It is built with [`sveltekit`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Helth app aims to be a minimalist web app for tracking calories, sodium, and water intake. It's a PWA built with [`SvelteKit`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte). Your data is your data, which is why once the app loads, none of it is sent back to the server. The only functionality that talks to the server is the barcode scanner. which can magically ✨ add items to the daily totals.
 
 ## Getting started
 
