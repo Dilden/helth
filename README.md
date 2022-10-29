@@ -20,9 +20,11 @@ You can preview the production build with `npm run preview`. Helth app uses the 
 
 ## Packages
 This app makes use of the following packages:
-+ [sveltekit](https://github.com/sveltejs/kit/)
-+ [chart.js](https://www.chartjs.org/)
++ [SvelteKit](https://github.com/sveltejs/kit/)
++ [Chart.js](https://www.chartjs.org/)
 + [zxing-js](https://github.com/zxing-js/library)
++ [Vite PWA](https://github.com/vite-pwa/vite-plugin-pwa)
++ [Dexie](https://github.com/dexie/Dexie.js/)
 
 ## Layout
 Various reusable components are located in `src/components/`. All data is stored locally in the user's browser and is managed via `src/stores/`.
