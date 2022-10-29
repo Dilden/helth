@@ -58,89 +58,83 @@ db.version(1).stores({
   goals: 'name, value'
 });
 
-db.on('ready', function(db) {
+export const dbopen = db.open().then(() => {
   // check if today's date is most recent
   // add empty day if it is not
 
-  return db.limits.count((count) => {
-    if(count <= 0) {
-      console.log('limits table is empty...');
-
-      db.journal.orderBy('date').reverse().first()
-      .then(record => {
-        if(!record || thePast(record.date)) {
-          addDay();
-        }
-      });
-
-      // settings defaults
-      db.settings
-      .where('name')
-      .equals('waterInterval')
-        .first()
-        .then((interval) => {
-          !interval ? addItem('settings', 'waterInterval', settings.waterInterval.value) : interval;
-        });
-
-      db.settings
-      .where('name')
-      .equals('calorieInterval')
-        .first()
-        .then((interval) => {
-          !interval ? addItem('settings', 'calorieInterval', settings.calorieInterval.value) : interval;
-        });
-
-      db.settings
-      .where('name')
-      .equals('sodiumInterval')
-        .first()
-        .then((interval) => {
-          !interval ? addItem('settings', 'sodiumInterval', settings.sodiumInterval.value) : interval;
-        });
-
-      db.settings
-      .where('name')
-      .equals('proteinInterval')
-        .first()
-        .then((interval) => {
-          !interval ? addItem('settings', 'proteinInterval', settings.proteinInterval.value) : interval;
-        });
-
-      // goal defaults
-      db.goals
-      .where('name')
-      .equals('water')
-        .first()
-        .then((waterGoal) => {
-          !waterGoal ? addItem('goals', 'water', goals.water.value) : waterGoal;
-        });
-
-      db.goals
-      .where('name')
-      .equals('protein')
-        .first()
-        .then((proteinGoal) => {
-          !proteinGoal ? addItem('goals', 'protein', goals.protein.value) : proteinGoal;
-        });
-
-      // limits
-      db.limits
-      .where('name')
-      .equals('calories')
-        .first()
-        .then((calorieLimit) => {
-          !calorieLimit ? addItem('limits', 'calories', limits.calories.value) : calorieLimit;
-        });
-
-      db.limits
-      .where('name')
-      .equals('sodium')
-        .first()
-        .then((sodiumLimit) => {
-          !sodiumLimit ? addItem('limits', 'sodium', limits.sodium.value) : sodiumLimit;
-        });
+  db.journal.orderBy('date').reverse().first()
+  .then(record => {
+    if(!record || thePast(record.date)) {
+      addDay();
     }
-  })
+  });
+
+  // settings defaults
+  db.settings
+  .where('name')
+  .equals('waterInterval')
+    .first()
+    .then((interval) => {
+      !interval ? addItem('settings', 'waterInterval', settings.waterInterval.value) : interval;
+    });
+
+  db.settings
+  .where('name')
+  .equals('calorieInterval')
+    .first()
+    .then((interval) => {
+      !interval ? addItem('settings', 'calorieInterval', settings.calorieInterval.value) : interval;
+    });
+
+  db.settings
+  .where('name')
+  .equals('sodiumInterval')
+    .first()
+    .then((interval) => {
+      !interval ? addItem('settings', 'sodiumInterval', settings.sodiumInterval.value) : interval;
+    });
+
+  db.settings
+  .where('name')
+  .equals('proteinInterval')
+    .first()
+    .then((interval) => {
+      !interval ? addItem('settings', 'proteinInterval', settings.proteinInterval.value) : interval;
+    });
+
+  // goal defaults
+  db.goals
+  .where('name')
+  .equals('water')
+    .first()
+    .then((waterGoal) => {
+      !waterGoal ? addItem('goals', 'water', goals.water.value) : waterGoal;
+    });
+
+  db.goals
+  .where('name')
+  .equals('protein')
+    .first()
+    .then((proteinGoal) => {
+      !proteinGoal ? addItem('goals', 'protein', goals.protein.value) : proteinGoal;
+    });
+
+  // limits
+  db.limits
+  .where('name')
+  .equals('calories')
+    .first()
+    .then((calorieLimit) => {
+      !calorieLimit ? addItem('limits', 'calories', limits.calories.value) : calorieLimit;
+    });
+
+  db.limits
+  .where('name')
+  .equals('sodium')
+    .first()
+    .then((sodiumLimit) => {
+      !sodiumLimit ? addItem('limits', 'sodium', limits.sodium.value) : sodiumLimit;
+    });
 });
 
 
