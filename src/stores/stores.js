@@ -51,7 +51,7 @@ function createNameValueStore(tableName) {
     init: async () => {
       const items = dbfun.getItems(tableName);
       items.then(values => {
-        (values) ? store.set(values) : store.set(dbfun[tableName]);
+        (values.length != 0) ? store.set(values) : store.set(dbfun[tableName]);
       })
       return items;
     },
