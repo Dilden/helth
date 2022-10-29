@@ -1,8 +1,10 @@
 <script>
   import Navigation from '$components/nav/Navigation.svelte';
   import Footer from '$components/nav/Footer.svelte';
+  import { dbopen } from '$stores/db';
   import { onMount } from 'svelte';
   import { pwaInfo } from 'virtual:pwa-info';
+  import Spinner from '$components/Spinner.svelte';
 
   let ReloadPrompt;
   onMount(async() => {
@@ -19,7 +21,11 @@
 <div class='main'>
   <Navigation />
   <div class='content'>
-    <slot />
+    {#await dbopen}
+      <Spinner />
+    {:then}
+      <slot />
+    {/await}
   </div>
   <div class='footer'>
     <Footer />
