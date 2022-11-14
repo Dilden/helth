@@ -1,17 +1,30 @@
 <script>
-    import { todayStore } from '../stores/local';
+  import { onMount } from 'svelte';
+  import { today } from '$stores/stores';
+  import Spinner from '$components/Spinner.svelte';
 
-    let dateObj = new Date($todayStore.date);
-    let format =
-        dateObj.getMonth() +
-        1 +
-        '/' +
-        dateObj.getDate() +
-        '/' +
-        dateObj.getFullYear();
+  let dateObj, format;
+  onMount(() => {
+    today.init()
+    .then(() => {
+      dateObj = new Date($today.date);
+      format =
+          dateObj.getMonth() +
+          1 +
+          '/' +
+          dateObj.getDate() +
+          '/' +
+          dateObj.getFullYear();
+    })
+
+  })
 </script>
 
-<h3>{format}</h3>
+{#await today.init()}
+  <Spinner />
+{:then}
+  <h3>{format}</h3>
+{/await}
 
 <style>
   h3 {
