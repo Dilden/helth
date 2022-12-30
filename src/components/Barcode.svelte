@@ -1,7 +1,7 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
   import Modal from '$components/Modal.svelte';
-  import { today } from '$stores/stores';
+  import { today, inventory } from '$stores/stores';
 
   // scanner
   let selected;
@@ -16,9 +16,11 @@
         .then(result => fetch(`/upc?barcode=${result.getText()}`))
         .then(response => response.json())
         .then(val => {
-          $today.calories = $today.calories + val.calories.quantity;
-          $today.sodium = $today.sodium + val.sodium.quantity;
-          $today.protein = $today.protein + val.protein.quantity;
+          // if inventory does not have barcode, add it
+          $inventory = val;
+          $today.calories = $today.calories + val.nutrients.calories.quantity;
+          $today.sodium = $today.sodium + val.nutrients.sodium.quantity;
+          $today.protein = $today.protein + val.nutrients.protein.quantity;
           open = false;
           document.body.classList.remove('modal-open')
         })
@@ -41,12 +43,7 @@
         {:then inputs}
             <div class="controls">
                 <label for="inputs">Select device</label>
-                <select
-                    id="inputs"
-                    name="inputs"
-                    bind:value={selected}
-                    on:change={() => scan()}
-                >
+                <select id="inputs" name="inputs" bind:value={selected} on:change={() => scan()} >
                     {#each inputs as input}
                         <option value={input}>{input.label}</option>
                     {/each}
