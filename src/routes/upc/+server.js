@@ -37,7 +37,7 @@ export async function GET({ url }) {
       }
       throw new Error(`barcode ${barcode} not found @ 2nd source`);
     })
-    .then(json => formatSource2(json.data.product_details.nutrition_labels))
+    .then(json => formatSource2(json))
     .then(data => JSON.stringify(data))
     .then(data => new Response(data))
     .catch(error => console.error(error));

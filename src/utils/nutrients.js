@@ -10,12 +10,20 @@ export const formatSource1 = async (id) => {
         ({ ...resultObj, [camelCase(currentObj.name)]: currentObj }),
         {}
       );
-      return nutrientsObj;
+      const item = {
+        barcode: json.data.product.item.primary_barcode,
+        title: json.data.product.item.product_description.title,
+        description: json.data.product.item.product_description.downstream_description,
+        nutrients: nutrientsObj
+      }
+      return item;
     });
 }
 
 export const formatSource2 = (data) => {
-  const nutrientsObj = Object.keys(data)
+
+  console.log(data.data);
+  const nutrientsObj = Object.keys(data.data.product_details.nutrition_labels)
     .reduce((result, key) => {
       result[camelCase(key)] = data[key];
       if(Object.hasOwn(result[camelCase(key)], 'total_quantity')) {
@@ -24,5 +32,12 @@ export const formatSource2 = (data) => {
       }
       return result;
     }, {});
-  return nutrientsObj;
+
+  const item = {
+    barcode: data.data.product_details.upc,
+    title: data.data.product_details.brand_name + ' ' + data.data.product_details.product_name,
+    description: data.data.product_details.product_description,
+    nutrients: nutrientsObj
+  }
+  return item;
 }
