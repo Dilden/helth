@@ -1,6 +1,6 @@
 <script>
-    import Helth from '$components/nav/Helth.svelte';
-    import Menu from '$components/nav/Menu.svelte';
+    import Helth from '$lib/nav/Helth.svelte';
+    import Menu from '$lib/nav/Menu.svelte';
 </script>
 
 <header>

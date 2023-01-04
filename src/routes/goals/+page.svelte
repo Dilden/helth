@@ -1,8 +1,8 @@
 <script>
-    import Water from '$components/goals/Water.svelte';
-    import Calories from '$components/goals/Calories.svelte';
-    import Salt from '$components/goals/Salt.svelte';
-    import Protein from '$components/goals/Protein.svelte';
+    import Water from '$lib/goals/Water.svelte';
+    import Calories from '$lib/goals/Calories.svelte';
+    import Salt from '$lib/goals/Salt.svelte';
+    import Protein from '$lib/goals/Protein.svelte';
 </script>
 
 <h2>goals 🥇</h2>

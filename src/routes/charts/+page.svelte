@@ -1,8 +1,8 @@
 <script>
-  import WaterChart from '$components/charts/WaterChart.svelte';
-  import CalorieChart from '$components/charts/CalorieChart.svelte';
-  import NutrientsChart from '$components/charts/NutrientsChart.svelte';
-  import ProteinChart from '$components/charts/ProteinChart.svelte';
+  import WaterChart from '$lib/charts/WaterChart.svelte';
+  import CalorieChart from '$lib/charts/CalorieChart.svelte';
+  import NutrientsChart from '$lib/charts/NutrientsChart.svelte';
+  import ProteinChart from '$lib/charts/ProteinChart.svelte';
 </script>
 
 <div class='container'>

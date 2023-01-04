@@ -1,7 +1,7 @@
 <script>
   import { history, goals } from '$stores/stores';
-  import Chart from '$components/charts/Chart.svelte';
-  import Spinner from '$components/Spinner.svelte';
+  import Chart from '$lib/charts/Chart.svelte';
+  import Spinner from '$lib/Spinner.svelte';
 
   const data = () => {
     return [
