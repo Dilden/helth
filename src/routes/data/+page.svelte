@@ -1,6 +1,6 @@
 <script>
-  import ExportData from '$components/data/ExportData.svelte';
-  import ImportData from '$components/data/ImportData.svelte';
+  import ExportData from '$lib/data/ExportData.svelte';
+  import ImportData from '$lib/data/ImportData.svelte';
 </script>
 
 <div class="container">

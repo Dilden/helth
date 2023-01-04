@@ -3,6 +3,7 @@
 </script>
 
 <a href="/">
+  // TODO replace {helth} w/ "/helth.jpg" and move asset to public/
   <img src={helth} alt="Helth doctor" width="200" height="auto" />
   <h1>helth app</h1>
 </a>

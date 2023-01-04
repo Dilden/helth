@@ -1,5 +1,5 @@
 <script>
-    import WorkRest from '$components/timers/WorkRest.svelte';
+    import WorkRest from '$lib/timers/WorkRest.svelte';
 </script>
 
 <div class='wrapper'>

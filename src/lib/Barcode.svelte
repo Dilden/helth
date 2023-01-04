@@ -1,6 +1,6 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
-  import Modal from '$components/Modal.svelte';
+  import Modal from '$lib/Modal.svelte';
   import { today } from '$stores/stores';
 
   // scanner

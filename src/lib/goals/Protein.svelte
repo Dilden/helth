@@ -1,7 +1,7 @@
 <script>
-  import Counter from '$components/counts/Counter.svelte';
+  import Counter from '$lib/counts/Counter.svelte';
   import { goals } from '$stores/stores';
-  import Spinner from '$components/Spinner.svelte';
+  import Spinner from '$lib/Spinner.svelte';
   let title = '🍗 protein (g)';
 </script>
 

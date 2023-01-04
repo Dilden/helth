@@ -27,4 +27,4 @@ This app makes use of the following packages:
 + [Dexie](https://github.com/dexie/Dexie.js/)
 
 ## Layout
-Various reusable components are located in `src/components/`. All data is stored locally in the user's browser and is managed via `src/stores/`.
+Various reusable components are located in `src/lib/`. All data is stored locally in the user's browser and is managed via `src/stores/`.

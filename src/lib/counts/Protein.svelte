@@ -1,21 +1,21 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import { today, settings, goals } from '$stores/stores';
-  import Counter from '$components/counts/Counter.svelte';
-  import Spinner from '$components/Spinner.svelte';
+  import Counter from '$lib/counts/Counter.svelte';
+  import Spinner from '$lib/Spinner.svelte';
 
-  let title = '💧 water (mL)';
-  let max = 1000;
+  let title = '🍗 protein (g)';
+
   $: diff = 0;
-  $: diffString = `loading...`;
-  
+  $: diffString = 'loading...';
+
   const diffUpdate = () => {
-    if('water' in $goals) {
-      diff = $goals.water.value - $today.water;
+    if('protein' in $goals) {
+      diff = $goals.protein.value - $today.protein;
       diffString = (diff >= 0 ) ? `${diff} remaining` : `${-diff} over goal!`;
     }
     else {
-        diffString = `<a data-sveltekit-reload href='/'>Oops! Click to refresh</a>`;
+      diffString = `<a data-sveltekit-reload href='/'>Oops! Click to refresh</a>`;
     }
   }
 
@@ -36,7 +36,7 @@
   {#await settings.init()}
     <Spinner />
   {:then}
-    <Counter {title} {max} {diffString} bind:interval={$settings.waterInterval.value} bind:count={$today.water} />
+    <Counter {title} {diffString} bind:interval={$settings.proteinInterval.value} bind:count={$today.protein}/>
   {:catch error}
     <p>Settings error: {error}</p>
   {/await}
