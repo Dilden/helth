@@ -25,7 +25,8 @@
 
 <style>
   .modal.open {
-      display: block;
+    display: block;
+    box-shadow: 0 0 10px 7px black;
   }
   .modal {
       display: none;
@@ -42,8 +43,8 @@
   }
   .toggler {
     position: fixed;
-    right: 25px;
-    bottom: 30px;
+    right: 20px;
+    bottom: 20px;
     z-index: 130;
     background: #1ab8b8;
     border-radius: 10px;

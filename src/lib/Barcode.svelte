@@ -57,8 +57,10 @@
                     <option value={input}>{input.label}</option>
                 {/each}
             </select>
-            <button class="cancel_button" on:click={cancel}>❌ STOP</button>
-            <button class="scan_button" on:click={scan}>📷 SCAN</button>
+            <div class='buttons'>
+              <button class="cancel_button" on:click={cancel}>❌ STOP</button>
+              <button class="scan_button" on:click={scan}>📷 SCAN</button>
+            </div>
         </div>
     {:catch error}
         <p class=".error">oops!</p>
@@ -68,7 +70,7 @@
 <style>
     .scanner {
         display: grid;
-        grid-template-rows: [video] 2fr [controls] 1fr [end] 25px;
+        grid-template-rows: [video] 90% [controls] 10% [end] 25px;
         column-gap: 5px;
         row-gap: 15px;
         padding: 0;
@@ -90,6 +92,7 @@
         grid-row-start: 2;
         grid-row-end: 3;
         grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: 1fr 6fr 1fr;
         text-align: center;
         text-transform: uppercase;
         row-gap: 15px;
@@ -100,14 +103,14 @@
         font-size: 1.4em;
         grid-row-start: 1;
         grid-row-end: 1;
-        grid-column-start: 1;
+        grid-column-start: 2;
         grid-column-end: 3;
     }
     .controls select {
         border: solid 1px grey;
         grid-row-start: 2;
         grid-row-end: 2;
-        grid-column-start: 1;
+        grid-column-start: 2;
         grid-column-end: 3;
     }
     .controls button {
@@ -115,12 +118,20 @@
         grid-row-start: 3;
         grid-row-end: 4;
     }
-    .controls button.scan_button {
-        grid-column-start: 2;
-        grid-column-end: 3;
+    .buttons {
+      grid-column-start: 2;
+      grid-column-end: 3;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 10px;
     }
-    .controls button.cancel_button {
-        grid-column-start: 1;
-        grid-column-end: 2;
+    button.cancel_button {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    button.scan_button {
+      grid-column-start: 2;
+      grid-column-end: 3;
     }
 </style>

@@ -25,6 +25,3 @@ import {Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
   </Tabs>
 
 </Modal>
-
-<style>
-</style>
