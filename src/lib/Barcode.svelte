@@ -1,9 +1,7 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
-  import Modal from '$lib/Modal.svelte';
   import { today } from '$stores/stores';
   import { getInventory, addInventory } from '$stores/db';
-
 
   // scanner
   let selected;
@@ -19,7 +17,6 @@
         .then(response => response.json())
         .then(val => {
 
-          // check if the item already exists in inventory
           getInventory()
             .then(data => {
               if(!data
@@ -46,27 +43,27 @@
   }
 </script>
 
-<Modal bind:open={open}>
-    <div class="scanner">
-        <video id="scanner" name="scanner"><track kind="captions" /></video>
-        {#await codeReader.listVideoInputDevices()}
-            <p>..waiting</p>
-        {:then inputs}
-            <div class="controls">
-                <label for="inputs">Select device</label>
-                <select id="inputs" name="inputs" bind:value={selected} on:change={() => scan()} >
-                    {#each inputs as input}
-                        <option value={input}>{input.label}</option>
-                    {/each}
-                </select>
-                <button class="cancel_button" on:click={cancel}>❌ STOP</button>
-                <button class="scan_button" on:click={scan}>📷 SCAN</button>
-            </div>
-        {:catch error}
-            <p class=".error">oops!</p>
-        {/await}
-    </div>
-</Modal>
+<div class="scanner">
+  <div class='vid'>
+    <video id="scanner" name="scanner"><track kind="captions" /></video>
+  </div>
+    {#await codeReader.listVideoInputDevices()}
+        <p>..waiting</p>
+    {:then inputs}
+        <div class="controls">
+            <label for="inputs">Select device</label>
+            <select id="inputs" name="inputs" bind:value={selected} on:change={() => scan()} >
+                {#each inputs as input}
+                    <option value={input}>{input.label}</option>
+                {/each}
+            </select>
+            <button class="cancel_button" on:click={cancel}>❌ STOP</button>
+            <button class="scan_button" on:click={scan}>📷 SCAN</button>
+        </div>
+    {:catch error}
+        <p class=".error">oops!</p>
+    {/await}
+</div>
 
 <style>
     .scanner {
@@ -74,20 +71,19 @@
         grid-template-rows: [video] 2fr [controls] 1fr [end] 25px;
         column-gap: 5px;
         row-gap: 15px;
-        width: 100%;
-        height: 100%;
-        background: #34474c;
         padding: 0;
         overflow-y: scroll;
     }
-    video {
+    .vid {
         grid-row-start: 1;
         grid-row-end: 2;
-        display: block;
-        margin: 0 auto;
         width: 100%;
-        max-width: 1100px;
-        height: auto;
+        text-align: center;
+        margin: 0 auto;
+    }
+    video {
+      width: 100%;
+      max-height: 55vh;
     }
     .controls {
         display: grid;

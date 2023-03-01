@@ -4,7 +4,7 @@
   import Salt from '$lib/counts/Salt.svelte';
   import Protein from '$lib/counts/Protein.svelte';
   import Date from '$lib/Date.svelte';
-  import Barcode from '$lib/Barcode.svelte';
+  import Add from '$lib/Add.svelte';
 
 </script>
 
@@ -18,7 +18,7 @@
   <div class="item"><Protein /></div>
 </div>
 
-<Barcode />
+<Add />
 
 <style>
     h2 {
