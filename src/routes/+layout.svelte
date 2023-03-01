@@ -1,14 +1,14 @@
 <script>
-  import Navigation from '$components/nav/Navigation.svelte';
-  import Footer from '$components/nav/Footer.svelte';
+  import Navigation from '$lib/nav/Navigation.svelte';
+  import Footer from '$lib/nav/Footer.svelte';
   import { dbopen } from '$stores/db';
   import { onMount } from 'svelte';
   import { pwaInfo } from 'virtual:pwa-info';
-  import Spinner from '$components/Spinner.svelte';
+  import Spinner from '$lib/Spinner.svelte';
 
   let ReloadPrompt;
   onMount(async() => {
-      pwaInfo && (ReloadPrompt = (await import('$components/ReloadPrompt.svelte')).default)
+      pwaInfo && (ReloadPrompt = (await import('$lib/ReloadPrompt.svelte')).default)
     });
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';

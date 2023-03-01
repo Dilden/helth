@@ -14,9 +14,9 @@ const config = {
         enabled: true
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png}']
+        globPatterns: ['**/*.{js,css,html,ico,png,jpb,wav}']
       },
-      includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', ],
+      includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', 'beep.wav', 'helth.jpg'],
       manifest: {
         name: 'helth app',
         short_name: 'helth app',
@@ -76,9 +76,6 @@ const config = {
   },
   resolve: {
     alias: {
-      // set an alias so images can be dynamically imported
-      $static: path.resolve('./static'),
-      $components: path.resolve('./src/components'),
       $utils: path.resolve('./src/utils'),
       $stores: path.resolve('./src/stores')
     } },

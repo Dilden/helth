@@ -1,9 +1,5 @@
-<script>
-  import helth from '/src/static/helth.jpg';
-</script>
-
 <a href="/">
-  <img src={helth} alt="Helth doctor" width="200" height="auto" />
+  <img src="/helth.jpg" alt="Helth doctor" width="200" height="auto" />
   <h1>helth app</h1>
 </a>
 
