@@ -1,6 +1,7 @@
 <script>
   import { getInventory } from '$stores/db';
   import Spinner from '$lib/Spinner.svelte';
+
 </script>
 
 {#await getInventory()}
@@ -10,7 +11,10 @@
   {#each inventory as item}
     <li>
       <h4>{item.title}</h4>
-      <p>{item.description}</p>
+      <button title='Add to Daily Total'>➕</button><!--add to daily total -->
+      <button title='Edit Item'>🖉</button> <!-- edit  -->
+      <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
+      <button class='delete' title='Delete'>🗑️</button> <!-- add to recipe -->
     </li>
   {/each}
   </ul>
@@ -20,5 +24,9 @@
     list-style: none;
   }
   li {
+    margin: .75rem;
+  }
+  .delete {
+    float: right;
   }
 </style>
