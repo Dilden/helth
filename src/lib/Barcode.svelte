@@ -1,7 +1,9 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
   import Modal from '$lib/Modal.svelte';
-  import { today, inventory } from '$stores/stores';
+  import { today } from '$stores/stores';
+  import { getInventory, addInventory } from '$stores/db';
+
 
   // scanner
   let selected;
@@ -16,8 +18,17 @@
         .then(result => fetch(`/upc?barcode=${result.getText()}`))
         .then(response => response.json())
         .then(val => {
-          // if inventory does not have barcode, add it
-          $inventory = val;
+
+          // check if the item already exists in inventory
+          getInventory()
+            .then(data => {
+              if(!data
+                .map(item => item.barcode)
+                .includes(val.barcode)) {
+                addInventory(val);
+              }
+            });
+
           $today.calories = $today.calories + val.nutrients.calories.quantity;
           $today.sodium = $today.sodium + val.nutrients.sodium.quantity;
           $today.protein = $today.protein + val.nutrients.protein.quantity;
