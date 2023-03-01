@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { today } from '$stores/stores';
-  import Spinner from '$components/Spinner.svelte';
+  import Spinner from '$lib/Spinner.svelte';
 
   let dateObj, format;
   onMount(() => {
