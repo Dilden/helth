@@ -147,7 +147,7 @@
     disabled = false;
     stopped = false;
 
-    activeSplits = restSplits = [];
+    activeSplits.length = restSplits.length = 0;
 
     interval = clearInterval(interval);
     totalInterval = clearInterval(totalInterval);
