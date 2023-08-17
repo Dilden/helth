@@ -14,7 +14,7 @@ const config = {
         enabled: true
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,jpb,wav}']
+        globPatterns: ['**/*.{js,css,html}']
       },
       includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', 'beep.wav', 'helth.jpg'],
       manifest: {
