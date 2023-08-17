@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { Chart, registerables } from 'chart.js';
-  import annotationPlugin from 'chartjs-plugin-annotation/dist/chartjs-plugin-annotation.js';
+  import annotationPlugin from 'chartjs-plugin-annotation';
   
   Chart.register(...registerables, annotationPlugin);
 
