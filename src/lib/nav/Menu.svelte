@@ -3,9 +3,9 @@
     const toggle = () => (isOpen = !isOpen);
 </script>
 
-<span class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
+<button class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
     <i class="hamburger {isOpen ? 'open' : ''}" />
-</span>
+</button>
 <nav class={isOpen ? 'shown' : ''}>
     <ul>
         <li><a href="/" on:click={toggle}>track 🗒  </a></li>
@@ -69,6 +69,7 @@
       box-shadow: 0px 0px 10px 0px black;
       touch-action: manipulation;
       z-index: 100;
+      border: none;
     }
     .menu.moved {
         right: 250px;
