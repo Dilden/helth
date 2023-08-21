@@ -189,10 +189,6 @@
   </div>
 </div>
 <style>
-  h1 {
-    text-align: center;
-    text-transform: uppercase;
-  }
   .time {
     margin: 1.5rem;
     font-size: 5rem;
