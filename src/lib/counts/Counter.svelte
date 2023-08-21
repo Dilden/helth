@@ -5,8 +5,6 @@
   export let max = 100;
   export let diffString = '';
 
-  let sliderShow = false;
-
   function increment() {
     return count = count + interval;
   }
@@ -20,14 +18,14 @@
 </script>
 
 <div class="container">
-  <h3 on:click="{() => sliderShow = !sliderShow}">{title}</h3>
+  <h3>{title}</h3>
   <h5>{@html diffString}</h5> 
   <div class="controls">
       <button on:click={decrement}> -{interval} </button>
       <input bind:value={count} type="number" min="0" />
       <button on:click={increment}> +{interval} </button>
   </div>
-  <input disabled={!sliderShow} class:show={sliderShow} type="range" min=1 max={max} bind:value={interval}/>
+  <input type="range" min=1 max={max} bind:value={interval}/>
 </div>
 
 <style>
@@ -58,6 +56,7 @@
       -webkit-flex: 2 1 auto;
       -ms-flex: 2 1 auto;
       -moz-appearance: textfield;
+      appearance: textfield;
       flex: 2 1 auto;
       width: 50%;
       -webkit-border-radius: 0;
@@ -78,10 +77,8 @@
       padding: 10px 0;
       margin: 10px;
     }
-    .show {
-      opacity: 1 !important;
-    }
     button {
+      appearance: none;
       -webkit-appearance: none;
       -webkit-box-flex: 1 1 auto;
       -moz-box-flex: 1 1 auto;
