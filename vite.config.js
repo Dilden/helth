@@ -5,9 +5,18 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 /** @type {import('vite').UserConfig} */
 const config = {
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,ts}'],
+    reporter: 'verbose',
+    setupFiles: [
+      './src/vitest/registerMatchers.js',
+      './src/vitest/cleanupDom.js',
+    ]
+  },
   plugins: [
     sveltekit(),
-    basicSsl(),
+    (process.env.NODE_ENV === 'development' ? basicSsl() : [] ),
     VitePWA({
       registerType: 'prompt',
       devOptions: {
@@ -69,7 +78,7 @@ const config = {
     fs: {
       allow: ['static']
     },
-    https: true,
+    https: (process.env.NODE_ENV === 'development' ? true : false ),
     port: 3000,
     strictPort: true,
     hmr: true // set to 'false' for testing on old iOS devices
