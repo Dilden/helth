@@ -21,11 +21,15 @@
   <h3>{title}</h3>
   <h5>{@html diffString}</h5> 
   <div class="controls">
-      <button on:click={decrement}> -{interval} </button>
-      <input bind:value={count} type="number" min="0" />
-      <button on:click={increment}> +{interval} </button>
+    <button on:click={decrement}> -{interval} </button>
+
+    <label for="countValue">Count value</label>
+    <input id="countValue" bind:value={count} type="number" min="0" />
+
+    <button on:click={increment}> +{interval} </button>
   </div>
-  <input type="range" min=1 max={max} bind:value={interval}/>
+  <label for="interval">interval</label>
+  <input id="interval" type="range" min=1 max={max} bind:value={interval}/>
 </div>
 
 <style>
@@ -49,6 +53,9 @@
       padding: 10px;
       color: #000000;
       touch-action: manipulation;
+    }
+    label {
+      display: none;
     }
     input[type='number'] {
       -webkit-box-flex: 2 1 auto;
