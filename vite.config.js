@@ -8,7 +8,11 @@ const config = {
   test: {
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,ts}'],
-    reporter: 'verbose'
+    reporter: 'verbose',
+    setupFiles: [
+      './src/vitest/registerMatchers.js',
+      './src/vitest/cleanupDom.js',
+    ]
   },
   plugins: [
     sveltekit(),
