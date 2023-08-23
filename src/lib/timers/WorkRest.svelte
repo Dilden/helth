@@ -147,7 +147,7 @@
     disabled = false;
     stopped = false;
 
-    activeSplits = restSplits = [];
+    activeSplits.length = restSplits.length = 0;
 
     interval = clearInterval(interval);
     totalInterval = clearInterval(totalInterval);
@@ -189,10 +189,6 @@
   </div>
 </div>
 <style>
-  h1 {
-    text-align: center;
-    text-transform: uppercase;
-  }
   .time {
     margin: 1.5rem;
     font-size: 5rem;

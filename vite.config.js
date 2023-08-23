@@ -5,16 +5,25 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 /** @type {import('vite').UserConfig} */
 const config = {
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,ts}'],
+    reporter: 'verbose',
+    setupFiles: [
+      './src/vitest/registerMatchers.js',
+      './src/vitest/cleanupDom.js',
+    ]
+  },
   plugins: [
     sveltekit(),
-    basicSsl(),
+    (process.env.NODE_ENV === 'development' ? basicSsl() : [] ),
     VitePWA({
       registerType: 'prompt',
       devOptions: {
         enabled: true
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,jpb,wav}']
+        globPatterns: ['**/*.{js,css,html}']
       },
       includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', 'beep.wav', 'helth.jpg'],
       manifest: {
@@ -69,7 +78,7 @@ const config = {
     fs: {
       allow: ['static']
     },
-    https: true,
+    https: (process.env.NODE_ENV === 'development' ? true : false ),
     port: 3000,
     strictPort: true,
     hmr: true // set to 'false' for testing on old iOS devices

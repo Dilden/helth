@@ -5,8 +5,6 @@
   export let max = 100;
   export let diffString = '';
 
-  let sliderShow = false;
-
   function increment() {
     return count = count + interval;
   }
@@ -20,14 +18,18 @@
 </script>
 
 <div class="container">
-  <h3 on:click="{() => sliderShow = !sliderShow}">{title}</h3>
+  <h3>{title}</h3>
   <h5>{@html diffString}</h5> 
   <div class="controls">
-      <button on:click={decrement}> -{interval} </button>
-      <input bind:value={count} type="number" min="0" />
-      <button on:click={increment}> +{interval} </button>
+    <button on:click={decrement}> -{interval} </button>
+
+    <label for="countValue">Count value</label>
+    <input id="countValue" bind:value={count} type="number" min="0" />
+
+    <button on:click={increment}> +{interval} </button>
   </div>
-  <input disabled={!sliderShow} class:show={sliderShow} type="range" min=1 max={max} bind:value={interval}/>
+  <label for="interval">interval</label>
+  <input id="interval" type="range" min=1 max={max} bind:value={interval}/>
 </div>
 
 <style>
@@ -52,12 +54,16 @@
       color: #000000;
       touch-action: manipulation;
     }
+    label {
+      display: none;
+    }
     input[type='number'] {
       -webkit-box-flex: 2 1 auto;
       -moz-box-flex: 2 1 auto;
       -webkit-flex: 2 1 auto;
       -ms-flex: 2 1 auto;
       -moz-appearance: textfield;
+      appearance: textfield;
       flex: 2 1 auto;
       width: 50%;
       -webkit-border-radius: 0;
@@ -73,15 +79,11 @@
     input[type='range'] {
       width: 90%;
       font-size: 3em;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
       padding: 10px 0;
       margin: 10px;
     }
-    .show {
-      opacity: 1 !important;
-    }
     button {
+      appearance: none;
       -webkit-appearance: none;
       -webkit-box-flex: 1 1 auto;
       -moz-box-flex: 1 1 auto;
