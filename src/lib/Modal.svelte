@@ -19,7 +19,7 @@
 </div>
 
 {#key open}
-<button on:click={toggle} transition:fade="{{ duration: 250 }}" class="toggler"
+<button name="add" on:click={toggle} transition:fade="{{ duration: 250 }}" class="toggler"
     >{open ? '❌' : '➕'}</button>
 {/key}
 

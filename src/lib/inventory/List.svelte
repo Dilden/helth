@@ -1,4 +1,5 @@
 <script>
+  import Item from './Item.svelte';
   import { getInventory } from '$stores/db';
   import Spinner from '$lib/Spinner.svelte';
 
@@ -8,13 +9,14 @@
   <Spinner />
 {:then inventory}
   <ul>
+  <h3>Saved Items</h3>
   {#each inventory as item}
     <li>
-      <h4>{item.title}</h4>
+      <Item title={item.title} />
       <button title='Add to Daily Total'>➕</button><!--add to daily total -->
       <button title='Edit Item'>🖉</button> <!-- edit  -->
       <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
-      <button class='delete' title='Delete'>🗑️</button> <!-- add to recipe -->
+      <button class='delete' title='Delete'>🗑️</button> <!-- remove from db -->
     </li>
   {/each}
   </ul>
