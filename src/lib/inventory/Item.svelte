@@ -7,3 +7,9 @@
 <button title='Edit Item'>🖉</button> <!-- edit  -->
 <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
 <button class='delete' title='Delete'>🗑️</button> <!-- remove from db -->
+
+<style>
+  .delete {
+    float: right;
+  }
+</style>
