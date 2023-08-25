@@ -9,9 +9,15 @@ describe('inventory items', () => {
   })
   it('shows actionable buttons on an item', () => {
     render(Item, { title: 'Coca-Cola'});
-    expect(screen.queryByRole('button', {name: '➕'})).toBeVisible();
-    expect(screen.queryByRole('button', {name: '🖉'})).toBeVisible();
-    expect(screen.queryByRole('button', {name: '📑'})).toBeVisible();
-    expect(screen.queryByRole('button', {name: '🗑️'})).toBeVisible();
+
+    const buttons = screen.queryAllByRole('button');
+    const buttonTypes = buttons.map(button => button.textContent);
+
+    expect(buttonTypes).toEqual([
+      expect.stringContaining('➕'),
+      expect.stringContaining('🖉'),
+      expect.stringContaining('📑'),
+      expect.stringContaining('🗑️')
+    ])
   })
 })
