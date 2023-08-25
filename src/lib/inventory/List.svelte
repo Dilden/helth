@@ -1,23 +1,19 @@
 <script>
   import Item from './Item.svelte';
-  // import { getInventory } from '$stores/db';
-  // import Spinner from '$lib/Spinner.svelte';
-
   export let data = [];
+
 </script>
 
-<!-- {#await getInventory()} -->
-<!--   <Spinner /> -->
-<!-- {:then inventory} -->
-  <ul>
-  <h3>Saved Items</h3>
-  {#each data as item}
+<ul>
+<h3>Saved Items</h3>
+{#if data.inventory}
+  {#each data.inventory as item}
     <li>
       <Item title={item.title} />
     </li>
   {/each}
-  </ul>
-<!-- {/await} -->
+{/if}
+</ul>
 <style>
   ul {
     list-style: none;

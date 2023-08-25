@@ -4,14 +4,23 @@ import List from './List.svelte';
 
 describe('inventory list', () => {
   it('shows a list of items', () => {
-    render(List, {data: [ 
-      { title: 'Coca-Cola' },
-      { title: 'Pepsi'},
-      { title: 'Monster' }
-    ]});
+    render(List, {
+      data: {
+        inventory: [ 
+          { title: 'Coca-Cola' },
+          { title: 'Pepsi'},
+          { title: 'Monster' }
+        ]
+      }
+    });
 
-    expect(screen.queryByText('Coca-Cola')).toBeVisible();
-    expect(screen.queryByText('Pepsi')).toBeVisible();
-    expect(screen.queryByText('Monster')).toBeVisible();
+    const items = screen.getAllByRole('listitem');
+    const itemNames = items.map(item => item.textContent);
+
+    expect(itemNames).toEqual([
+      expect.stringContaining( 'Coca-Cola' ),
+      expect.stringContaining('Pepsi'),
+      expect.stringContaining( 'Monster' )
+    ]);
   });
 })
