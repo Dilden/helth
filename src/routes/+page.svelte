@@ -6,6 +6,7 @@
   import Date from '$lib/Date.svelte';
   import Add from '$lib/Add.svelte';
 
+  export let data = [];
 </script>
 
 <Date />
@@ -18,7 +19,7 @@
   <div class="item"><Protein /></div>
 </div>
 
-<Add />
+<Add inventory={data.inventory}/>
 
 <style>
     h2 {

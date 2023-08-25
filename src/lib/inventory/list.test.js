@@ -5,13 +5,11 @@ import List from './List.svelte';
 describe('inventory list', () => {
   it('shows a list of items', () => {
     render(List, {
-      data: {
-        inventory: [ 
-          { title: 'Coca-Cola' },
-          { title: 'Pepsi'},
-          { title: 'Monster' }
-        ]
-      }
+      inventory: [ 
+        { title: 'Coca-Cola' },
+        { title: 'Pepsi'},
+        { title: 'Monster' }
+      ]
     });
 
     const items = screen.getAllByRole('listitem');

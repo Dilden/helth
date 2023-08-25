@@ -15,5 +15,18 @@ describe('Add dialog component', () => {
         expect.stringContaining('Scan')
       ])
     );
+  });
+
+  it('accepts inventory data', () => {
+    render(Add, {
+      inventory: [ 
+        { title: 'Big Mac' },
+        { title: 'Whopper' }
+      ]
+    });
+
+    expect(screen.queryByText('Big Mac')).toBeVisible();
+    expect(screen.queryByText('Whopper')).toBeVisible();
+
   })
 })

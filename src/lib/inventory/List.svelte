@@ -1,13 +1,13 @@
 <script>
   import Item from './Item.svelte';
-  export let data = [];
+  export let inventory = [];
 
 </script>
 
-<ul>
 <h3>Saved Items</h3>
-{#if data.inventory}
-  {#each data.inventory as item}
+<ul aria-label='inventory-list'>
+{#if inventory}
+  {#each inventory as item}
     <li>
       <Item title={item.title} />
     </li>
