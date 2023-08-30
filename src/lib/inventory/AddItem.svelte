@@ -1,7 +1,17 @@
 <script>
+  import AddNutrientInputs from './AddNutrientInputs.svelte';
   let formVisible = false;
-  const blank = {name: '', quantity: ''};
-  $: nutrientList = [blank];
+  $: count = 0;
+
+  const addNutrient = () => {
+    count += 1;
+    const element = new AddNutrientInputs({
+      target: document.querySelector('.nutrientList'),
+      props: {
+        count: count
+      }
+    })
+  }
 </script>
 
 <button class='addItem' on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
@@ -16,18 +26,19 @@
   <label for='description'>Description</label>
   <input type='textarea' id='description' name='description'/>
   <hr>
-  <button class='addNutrients' on:click|preventDefault={() => (nutrientList.push(blank))}>Add Nutrient</button>
-  {#each nutrientList as nutrient, index}
-    <label for='description-'{index}>Nutrient:</label>
-    <input type='text' id='description-'{index} name='description'/>
-    <label for='quantity-'{index}>Quantity:</label>
-    <input type='text' id='quantity-'{index} name='quantity'/>
-  {/each}
+  <button class='addNutrients' on:click|preventDefault={addNutrient}>Add Nutrient</button>
+  <div class='nutrientList' use:addNutrient>
+  </div>
   <hr>
   <input type='submit' value='Save' />
 </form>
 
 <style>
+  .nutrientList {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
   .addItem {
     float: right;
     margin: 1rem;

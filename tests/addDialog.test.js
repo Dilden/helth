@@ -24,11 +24,12 @@ test.describe('add items dialog', () => {
 
     test('clicking Add Nutrient adds more inputs to the form', async ({ page }) => {
 
+      await page.getByRole('button', { name: 'Add Item'}).click();
       await page.getByRole('button', { name: 'Add Nutrient'}).click();
       await page.getByRole('button', { name: 'Add Nutrient'}).click();
-      await expect(page.getByLabel('Nutrient 1')).toBeVisible();
-      await expect(page.getByLabel('Nutrient 2')).toBeVisible();
-      await expect(page.getByLabel('Nutrient 3')).toBeVisible();
+      await expect(page.getByLabel('Name 1')).toBeVisible();
+      await expect(page.getByLabel('Name 2')).toBeVisible();
+      await expect(page.getByLabel('Name 3')).toBeVisible();
     })
 
     // test.skip('scanning item adds it to inventory', async ({ page }) => {
