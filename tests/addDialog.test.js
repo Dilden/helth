@@ -43,7 +43,9 @@ test.describe('add items dialog', () => {
 
       // won't refresh because this isn't being added via a $ store
       // it's being inserted into the DB via a call to the DB.add()
-      expect(page.getByText('Sample Item X')).toBeVisible();
+      await page.reload();
+      await page.getByRole('button', { name: '➕' }).click();
+      await expect(page.getByText('Sample Item X')).toBeVisible();
     })
 
     // test.skip('scanning item adds it to inventory', async ({ page }) => {
