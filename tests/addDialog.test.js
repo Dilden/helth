@@ -32,6 +32,20 @@ test.describe('add items dialog', () => {
       await expect(page.getByLabel('Name 3')).toBeVisible();
     })
 
+    test('manually adding an item to the inventory shows it on the page', async ({ page }) => {
+      await page.getByRole('button', { name: 'Add Item'}).click();
+      await page.getByLabel('Title').fill('Sample Item X');
+      await page.getByLabel('Barcode').fill('123456789012');
+      await page.getByLabel('Description').fill('This item represents a sample item');
+      await page.getByLabel('Name 1').fill('Calories');
+      await page.getByLabel('Quantity 1').fill('100');
+      await page.getByRole('button', {name: 'Save'}).click();
+
+      // won't refresh because this isn't being added via a $ store
+      // it's being inserted into the DB via a call to the DB.add()
+      expect(page.getByText('Sample Item X')).toBeVisible();
+    })
+
     // test.skip('scanning item adds it to inventory', async ({ page }) => {
 
     // })

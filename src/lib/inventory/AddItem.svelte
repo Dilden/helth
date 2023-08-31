@@ -1,4 +1,7 @@
 <script>
+  import { addInventory } from '$stores/db.js';
+  import { formValues } from '$utils/formValues.js';
+
   import AddNutrientInputs from './AddNutrientInputs.svelte';
   let formVisible = false;
   $: count = 0;
@@ -12,11 +15,17 @@
       }
     })
   }
+
+  const handleSubmit = async (event) => {
+    const vals = formValues( event.target );
+    await addInventory(vals);
+  }
+
 </script>
 
 <button class='addItem' on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
 
-<form name='AddItem' method='POST' class={formVisible ? 'showForm' : ''} >
+<form name='AddItem' on:submit|preventDefault={handleSubmit} class={formVisible ? 'showForm' : ''} >
   <label for='title'>Title</label>
   <input type='text' id='title' name='title'/>
 
@@ -38,10 +47,15 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    max-height: 15rem;
+    overflow-y: scroll;
   }
   .addItem {
     float: right;
     margin: 1rem;
+  }
+  .addNutrients {
+    float: right;
   }
   form {
     display: none;
