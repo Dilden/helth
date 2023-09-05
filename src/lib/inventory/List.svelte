@@ -9,8 +9,8 @@
 {#await inventory.init()}
   <Spinner />
 {:then}
-  {#if inventory}
-    {#each $inventory as item}
+  {#if $inventory.length}
+    {#each $inventory.reverse() as item}
       <li>
         <Item title={item.title} />
       </li>
