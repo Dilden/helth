@@ -1,18 +1,24 @@
 <script>
   import Item from './Item.svelte';
-  export let inventory = [];
-
+  import Spinner from '$lib/Spinner.svelte';
+  import { inventory } from '$stores/stores.js';
 </script>
 
 <h3>Saved Items</h3>
 <ul aria-label='inventory-list'>
-{#if inventory}
-  {#each inventory as item}
-    <li>
-      <Item title={item.title} />
-    </li>
-  {/each}
-{/if}
+{#await inventory.init()}
+  <Spinner />
+{:then}
+  {#if inventory}
+    {#each $inventory as item}
+      <li>
+        <Item title={item.title} />
+      </li>
+    {/each}
+  {/if}
+{:catch error}
+  <p>Error displaying inventory: {error}</p>
+{/await}
 </ul>
 <style>
   ul {

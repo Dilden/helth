@@ -41,10 +41,6 @@ test.describe('add items dialog', () => {
       await page.getByLabel('Quantity 1').fill('100');
       await page.getByRole('button', {name: 'Save'}).click();
 
-      // won't refresh because this isn't being added via a $ store
-      // it's being inserted into the DB via a call to the DB.add()
-      await page.reload();
-      await page.getByRole('button', { name: '➕' }).click();
       await expect(page.getByText('Sample Item X')).toBeVisible();
     })
 
@@ -53,8 +49,7 @@ test.describe('add items dialog', () => {
     // })
 
     // test.skip('add item in inventory to daily total', async ({ page }) => {
-    //   openDialog(page);
-    //   // await page.getByRole('button', {name: '🖉'}).filter()
+    //   await page.getByRole('button', {name: '🖉'}).filter()
     // })
     // test.skip('edit item in inventory', async ({ page }) => {
     //   openDialog(page);

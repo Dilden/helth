@@ -64,8 +64,29 @@ function createNameValueStore(tableName) {
   }
 }
 
+function createInventoryStore() {
+  const store = writable({});
+
+  return {
+    ...store,
+    init: async () => {
+      const items = dbfun.getInventory();
+      items.then(values => {
+        (values) ? store.set(values) : store.set([]);
+      })
+      return items;
+    },
+    set: async (newVal) => {
+      dbfun.addInventory(newVal);
+      store.set(await dbfun.getInventory());
+    }
+  }
+}
+
 export const today = createTodayStore();
 export const history = createHistoryStore();
 export const settings = createNameValueStore('settings');
 export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
+export const inventory = createInventoryStore();
+
