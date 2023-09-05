@@ -1,5 +1,5 @@
 <script>
-  import { addInventory } from '$stores/db.js';
+  import { inventory } from '$stores/stores.js';
   import { formValues } from '$utils/formValues.js';
 
   import AddNutrientInputs from './AddNutrientInputs.svelte';
@@ -15,10 +15,9 @@
       }
     })
   }
-
   const handleSubmit = async (event) => {
     const vals = formValues( event.target );
-    await addInventory(vals);
+    $inventory = vals;
   }
 
 </script>
