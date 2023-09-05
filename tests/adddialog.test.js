@@ -32,7 +32,7 @@ test.describe('add items dialog', () => {
       await expect(page.getByLabel('Name 3')).toBeVisible();
     })
 
-    test('manually adding an item to the inventory shows it on the page', async ({ page }) => {
+    test('manually adding an item to the inventory shows it on the page and clears inputs', async ({ page }) => {
       await page.getByRole('button', { name: 'Add Item'}).click();
       await page.getByLabel('Title').fill('Sample Item X');
       await page.getByLabel('Barcode').fill('123456789012');
@@ -42,6 +42,7 @@ test.describe('add items dialog', () => {
       await page.getByRole('button', {name: 'Save'}).click();
 
       await expect(page.getByText('Sample Item X')).toBeVisible();
+      await expect(page.getByLabel('Title')).toBeEmpty();
     })
 
     // test.skip('scanning item adds it to inventory', async ({ page }) => {

@@ -18,6 +18,7 @@
   const handleSubmit = async (event) => {
     const vals = formValues( event.target );
     $inventory = vals;
+    event.target.reset();
   }
 
 </script>
