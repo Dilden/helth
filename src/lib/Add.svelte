@@ -5,7 +5,6 @@ import Inventory from '$lib/inventory/List.svelte';
 import Modal from '$lib/Modal.svelte';
 import {Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
 
-export let inventory;
 </script>
 
 <Modal>
@@ -17,7 +16,7 @@ export let inventory;
     </TabList>
     <TabPanel>
       <AddItem />
-      <Inventory {inventory}/>
+      <Inventory />
     </TabPanel>
     <TabPanel>
       Recipes Go Here
