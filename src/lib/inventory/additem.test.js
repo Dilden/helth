@@ -8,11 +8,7 @@ describe('add item to inventory form', () => {
   it('has a button + form', () => {
     render(AddItem);
     expect(screen.queryByRole('button', { name: 'Add Item'})).toBeVisible();
-    expect(screen.queryByLabelText('Title').parentNode).toBeVisible();
-  });
-  it('has a button to add nutrients', () => {
-    render(AddItem);
-    expect(screen.queryByRole('button', { name: 'Add Nutrient'})).toBeVisible();
+    expect(screen.queryByLabelText('Name').parentNode).toBeVisible();
   });
 })
 

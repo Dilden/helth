@@ -14,35 +14,27 @@ test.describe('add items dialog', () => {
     });
 
     test('add items to inventory form is hidden by default', async ({ page }) => {
-      await expect(page.getByLabel('Title')).not.toBeVisible();
+      await expect(page.getByLabel('Name')).not.toBeVisible();
     });
 
     test('clicking Add Item shows form inputs', async ({ page }) => {
       await page.getByRole('button', { name: 'Add Item'}).click();
-      await expect(page.getByLabel('Title')).toBeVisible();
-    })
-
-    test('clicking Add Nutrient adds more inputs to the form', async ({ page }) => {
-
-      await page.getByRole('button', { name: 'Add Item'}).click();
-      await page.getByRole('button', { name: 'Add Nutrient'}).click();
-      await page.getByRole('button', { name: 'Add Nutrient'}).click();
-      await expect(page.getByLabel('Name 1')).toBeVisible();
-      await expect(page.getByLabel('Name 2')).toBeVisible();
-      await expect(page.getByLabel('Name 3')).toBeVisible();
+      await expect(page.getByLabel('Name')).toBeVisible();
+      await expect(page.getByLabel('Added Sugars')).toBeVisible();
+      await expect(page.getByLabel('Iron')).toBeVisible();
     })
 
     test('manually adding an item to the inventory shows it on the page and clears inputs', async ({ page }) => {
       await page.getByRole('button', { name: 'Add Item'}).click();
-      await page.getByLabel('Title').fill('Sample Item X');
+      await page.getByLabel('Name').fill('Sample Item X');
       await page.getByLabel('Barcode').fill('123456789012');
       await page.getByLabel('Description').fill('This item represents a sample item');
-      await page.getByLabel('Name 1').fill('Calories');
-      await page.getByLabel('Quantity 1').fill('100');
+      await page.getByLabel('Calories').fill('100');
+      await page.getByLabel('Added Sugars').fill('10');
       await page.getByRole('button', {name: 'Save'}).click();
 
       await expect(page.getByText('Sample Item X')).toBeVisible();
-      await expect(page.getByLabel('Title')).toBeEmpty();
+      await expect(page.getByLabel('Name')).toBeEmpty();
     })
 
     // test.skip('scanning item adds it to inventory', async ({ page }) => {

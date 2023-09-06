@@ -4,14 +4,14 @@ import AddNutrientInputs from './AddNutrientInputs.svelte';
 
 
 describe('add nutrients to an item form inputs', () => {
-  it('has 2 inputs', () => {
+  it('has a section title', () => {
     render(AddNutrientInputs);
-    expect(screen.getByLabelText('Name 1')).toBeVisible();
-    expect(screen.getByLabelText('Quantity 1')).toBeVisible();
-  });
-  it('has input names based on count passed in', () => {
-    render(AddNutrientInputs, {count: 4});
-    expect(screen.getByLabelText('Name 4')).toBeVisible();
-    expect(screen.getByLabelText('Quantity 4')).toBeVisible();
+    expect(screen.getByRole('heading', {name: 'Nutrients'})).toBeVisible();
+  })
+  it('has inputs for each tracked nutrient', () => {
+    render(AddNutrientInputs);
+    expect(screen.getByLabelText('Calories')).toBeVisible();
+    expect(screen.getByLabelText('Cholesterol')).toBeVisible();
+    expect(screen.getByLabelText('Total Sugars')).toBeVisible();
   });
 })
