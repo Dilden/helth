@@ -1,4 +1,4 @@
-import { formatSource1, formatSource2 } from '$utils/nutrients';
+import { formatSource1, formatSource2 } from '$utils/sources.js';
 
 export async function GET({ url }) {
   // SvelteKit server endpoints must return a Response object

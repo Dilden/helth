@@ -1,43 +1,92 @@
-import { camelCase } from '$utils/camelCase';
-
-export const formatSource1 = async (id) => {
-  return fetch(`https://redsky.target.com/redsky_aggregations/v1/web/pdp_client_v1?tcin=${id}&pricing_store_id=530&store_id=530&key=5d546952f5059b16db4aa90913e56d09d3ff2aa4`)
-    .then(response => response.json())
-    .then(json => {
-      let nutrientsArr = json.data.product.item.enrichment.nutrition_facts.value_prepared_list[0].nutrients;
-      const nutrientsObj = nutrientsArr.reduce(
-        (resultObj, currentObj) => 
-        ({ ...resultObj, [camelCase(currentObj.name)]: currentObj }),
-        {}
-      );
-      const item = {
-        barcode: json.data.product.item.primary_barcode,
-        title: json.data.product.item.product_description.title,
-        description: json.data.product.item.product_description.downstream_description,
-        nutrients: nutrientsObj
-      }
-      return item;
-    });
-}
-
-export const formatSource2 = (data) => {
-
-  console.log(data.data);
-  const nutrientsObj = Object.keys(data.data.product_details.nutrition_labels)
-    .reduce((result, key) => {
-      result[camelCase(key)] = data[key];
-      if(Object.hasOwn(result[camelCase(key)], 'total_quantity')) {
-        result[camelCase(key)].quantity = result[camelCase(key)].total_quantity;
-        delete result[camelCase(key)].total_quantity;
-      }
-      return result;
-    }, {});
-
-  const item = {
-    barcode: data.data.product_details.upc,
-    title: data.data.product_details.brand_name + ' ' + data.data.product_details.product_name,
-    description: data.data.product_details.product_description,
-    nutrients: nutrientsObj
+export const list = {
+  added_sugars: {
+    name: 'Added Sugars',
+    quantity: '',
+    unit: 'g'
+  },
+  calcium: {
+    name: 'Calcium',
+    quantity: '',
+    unit: 'mg'
+  },
+  calories: {
+    name: 'Calories',
+    quantity: '',
+    unit: 'kcal'
+  },
+  cholesterol: {
+    name: 'Cholesterol',
+    quantity: '',
+    unit: 'mg'
+  },
+  fiber: {
+    name: 'Fiber',
+    quantity: '',
+    unit: 'g'
+  },
+  iron: {
+    name: 'Iron',
+    quantity: '',
+    unit: 'mg'
+  },
+  potassium: {
+    name: 'Potassium',
+    quantity: '',
+    unit: 'mg'
+  },
+  protein: {
+    name: 'Protein',
+    quantity: '',
+    unit: 'g'
+  },
+  saturated_fat: {
+    name: 'Saturated Fat',
+    quantity: '',
+    unit: 'g'
+  },
+  sodium: {
+    name: 'Sodium',
+    quantity: '',
+    unit: 'mg'
+  },
+  total_sugar: {
+    name: 'Total Sugars',
+    quantity: '',
+    unit: 'g'
+  },
+  trans_fat: {
+    name: 'Trans Fat',
+    quantity: '',
+    unit: 'g'
+  },
+  total_carbohydrate: {
+    name: 'Total Carbohydrate',
+    quantity: '',
+    unit: 'g'
+  },
+  total_fat: {
+    name: 'Total Fat',
+    quantity: '',
+    unit: 'g'
+  },
+  vitamin_a: {
+    name: 'Vitamin A',
+    quantity: '',
+    unit: 'mcg'
+  },
+  vitamin_b: {
+    name: 'Vitamin B',
+    quantity: '',
+    unit: 'mcg'
+  },
+  vitamin_c: {
+    name: 'Vitamin C',
+    quantity: '',
+    unit: 'mcg'
+  },
+  vitamin_d: {
+    name: 'Vitamin D',
+    quantity: '',
+    unit: 'mcg'
   }
-  return item;
-}
+};
