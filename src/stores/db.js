@@ -59,7 +59,7 @@ db.version(1).stores({
 });
 
 db.version(2).stores({
-  inventory: '++id, &barcode, title, description, nutrients'
+  inventory: '++id, &barcode, name, description, nutrients'
 })
 
 export const dbopen = db.open().then(() => {
