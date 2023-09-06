@@ -12,7 +12,7 @@ export const formatSource1 = async (id) => {
       );
       const item = {
         barcode: json.data.product.item.primary_barcode,
-        title: json.data.product.item.product_description.title,
+        name: json.data.product.item.product_description.title,
         description: json.data.product.item.product_description.downstream_description,
         nutrients: nutrientsObj
       }
@@ -35,7 +35,7 @@ export const formatSource2 = (data) => {
 
   const item = {
     barcode: data.data.product_details.upc,
-    title: data.data.product_details.brand_name + ' ' + data.data.product_details.product_name,
+    name: data.data.product_details.brand_name + ' ' + data.data.product_details.product_name,
     description: data.data.product_details.product_description,
     nutrients: nutrientsObj
   }
