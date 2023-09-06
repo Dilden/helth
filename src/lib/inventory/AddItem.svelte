@@ -18,19 +18,19 @@
 <form name='AddItem' on:submit|preventDefault={handleSubmit} class={formVisible ? 'showForm' : ''} >
   <span class='name'>
     <label for='name'>Name</label>
-    <input type='text' id='name' name='name'/>
+    <input type='text' id='name' name='name' required/>
   </span>
 
   <span class='description'>
     <label for='description'>Description</label>
-    <input type='textarea' id='description' name='description'/>
+    <input type='textarea' id='description' name='description' required/>
   </span>
 
   <span class='barcode'>
     <label for='barcode' >Barcode</label>
     <input type='text' id='barcode' name='barcode' placeholder='UPC/Unique ID' />
   </span>
-    <AddNutrientInputs />
+  <AddNutrientInputs />
   <input type='submit' value='Save' />
 </form>
 

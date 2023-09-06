@@ -8,14 +8,14 @@
     Nutrients
   </h4>
   <em>Enter quantities based on individual serving size</em>
-  <div class='nutrientList'>
+  <fieldset class='nutrientList'>
     {#each Object.keys(list) as nutrient, index}
       <span class='nutrient {nutrient} {index % 2 ? "even" : "odd"}'>
         <label for='{nutrient}'>{list[nutrient].name}</label>
         <input id='{nutrient}' name='{nutrient}' type='text' placeholder='{list[nutrient].unit}' value='{ list[nutrient].quantity }'/>
       </span>
     {/each}
-  </div>
+  </fieldset>
   <hr>
 </div>
 
