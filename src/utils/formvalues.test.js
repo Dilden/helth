@@ -4,25 +4,43 @@ import { formValues } from '$utils/formValues.js';
 const sample = {
   elements: {
     0: {
-      name: 'Albert',
+      name: 'name',
       type: 'text',
-      value: 'Testing Value'
+      value: 'New inventory item'
     },
     1: {
-      name: 'Bobert',
+      name: 'description',
       type: 'text',
-      value: 'Testing Value 2'
+      value: 'Item description'
     },
-    length: 2
+    2: {
+      name: '',
+      type: 'fieldset'
+    },
+    3: {
+      name: 'calories',
+      type: 'text',
+      value: '100'
+    },
+    4: {
+      name: 'added_sugars',
+      type: 'text',
+      value: '10'
+    },
+    length: 5
   }
 }
 
 describe('form values', () => {
-  it('returns an object of key:value pairs from the form values', async () => {
+  it('returns an object of key:value pairs + nested nutrients object from the form values', async () => {
     const results = formValues(sample);
     expect(results).toEqual({ 
-      'Albert': 'Testing Value',
-      'Bobert': 'Testing Value 2' 
+      'name': 'New inventory item',
+      'description': 'Item description',
+      'nutrients': {
+        'calories': '100',
+        'added_sugars': '10' 
+      }
     })
-  })
+  });
 })
