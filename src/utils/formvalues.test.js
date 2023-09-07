@@ -38,8 +38,16 @@ describe('form values', () => {
       'name': 'New inventory item',
       'description': 'Item description',
       'nutrients': {
-        'calories': '100',
-        'added_sugars': '10' 
+        calories: {
+          name: 'Calories',
+          quantity: '100',
+          unit: 'kcal'
+        },
+        added_sugars: {
+          name: 'Added Sugars',
+          quantity: '10',
+          unit: 'mg'
+        }
       }
     })
   });

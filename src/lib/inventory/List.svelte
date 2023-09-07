@@ -12,7 +12,7 @@
   {#if $inventory.length}
     {#each $inventory.reverse() as item}
       <li>
-        <Item name={item.name} />
+        <Item {item} />
       </li>
     {/each}
   {/if}

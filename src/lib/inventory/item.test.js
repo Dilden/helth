@@ -4,20 +4,43 @@ import Item from './Item.svelte';
 
 describe('inventory items', () => {
   it('shows an item with title', () => {
-    render(Item, { name: 'Coca-Cola'});
+    render(Item, { item: { name: 'Coca-Cola' } });
     expect(screen.queryByText('Coca-Cola')).toBeVisible();
   })
   it('shows actionable buttons on an item', () => {
-    render(Item, { name: 'Coca-Cola'});
+    render(Item, { item: { name: 'Coca-Cola' } });
 
     const buttons = screen.queryAllByRole('button');
     const buttonTypes = buttons.map(button => button.textContent);
 
     expect(buttonTypes).toEqual([
       expect.stringContaining('➕'),
-      expect.stringContaining('🖉'),
+      expect.stringContaining('✏️'),
       expect.stringContaining('📑'),
       expect.stringContaining('🗑️')
     ])
+  })
+  it('shows several nutrients listed below name', () => {
+    render(Item, { 
+      item: { 
+        name: 'Coca-Cola',
+        nutrients: {
+          calories: {
+            name: 'Calories',
+            quantity: '200',
+            unit: 'kcal'
+          },
+          added_sugars: {
+            name: 'Added Sugars',
+            quantity: '300',
+            unit: 'mg'
+          }
+        }
+      }
+    });
+
+    expect(screen.getByText('Calories: 200mg')).toBeVisible();
+    expect(screen.getByText('Added Sugars: 300mg')).toBeVisible();
+
   })
 })
