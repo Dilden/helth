@@ -33,14 +33,14 @@ describe('inventory items', () => {
           added_sugars: {
             name: 'Added Sugars',
             quantity: '300',
-            unit: 'mg'
+            unit: 'g'
           }
         }
       }
     });
 
-    expect(screen.getByText('Calories: 200mg')).toBeVisible();
-    expect(screen.getByText('Added Sugars: 300mg')).toBeVisible();
+    expect(screen.getByText('Calories: 200kcal')).toBeVisible();
+    expect(screen.getByText('Added Sugars: 300g')).toBeVisible();
 
   })
 })

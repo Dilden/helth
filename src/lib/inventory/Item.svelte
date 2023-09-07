@@ -4,11 +4,13 @@
 
 <h4>{item.name}</h4>
 <div>
+  <div class='description'>{item.description}</div>
   {#if item.nutrients}
+    <ul>
     {#each Object.values(item.nutrients) as nutrient}
-{nutrient}
-      <em>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</em>
+      <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
     {/each}
+    </ul>
   {/if}
 </div>
 <button title='Add to Daily Total'>➕</button><!--add to daily total -->
@@ -17,6 +19,23 @@
 <button class='delete' title='Delete'>🗑️</button> <!-- remove from db -->
 
 <style>
+  h4 {
+    margin-left: 0;
+    margin-bottom: .4em;
+  }
+  .description {
+    font-size: .9em;
+  }
+  ul {
+    list-style: none;
+    text-align: center;
+  }
+  ul li {
+    font-size: .8em;
+    font-style: italic;
+    display: inline-block;
+    margin: 0 1em;
+  }
   .delete {
     float: right;
   }
