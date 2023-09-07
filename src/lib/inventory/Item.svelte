@@ -1,5 +1,10 @@
 <script>
+  import {success, error, info} from '$utils/toast.js';
   export let item;
+
+  const addToToday = (counts) => {
+    success('Added to daily total!')
+  }
 </script>
 
 <h4>{item.name}</h4>
@@ -13,7 +18,7 @@
     </ul>
   {/if}
 </div>
-<button title='Add to Daily Total'>➕</button><!--add to daily total -->
+<button on:click={addToToday} title='Add to Daily Total'>➕</button><!--add to daily total -->
 <button title='Edit Item'>✏️</button> <!-- edit  -->
 <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
 <button title='Delete Item from Inventory'>🗑️</button> <!-- remove from db -->
