@@ -23,6 +23,7 @@
 <style>
   ul {
     list-style: none;
+    margin-bottom: 2rem;
   }
   li {
     margin: .75rem;
