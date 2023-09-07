@@ -20,6 +20,9 @@
 </div>
 
 <style>
+  h4 {
+    margin-left: 0;
+  }
   .nutrientInputs {
     grid-column-start: 1;
     grid-column-end: 4;
@@ -30,12 +33,15 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    gap: 15px;
     max-height: 20 rem;
     overflow-y: scroll;
+    border: none;
+    margin: 0;
+    padding: .25rem 0;
   }
   .nutrient {
     padding: .25rem;
-    margin: .5rem;
   }
   .nutrient.odd {
     background-color: var(--secondary-back-color);

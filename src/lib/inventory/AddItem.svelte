@@ -22,7 +22,7 @@
 
   <span class='description'>
     <label for='description'>Description</label>
-    <input type='textarea' id='description' name='description' required/>
+    <input type='text' id='description' name='description' required/>
   </span>
 
   <span class='barcode'>
@@ -70,7 +70,7 @@
   @media screen and (max-width: 900px) {
     .showForm {
       grid-template-columns: 1fr;
-      grid-template-rows: .5fr .5fr 1fr 5fr .5fr;
+      grid-template-rows: .25fr .25fr .25fr 5fr .25fr;
     }
     .name, .description, .barcode, input[type='submit'] {
       grid-column-start: 1;
