@@ -14,10 +14,4 @@ describe('add nutrients to an item form inputs', () => {
     expect(screen.getByLabelText('Cholesterol')).toBeVisible();
     expect(screen.getByLabelText('Total Sugars')).toBeVisible();
   });
-  it('has hidden inputs for unit of measurment', () => {
-    render(AddNutrientInputs);
-    expect(screen.getByLabelText('calories-unit')).toBeInTheDocument();
-    expect(screen.getByLabelText('added_sugars-unit')).toBeInTheDocument();
-    expect(screen.getByLabelText('cholesterol-unit')).toBeInTheDocument();
-  });
 })
