@@ -46,7 +46,7 @@ describe('form values', () => {
         added_sugars: {
           name: 'Added Sugars',
           quantity: '10',
-          unit: 'mg'
+          unit: 'g'
         }
       }
     })
