@@ -16,7 +16,7 @@
 <button title='Add to Daily Total'>➕</button><!--add to daily total -->
 <button title='Edit Item'>✏️</button> <!-- edit  -->
 <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
-<button class='delete' title='Delete'>🗑️</button> <!-- remove from db -->
+<button title='Delete Item from Inventory'>🗑️</button> <!-- remove from db -->
 
 <style>
   h4 {
@@ -36,7 +36,7 @@
     display: inline-block;
     margin: 0 1em;
   }
-  .delete {
-    float: right;
+  button {
+    margin: 0 .5rem;
   }
 </style>
