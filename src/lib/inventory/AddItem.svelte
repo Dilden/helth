@@ -10,7 +10,6 @@
     $inventory = vals;
     event.target.reset();
   }
-
 </script>
 
 <button class='addItem' on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
@@ -36,7 +35,7 @@
 
 <style>
   .addItem {
-    float: right;
+    /* float: right; */
     margin: 1rem;
   }
   form {
@@ -47,19 +46,19 @@
     margin: .5rem;
     display: block;
   }
-  form .name {
+  .name {
     grid-column-start: 1;
     grid-column-end: 2;
   }
-  form .description {
+  .description {
     grid-column-start: 2;
     grid-column-end: 3;
   }
-  form .barcode {
+  .barcode {
     grid-column-start: 3;
     grid-column-end: 4;
   }
-  form input[type='submit'] {
+  input[type='submit'] {
     grid-column-start: 2;
     grid-column-end: 3;
   }
@@ -67,5 +66,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 5fr .5fr;
+  }
+  @media screen and (max-width: 900px) {
+    .showForm {
+      grid-template-columns: 1fr;
+      grid-template-rows: .5fr .5fr 1fr 5fr .5fr;
+    }
+    .name, .description, .barcode, input[type='submit'] {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
   }
 </style>
