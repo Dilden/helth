@@ -13,6 +13,8 @@
       <span class='nutrient {nutrient} {index % 2 ? "even" : "odd"}'>
         <label for='{nutrient}'>{list[nutrient].name}</label>
         <input id='{nutrient}' name='{nutrient}' type='text' placeholder='{list[nutrient].unit}' value='{ list[nutrient].quantity }'/>
+        
+        <input id='{nutrient}-unit' aria-label='{nutrient}-unit' name='{nutrient}-unit' type='hidden' value='{ list[nutrient].unit }'/>
       </span>
     {/each}
   </fieldset>
