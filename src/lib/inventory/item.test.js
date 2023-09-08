@@ -1,3 +1,4 @@
+import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import Item from './Item.svelte';
