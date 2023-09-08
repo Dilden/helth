@@ -15,6 +15,7 @@ test.describe('add items dialog', () => {
 
     test('add items to inventory form is hidden by default', async ({ page }) => {
       await expect(page.getByLabel('Name')).not.toBeVisible();
+      await expect(page.getByLabel('Calories')).not.toBeVisible();
     });
 
     test('clicking Add Item shows form inputs', async ({ page }) => {
@@ -24,37 +25,50 @@ test.describe('add items dialog', () => {
       await expect(page.getByLabel('Iron')).toBeVisible();
     })
 
-    test('manually adding an item to the inventory shows it on the page and clears inputs', async ({ page }) => {
-      await page.getByRole('button', { name: 'Add Item'}).click();
-      await page.getByLabel('Name').fill('Sample Item X');
-      await page.getByLabel('Barcode').fill('123456789012');
-      await page.getByLabel('Description').fill('This item represents a sample item');
-      await page.getByLabel('Calories').fill('100');
-      await page.getByLabel('Added Sugars').fill('10');
-      await page.getByRole('button', {name: 'Save'}).click();
+    // run the next few tests in sequence
+    test.describe('item management', () => {
+      test.describe.configure({ mode: 'serial'});
+      
+      let page;
+      test.beforeAll(async ({browser}) => {
+        page = await browser.newPage();
+        await page.goto('/');
+        await page.getByRole('button', { name: '➕' }).click();
+      })
 
-      await expect(page.getByText('Sample Item X')).toBeVisible();
-      await expect(page.getByLabel('Name')).toBeEmpty();
-    })
+      test('manually adding an item to the inventory shows it on the page and clears inputs', async () => {
+        await page.getByRole('button', { name: 'Add Item'}).click();
+        await page.getByLabel('Name').fill('Sample Item X');
+        await page.getByLabel('Barcode').fill('123456789012');
+        await page.getByLabel('Description').fill('This item represents a sample item');
+        await page.getByLabel('Calories').fill('100');
+        await page.getByLabel('Sodium').fill('20');
+        await page.getByLabel('Protein').fill('20');
+        await page.getByRole('button', {name: 'Save'}).click();
 
-    // test.skip('scanning item adds it to inventory', async ({ page }) => {
+        await expect(page.getByText('Sample Item X')).toBeVisible();
+        await expect(page.getByText('Sodium: 20mg')).toBeVisible();
+        await expect(page.getByLabel('Name')).toBeEmpty();
+      });
 
-    // })
+      test('add item in inventory to daily total', async () => {
+        await page.getByRole('button', {name: '➕'}).click();
+        await page.getByRole('button', {name: '➕'}).click();
+        await page.getByRole('button', {name: '❌'}).click();
 
-    // test.skip('add item in inventory to daily total', async ({ page }) => {
-    //   await page.getByRole('button', {name: '🖉'}).filter()
-    // })
-    // test.skip('edit item in inventory', async ({ page }) => {
-    //   openDialog(page);
-    //   // await page.getByRole('button', {name: '🖉'}).filter()
-    // })
-    // test.skip('delete item in inventory', async ({ page }) => {
-    //   openDialog(page);
-    //   // await page.getByRole('button', {name: '🖉'}).filter()
-    // })
-    // test.skip('user can manually add an item to inventory', () => {
-    //    
-    // })
+        expect(page.locator('#countValue').nth(1)).toHaveValue('200');
+        expect(page.locator('#countValue').nth(2)).toHaveValue('40');
+        
+      })
+      // test.skip('edit item in inventory', async ({ page }) => {
+      //   openDialog(page);
+      //   // await page.getByRole('button', {name: '🖉'}).filter()
+      // })
+      // test.skip('delete item in inventory', async ({ page }) => {
+      //   openDialog(page);
+      //   // await page.getByRole('button', {name: '🖉'}).filter()
+      // })
+    });
   })
 
   // test.describe('recipes', () => {

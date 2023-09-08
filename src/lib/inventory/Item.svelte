@@ -1,9 +1,25 @@
 <script>
   import {success, error, info} from '$utils/toast.js';
+  import { today } from '$stores/stores.js';
   export let item;
 
-  const addToToday = (counts) => {
-    success('Added to daily total!')
+  const addToToday = () => {
+    const nutrients = Object.keys(item.nutrients)
+    .reduce((accum, name) => { 
+      accum[name] = {};
+      accum[name] = item.nutrients[name].quantity;
+      return accum;
+    }, {});
+
+    try {
+      Object.keys(nutrients).map((index) => { 
+        $today[index] = $today[index] || 0;
+        $today[index] = $today[index] + Number(nutrients[index]); 
+      });
+      success('Added to daily total!')
+    } catch (err) {
+      error('Error adding to total!')
+    }
   }
 </script>
 
