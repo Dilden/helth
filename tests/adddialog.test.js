@@ -56,14 +56,22 @@ test.describe('add items dialog', () => {
         await page.getByRole('button', {name: '➕'}).click();
         await page.getByRole('button', {name: '❌'}).click();
 
-        expect(page.locator('#countValue').nth(1)).toHaveValue('200');
-        expect(page.locator('#countValue').nth(2)).toHaveValue('40');
+        await expect(page.locator('#countValue').nth(1)).toHaveValue('200');
+        await expect(page.locator('#countValue').nth(2)).toHaveValue('40');
         
       })
-      // test.skip('edit item in inventory', async ({ page }) => {
-      //   openDialog(page);
-      //   // await page.getByRole('button', {name: '🖉'}).filter()
-      // })
+      test('edit item in inventory', async ({ page }) => {
+        await page.getByRole('listitem')
+        .filter({hasText: 'Sample Item X'})
+        .getByRole('button', {name: '✏️'})
+        .click();
+
+
+        await page.getByLabel('Name').fill('New Sample Item');
+        await page.getByRole('button', {name: 'Save'}).click();
+
+        await expect(page.getByText('New Sample Item')).toBeVisible();
+      })
       // test.skip('delete item in inventory', async ({ page }) => {
       //   openDialog(page);
       //   // await page.getByRole('button', {name: '🖉'}).filter()

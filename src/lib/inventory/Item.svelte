@@ -1,16 +1,11 @@
 <script>
   import {success, error, info} from '$utils/toast.js';
+  import { nutrientsFromItem } from '$utils/item.js';
   import { today } from '$stores/stores.js';
   export let item;
 
   const addToToday = () => {
-    const nutrients = Object.keys(item.nutrients)
-    .reduce((accum, name) => { 
-      accum[name] = {};
-      accum[name] = item.nutrients[name].quantity;
-      return accum;
-    }, {});
-
+    const nutrients = nutrientsFromItem(item);
     try {
       Object.keys(nutrients).map((index) => { 
         $today[index] = $today[index] || 0;
@@ -20,6 +15,10 @@
     } catch (err) {
       error('Error adding to total!')
     }
+  }
+
+  const editItem = () => {
+    console.log('edit');
   }
 </script>
 
@@ -35,7 +34,7 @@
   {/if}
 </div>
 <button on:click={addToToday} title='Add to Daily Total'>➕</button><!--add to daily total -->
-<button title='Edit Item'>✏️</button> <!-- edit  -->
+<button on:click={editItem} title='Edit Item'>✏️</button> <!-- edit  -->
 <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
 <button title='Delete Item from Inventory'>🗑️</button> <!-- remove from db -->
 
