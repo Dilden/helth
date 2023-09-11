@@ -1,18 +1,20 @@
 <script>
   import { list } from '$utils/nutrients.js';
+
+  export let nutrients = {};
 </script>
 
-<div class='nutrientInputs'>
+<div class="nutrientInputs">
   <hr>
   <h4>
     Nutrients
   </h4>
   <em>Enter quantities based on individual serving size</em>
-  <fieldset class='nutrientList'>
+  <fieldset class="nutrientList">
     {#each Object.keys(list) as nutrient, index}
-      <span class='nutrient {nutrient} {index % 2 ? "even" : "odd"}'>
-        <label for='{nutrient}'>{list[nutrient].name}</label>
-        <input id='{nutrient}' name='{nutrient}' type='text' placeholder='{list[nutrient].unit}' value='{ list[nutrient].quantity }'/>
+      <span class="nutrient {nutrient} {index % 2 ? 'even' : 'odd'}">
+        <label for="{nutrient}">{list[nutrient].name}</label>
+        <input id="{nutrient}" name="{nutrient}" type="text" placeholder="{list[nutrient].unit}" value="{( nutrients[nutrient] ? nutrients[nutrient].quantity : '')}"/>
       </span>
     {/each}
   </fieldset>

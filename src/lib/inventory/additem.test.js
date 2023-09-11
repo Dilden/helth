@@ -10,6 +10,29 @@ describe('add item to inventory form', () => {
     expect(screen.queryByRole('button', { name: 'Add Item'})).toBeVisible();
     expect(screen.queryByLabelText('Name').parentNode).toBeVisible();
   });
+
+  it('populates the form when provided an item', () => {
+    const coke = { 
+      name: 'Coca-Cola',
+      description: 'tasty carbonated drink',
+      nutrients: {
+        calories: {
+          name: 'Calories',
+          quantity: '200',
+          unit: 'kcal'
+        },
+        added_sugars: {
+          name: 'Added Sugars',
+          quantity: '300',
+          unit: 'g'
+        }
+      }
+    }
+    render(AddItem, {item: coke});
+
+    expect(screen.queryByLabelText('Name')).toHaveValue('Coca-Cola');
+    expect(screen.queryByLabelText('Barcode')).toHaveValue('');
+  });
 })
 
 

@@ -1,8 +1,9 @@
 <script>
   import { inventory } from '$stores/stores.js';
   import { formValues } from '$utils/formValues.js';
-
   import AddNutrientInputs from './AddNutrientInputs.svelte';
+
+  export let item = {};
   let formVisible = false;
 
   const handleSubmit = async (event) => {
@@ -12,25 +13,25 @@
   }
 </script>
 
-<button class='addItem' on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
+<button class="addItem" on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
 
-<form name='AddItem' on:submit|preventDefault={handleSubmit} class={formVisible ? 'showForm' : ''} >
-  <span class='name'>
-    <label for='name'>Name</label>
-    <input type='text' id='name' name='name' required/>
+<form name="AddItem" on:submit|preventDefault={handleSubmit} class={formVisible ? 'showForm' : ''} >
+  <span class="name">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>
   </span>
 
-  <span class='description'>
-    <label for='description'>Description</label>
-    <input type='text' id='description' name='description' required/>
+  <span class="description">
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description" value={( item.description ? item.description : "")} required/>
   </span>
 
-  <span class='barcode'>
-    <label for='barcode' >Barcode</label>
-    <input type='text' id='barcode' name='barcode' placeholder='UPC/Unique ID' />
+  <span class="barcode">
+    <label for="barcode" >Barcode</label>
+    <input type="text" id="barcode" name="barcode" value={(item.barcode ? item.barcode : "")} placeholder="UPC/Unique ID" />
   </span>
-  <AddNutrientInputs />
-  <input type='submit' value='Save' />
+  <AddNutrientInputs nutrients={(item.nutrients ? item.nutrients : {})}/>
+  <input type="submit" value="Save" />
 </form>
 
 <style>
