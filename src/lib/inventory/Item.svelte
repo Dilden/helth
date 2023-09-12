@@ -2,6 +2,8 @@
   import {success, error, info} from '$utils/toast.js';
   import { nutrientsFromItem } from '$utils/item.js';
   import { today } from '$stores/stores.js';
+  import AddItem from '$lib/inventory/AddItem.svelte';
+
   export let item;
 
   const addToToday = () => {
@@ -17,8 +19,9 @@
     }
   }
 
+  let edit = false;
   const editItem = () => {
-    console.log('edit');
+    edit = !edit;
   }
 </script>
 
@@ -33,6 +36,9 @@
     </ul>
   {/if}
 </div>
+{#if edit}
+  <AddItem {item} />
+{/if}
 <button on:click={addToToday} title='Add to Daily Total'>➕</button><!--add to daily total -->
 <button on:click={editItem} title='Edit Item'>✏️</button> <!-- edit  -->
 <button title='Add to Recipe'>📑</button> <!-- add to recipe -->

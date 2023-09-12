@@ -1,6 +1,5 @@
 <script>
 import Barcode from '$lib/Barcode.svelte';
-import AddItem from '$lib/inventory/AddItem.svelte';
 import Inventory from '$lib/inventory/List.svelte';
 import Modal from '$lib/Modal.svelte';
 import {Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
@@ -15,7 +14,6 @@ import {Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
       <Tab>Scan</Tab>
     </TabList>
     <TabPanel>
-      <AddItem />
       <Inventory />
     </TabPanel>
     <TabPanel>

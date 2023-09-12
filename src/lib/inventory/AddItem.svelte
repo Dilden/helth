@@ -4,18 +4,19 @@
   import AddNutrientInputs from './AddNutrientInputs.svelte';
 
   export let item = {};
-  let formVisible = false;
 
-  const handleSubmit = async (event) => {
+  export const handleSubmit = async (event) => {
     const vals = formValues( event.target );
     $inventory = vals;
     event.target.reset();
   }
 </script>
 
-<button class="addItem" on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
-
-<form name="AddItem" on:submit|preventDefault={handleSubmit} class={formVisible ? 'showForm' : ''} >
+<form name="AddItem" on:submit|preventDefault={handleSubmit} >
+  <span class="id">
+    <label for="id">id</label>
+    <input type="hidden" id="id" name="id" value={( item.id ? item.id : "" )} />
+  </span>
   <span class="name">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>
@@ -35,17 +36,18 @@
 </form>
 
 <style>
-  .addItem {
-    /* float: right; */
-    margin: 1rem;
-  }
   form {
-    display: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 5fr .5fr;
     margin: 1rem;
   }
   form input, form label {
     margin: .5rem;
     display: block;
+  }
+  .id {
+    display: none;
   }
   .name {
     grid-column-start: 1;
@@ -63,13 +65,8 @@
     grid-column-start: 2;
     grid-column-end: 3;
   }
-  .showForm {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 5fr .5fr;
-  }
   @media screen and (max-width: 900px) {
-    .showForm {
+    form {
       grid-template-columns: 1fr;
       grid-template-rows: .25fr .25fr .25fr 5fr .25fr;
     }
