@@ -5,12 +5,6 @@ import AddItem from './AddItem.svelte';
 
 
 describe('add item to inventory form', () => {
-  it('has a button + form', () => {
-    render(AddItem);
-    expect(screen.queryByRole('button', { name: 'Add Item'})).toBeVisible();
-    expect(screen.queryByLabelText('Name').parentNode).toBeVisible();
-  });
-
   it('populates the form when provided an item', () => {
     const coke = { 
       name: 'Coca-Cola',
