@@ -43,9 +43,6 @@
     margin: .5rem;
     display: block;
   }
-  .id {
-    display: none;
-  }
   .name {
     grid-column-start: 1;
     grid-column-end: 2;
