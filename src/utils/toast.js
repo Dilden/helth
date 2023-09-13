@@ -1,4 +1,5 @@
 import { toast } from '@zerodevx/svelte-toast';
+import ConfirmDialog from '$lib/misc/ConfirmDialog.svelte';
 
 export const success = message => toast.push(message, {
   duration: 3000,
@@ -28,3 +29,23 @@ export const info = message => toast.push(message, {
     '--toastBarHeight': 0
   }
 });
+
+export const confirmDialog = ( message, confirm, deny ) => {
+    toast.push({
+      component: {
+        src: ConfirmDialog,
+        props: {
+          message: message,
+          callbackConfirm: confirm,
+          callbackDeny: deny,
+        }
+      },
+      dismissable: false,
+      initial: 0,
+      theme: {
+        '--toastBackground': '#3783F9',
+        '--toastColor': 'white',
+        '--toastBarHeight': 0
+      },
+    });
+}
