@@ -2,7 +2,9 @@
   import {success, error, info} from '$utils/toast.js';
   import { nutrientsFromItem } from '$utils/item.js';
   import { today } from '$stores/stores.js';
+  import { toast } from '@zerodevx/svelte-toast';
   import AddItem from '$lib/inventory/AddItem.svelte';
+  import ConfirmDialog from '$lib/inventory/ConfirmDialog.svelte';
 
   export let item;
 
@@ -23,6 +25,24 @@
   const editItem = () => {
     edit = !edit;
   }
+  const confirmDelete = () => {
+    toast.push({
+      component: {
+        src: ConfirmDialog,
+        props: {
+          message: 'Are you sure you want to delete this item?',
+          itemId: item.id
+        }
+      },
+      dismissable: false,
+      initial: 0,
+      theme: {
+        '--toastBackground': '#3783F9',
+        '--toastColor': 'white',
+        '--toastBarHeight': 0
+      }
+    });
+  }
 </script>
 
 <h4>{item.name}</h4>
@@ -42,7 +62,7 @@
 <button on:click={addToToday} title='Add to Daily Total'>➕</button><!--add to daily total -->
 <button on:click={editItem} title='Edit Item'>✏️</button> <!-- edit  -->
 <button title='Add to Recipe'>📑</button> <!-- add to recipe -->
-<button title='Delete Item from Inventory'>🗑️</button> <!-- remove from db -->
+<button on:click={confirmDelete} title='Delete Item from Inventory'>🗑️</button> <!-- remove from db -->
 
 <style>
   h4 {
