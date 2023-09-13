@@ -1,27 +1,17 @@
 <script>
-  import { success, error, info } from '$utils/toast.js';
   import { toast } from '@zerodevx/svelte-toast';
-  import { inventory } from '$stores/stores.js';
 
   export let message = '';
-  export let itemId = 0;
+  export let callbackConfirm = () => true;
+  export let callbackDeny = () => false;
 
   const yes = () => {
     toast.pop(0); // removes all toasts
-
-    inventory.delete(itemId)
-    .then((status) => {
-      console.log(status);
-      success('Removed item!');
-    })
-    .catch((status) => {
-      console.log(status);
-      error('Error deleting item!')
-    })
+    callbackConfirm();
   }
   const no = () => {
     toast.pop(0); // removes all toasts
-    info('Item not removed!')
+    callbackDeny();
   }
 </script>
 <div>
