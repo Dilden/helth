@@ -5,7 +5,7 @@
 
   export let item = {};
 
-  export const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     const vals = formValues( event.target );
     $inventory = vals;
     event.target.reset();
@@ -13,10 +13,7 @@
 </script>
 
 <form name="AddItem" on:submit|preventDefault={handleSubmit} >
-  <span class="id">
-    <label for="id">id</label>
-    <input type="hidden" id="id" name="id" value={( item.id ? item.id : "" )} />
-  </span>
+  <input type="hidden" id="id" name="id" value={( item.id ? item.id : "" )} />
   <span class="name">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>

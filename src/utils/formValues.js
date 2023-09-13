@@ -4,10 +4,10 @@ export const formValues = (formCollection) => {
   const formFields = formCollection.elements;
 
   const textValues = Object.values(formFields)
-  .filter((item) => (item.type === 'text'))
+  .filter((item) => (item.type === 'text' || item.type === 'hidden' ))
   .filter((item) => (item.value))
   .reduce((accum, current) => {
-    if( current.name!=='name' && current.name!=='description' && current.name!=='barcode' ) {
+    if( current.name!=='name' && current.name!=='description' && current.name!=='barcode' && current.name!=='id' ) {
       // if nutrients doesn't exist, create it
       accum['nutrients'] = accum['nutrients'] || {};
 
