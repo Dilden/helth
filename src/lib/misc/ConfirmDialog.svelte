@@ -6,11 +6,11 @@
   export let callbackDeny = () => false;
 
   const yes = () => {
-    toast.pop(0); // removes all toasts
+    toast.pop(); // removes all toasts
     callbackConfirm();
   }
   const no = () => {
-    toast.pop(0); // removes all toasts
+    toast.pop(); // removes all toasts
     callbackDeny();
   }
 </script>
