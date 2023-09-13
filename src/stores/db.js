@@ -225,3 +225,15 @@ export const addInventory = async (data) => {
   }
   return {};
 }
+export const updateInventory = async (id, data) => {
+  if(browser) {
+    return db.inventory.update(id, data);
+  }
+  return {};
+}
+export const deleteInventory = async (id) => {
+  if(browser) {
+    return db.inventory.delete(id);
+  }
+  return {};
+}

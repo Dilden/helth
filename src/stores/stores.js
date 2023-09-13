@@ -77,7 +77,18 @@ function createInventoryStore() {
       return items;
     },
     set: async (newVal) => {
-      dbfun.addInventory(newVal);
+      const id = newVal.id;
+      if(id) {
+        // console.log(newVal);
+        await dbfun.updateInventory(id, newVal)
+      }
+      else {
+        await dbfun.addInventory(newVal);
+      }
+      store.set(await dbfun.getInventory());
+    },
+    delete: async (id) => {
+      await dbfun.deleteInventory(id);
       store.set(await dbfun.getInventory());
     }
   }
