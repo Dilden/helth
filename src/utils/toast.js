@@ -45,7 +45,7 @@ export const confirmDialog = ( message, confirm, deny ) => {
       theme: {
         '--toastBackground': '#3783F9',
         '--toastColor': 'white',
-        '--toastBarHeight': 0
+        '--toastBarHeight': '0'
       },
     });
 }
