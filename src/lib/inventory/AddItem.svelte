@@ -4,11 +4,13 @@
   import AddNutrientInputs from './AddNutrientInputs.svelte';
 
   export let item = {};
+  export let submitCallback = () => false;
 
   const handleSubmit = (event) => {
     const vals = formValues( event.target );
     $inventory = vals;
     event.target.reset();
+    submitCallback();
   }
 </script>
 

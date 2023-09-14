@@ -1,7 +1,25 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
+import { click } from '@testing-library/user-event';
 import Item from './Item.svelte';
+
+const coke = { 
+  name: 'Coca-Cola',
+  description: 'a carbonated beverage that will rot your teeth',
+  nutrients: {
+    calories: {
+      name: 'Calories',
+      quantity: '200',
+      unit: 'kcal'
+    },
+    added_sugars: {
+      name: 'Added Sugars',
+      quantity: '300',
+      unit: 'g'
+    }
+  }
+};
 
 describe('inventory items', () => {
   it('shows an item with title', () => {
@@ -22,23 +40,7 @@ describe('inventory items', () => {
     ])
   })
   it('shows several nutrients listed below name', () => {
-    render(Item, { 
-      item: { 
-        name: 'Coca-Cola',
-        nutrients: {
-          calories: {
-            name: 'Calories',
-            quantity: '200',
-            unit: 'kcal'
-          },
-          added_sugars: {
-            name: 'Added Sugars',
-            quantity: '300',
-            unit: 'g'
-          }
-        }
-      }
-    });
+    render(Item, { item: coke });
 
     expect(screen.getByText('Calories: 200kcal')).toBeVisible();
     expect(screen.getByText('Added Sugars: 300g')).toBeVisible();

@@ -12,7 +12,7 @@
   <em>Enter quantities based on individual serving size</em>
   <fieldset class="nutrientList">
     {#each Object.keys(list) as nutrient, index}
-      <span class="nutrient {nutrient} {index % 2 ? 'even' : 'odd'}">
+      <span class="nutrient {nutrient}">
         <label for="{nutrient}">{list[nutrient].name}</label>
         <input id="{nutrient}" name="{nutrient}" type="text" placeholder="{list[nutrient].unit}" value="{( nutrients[nutrient] ? nutrients[nutrient].quantity : '')}"/>
       </span>
@@ -44,9 +44,6 @@
   }
   .nutrient {
     padding: .25rem;
-  }
-  .nutrient.odd {
-    background-color: var(--secondary-back-color);
   }
   .nutrient label, .nutrient input {
     display: block;

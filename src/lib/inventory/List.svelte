@@ -11,7 +11,7 @@
 <button on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
 
 <div class={formVisible ? 'showForm' : 'hideForm'} >
-  <AddItem />
+  <AddItem submitCallback={() => (formVisible = false)}/>
 </div>
 <h3>Saved Items</h3>
 <ul aria-label='inventory-list'>
@@ -21,7 +21,7 @@
   {#if $inventory.length}
     {#each $inventory.reverse() as item}
       <li>
-        <Item {item} />
+        <Item {item} bind:addForm={formVisible} />
       </li>
     {/each}
   {/if}
@@ -46,5 +46,9 @@
   }
   li {
     margin: .75rem;
+    padding: 1rem;
+  }
+  ul li:nth-child(odd) {
+    background: #1F2A2D;
   }
 </style>

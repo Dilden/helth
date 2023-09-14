@@ -1,12 +1,11 @@
 <script>
-  import {success, error, info} from '$utils/toast.js';
+  import {success, error, confirmDialog} from '$utils/toast.js';
   import { nutrientsFromItem } from '$utils/item.js';
-  import { today } from '$stores/stores.js';
-  import { toast } from '@zerodevx/svelte-toast';
+  import { today, inventory } from '$stores/stores.js';
   import AddItem from '$lib/inventory/AddItem.svelte';
-  import ConfirmDialog from '$lib/inventory/ConfirmDialog.svelte';
 
   export let item;
+  export let addForm;
 
   const addToToday = () => {
     const nutrients = nutrientsFromItem(item);
@@ -24,45 +23,38 @@
   let edit = false;
   const editItem = () => {
     edit = !edit;
+    addForm = false;
   }
   const confirmDelete = () => {
-    toast.push({
-      component: {
-        src: ConfirmDialog,
-        props: {
-          message: 'Are you sure you want to delete this item?',
-          itemId: item.id
-        }
-      },
-      dismissable: false,
-      initial: 0,
-      theme: {
-        '--toastBackground': '#3783F9',
-        '--toastColor': 'white',
-        '--toastBarHeight': 0
-      }
-    });
+    confirmDialog('Are you sure you want to delete this item?', deleteItem, () => false);
+  }
+
+  const deleteItem = () => {
+    inventory.delete(item.id)
+    .then(() => success('Removed item!'))
+    .catch(() => error('Error deleting item!'));
   }
 </script>
 
-<h4>{item.name}</h4>
-<div>
-  <div class='description'>{item.description}</div>
-  {#if item.nutrients}
-    <ul>
-    {#each Object.values(item.nutrients) as nutrient}
-      <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
-    {/each}
-    </ul>
-  {/if}
-</div>
 {#if edit}
-  <AddItem {item} />
+  <AddItem {item} submitCallback={editItem}/>
+{:else}
+  <h4>{item.name}</h4>
+  <div>
+    <div class="description">{item.description}</div>
+    {#if item.nutrients}
+      <ul>
+      {#each Object.values(item.nutrients) as nutrient}
+        <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
+      {/each}
+      </ul>
+    {/if}
+  </div>
 {/if}
-<button on:click={addToToday} title='Add to Daily Total'>➕</button><!--add to daily total -->
-<button on:click={editItem} title='Edit Item'>✏️</button> <!-- edit  -->
-<button title='Add to Recipe'>📑</button> <!-- add to recipe -->
-<button on:click={confirmDelete} title='Delete Item from Inventory'>🗑️</button> <!-- remove from db -->
+<button on:click={addToToday} title="Add to Daily Total">➕</button><!--add to daily total -->
+<button on:click={editItem} title="Edit Item">✏️</button> <!-- edit  -->
+<button title="Add to Recipe">📑</button> <!-- add to recipe -->
+<button on:click={confirmDelete} title="Delete Item from Inventory">🗑️</button> <!-- remove from db -->
 
 <style>
   h4 {
