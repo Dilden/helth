@@ -60,18 +60,19 @@ test.describe('add items dialog', () => {
         await expect(page.locator('#countValue').nth(2)).toHaveValue('40');
         
       })
-      // test.skip('edit item in inventory', async () => {
-      //   await page.getByRole('listitem')
-      //   .filter({hasText: 'Sample Item X'})
-      //   .getByRole('button', {name: '✏️'})
-      //   .click();
+      test('edit item in inventory', async () => {
+        await page.getByRole('button', {name: '➕'}).click();
+        await page.getByRole('listitem')
+        .filter({hasText: 'Sample Item X'})
+        .getByRole('button', {name: '✏️'})
+        .click();
 
 
-      //   await page.getByLabel('Name').fill('New Sample Item');
-      //   await page.getByRole('button', {name: 'Save'}).click();
+        await page.getByLabel('Name').fill('New Sample Item');
+        await page.getByRole('button', {name: 'Update'}).click();
 
-      //   await expect(page.getByText('New Sample Item')).toBeVisible();
-      // })
+        await expect(page.getByText('New Sample Item')).toBeVisible();
+      })
       test('delete item in inventory', async () => {
         await page.getByRole('button', {name: '➕'}).click();
         await page.getByRole('listitem')

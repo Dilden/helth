@@ -13,7 +13,7 @@
 </script>
 
 <form name="AddItem" on:submit|preventDefault={handleSubmit} >
-  <input type="hidden" id="id" name="id" value={( item.id ? item.id : "" )} />
+  <input type="hidden" id="id" name="id" value={item?.id} />
   <span class="name">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>
@@ -29,7 +29,7 @@
     <input type="text" id="barcode" name="barcode" value={(item.barcode ? item.barcode : "")} placeholder="UPC/Unique ID" />
   </span>
   <AddNutrientInputs nutrients={(item.nutrients ? item.nutrients : {})}/>
-  <input type="submit" value="Save" />
+  <input type="submit" value='{ item.id ? "Update" : "Save" }' />
 </form>
 
 <style>
