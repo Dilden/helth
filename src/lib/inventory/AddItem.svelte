@@ -13,7 +13,7 @@
 </script>
 
 <form name="AddItem" on:submit|preventDefault={handleSubmit} >
-  <input type="hidden" id="id" name="id" value={item?.id} />
+  <input type="hidden" id="id" name="id" value={( item.id ? item.id : "" )} />
   <span class="name">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>
