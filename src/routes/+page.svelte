@@ -4,8 +4,9 @@
   import Salt from '$lib/counts/Salt.svelte';
   import Protein from '$lib/counts/Protein.svelte';
   import Date from '$lib/Date.svelte';
-  import Barcode from '$lib/Barcode.svelte';
+  import Add from '$lib/Add.svelte';
 
+  export let data = [];
 </script>
 
 <Date />
@@ -18,7 +19,7 @@
   <div class="item"><Protein /></div>
 </div>
 
-<Barcode />
+<Add inventory={data.inventory}/>
 
 <style>
     h2 {

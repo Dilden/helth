@@ -1,7 +1,7 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
-  import Modal from '$lib/Modal.svelte';
   import { today } from '$stores/stores';
+  import { getInventory, addInventory } from '$stores/db';
 
   // scanner
   let selected;
@@ -16,9 +16,19 @@
         .then(result => fetch(`/upc?barcode=${result.getText()}`))
         .then(response => response.json())
         .then(val => {
-          $today.calories = $today.calories + val.calories.quantity;
-          $today.sodium = $today.sodium + val.sodium.quantity;
-          $today.protein = $today.protein + val.protein.quantity;
+
+          getInventory()
+            .then(data => {
+              if(!data
+                .map(item => item.barcode)
+                .includes(val.barcode)) {
+                addInventory(val);
+              }
+            });
+
+          $today.calories = $today.calories + val.nutrients.calories.quantity;
+          $today.sodium = $today.sodium + val.nutrients.sodium.quantity;
+          $today.protein = $today.protein + val.nutrients.protein.quantity;
           open = false;
           document.body.classList.remove('modal-open')
         })
@@ -33,59 +43,56 @@
   }
 </script>
 
-<Modal bind:open={open}>
-    <div class="scanner">
-        <video id="scanner" name="scanner"><track kind="captions" /></video>
-        {#await codeReader.listVideoInputDevices()}
-            <p>..waiting</p>
-        {:then inputs}
-            <div class="controls">
-                <label for="inputs">Select device</label>
-                <select
-                    id="inputs"
-                    name="inputs"
-                    bind:value={selected}
-                    on:change={() => scan()}
-                >
-                    {#each inputs as input}
-                        <option value={input}>{input.label}</option>
-                    {/each}
-                </select>
-                <button class="cancel_button" on:click={cancel}>❌ STOP</button>
-                <button class="scan_button" on:click={scan}>📷 SCAN</button>
+<div class="scanner">
+  <div class='vid'>
+    <video id="scanner" name="scanner"><track kind="captions" /></video>
+  </div>
+    {#await codeReader.listVideoInputDevices()}
+        <p>..waiting</p>
+    {:then inputs}
+        <div class="controls">
+            <label for="inputs">Select device</label>
+            <select id="inputs" name="inputs" bind:value={selected} on:change={() => scan()} >
+                {#each inputs as input}
+                    <option value={input}>{input.label}</option>
+                {/each}
+            </select>
+            <div class='buttons'>
+              <button class="cancel_button" on:click={cancel}>❌ STOP</button>
+              <button class="scan_button" on:click={scan}>📷 SCAN</button>
             </div>
-        {:catch error}
-            <p class=".error">oops!</p>
-        {/await}
-    </div>
-</Modal>
+        </div>
+    {:catch error}
+        <p class=".error">oops!</p>
+    {/await}
+</div>
 
 <style>
     .scanner {
         display: grid;
-        grid-template-rows: [video] 2fr [controls] 1fr [end] 25px;
+        grid-template-rows: [video] 90% [controls] 10% [end] 25px;
         column-gap: 5px;
         row-gap: 15px;
-        width: 100%;
-        height: 100%;
-        background: #34474c;
         padding: 0;
         overflow-y: scroll;
     }
-    video {
+    .vid {
         grid-row-start: 1;
         grid-row-end: 2;
-        display: block;
-        margin: 0 auto;
         width: 100%;
-        max-width: 1100px;
-        height: auto;
+        text-align: center;
+        margin: 0 auto;
+    }
+    video {
+      width: 100%;
+      max-height: 55vh;
     }
     .controls {
         display: grid;
         grid-row-start: 2;
         grid-row-end: 3;
         grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: 1fr 6fr 1fr;
         text-align: center;
         text-transform: uppercase;
         row-gap: 15px;
@@ -96,14 +103,14 @@
         font-size: 1.4em;
         grid-row-start: 1;
         grid-row-end: 1;
-        grid-column-start: 1;
+        grid-column-start: 2;
         grid-column-end: 3;
     }
     .controls select {
         border: solid 1px grey;
         grid-row-start: 2;
         grid-row-end: 2;
-        grid-column-start: 1;
+        grid-column-start: 2;
         grid-column-end: 3;
     }
     .controls button {
@@ -111,12 +118,20 @@
         grid-row-start: 3;
         grid-row-end: 4;
     }
-    .controls button.scan_button {
-        grid-column-start: 2;
-        grid-column-end: 3;
+    .buttons {
+      grid-column-start: 2;
+      grid-column-end: 3;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 10px;
     }
-    .controls button.cancel_button {
-        grid-column-start: 1;
-        grid-column-end: 2;
+    button.cancel_button {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    button.scan_button {
+      grid-column-start: 2;
+      grid-column-end: 3;
     }
 </style>

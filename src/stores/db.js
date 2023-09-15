@@ -58,6 +58,10 @@ db.version(1).stores({
   goals: 'name, value'
 });
 
+db.version(2).stores({
+  inventory: '++id, &barcode, name, description, nutrients'
+})
+
 export const dbopen = db.open().then(() => {
   // check if today's date is most recent
   // add empty day if it is not
@@ -138,7 +142,9 @@ export const dbopen = db.open().then(() => {
 });
 
 
-// today
+/*
+ * Today
+ */
 async function addDay() {
   try {
     const today = await db.journal.add(defaultDay);
@@ -169,9 +175,11 @@ export const getJournal = async () => {
   return {};
 };
 
-// settings, goals, items are all identical structurally
-// they can use the same logic
-// just specify a table name
+/*
+ * Setting, Goals, Items
+ */
+
+// specify table name to put name/value pair there
 async function addItem(tableName, name, value) {
   try {
     const item = await db.table(tableName).add({
@@ -198,6 +206,34 @@ export const getItems = async (tableName) => {
     return db.table(tableName).toArray()
     .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
    
+  }
+  return {};
+}
+
+/*
+ * Inventory
+ */
+export const getInventory = async () => {
+  if(browser) {
+    return db.inventory.toArray();
+  }
+  return {};
+}
+export const addInventory = async (data) => {
+  if(browser) {
+    return db.inventory.add(data);
+  }
+  return {};
+}
+export const updateInventory = async (id, data) => {
+  if(browser) {
+    return db.inventory.update(id, data);
+  }
+  return {};
+}
+export const deleteInventory = async (id) => {
+  if(browser) {
+    return db.inventory.delete(id);
   }
   return {};
 }

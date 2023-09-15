@@ -1,6 +1,6 @@
 {
     "name": "helth app",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "scripts": {
         "dev": "vite dev --host",
         "build": "vite build",
@@ -22,9 +22,11 @@
         "@testing-library/user-event": "^14.4.3",
         "@vite-pwa/sveltekit": "^0.2.5",
         "@vitejs/plugin-basic-ssl": "^1.0.1",
+        "@zerodevx/svelte-toast": "^0.9.5",
         "eslint": "^8.47.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-svelte": "^2.32.4",
+        "fake-indexeddb": "^4.0.2",
         "jsdom": "^22.1.0",
         "prettier": "^3.0.2",
         "prettier-plugin-svelte": "^3.0.3",

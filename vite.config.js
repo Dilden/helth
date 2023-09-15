@@ -6,6 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 /** @type {import('vite').UserConfig} */
 const config = {
   test: {
+    globals: true,
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,ts}'],
     reporter: 'verbose',

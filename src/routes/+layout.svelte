@@ -5,11 +5,12 @@
   import { onMount } from 'svelte';
   import { pwaInfo } from 'virtual:pwa-info';
   import Spinner from '$lib/Spinner.svelte';
+  import { SvelteToast } from '@zerodevx/svelte-toast';
 
   let ReloadPrompt;
   onMount(async() => {
-      pwaInfo && (ReloadPrompt = (await import('$lib/ReloadPrompt.svelte')).default)
-    });
+    pwaInfo && (ReloadPrompt = (await import('$lib/ReloadPrompt.svelte')).default)
+  });
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
@@ -31,6 +32,7 @@
     <Footer />
   </div>
 </div>
+<SvelteToast />
 
 {#if ReloadPrompt}
   <svelte:component this={ReloadPrompt} />

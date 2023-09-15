@@ -19,30 +19,33 @@
 </div>
 
 {#key open}
-<button on:click={toggle} transition:fade class="toggler"
+<button name="add" on:click={toggle} transition:fade="{{ duration: 250 }}" class="toggler"
     >{open ? '❌' : '➕'}</button>
 {/key}
 
 <style>
   .modal.open {
-      display: block;
+    display: block;
+    box-shadow: 0 0 10px 7px black;
   }
   .modal {
       display: none;
       position: fixed;
-      width: 100%;
-      height: 100%;
+      width: 98%;
+      height: 98%;
       z-index: 120;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
+      top: 1%;
+      bottom: 1%;
+      right: 1%;
+      left: 1%;
+      background: #34474c;
+      overflow-y: scroll;
   }
   .toggler {
     position: fixed;
-    right: 25px;
-    bottom: 30px;
-    z-index: 100;
+    right: 20px;
+    bottom: 20px;
+    z-index: 130;
     background: #1ab8b8;
     border-radius: 10px;
     font-size: 2em;

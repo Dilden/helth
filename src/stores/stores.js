@@ -63,9 +63,40 @@ function createNameValueStore(tableName) {
     }
   }
 }
+
+function createInventoryStore() {
+  const store = writable({});
+
+  return {
+    ...store,
+    init: async () => {
+      const items = dbfun.getInventory();
+      items.then(values => {
+        (values) ? store.set(values) : store.set([]);
+      })
+      return items;
+    },
+    set: async (newVal) => {
+      const id = newVal.id;
+      if(id) {
+        await dbfun.updateInventory(Number(id), newVal)
+      }
+      else {
+        await dbfun.addInventory(newVal);
+      }
+      store.set(await dbfun.getInventory());
+    },
+    delete: async (id) => {
+      await dbfun.deleteInventory(id);
+      store.set(await dbfun.getInventory());
+    }
+  }
+}
+
 export const today = createTodayStore();
 export const history = createHistoryStore();
 export const settings = createNameValueStore('settings');
 export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
+export const inventory = createInventoryStore();
 
