@@ -18,7 +18,11 @@ export const formValues = (formCollection) => {
       };
     }
     else {
-      accum[current.name] = current.value
+      if(current.name === 'id') {
+        accum[current.name] = Number(current.value);
+      } else {
+        accum[current.name] = current.value
+      }
     }
     return accum;
   }, {});

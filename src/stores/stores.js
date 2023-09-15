@@ -79,7 +79,7 @@ function createInventoryStore() {
     set: async (newVal) => {
       const id = newVal.id;
       if(id) {
-        await dbfun.updateInventory(id, newVal)
+        await dbfun.updateInventory(Number(id), newVal)
       }
       else {
         await dbfun.addInventory(newVal);
