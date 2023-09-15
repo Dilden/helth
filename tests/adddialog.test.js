@@ -67,22 +67,23 @@ test.describe('add items dialog', () => {
         .getByRole('button', {name: '✏️'})
         .click();
 
-
-        await page.getByLabel('Name').fill('New Sample Item');
-        await page.getByRole('button', {name: 'Update'}).click();
+        await page.getByLabel('inventory-list').locator('#name').fill('New Sample Item');
+        await page.getByRole('textbox', { name: 'kcal' }).fill('200');
+        await page.getByRole('button', { name: 'Update' }).click();
 
         await expect(page.getByText('New Sample Item')).toBeVisible();
+        await expect(page.getByText('Calories: 200kcal')).toBeVisible();
       })
       test('delete item in inventory', async () => {
         await page.getByRole('button', {name: '➕'}).click();
         await page.getByRole('listitem')
-        .filter({hasText: 'Sample Item X'})
+        .filter({hasText: 'New Sample Item'})
         .getByRole('button', {name: '🗑️'})
         .click();
 
         await page.getByRole('button', {name: 'Yes'}).click();
 
-        await expect(page.getByText('Sample Item X')).not.toBeVisible();
+        await expect(page.getByText('New Sample Item')).not.toBeVisible();
       })
     });
   })
