@@ -53,7 +53,7 @@
 {/if}
 <button on:click={addToToday} title="Add to Daily Total">➕</button><!--add to daily total -->
 <button on:click={editItem} title="Edit Item">✏️</button> <!-- edit  -->
-<button title="Add to Recipe">📑</button> <!-- add to recipe -->
+<!-- <button title="Add to Recipe">📑</button> <!-- add to recipe --> -->
 <button on:click={confirmDelete} title="Delete Item from Inventory">🗑️</button> <!-- remove from db -->
 
 <style>
