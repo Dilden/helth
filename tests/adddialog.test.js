@@ -33,11 +33,13 @@ test.describe('add items dialog', () => {
       test.beforeAll(async ({browser}) => {
         page = await browser.newPage();
         await page.goto('/');
+        // close PWA Toast notification from Reload.svelte
+        await page.getByRole('button', {name: 'Close'}).click();
         await page.getByRole('button', { name: '➕' }).click();
       })
 
       test('manually adding an item to the inventory shows it on the page and clears inputs', async () => {
-        await page.getByRole('button', { name: 'Add Item'}).click();
+        await page.getByRole('button', { name: 'Add Item'}).click(); 
         await page.getByLabel('Name').fill('Sample Item X');
         await page.getByLabel('Barcode').fill('123456789012');
         await page.getByLabel('Description').fill('This item represents a sample item');
