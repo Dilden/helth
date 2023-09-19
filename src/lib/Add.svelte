@@ -10,15 +10,15 @@ import {Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
   <Tabs>
     <TabList>
       <Tab>Inventory</Tab>
-      <Tab>Recipes</Tab>
+      <!-- <Tab>Recipes</Tab> -->
       <Tab>Scan</Tab>
     </TabList>
     <TabPanel>
       <Inventory />
     </TabPanel>
-    <TabPanel>
-      Recipes Go Here
-    </TabPanel>
+    <!-- <TabPanel> -->
+    <!--   Recipes Go Here -->
+    <!-- </TabPanel> -->
     <TabPanel>
       <Barcode />
     </TabPanel>
