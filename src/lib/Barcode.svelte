@@ -12,7 +12,7 @@
       //console.log('Selected device ID: ' + selected.deviceId);
       codeReader
         .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-        .then(result => fetch(`/upc?barcode=${result.getText()}`))
+        .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
         .then(response => response.json())
         .then(val => {
 
