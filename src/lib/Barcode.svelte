@@ -2,10 +2,10 @@
   import { BrowserMultiFormatReader } from '@zxing/library';
   import { today } from '$stores/stores';
   import { getInventory, addInventory } from '$stores/db';
+  import {success, error} from '$utils/toast.js';
 
   // scanner
   let selected;
-  let open = false;
 
   const codeReader = new BrowserMultiFormatReader();
 
@@ -13,7 +13,7 @@
       //console.log('Selected device ID: ' + selected.deviceId);
       codeReader
         .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-        .then(result => fetch(`/upc?barcode=${result.getText()}`))
+        .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
         .then(response => response.json())
         .then(val => {
 
@@ -22,15 +22,18 @@
               if(!data
                 .map(item => item.barcode)
                 .includes(val.barcode)) {
-                addInventory(val);
+
+                addInventory(val)
+                .then(() => success('Item added to inventory!'))
+                .catch(() => error('Error saving item to inventory!'));
               }
             });
 
-          $today.calories = $today.calories + val.nutrients.calories.quantity;
-          $today.sodium = $today.sodium + val.nutrients.sodium.quantity;
-          $today.protein = $today.protein + val.nutrients.protein.quantity;
-          open = false;
-          document.body.classList.remove('modal-open')
+          $today.calories = $today.calories + Number( val.nutrients.calories.quantity );
+          $today.sodium = $today.sodium + Number( val.nutrients.sodium.quantity );
+          $today.protein = $today.protein + Number( val.nutrients.protein.quantity );
+          success('Added item to daily total!');
+          // document.body.classList.remove('modal-open')
         })
         .catch(error => console.log(error))
         .finally(() => codeReader.reset());
@@ -38,8 +41,7 @@
 
   function cancel() {
       codeReader.reset();
-      open = false;
-      document.body.classList.remove('modal-open')
+      // document.body.classList.remove('modal-open')
   }
 </script>
 
