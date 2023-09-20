@@ -49,8 +49,18 @@ export const list = {
     quantity: '',
     unit: 'mg'
   },
+  niacin: {
+    name: 'Niacin',
+    quantity: '',
+    unit: 'mg'
+  },
   potassium: {
     name: 'Potassium',
+    quantity: '',
+    unit: 'mg'
+  },
+  phosphorus: {
+    name: 'Phosphorus',
     quantity: '',
     unit: 'mg'
   },
@@ -109,6 +119,11 @@ export const list = {
     quantity: '',
     unit: 'mcg'
   },
+  vitamin_b6: {
+    name: 'Vitamin B6',
+    quantity: '',
+    unit: 'mcg'
+  },
   vitamin_b12: {
     name: 'Vitamin B12',
     quantity: '',
@@ -128,5 +143,10 @@ export const list = {
     name: 'Vitamin D',
     quantity: '',
     unit: 'mcg'
+  },
+  zinc: {
+    name: 'Zinc',
+    quantity: '',
+    unit: 'mg'
   }
 };
