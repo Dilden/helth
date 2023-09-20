@@ -19,13 +19,33 @@ export const list = {
     quantity: '',
     unit: 'mg'
   },
+  copper: {
+    name: 'Copper',
+    quantity: '',
+    unit: 'mcg'
+  },
   fiber: {
     name: 'Fiber',
     quantity: '',
     unit: 'g'
   },
+  folic_acid: {
+    name: 'Folic Acid',
+    quantity: '',
+    unit: 'mcg'
+  },
+  iodine: {
+    name: 'Iodine',
+    quantity: '',
+    unit: 'mg'
+  },
   iron: {
     name: 'Iron',
+    quantity: '',
+    unit: 'mg'
+  },
+  magnesium: {
+    name: 'Magnesium',
     quantity: '',
     unit: 'mg'
   },
@@ -39,6 +59,11 @@ export const list = {
     quantity: '',
     unit: 'g'
   },
+  riboflavin: {
+    name: 'Riboflavin',
+    quantity: '',
+    unit: 'mg'
+  },
   saturated_fat: {
     name: 'Saturated Fat',
     quantity: '',
@@ -46,6 +71,11 @@ export const list = {
   },
   sodium: {
     name: 'Sodium',
+    quantity: '',
+    unit: 'mg'
+  },
+  thiamin: {
+    name: 'Thiamin',
     quantity: '',
     unit: 'mg'
   },
@@ -79,8 +109,18 @@ export const list = {
     quantity: '',
     unit: 'mcg'
   },
+  vitamin_b12: {
+    name: 'Vitamin B12',
+    quantity: '',
+    unit: 'mcg'
+  },
   vitamin_c: {
     name: 'Vitamin C',
+    quantity: '',
+    unit: 'mcg'
+  },
+  vitamin_e: {
+    name: 'Vitamin E',
     quantity: '',
     unit: 'mcg'
   },
