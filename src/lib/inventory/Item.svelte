@@ -45,7 +45,9 @@
     {#if item.nutrients}
       <ul>
       {#each Object.values(item.nutrients) as nutrient}
-        <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
+        {#if nutrient.quantity}
+          <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
+        {/if}
       {/each}
       </ul>
     {/if}
