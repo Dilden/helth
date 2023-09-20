@@ -1,36 +1,23 @@
-import { camelCase } from '$utils/camelCase';
-
-export const formatSource1 = async (id) => {
-  return fetch(`https://redsky.target.com/redsky_aggregations/v1/web/pdp_client_v1?tcin=${id}&pricing_store_id=530&store_id=530&key=5d546952f5059b16db4aa90913e56d09d3ff2aa4`)
-    .then(response => response.json())
-    .then(json => {
-      let nutrientsArr = json.data.product.item.enrichment.nutrition_facts.value_prepared_list[0].nutrients;
-      const nutrientsObj = nutrientsArr.reduce(
-        (resultObj, currentObj) => 
-        ({ ...resultObj, [camelCase(currentObj.name)]: currentObj }),
-        {}
-      );
-      const item = {
-        barcode: json.data.product.item.primary_barcode,
-        name: json.data.product.item.product_description.title,
-        description: json.data.product.item.product_description.downstream_description,
-        nutrients: nutrientsObj
-      }
-      return item;
-    });
-}
+import { snake_case } from '$utils/naming.js';
+import { list } from '$utils/nutrients.js'
 
 export const formatSource2 = (data) => {
 
-  console.log(data.data);
-  const nutrientsObj = Object.keys(data.data.product_details.nutrition_labels)
-    .reduce((result, key) => {
-      result[camelCase(key)] = data[key];
-      if(Object.hasOwn(result[camelCase(key)], 'total_quantity')) {
-        result[camelCase(key)].quantity = result[camelCase(key)].total_quantity;
-        delete result[camelCase(key)].total_quantity;
+  const nutrientsObj = Object.entries(data.data.product_details.nutrition_labels)
+    .reduce((accum, key) => {
+      let nutrientName = snake_case(key[0]);
+      switch(nutrientName) {
+        case 'fat':
+          nutrientName = 'total_fat';
+          break;
       }
-      return result;
+
+      accum[nutrientName] = accum[nutrientName] || {};
+      accum[nutrientName].unit = ( key[1].uom ? key[1].uom : list[nutrientName].unit );
+      accum[nutrientName].name = ( list[nutrientName].name );
+      accum[nutrientName].quantity = ( key[1].total_quantity ? String(key[1].total_quantity) : '0' );
+      
+      return accum;
     }, {});
 
   const item = {
