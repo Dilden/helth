@@ -5,7 +5,6 @@
 
   // scanner
   let selected;
-  let open = false;
 
   const codeReader = new BrowserMultiFormatReader();
 
@@ -29,7 +28,6 @@
           $today.calories = $today.calories + val.nutrients.calories.quantity;
           $today.sodium = $today.sodium + val.nutrients.sodium.quantity;
           $today.protein = $today.protein + val.nutrients.protein.quantity;
-          open = false;
           document.body.classList.remove('modal-open')
         })
         .catch(error => console.log(error))
@@ -38,7 +36,6 @@
 
   function cancel() {
       codeReader.reset();
-      open = false;
       document.body.classList.remove('modal-open')
   }
 </script>
