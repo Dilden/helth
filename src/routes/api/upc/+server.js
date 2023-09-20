@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import {formatSource2 } from '$utils/sources.js';
 
 export async function GET({ url }) {
@@ -22,8 +22,7 @@ export async function GET({ url }) {
       throw new Error(`barcode ${barcode} not found @ 2nd source`);
     })
     .then(json => formatSource2(json))
-    .then(data => JSON.stringify(data))
-    .then(data => new Response(data))
+    .then(data => json(data))
     .catch(error => console.error(error));
 
   if(res2) {
