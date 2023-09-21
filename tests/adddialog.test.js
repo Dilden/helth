@@ -2,7 +2,6 @@ import 'fake-indexeddb/auto';
 import { expect, test } from '@playwright/test';
 
 test.describe('add items dialog', () => {
-
   test.describe('inventory', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
@@ -34,7 +33,8 @@ test.describe('add items dialog', () => {
         page = await browser.newPage();
         await page.goto('/');
         // close PWA Toast notification from Reload.svelte
-        await page.getByRole('button', {name: 'Close'}).click();
+        await page.getByRole('alert').getByRole('button', {name: 'Close'}).click();
+        await page.getByRole('status').getByRole('button', {name: 'Yes'}).click();
         await page.getByRole('button', { name: '➕' }).click();
       })
 

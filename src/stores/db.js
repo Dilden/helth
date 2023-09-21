@@ -237,3 +237,21 @@ export const deleteInventory = async (id) => {
   }
   return {};
 }
+
+// Persistent Storage https://dexie.org/docs/StorageManager
+export const persist = async () => {
+  if(browser) {
+    console.log('setting persistence...');
+    return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
+  }
+  return {};
+}
+
+export const isStoragePersisted = async () => {
+  if(browser) {
+    console.log('checking persistence...');
+    return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
+  }
+  return {};
+}
+

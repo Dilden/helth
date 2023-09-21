@@ -30,7 +30,7 @@ export const info = message => toast.push(message, {
   }
 });
 
-export const confirmDialog = ( message, confirm, deny ) => {
+export const confirmDialog = ( message, confirm, deny, dismiss = false ) => {
     toast.push({
       component: {
         src: ConfirmDialog,
@@ -40,7 +40,7 @@ export const confirmDialog = ( message, confirm, deny ) => {
           callbackDeny: deny,
         }
       },
-      dismissable: false,
+      dismissable: dismiss,
       initial: 0,
       theme: {
         '--toastBackground': '#3783F9',
