@@ -79,8 +79,8 @@
     input[type='range'] {
       width: 90%;
       font-size: 3em;
-      padding: 10px 0;
-      margin: 10px;
+      padding: 0;
+      margin: 10px auto;
     }
     button {
       appearance: none;

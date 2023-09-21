@@ -1,5 +1,5 @@
 <a href="/">
-  <img src="/helth.jpg" alt="Helth doctor" width="200" height="auto" />
+  <img src="/helth.jpg" alt="Meme man wearing a lab coat and stehoscope" width="200" height="auto" />
   <h1>helth app</h1>
 </a>
 

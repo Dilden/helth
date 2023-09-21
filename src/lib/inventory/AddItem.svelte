@@ -42,8 +42,9 @@
     margin: 1rem;
   }
   form input, form label {
-    margin: .5rem;
+    margin: .5rem auto;
     display: block;
+    width: 90%;
   }
   .name {
     grid-column-start: 1;
