@@ -1,7 +1,7 @@
 import { toast } from '@zerodevx/svelte-toast';
 import ConfirmDialog from '$lib/misc/ConfirmDialog.svelte';
 
-export const success = message => toast.push(message, {
+export const successToast = message => toast.push(message, {
   duration: 3000,
   theme: {
     '--toastColor': 'mintcream',
@@ -11,7 +11,7 @@ export const success = message => toast.push(message, {
   }
 });
 
-export const error = message => toast.push(message, {
+export const errorToast = message => toast.push(message, {
   duration: 3000,
   theme: {
     '--toastBackground': '#F25E5E',
@@ -21,7 +21,7 @@ export const error = message => toast.push(message, {
 });
 
 
-export const info = message => toast.push(message, {
+export const infoToast = message => toast.push(message, {
   duration: 3000,
   theme: {
     '--toastBackground': '#3783F9',

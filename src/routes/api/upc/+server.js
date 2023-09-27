@@ -7,8 +7,7 @@ export async function GET({ url }) {
 
   const barcode = url.searchParams.get('barcode');
 
-  // attempt 2nd data source
-  const res2 = fetch(source2(barcode), {
+  const response = fetch(source2(barcode), {
       method: 'GET',
       headers : {
         'Anonymous': 'true',
@@ -19,18 +18,12 @@ export async function GET({ url }) {
       if(response.ok) {
         return response.json();
       }
-      throw new Error(`barcode ${barcode} not found @ 2nd source`);
+      throw error(404, `barcode ${barcode} not found @ 2nd source`);
     })
     .then(json => formatSource2(json))
-    .then(data => json(data))
-    .catch(error => console.error(error));
+    .then(data => json(data));
 
-  if(res2) {
-    return res2;
-  }
-
-  // all failed, no data found for barcode
-  return error(404, { message: 'Barcode not found' });
+    return response;
 }
 
 const source2 = (code) => {
