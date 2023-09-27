@@ -11,6 +11,11 @@ describe('inventory list', () => {
     expect(screen.queryByRole('heading', {name: 'Saved Items'})).toBeVisible();
   });
 
+  it('shows a search form', () => {
+    render(List);
+    expect(screen.getByLabelText('Search')).toBeVisible();
+  })
+
   // idk how to render this with testing-library since the component
   // uses svelte await
   it.skip('shows a list of items', async () => {

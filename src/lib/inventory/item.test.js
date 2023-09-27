@@ -1,7 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import { click } from '@testing-library/user-event';
 import Item from './Item.svelte';
 
 const coke = { 

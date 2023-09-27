@@ -76,7 +76,22 @@ test.describe('add items dialog', () => {
         await expect(page.getByText('New Sample Item')).toBeVisible();
         await expect(page.getByText('Calories: 200kcal')).toBeVisible();
       })
+
+      test('search item name shows it in inventory', async () => {
+        await page.getByRole('button', {name: '➕'}).click();
+        await page.getByLabel('Search').fill('New Sampl');
+
+        await expect(page.getByText('New Sample Item')).toBeVisible();
+      })
+      test('search other query hides item in inventory', async () => {
+        await page.getByRole('button', {name: '➕'}).click();
+        await page.getByLabel('Search').fill('zzzzzz');
+
+        await expect(page.getByText('New Sample Item')).not.toBeVisible();
+      })
+
       test('delete item in inventory', async () => {
+        await page.getByLabel('Search').fill('');
         await page.getByRole('button', {name: '➕'}).click();
         await page.getByRole('listitem')
         .filter({hasText: 'New Sample Item'})
