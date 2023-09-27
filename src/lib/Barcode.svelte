@@ -2,7 +2,8 @@
   import { BrowserMultiFormatReader } from '@zxing/library';
   import { today } from '$stores/stores';
   import { getInventory, addInventory } from '$stores/db';
-  import {success, error} from '$utils/toast.js';
+  import {successToast, errorToast} from '$utils/toast.js';
+  import { error } from '@sveltejs/kit';
 
   // scanner
   let selected;
@@ -10,33 +11,38 @@
   const codeReader = new BrowserMultiFormatReader();
 
   async function scan() {
-      //console.log('Selected device ID: ' + selected.deviceId);
-      codeReader
-        .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-        .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
-        .then(response => response.json())
-        .then(val => {
+    codeReader
+      .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
+      .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
+      .then(response => response.json())
+      .then(val => {
+        if(!val.nutrients && val.message) {
+          errorToast('Item not found');
+          throw error(404, `${val.message}`);
+        }
 
-          getInventory()
-            .then(data => {
-              if(!data
-                .map(item => item.barcode)
-                .includes(val.barcode)) {
+        getInventory()
+          .then(data => {
+            if(!data
+              .map(item => item.barcode)
+              .includes(val.barcode)) {
 
-                addInventory(val)
-                .then(() => success('Item added to inventory!'))
-                .catch(() => error('Error saving item to inventory!'));
-              }
-            });
+              addInventory(val)
+              .then(() => successToast('Item added to inventory!'))
+              .catch(() => errorToast('Error saving item to inventory!'));
+            }
+          });
 
-          $today.calories = $today.calories + Number( val.nutrients.calories.quantity );
-          $today.sodium = $today.sodium + Number( val.nutrients.sodium.quantity );
-          $today.protein = $today.protein + Number( val.nutrients.protein.quantity );
-          success('Added item to daily total!');
-          // document.body.classList.remove('modal-open')
-        })
-        .catch(error => console.log(error))
-        .finally(() => codeReader.reset());
+        $today.calories = $today.calories + Number( val.nutrients.calories.quantity );
+        $today.sodium = $today.sodium + Number( val.nutrients.sodium.quantity );
+        $today.protein = $today.protein + Number( val.nutrients.protein.quantity );
+        successToast('Added item to daily total!');
+        // document.body.classList.remove('modal-open')
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      .finally(() => codeReader.reset());
   }
 
   function cancel() {
