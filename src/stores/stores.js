@@ -1,5 +1,5 @@
 import * as dbfun from '$stores/db';
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
 function createTodayStore() {
 
@@ -93,6 +93,7 @@ function createInventoryStore() {
   }
 }
 
+
 export const today = createTodayStore();
 export const history = createHistoryStore();
 export const settings = createNameValueStore('settings');
@@ -100,3 +101,14 @@ export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
 export const inventory = createInventoryStore();
 
+// https://stackoverflow.com/a/65616230/759563
+export const searchTerm = writable('');
+export const filteredInventory = derived(
+  [searchTerm, inventory],
+  ([ $searchTerm, $inventory ]) => {
+    if(Array.isArray( $inventory )) {
+      return $inventory.filter(item => item.name.toLowerCase().includes($searchTerm.toLowerCase()) || item.description.toLowerCase().includes($searchTerm.toLowerCase()))
+    }
+  },
+  inventory.init()
+) 
