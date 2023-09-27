@@ -1,5 +1,5 @@
 <script>
-  import {success, error, confirmDialog} from '$utils/toast.js';
+  import {successToast, errorToast, confirmDialog} from '$utils/toast.js';
   import { nutrientsFromItem } from '$utils/item.js';
   import { today, inventory } from '$stores/stores.js';
   import AddItem from '$lib/inventory/AddItem.svelte';
@@ -14,9 +14,9 @@
         $today[index] = $today[index] || 0;
         $today[index] = $today[index] + Number(nutrients[index]); 
       });
-      success('Added to daily total!')
+      successToast('Added to daily total!')
     } catch (err) {
-      error('Error adding to total!')
+      errorToast('Error adding to total!')
     }
   }
 
@@ -31,8 +31,8 @@
 
   const deleteItem = () => {
     inventory.delete(item.id)
-    .then(() => success('Removed item!'))
-    .catch(() => error('Error deleting item!'));
+    .then(() => successToast('Removed item!'))
+    .catch(() => errorToast('Error deleting item!'));
   }
 </script>
 
