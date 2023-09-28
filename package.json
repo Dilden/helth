@@ -1,13 +1,12 @@
 {
     "name": "helth app",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "scripts": {
         "dev": "vite dev --host",
         "build": "vite build",
         "package": "vite package",
         "preview:ssl": "vite preview --host --port=3001",
         "preview": "vite preview --host",
-        "prepare": "vite sync",
         "test": "playwright test && vitest run",
         "test:unit": "vitest run",
         "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
