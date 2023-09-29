@@ -27,7 +27,7 @@
 
     <button on:click={increment}> +{interval} </button>
   </div>
-  <input id="interval" type="range" min=1 max={max} bind:value={interval} aria-label="{title} Increment & Decrement Interval"/>
+  <input aria-label="Adjust interval for {title}" id="interval" type="range" min=1 max={max} bind:value={interval}/>
 </div>
 
 <style>
