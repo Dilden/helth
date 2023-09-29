@@ -18,7 +18,7 @@
     --universal-padding: 0.5rem;
     --universal-border-radius: 0.125rem;
     --a-link-color: #6dbeaf;
-    --a-visited-color: #01579b;
+    --a-visited-color: #62aae3;
 }
 
 html {
@@ -274,11 +274,11 @@ a {
 }
 
 a:link {
-    color: var(--a-link-color);
+  color: var(--a-link-color);
 }
 
 a:visited {
-    color: var(--a-visited-color);
+  color: var(--a-visited-color);
 }
 
 a:hover,
