@@ -1,7 +1,7 @@
 import path from 'path';
 import { sveltekit } from '@sveltejs/kit/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
-import { VitePWA } from 'vite-plugin-pwa';
+import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -18,7 +18,7 @@ const config = {
   plugins: [
     sveltekit(),
     (process.env.NODE_ENV === 'development' ? basicSsl() : [] ),
-    VitePWA({
+    SvelteKitPWA({
       registerType: 'prompt',
       devOptions: {
         enabled: true
