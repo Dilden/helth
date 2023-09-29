@@ -29,11 +29,5 @@
 <style>
   h3 {
     text-align: center;
-    position: absolute;
-  }
-  @media screen and (max-width: 620px) {
-    h3 {
-      position: inherit;
-    }
   }
 </style>

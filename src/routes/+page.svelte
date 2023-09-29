@@ -9,8 +9,8 @@
   export let data = [];
 </script>
 
-<Date />
 <h2>track 🗒</h2>
+<Date />
 
 <div class="wrapper">
   <div class="item"><Water /></div>
