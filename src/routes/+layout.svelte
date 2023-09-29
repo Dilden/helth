@@ -8,9 +8,7 @@
   import { SvelteToast } from '@zerodevx/svelte-toast';
   import { confirmDialog } from '$utils/toast.js';
 
-  let ReloadPrompt;
   onMount(async() => {
-    pwaInfo && (ReloadPrompt = (await import('$lib/ReloadPrompt.svelte')).default)
     const status = await isStoragePersisted();
     if(!status) {
       confirmDialog('Don\'t lose your data! Make storage persistent now?', persist, console.log('denied'), true);
@@ -39,9 +37,9 @@
 </div>
 <SvelteToast />
 
-{#if ReloadPrompt}
-  <svelte:component this={ReloadPrompt} />
-{/if}
+{#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt}}
+  <ReloadPrompt />
+{/await}
 
 <style>
   .main {
