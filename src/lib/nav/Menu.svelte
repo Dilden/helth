@@ -3,7 +3,7 @@
     const toggle = () => (isOpen = !isOpen);
 </script>
 
-<button class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
+<button title="Menu" class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
     <i class="hamburger {isOpen ? 'open' : ''}" />
 </button>
 <nav class={isOpen ? 'shown' : ''}>
