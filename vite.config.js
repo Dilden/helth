@@ -17,7 +17,7 @@ const config = {
   },
   plugins: [
     sveltekit(),
-    (process.env.NODE_ENV === 'development' ? basicSsl() : [] ),
+    (process.env.NODE_ENV === 'development' || 'preview' ? basicSsl() : [] ),
     SvelteKitPWA({
       registerType: 'prompt',
       devOptions: {
@@ -83,6 +83,9 @@ const config = {
     port: 3000,
     strictPort: true,
     hmr: true // set to 'false' for testing on old iOS devices
+  },
+  preview: {
+    https: true
   },
   resolve: {
     alias: {
