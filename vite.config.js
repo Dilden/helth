@@ -2,6 +2,7 @@ import path from 'path';
 import { sveltekit } from '@sveltejs/kit/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import fs from 'fs';
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -17,14 +18,15 @@ const config = {
   },
   plugins: [
     sveltekit(),
-    (process.env.NODE_ENV === 'development' ? basicSsl() : [] ),
+    (process.env.NODE_ENV === 'development' || 'preview' ? basicSsl() : [] ),
     SvelteKitPWA({
       registerType: 'prompt',
       devOptions: {
         enabled: true
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html}']
+        globPatterns: ['**/*.{js,css,html}'],
+        inlineWorkboxRuntime: true
       },
       includeAssets: ['icon-512.png', 'favicon-512.png', 'apple-touch-icon.png', 'favicon-300.png', 'favicon-196.png', 'icon-192.png', 'favicon-192.png', 'favicon.png', 'beep.wav', 'helth.jpg'],
       manifest: {
@@ -83,6 +85,9 @@ const config = {
     port: 3000,
     strictPort: true,
     hmr: true // set to 'false' for testing on old iOS devices
+  },
+  preview: {
+    https: true
   },
   resolve: {
     alias: {
