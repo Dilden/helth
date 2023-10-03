@@ -32,8 +32,6 @@ test.describe('add items dialog', () => {
       test.beforeAll(async ({browser}) => {
         page = await browser.newPage();
         await page.goto('/');
-        // close PWA Toast notification from Reload.svelte
-        // await page.getByRole('alert').getByRole('button', {name: 'Close'}).click();
         await page.getByRole('status').getByRole('button', {name: 'Yes'}).click();
         await page.getByRole('button', { name: '➕' }).click();
       })
@@ -51,21 +49,15 @@ test.describe('add items dialog', () => {
         await expect(page.getByText('Sample Item X')).toBeVisible();
         await expect(page.getByText('Sodium: 20mg')).toBeVisible();
         await expect(page.getByLabel('Name')).toBeEmpty();
-
-
-
       });
 
       test('add item in inventory to daily total', async () => {
         await page.getByTitle('Add to Daily Total').click();
         await page.getByTitle('Add to Daily Total').click();
-        // await page.getByRole('button', {name: '➕'}).click();
         await page.getByRole('button', {name: '❌'}).click();
 
         await expect( page.getByLabel('⚡ calories', { exact: true }) ).toHaveValue('200');
         await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).toHaveValue('40');
-        // await expect(page.locator('#countValue').nth(1)).toHaveValue('200');
-        // await expect(page.locator('#countValue').nth(2)).toHaveValue('40');
         
       })
       test('edit item in inventory', async () => {
