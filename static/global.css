@@ -21,11 +21,6 @@
     --a-visited-color: #62aae3;
 }
 
-html {
-  font-size: 18px;
-  height: 100%;
-}
-
 a,
 b,
 del,
@@ -39,6 +34,11 @@ u {
     font-size: 1em;
 }
 
+html {
+  font-size: 18px;
+  height: 100%;
+  box-sizing: border-box;
+}
 html,
 * {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu,
@@ -48,7 +48,10 @@ html,
 }
 
 * {
-    font-size: 1rem;
+  font-size: 1rem;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 body {

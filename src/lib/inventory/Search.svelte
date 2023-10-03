@@ -8,7 +8,7 @@
 <style>
   * {
     display: block;
-    margin: .24em;
-    width: 90%;
+    margin: 0;
+    width: 100%;
   }
 </style>
