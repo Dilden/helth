@@ -61,6 +61,9 @@ db.version(1).stores({
 db.version(2).stores({
   inventory: '++id, &barcode, name, description, nutrients'
 })
+db.version(3).stores({
+  recipes: '++id, name, description, items'
+})
 
 export const dbopen = db.open().then(() => {
   // check if today's date is most recent
@@ -211,31 +214,38 @@ export const getItems = async (tableName) => {
 }
 
 /*
- * Inventory
+ * List store methods
+ * Inventory, Recipes
  */
-export const getInventory = async () => {
+export const getListItems = async (tableName) => {
   if(browser) {
-    return db.inventory.toArray();
+    return db.table(tableName).toArray();
   }
   return {};
+}
+export const addToList = async (tableName, data) => {
+  if(browser) {
+    return db.table(tableName).add(data);
+  }
+  return {};
+}
+export const updateItemInList = async (tableName, id, data) => {
+  if(browser) {
+    return db.table(tableName).update(id, data);
+  }
+  return {};
+}
+export const deleteFromList = async (tableName, id) => {
+  if(browser) {
+    return db.table(tableName).delete(id);
+  }
+  return {};
+}
+export const getInventory = async () => {
+  return getListItems('inventory');
 }
 export const addInventory = async (data) => {
-  if(browser) {
-    return db.inventory.add(data);
-  }
-  return {};
-}
-export const updateInventory = async (id, data) => {
-  if(browser) {
-    return db.inventory.update(id, data);
-  }
-  return {};
-}
-export const deleteInventory = async (id) => {
-  if(browser) {
-    return db.inventory.delete(id);
-  }
-  return {};
+  return addToList('inventory', data);
 }
 
 // Persistent Storage https://dexie.org/docs/StorageManager

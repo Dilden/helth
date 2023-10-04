@@ -64,13 +64,13 @@ function createNameValueStore(tableName) {
   }
 }
 
-function createInventoryStore() {
+function createListStore(listName) {
   const store = writable({});
 
   return {
     ...store,
     init: async () => {
-      const items = dbfun.getInventory();
+      const items = dbfun.getListItems(listName);
       items.then(values => {
         (values) ? store.set(values) : store.set([]);
       })
@@ -79,27 +79,27 @@ function createInventoryStore() {
     set: async (newVal) => {
       const id = newVal.id;
       if(id) {
-        await dbfun.updateInventory(Number(id), newVal)
+        await dbfun.updateItemInList(listName, Number(id), newVal)
       }
       else {
-        await dbfun.addInventory(newVal);
+        await dbfun.addToList(listName, newVal);
       }
-      store.set(await dbfun.getInventory());
+      store.set(await dbfun.getListItems(listName));
     },
     delete: async (id) => {
-      await dbfun.deleteInventory(id);
-      store.set(await dbfun.getInventory());
+      await dbfun.deleteFromList(listName, id);
+      store.set(await dbfun.getListItems(listName));
     }
   }
 }
-
 
 export const today = createTodayStore();
 export const history = createHistoryStore();
 export const settings = createNameValueStore('settings');
 export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
-export const inventory = createInventoryStore();
+export const inventory = createListStore('inventory');
+export const recipes = createListStore('recipes');
 
 // https://stackoverflow.com/a/65616230/759563
 export const searchTerm = writable('');
