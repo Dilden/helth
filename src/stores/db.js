@@ -1,6 +1,5 @@
 import { Dexie } from 'dexie';
 import { thePast } from '$utils/dates';
-import { browser } from '$app/environment';
 
 export const db = new Dexie('helthdb');
 
@@ -158,24 +157,15 @@ async function addDay() {
 }
 
 export const updateLatestDay = async (date, changes) => {
-  if(browser) {
-    return db.journal.update(date, changes);
-  }
-  return {};
+  return db.journal.update(date, changes);
 };
 
 export const getLatestDay = async () => {
-  if(browser) {
-    return db.journal.orderBy('date').reverse().first();
-  }
-  return {};
+  return db.journal.orderBy('date').reverse().first();
 };
 
 export const getJournal = async () => {
-  if(browser) {
-    return db.journal.toArray();
-  }
-  return {};
+  return db.journal.toArray();
 };
 
 /*
@@ -196,21 +186,14 @@ async function addItem(tableName, name, value) {
 }
 
 export const updateItems = async (tableName, items) => {
-  if(browser) {
-    return db.table(tableName).bulkPut(items);
-  }
-  return {};
+  return db.table(tableName).bulkPut(items);
 }
 
 export const getItems = async (tableName) => {
   // spread all of the settings onto one object
   // so app doesn't need a store for each setting
-  if(browser) {
-    return db.table(tableName).toArray()
+  return db.table(tableName).toArray()
     .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
-   
-  }
-  return {};
 }
 
 /*
@@ -218,50 +201,32 @@ export const getItems = async (tableName) => {
  * Inventory, Recipes
  */
 export const getListItems = async (tableName) => {
-  if(browser) {
-    return db.table(tableName).toArray();
-  }
-  return {};
+  return await db.table(tableName).toArray();
 }
 export const addToList = async (tableName, data) => {
-  if(browser) {
-    return db.table(tableName).add(data);
-  }
-  return {};
+    return await db.table(tableName).add(data);
 }
 export const updateItemInList = async (tableName, id, data) => {
-  if(browser) {
-    return db.table(tableName).update(id, data);
-  }
-  return {};
+  return await db.table(tableName).update(id, data);
 }
 export const deleteFromList = async (tableName, id) => {
-  if(browser) {
-    return db.table(tableName).delete(id);
-  }
-  return {};
+  return await db.table(tableName).delete(id);
 }
 export const getInventory = async () => {
-  return getListItems('inventory');
+  return await getListItems('inventory');
 }
 export const addInventory = async (data) => {
-  return addToList('inventory', data);
+  return await addToList('inventory', data);
 }
 
 // Persistent Storage https://dexie.org/docs/StorageManager
 export const persist = async () => {
-  if(browser) {
-    console.log('setting persistence...');
-    return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
-  }
-  return {};
+  console.log('setting persistence...');
+  return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
 }
 
 export const isStoragePersisted = async () => {
-  if(browser) {
-    console.log('checking persistence...');
-    return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
-  }
-  return {};
+  console.log('checking persistence...');
+  return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
 }
 
