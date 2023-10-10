@@ -1,9 +1,13 @@
 import 'fake-indexeddb/auto';
-import { describe, it, expect, beforeAll } from 'vitest';
+import { IDBFactory } from 'fake-indexeddb';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { dbopen, getListItems, addToList } from '$stores/db.js';
 import { updateItemInList } from './db';
 
 beforeAll(async () => await dbopen);
+afterAll(() => {
+  indexedDB = new IDBFactory();
+});
 
 describe('list tables', () => {
   it('adds an item to a list', async () => {
