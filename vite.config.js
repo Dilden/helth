@@ -18,7 +18,9 @@ const config = {
   },
   plugins: [
     sveltekit(),
-    (process.env.NODE_ENV === 'development' || 'preview' ? basicSsl() : [] ),
+    // // enabling basicSsl plugin breaks tests
+    // (process.env.NODE_ENV === 'development' || 'preview' ? basicSsl() : [] ),
+    (process.env.NODE_ENV === 'development' ? basicSsl() : [] ),
     SvelteKitPWA({
       registerType: 'prompt',
       devOptions: {
@@ -86,9 +88,10 @@ const config = {
     strictPort: true,
     hmr: true // set to 'false' for testing on old iOS devices
   },
-  preview: {
-    https: true
-  },
+  // // enabling HTTPS in basicSsl plugin breaks tests
+  // preview: {
+  //   https: true
+  // },
   resolve: {
     alias: {
       $utils: path.resolve('./src/utils'),
