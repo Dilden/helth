@@ -150,9 +150,8 @@ export const dbopen = db.open().then(() => {
 async function addDay() {
   try {
     const today = await db.journal.add(defaultDay);
-    console.log(`added ${today}`);
   } catch (error) {
-    console.log('error adding day');
+    // console.log('error adding day');
   }
 }
 
@@ -179,9 +178,8 @@ async function addItem(tableName, name, value) {
       name: name,
       value: value
     });
-    console.log(`added ${item}`);
   } catch (error) {
-    console.log(`error adding item to ${tableName}: ${error}`);
+    // console.log(`error adding item to ${tableName}: ${error}`);
   }
 }
 
@@ -195,6 +193,7 @@ export const getItems = async (tableName) => {
   return db.table(tableName).toArray()
     .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
 }
+
 
 /*
  * List store methods
@@ -218,15 +217,16 @@ export const getInventory = async () => {
 export const addInventory = async (data) => {
   return await addToList('inventory', data);
 }
+export const getItemByIdFromTable = async (tableName, id) => {
+  return await db.table(tableName).where('id').equals(id).first();
+}
 
 // Persistent Storage https://dexie.org/docs/StorageManager
 export const persist = async () => {
-  console.log('setting persistence...');
   return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
 }
 
 export const isStoragePersisted = async () => {
-  console.log('checking persistence...');
   return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
 }
 
