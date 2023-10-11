@@ -4,15 +4,13 @@
 
 <h3>Recipes</h3>
 <ul>
-  <!-- {#await recipes.init()} -->
-      <!-- waiting... -->
-  <!-- {:then} -->
-    before if
+  {#await recipes.init()}
+      waiting...
+  {:then}
     {#if $recipes.length}
-      has length
       {#each $recipes as recipe}
         <li>{recipe.name}</li>
       {/each}
     {/if}
-  <!-- {/await} -->
+  {/await}
 </ul>
