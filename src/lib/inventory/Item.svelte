@@ -5,7 +5,7 @@
   import AddItem from '$lib/inventory/AddItem.svelte';
 
   export let item;
-  export let addForm;
+  export let addForm = true;
 
   const addToToday = () => {
     const nutrients = nutrientsFromItem(item);
