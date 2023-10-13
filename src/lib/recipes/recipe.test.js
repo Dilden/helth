@@ -1,7 +1,8 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
 import { render, screen } from '@testing-library/svelte';
-import { describe, it, expect, vi } from 'vitest';
+import { click } from '@testing-library/user-event';
+import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import { recipes, inventory } from '$stores/stores.js';
 import Recipes from './Recipes.svelte';
 
@@ -48,7 +49,13 @@ beforeAll(async () => {
   });
 });
 
-describe.sequential('recipe list', () => {
+
+
+describe('recipe list', () => {
+  beforeEach(async () => {
+    indexedDB = new IDBFactory();
+    await recipes.init();
+  })
 
   it('has a heading', () => {
     render(Recipes);
@@ -73,5 +80,23 @@ describe.sequential('recipe list', () => {
     render(Recipes);
     expect(await screen.findByText('Coca-Cola')).toBeVisible();
     expect(await screen.findByText('Syrup')).toBeVisible();
+  })
+})
+
+describe('add recipe', () => {
+
+  it('has a button for adding recipes', async () => {
+    render(Recipes);
+    expect(await screen.findByRole('button', {name: 'Add Recipe'})).toBeVisible();
+  });
+  it('can click the button to toggle form', async () => {
+    render(Recipes);
+
+    expect(screen.getByLabelText('Recipe Name')).not.toBeVisible();
+    expect(screen.getByLabelText('Recipe Description')).not.toBeVisible();
+
+    await click(screen.queryByRole('button', {name: 'Add Recipe'}));
+    expect(screen.getByLabelText('Recipe Name')).toBeVisible();
+    expect(screen.getByLabelText('Recipe Description')).toBeVisible();
   })
 })

@@ -1,7 +1,16 @@
 <script>
   import { recipes } from '$stores/stores.js';
   import { getItemByIdFromTable } from '$stores/db.js';
+  import RecipeForm from './RecipeForm.svelte';
+
+  let showForm = false;
 </script>
+
+<button on:click={() => (showForm = !showForm)}>Add Recipe</button>
+
+<div class={(showForm ? 'showForm' : 'hideForm' )}>
+  <RecipeForm />
+</div>
 
 <h3>Recipes</h3>
 <ul>
@@ -20,3 +29,12 @@
     {/if}
   {/await}
 </ul>
+
+<style>
+  .showForm {
+    display: block;
+  }
+  .hideForm {
+    display: none;
+  }
+</style>
