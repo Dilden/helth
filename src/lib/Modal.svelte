@@ -19,7 +19,7 @@
 </div>
 
 {#key open}
-<button name="add" on:click={toggle} transition:fade="{{ duration: 250 }}" class="toggler"
+<button name="add" aria-label={open ? 'Close Add Dialog' : 'Open Add Dialog'} on:click={toggle} transition:fade="{{ duration: 250 }}" class="toggler"
     >{open ? '❌' : '➕'}</button>
 {/key}
 
