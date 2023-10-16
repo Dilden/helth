@@ -1,5 +1,5 @@
 <script>
-  import { recipes } from '$stores/stores.js';
+  import { recipes, inventory } from '$stores/stores.js';
   import { getItemByIdFromTable } from '$stores/db.js';
   import RecipeForm from './RecipeForm.svelte';
 
@@ -9,7 +9,7 @@
 <button on:click={() => (showForm = !showForm)}>Add Recipe</button>
 
 <div class={(showForm ? 'showForm' : 'hideForm' )}>
-  <RecipeForm />
+  <RecipeForm inventoryItems={ $inventory } />
 </div>
 
 <h3>Recipes</h3>

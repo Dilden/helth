@@ -9,4 +9,24 @@ describe('recipe form', () => {
     
     expect(screen.getByLabelText('Recipe Description')).toBeVisible();
   })
+
+  it('shows the inventory items in a select', () => {
+    render(RecipeForm, {
+      inventoryItems: [
+        {
+          id: 1,
+          name: 'First',
+          description: 'description goes here'
+        },
+        {
+          id: 2,
+          name: 'Second',
+          description: 'also goes here'
+        }
+      ]
+    })
+
+    expect(screen.getByRole('checkbox', {name: 'First'})).toBeVisible();
+    expect(screen.getByRole('checkbox', {name: 'Second'})).toBeVisible();
+  })
 })
