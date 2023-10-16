@@ -10,8 +10,8 @@
 
   {#each inventoryItems as item}
     <div>
-      <label for='inventoryItem-{item.id}'>{item.name}</label>
       <input type='checkbox' value={item.id} name={item.name} id='inventoryItem-{item.id}'/>
+      <label for='inventoryItem-{item.id}'>{item.name}</label>
     </div>
   {/each}
    

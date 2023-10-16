@@ -101,6 +101,17 @@ test.describe('add items dialog', () => {
         await expect(page.getByText('New Sample Item')).not.toBeVisible();
       })
     });
+
+    describe('recipes', () => {
+      it.skip('saves an recipe to the DB', async () => {
+        // 1. have inventory items set
+        // 2. open Add dialog
+        // 3. go to recipes
+        // 4. click add recipe
+        // 5. give recipe name, description, and select inventory items
+        // 6 see that it saved
+      })
+    })
   })
 
   // test.describe('recipes', () => {
