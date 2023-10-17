@@ -5,7 +5,7 @@ test.describe('add items dialog', () => {
   test.describe('inventory', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
-      await page.getByRole('button', { name: '➕' }).click();
+      await page.getByRole('button', { name: 'Open Add Dialog' }).click();
     })
 
     test('inventory is shown by default', async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe('add items dialog', () => {
         page = await browser.newPage();
         await page.goto('/');
         await page.getByRole('status').getByRole('button', {name: 'Yes'}).click();
-        await page.getByRole('button', { name: '➕' }).click();
+        await page.getByRole('button', { name: 'Open Add Dialog' }).click();
       })
 
       test('manually adding an item to the inventory shows it on the page and clears inputs', async () => {
@@ -54,14 +54,14 @@ test.describe('add items dialog', () => {
       test('add item in inventory to daily total', async () => {
         await page.getByTitle('Add to Daily Total').click();
         await page.getByTitle('Add to Daily Total').click();
-        await page.getByRole('button', {name: '❌'}).click();
+        await page.getByRole('button', {name: 'Close Add Dialog'}).click();
 
         await expect( page.getByLabel('⚡ calories', { exact: true }) ).toHaveValue('200');
         await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).toHaveValue('40');
         
       })
       test('edit item in inventory', async () => {
-        await page.getByRole('button', {name: '➕'}).click();
+        await page.getByRole('button', {name: 'Open Add Dialog'}).click();
         await page.getByRole('listitem')
         .filter({hasText: 'Sample Item X'})
         .getByRole('button', {name: '✏️'})
@@ -76,13 +76,11 @@ test.describe('add items dialog', () => {
       })
 
       test('search item name shows it in inventory', async () => {
-        await page.getByRole('button', {name: '➕'}).click();
         await page.getByLabel('Search').fill('New Sampl');
 
         await expect(page.getByText('New Sample Item')).toBeVisible();
       })
       test('search other query hides item in inventory', async () => {
-        await page.getByRole('button', {name: '➕'}).click();
         await page.getByLabel('Search').fill('zzzzzz');
 
         await expect(page.getByText('New Sample Item')).not.toBeVisible();
@@ -102,8 +100,8 @@ test.describe('add items dialog', () => {
       })
     });
 
-    describe('recipes', () => {
-      it.skip('saves an recipe to the DB', async () => {
+    test.describe('recipes', () => {
+      test.skip('saves an recipe to the DB', async () => {
         // 1. have inventory items set
         // 2. open Add dialog
         // 3. go to recipes
