@@ -13,8 +13,6 @@ export const formValues = (formCollection) => {
 export const formatRecipeFormValues = (formData) => {
   return formValues( formData )
   .reduce((accum, current) => {
-      console.log(current)
-    // if( current.name!=='name' && current.name!=='description' && current.name!=='id' ) {
     if( current.type==='checkbox' && current.checked ) {
       accum['items'] = accum['items'] || [];
 
