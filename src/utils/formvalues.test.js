@@ -55,17 +55,26 @@ const sampleRecipe = {
     2: {
       name: 'cheese',
       type: 'checkbox',
-      value: '34'
+      value: '34',
+      checked: true
     },
     3: {
       name: 'sauce',
       type: 'checkbox',
-      value: '2'
+      value: '2',
+      checked: true
     },
     4: {
       name: 'crust',
       type: 'checkbox',
-      value: '106'
+      value: '106',
+      checked: true
+    },
+    5: {
+      name: 'pepsi',
+      type: 'checkbox',
+      value: '8',
+      checked: false
     },
     5: {
       name: 'submit',
