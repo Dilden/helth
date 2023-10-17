@@ -1,13 +1,13 @@
 <script>
   import { inventory } from '$stores/stores.js';
-  import { formValues } from '$utils/formValues.js';
+  import { formatInventoryFormValues } from '$utils/formValues.js';
   import AddNutrientInputs from './AddNutrientInputs.svelte';
 
   export let item = {};
   export let submitCallback = () => false;
 
   const handleSubmit = (event) => {
-    const vals = formValues( event.target );
+    const vals = formatInventoryFormValues( event.target );
     $inventory = vals;
     event.target.reset();
     submitCallback();
