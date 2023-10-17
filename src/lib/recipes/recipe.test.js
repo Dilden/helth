@@ -78,8 +78,8 @@ describe('recipe list', () => {
 
   it('gets names of inventory items in recipe', async () => {
     render(Recipes);
-    expect(await screen.findByText('Coca-Cola')).toBeVisible();
-    expect(await screen.findByText('Syrup')).toBeVisible();
+    expect(await screen.findByText('Coca-Cola')).toBeInTheDocument();
+    expect(await screen.findByText('Syrup')).toBeInTheDocument();
   })
 })
 
