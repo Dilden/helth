@@ -1,12 +1,21 @@
 <script>
+  import { recipes } from '$stores/stores.js';
+  import { formatRecipeFormValues } from '$utils/formValues.js';
   export let inventoryItems = [];
+
+  const handleSubmit = (event) => {
+    // console.log(event.target);
+    const vals = formatRecipeFormValues( event.target );
+    $recipes = vals;
+    event.target.reset();
+  }
 </script>
-<form class='recipeForm'>
+<form class="recipeForm" name="AddRecipe" on:submit|preventDefault={handleSubmit}>
   <label for="recipeName">Recipe Name</label>
-  <input type="text" id="recipeName" name="Recipe Name" required/>
+  <input type="text" id="recipeName" name="name" required/>
 
   <label for="recipeDescription">Recipe Description</label>
-  <input type="text" id="recipeDescription" name="Recipe Description" required/>
+  <input type="text" id="recipeDescription" name="description" required/>
 
   {#each inventoryItems as item}
     <div>
