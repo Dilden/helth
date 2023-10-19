@@ -37,4 +37,7 @@
   .hideForm {
     display: none;
   }
+  button {
+    margin: 1rem;
+  }
 </style>
