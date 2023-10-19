@@ -79,16 +79,8 @@
     flex-flow: row wrap;
     justify-content: flex-start;
     gap: 10px;
-    /* align-items: stretch; */
-    /* align-content: space-around; */
   }
   .inventoryItem {
-    /* -webkit-box-flex: 1 1 auto; */
-    /* -moz-box-flex: 1 1 auto; */
-    /* -webkit-flex: 1 1 auto; */
-    /* -ms-flex: 1 1 auto; */
-    /* flex: 1 1 auto; */
-    /* height: 100px; */
     margin: auto;
     width: auto;
     max-width: 150px;
