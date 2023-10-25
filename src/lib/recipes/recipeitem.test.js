@@ -1,8 +1,5 @@
-// import 'fake-indexeddb/auto';
-// import { IDBFactory } from 'fake-indexeddb';
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
-// import { recipes, inventory } from '$stores/stores.js';
 import RecipeItem from './RecipeItem.svelte';
 
 describe('recipe items', () => {
