@@ -13,10 +13,11 @@ export const formValues = (formCollection) => {
 export const formatRecipeFormValues = (formData) => {
   return formValues( formData )
   .reduce((accum, current) => {
-    if( current.type==='checkbox' && current.checked ) {
-      accum['items'] = accum['items'] || [];
-
-      accum['items'].push({id: Number( current.value )});
+    if( current.type==='checkbox' ) {
+      if(current.checked) {
+        accum['items'] = accum['items'] || [];
+        accum['items'].push({id: Number( current.value )});
+      }
     }
     else {
       // if(current.name === 'id') {
