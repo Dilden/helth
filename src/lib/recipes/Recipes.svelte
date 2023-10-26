@@ -3,7 +3,7 @@
   import { lookupItems } from '$utils/recipe.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
-  import { onMount } from 'svelte';
+  import { onMount, beforeUpdate } from 'svelte';
 
   let showForm = false;
   $: formattedRecipes = [];
@@ -11,6 +11,14 @@
   onMount(async () => {
     await recipes.init();
     formattedRecipes = await Promise.all(attachItems());
+  })
+
+  beforeUpdate(async () => {
+    // only run if $recipes has vals and has changed
+    // creates fun memory leak if not checked for
+    if($recipes.length && formattedRecipes.length !== $recipes.length) {
+      formattedRecipes = await Promise.all(attachItems());
+    }
   })
 
   const attachItems = () => {
@@ -32,7 +40,7 @@
 <ul>
   
   {#if formattedRecipes}
-    {#each formattedRecipes as recipe}
+    {#each formattedRecipes.reverse() as recipe}
       <li>
           <RecipeItem name={recipe.name} description={recipe.description} items={recipe.items} />
       </li>
