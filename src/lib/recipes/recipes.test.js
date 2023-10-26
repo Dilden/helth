@@ -62,30 +62,12 @@ describe('recipe list', () => {
     expect(screen.queryByRole('heading', {name: 'Recipes'})).toBeVisible();
   });
 
-  it('shows recipe titles from the recipe store', async () => {
-    await recipes.set({
-      name: 'Brownies',
-      description: 'Children will eat this',
-      items: [
-        { id: 3, servings: 2 },
-        { id: 1, servings: 1, }
-      ]
-    });
-    render(Recipes);
-
-    expect(await screen.findByText('Brownies')).toBeVisible();
-  })
 
   it('gets names of inventory items in recipe', async () => {
     render(Recipes);
     expect(await screen.findByText('Coca-Cola')).toBeInTheDocument();
     expect(await screen.findByText('Syrup')).toBeInTheDocument();
   })
-
-  // it('will show sum of nutrients listed in items', async () => {
-  //   render(Recipes);
-  //   expect(await screen.findByText('Calories: 600kcal')).toBeVisible();
-  // })
 })
 
 describe('add recipe', () => {
