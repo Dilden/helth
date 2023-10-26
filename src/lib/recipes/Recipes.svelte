@@ -50,4 +50,9 @@
   button {
     margin: 1rem;
   }
+  ul {
+    list-style: none;
+    margin-bottom: 2rem;
+    padding: 0;
+  }
 </style>

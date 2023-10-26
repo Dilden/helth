@@ -7,7 +7,7 @@
   export let items = [];
 </script>
 <h4>{name}</h4>
-<h5>{description}</h5>
+<p>{description}</p>
 <div>
   <div class='ingredientsTitle'>Ingredients: </div>
   <ul class='items'>
@@ -28,13 +28,20 @@
 </div>
 
 <style>
-  ul li {
-    list-style-type: none;
-    display: inline-block;
-    padding: 0 1em;
+  ul {
+    list-style: none;
+    text-align: center;
   }
-  /* .items li { */
-  /*   display: inline-block; */
-  /*   padding: 0 1em; */
-  /* } */
+  ul li {
+    font-size: .8em;
+    font-style: italic;
+    display: inline-block;
+    margin: 0 1em;
+  }
+  .items li {
+    font-size: 1em;
+  }
+  .ingredientsTitle, .nutrientsTitle {
+    margin: 0 1rem;
+  }
 </style>
