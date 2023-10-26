@@ -100,18 +100,57 @@ test.describe('add items dialog', () => {
       })
     });
 
-    test.describe('recipes', () => {
-      test.skip('saves an recipe to the DB', async () => {
-        // 1. have inventory items set
-        // 2. open Add dialog
-        // 3. go to recipes
-        // 4. click add recipe
-        // 5. give recipe name, description, and select inventory items
-        // 6 see that it saved
-      })
-    })
   })
 
+  test.describe('recipes', () => {
+
+    test.describe.configure({ mode: 'serial'});
+    let page;
+
+    test.beforeAll(async ({browser}) => {
+      page = await browser.newPage();
+      await page.goto('/');
+      await page.getByRole('status').getByRole('button', {name: 'Yes'}).click();
+      await page.getByRole('button', { name: 'Open Add Dialog' }).click();
+
+      await page.getByRole('button', { name: 'Add Item'}).click(); 
+      await page.getByLabel('Name').fill('Coca-Cola');
+      await page.getByLabel('Barcode').fill('111111111111');
+      await page.getByLabel('Description').fill('sweet nectar of the gods');
+      await page.getByLabel('Calories', {exact: true}).fill('250');
+      await page.getByLabel('Sodium', {exact: true}).fill('20');
+      await page.getByLabel('Protein', {exact: true}).fill('0');
+      await page.getByRole('button', {name: 'Save'}).click();
+
+
+      await page.getByRole('button', { name: 'Add Item'}).click(); 
+      await page.getByLabel('Name').fill('Pepsi');
+      await page.getByLabel('Barcode').fill('222222222222');
+      await page.getByLabel('Description').fill('will strip your insides clean');
+      await page.getByLabel('Calories', {exact: true}).fill('250');
+      await page.getByLabel('Sodium', {exact: true}).fill('20');
+      await page.getByLabel('Protein', {exact: true}).fill('0');
+      await page.getByRole('button', {name: 'Save'}).click();
+    });
+
+    test('saves a recipe to the DB', async () => {
+      await page.getByRole('button', { name: 'Recipes' }).click();
+      await page.getByRole('button', { name: 'Add Recipe' }).click();
+      await page.getByLabel('Recipe Name').fill('Soda');
+      await page.getByLabel('Description').fill('sweet nectar of the gods');
+      await page.getByLabel('Coca-Cola').check();
+      await page.getByLabel('Pepsi').check();
+      await page.getByRole('button', {name: 'Save'}).click();
+
+
+      await expect(page.getByLabel('Name')).toBeEmpty();
+      await expect(page.getByText('Soda')).toBeVisible();
+      await expect(page.getByText('sweet nectar of the gods')).toBeVisible();
+      await expect(page.getByText('Calories: 500kcal')).toBeVisible();
+      await expect(page.getByText('Sodium: 40mg')).toBeVisible();
+      await expect(page.getByText('Protein: 0mg')).not.toBeVisible();
+    })
+  })
   // test.describe('recipes', () => {
   //   test.skip('user is able to add an inventory item to a recipe', async ({ page }) => {
   //     openDialog(page);
