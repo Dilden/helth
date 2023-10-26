@@ -55,4 +55,11 @@
     margin-bottom: 2rem;
     padding: 0;
   }
+  ul li:nth-child(odd) {
+    background: #1F2A2D;
+  }
+  li {
+    margin: .75rem;
+    padding: 1rem;
+  }
 </style>
