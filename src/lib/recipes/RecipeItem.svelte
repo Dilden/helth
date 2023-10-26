@@ -39,7 +39,4 @@
   .items li {
     font-size: 1em;
   }
-  .ingredientsTitle, .nutrientsTitle {
-    margin: 0 1rem;
-  }
 </style>
