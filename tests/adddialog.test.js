@@ -137,7 +137,7 @@ test.describe('add items dialog', () => {
       await page.getByRole('button', { name: 'Recipes' }).click();
       await page.getByRole('button', { name: 'Add Recipe' }).click();
       await page.getByLabel('Recipe Name').fill('Soda');
-      await page.getByLabel('Description').fill('sweet nectar of the gods');
+      await page.getByLabel('Description').fill('horrid concoction');
       await page.getByLabel('Coca-Cola').check();
       await page.getByLabel('Pepsi').check();
       await page.getByRole('button', {name: 'Save'}).click();
@@ -145,7 +145,10 @@ test.describe('add items dialog', () => {
 
       await expect(page.getByLabel('Name')).toBeEmpty();
       await expect(page.getByText('Soda')).toBeVisible();
-      await expect(page.getByText('sweet nectar of the gods')).toBeVisible();
+      await expect(page.getByText('horrid concoction')).toBeVisible();
+      // failing here
+      // codegen shows triple the quantity
+      // possible because 3 browsers are all adding it simluataneaously?
       await expect(page.getByText('Calories: 500kcal')).toBeVisible();
       await expect(page.getByText('Sodium: 40mg')).toBeVisible();
       await expect(page.getByText('Protein: 0mg')).not.toBeVisible();
