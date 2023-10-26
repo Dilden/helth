@@ -3,9 +3,10 @@ import { describe, it, expect } from 'vitest';
 import RecipeItem from './RecipeItem.svelte';
 
 describe('recipe items', () => {
-  it('shows a recipe title', () => {
-    render(RecipeItem, { name: 'This is a recipe title' });
+  it('shows a recipe title & description', () => {
+    render(RecipeItem, { name: 'This is a recipe title', description: 'test desc' });
     expect(screen.getByRole('heading', { name: 'This is a recipe title' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'test desc' })).toBeVisible();
   })
   it('shows inventory items in recipe with quantities summed', () => {
     render(RecipeItem, { 
