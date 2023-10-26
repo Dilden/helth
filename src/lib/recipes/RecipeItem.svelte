@@ -9,7 +9,6 @@
 <h4>{name}</h4>
 <p>{description}</p>
 <div>
-  <div class='ingredientsTitle'>Ingredients: </div>
   <ul class='items'>
     {#each items as item}
       <li>
@@ -17,7 +16,6 @@
       </li>
     {/each}
   </ul>
-  <div class='nutrientsTitle'>Nutrients:</div>
   <ul class='nutrients'>
     {#each Object.entries(nutrientSumsFromList(items)) as nutrient}
       {#if nutrient[1]}
