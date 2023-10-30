@@ -2,12 +2,19 @@
   import { recipes } from '$stores/stores.js';
   import { formatRecipeFormValues } from '$utils/formValues.js';
   export let inventoryItems = [];
+  
+  let validated = true;
 
   const handleSubmit = (event) => {
-    // console.log(event.target);
     const vals = formatRecipeFormValues( event.target );
-    $recipes = vals;
-    event.target.reset();
+    if(vals?.items?.length) {
+      validated = true;
+      $recipes = vals;
+      event.target.reset();
+    }
+    else {
+      validated = false;
+    }
   }
 </script>
 <form class="recipeForm" name="AddRecipe" on:submit|preventDefault={handleSubmit}>
@@ -22,6 +29,9 @@
   </span>
 
   <div class="inventory">
+  {#if !validated}
+    <div class="invalid">At least one item must be selected!</div>
+  {/if}
   {#each inventoryItems as item}
       <span class="inventoryItem">
         <input type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}"/>
@@ -80,13 +90,21 @@
     justify-content: flex-start;
     gap: 10px;
   }
+  .invalid {
+    background-color: #794949;
+    /* color: var(--secondary-fore-color); */
+    display: block;
+    width: 100%;
+    padding: 1rem;
+  }
   .inventoryItem {
+    flex: 1 1 0px;
     margin: auto;
     width: auto;
     max-width: 150px;
     display: flex;
-    flex: row nowrap;
-    justify-content: flex-start;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
     align-items: stretch;
   }
   .inventoryItem input, .inventoryItem label {
