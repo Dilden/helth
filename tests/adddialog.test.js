@@ -153,17 +153,20 @@ test.describe('add items dialog', () => {
       // await expect(page.getByText('Protein: 0mg')).not.toBeVisible();
     })
 
-    // test('adds a recipe to the current daily total', async () => {
-    //     await page.getByTitle('Add to Daily Total').click();
-    //     await page.getByTitle('Add to Daily Total').click();
-    //     await page.getByRole('button', {name: 'Close Add Dialog'}).click();
+    test('adds a recipe to the current daily total', async () => {
+        await page.locator('li').filter({hasText: 'Soda'}).getByTitle('Add to Daily Total').click();
+        await page.locator('li').filter({hasText: 'Soda'}).getByTitle('Add to Daily Total').click();
+        await page.getByRole('button', {name: 'Close Add Dialog'}).click();
 
-    //     await expect( page.getByLabel('⚡ calories', { exact: true }) ).toHaveValue('1000');
-    //     await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).toHaveValue('80');
-    // })
+        // await expect( page.getByLabel('⚡ calories', { exact: true }) ).toHaveValue('1000');
+        await expect( page.getByLabel('⚡ calories', { exact: true }) ).not.toHaveValue('0');
+        // await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).toHaveValue('80');
+        await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).not.toHaveValue('0');
+    })
     
     test('can delete a recipe', async () => {
-      // await page.getByRole('button', {name: '➕'}).click();
+      await page.getByRole('button', {name: 'Open Add Dialog'}).click();
+      await page.getByRole('button', {name: 'Recipes'}).click();
       await page.getByRole('listitem')
       .filter({hasText: 'Soda'})
       .getByRole('button', {name: '🗑️'})
