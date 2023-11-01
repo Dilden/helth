@@ -1,15 +1,22 @@
+import 'fake-indexeddb/auto';
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
 import RecipeItem from './RecipeItem.svelte';
 
 describe('recipe items', () => {
   it('shows a recipe title & description', () => {
-    render(RecipeItem, { name: 'This is a recipe title', description: 'test desc' });
+    render(RecipeItem, {
+      recipe: {
+        name: 'This is a recipe title',
+        description: 'test desc',
+        items: []
+      },
+    });
     expect(screen.getByRole('heading', { name: 'This is a recipe title' })).toBeVisible();
     expect(screen.getByText('test desc')).toBeVisible();
   })
   it('shows inventory items in recipe with quantities summed', () => {
-    render(RecipeItem, { 
+    render(RecipeItem, {recipe: {  
       name: 'Awful mix',
       items: [
         { 
@@ -44,7 +51,7 @@ describe('recipe items', () => {
             }
           }
         }
-      ]
+      ] }
     });
     expect(screen.getByText('Coca-Cola')).toBeVisible();
     expect(screen.getByText('Pepsi')).toBeVisible();
