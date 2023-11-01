@@ -8,16 +8,19 @@
   let showForm = false;
   $: formattedRecipes = [];
 
-  onMount(async () => {
+  const updateFormatted = async () => {
     await recipes.init();
     formattedRecipes = await Promise.all(attachItems());
+  }
+  onMount(async () => {
+    await updateFormatted();
   })
 
   beforeUpdate(async () => {
     // only run if $recipes has vals and has changed
     // creates fun memory leak if not checked for
-    if($recipes.length && formattedRecipes.length !== $recipes.length) {
-      formattedRecipes = await Promise.all(attachItems());
+    if(formattedRecipes.length !== $recipes?.length) {
+      await updateFormatted();
     }
   })
 
@@ -28,6 +31,7 @@
       return recipe;
     })
   }
+
 </script>
 
 <button on:click={() => (showForm = !showForm)}>Add Recipe</button>
@@ -42,7 +46,7 @@
   {#if formattedRecipes}
     {#each formattedRecipes.reverse() as recipe}
       <li>
-          <RecipeItem name={recipe.name} description={recipe.description} items={recipe.items} />
+          <RecipeItem {recipe} />
       </li>
     {/each}
   {/if}
