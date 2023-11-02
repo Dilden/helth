@@ -30,4 +30,43 @@ describe('recipe form', () => {
     expect(screen.getByRole('checkbox', {name: 'First'})).toBeVisible();
     expect(screen.getByRole('checkbox', {name: 'Second'})).toBeVisible();
   })
+
+  it('prefills the fields with data from provided item', () => {
+    render(RecipeForm, {
+      recipe: {
+        id: 10,
+        name: 'noodles',
+        description: 'a lazy meal',
+        items: [
+          {
+            id: 1,
+            name: 'First',
+            description: 'description goes here'
+          },
+        ],
+      },
+      inventoryItems: [
+        {
+          id: 1,
+          name: 'First',
+          description: 'description goes here'
+        },
+        {
+          id: 2,
+          name: 'Second',
+          description: 'also goes here'
+        },
+        {
+          id: 3,
+          name: 'third thing',
+          description: 'tis but a test'
+        }
+      ]
+    });
+
+    expect(screen.getByLabelText('Recipe Name')).toHaveValue('noodles');
+    expect(screen.getByLabelText('Recipe Description')).toHaveValue('a lazy meal');
+    expect(screen.getByLabelText('First')).toBeChecked();
+    expect(screen.getByLabelText('Second')).not.toBeChecked();
+  })
 })

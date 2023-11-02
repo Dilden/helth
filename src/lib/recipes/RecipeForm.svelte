@@ -1,6 +1,8 @@
 <script>
   import { recipes } from '$stores/stores.js';
   import { formatRecipeFormValues } from '$utils/formValues.js';
+  
+  export let recipe = {};
   export let inventoryItems = [];
   
   let validated = true;
@@ -8,9 +10,9 @@
   const handleSubmit = (event) => {
     const vals = formatRecipeFormValues( event.target );
     if(vals?.items?.length) {
-      validated = true;
       $recipes = vals;
       event.target.reset();
+      validated = true;
     }
     else {
       validated = false;
@@ -18,14 +20,15 @@
   }
 </script>
 <form class="recipeForm" name="AddRecipe" on:submit|preventDefault={handleSubmit}>
+  <input type="hidden" id="id" name="id" value={( recipe.id ? recipe.id : "" )} />
   <span class="recipeName">
     <label for="recipeName">Recipe Name</label>
-    <input type="text" id="recipeName" name="name" required/>
+    <input type="text" id="recipeName" name="name" required value={( recipe.name ? recipe.name : "" )}/>
   </span>
 
   <span class="recipeDescription">
     <label for="recipeDescription">Recipe Description</label>
-    <input type="text" id="recipeDescription" name="description" required/>
+    <input type="text" id="recipeDescription" name="description" value={( recipe.description ? recipe.description : "" )} required/>
   </span>
 
   <div class="inventory">
@@ -34,14 +37,18 @@
   {/if}
   {#each inventoryItems as item}
       <span class="inventoryItem">
-        <input type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}"/>
+        {#if recipe.items && recipe.items.map(item => item.id).includes(item.id) }
+          <input checked type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+        {:else}
+          <input type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+        {/if}
         <label for="inventoryItem-{item.id}">
           {item.name}
         </label>
       </span>
   {/each}
   </div>
-  <input type="submit" value="Save" />
+  <input type="submit" value="{ recipe.id ? 'Update' : 'Save' }" />
 </form>
 
 
