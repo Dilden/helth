@@ -3,26 +3,10 @@
   import { lookupItems } from '$utils/recipe.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
-  import { onMount, beforeUpdate } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
 
   let showForm = false;
   $: formattedRecipes = [];
-
-  const updateFormatted = async () => {
-    await recipes.init();
-    formattedRecipes = await Promise.all(attachItems());
-  }
-  onMount(async () => {
-    await updateFormatted();
-  })
-
-  beforeUpdate(async () => {
-    // only run if $recipes has vals and has changed
-    // creates fun memory leak if not checked for
-    if(formattedRecipes.length !== $recipes?.length) {
-      await updateFormatted();
-    }
-  })
 
   const attachItems = () => {
     return $recipes.map(async ( recipe ) => {
@@ -32,6 +16,21 @@
     })
   }
 
+  const updateFormatted = async () => {
+    await recipes.init();
+    formattedRecipes = await Promise.all(attachItems());
+  }
+  onMount(async () => {
+    await updateFormatted();
+  })
+
+  afterUpdate(async () => {
+    // only run if # of recipes has changed
+    // creates fun memory leak if not checked for
+    if(formattedRecipes.length !== $recipes?.length) {
+      await updateFormatted();
+    }
+  })
 </script>
 
 <button on:click={() => (showForm = !showForm)}>Add Recipe</button>

@@ -2,9 +2,11 @@
   import { nutrientSumsFromList } from '$utils/item.js';
   import { list } from '$utils/nutrients.js';
   import { confirmDialog, successToast, errorToast} from '$utils/toast.js';
-  import { recipes, today } from '$stores/stores.js';
+  import { recipes, inventory, today } from '$stores/stores.js';
+  import RecipeForm from './RecipeForm.svelte';
 
   export let recipe = {};
+  let edit = false;
 
   const itemNutrientSums = nutrientSumsFromList(recipe.items);
 
@@ -29,27 +31,36 @@
     .catch(() => errorToast('Error deleting recipe!'));
   }
 
+  const editItem = () => {
+    edit = !edit;
+  }
+
 </script>
 
-<h4>{recipe.name}</h4>
-<p>{recipe.description}</p>
-<div>
-  <ul class='items'>
-    {#each recipe.items as item}
-      <li>
-        {item.name}
-      </li>
-    {/each}
-  </ul>
-  <ul class='nutrients'>
-    {#each Object.entries(itemNutrientSums) as nutrient}
-      {#if nutrient[1]}
-        <li>{list[nutrient[0]].name + ': ' + nutrient[1] + list[nutrient[0]].unit}</li>
-      {/if}
-    {/each}
-  </ul>
-</div>
+{#if edit}
+  <RecipeForm {recipe} inventoryItems={ $inventory } />
+{:else}
+  <h4>{recipe.name}</h4>
+  <p>{recipe.description}</p>
+  <div>
+    <ul class='items'>
+      {#each recipe.items as item}
+        <li>
+          {item.name}
+        </li>
+      {/each}
+    </ul>
+    <ul class='nutrients'>
+      {#each Object.entries(itemNutrientSums) as nutrient}
+        {#if nutrient[1]}
+          <li>{list[nutrient[0]].name + ': ' + nutrient[1] + list[nutrient[0]].unit}</li>
+        {/if}
+      {/each}
+    </ul>
+  </div>
+{/if}
 <button on:click={addToToday} title="Add to Daily Total">➕</button><!--add to daily total -->
+<button on:click={editItem} title="Edit Recipe">✏️</button> <!-- edit  -->
 <button on:click={confirmDelete} title="Delete Recipe">🗑️</button> <!-- remove from db -->
 
 <style>
@@ -65,5 +76,8 @@
   }
   .items li {
     font-size: 1em;
+  }
+  button {
+    margin: 0 .5rem;
   }
 </style>
