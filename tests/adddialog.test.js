@@ -164,9 +164,25 @@ test.describe('add items dialog', () => {
         await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).not.toHaveValue('0');
     })
     
-    test('can delete a recipe', async () => {
+    test('edits a recipe', async () => {
       await page.getByRole('button', {name: 'Open Add Dialog'}).click();
       await page.getByRole('button', {name: 'Recipes'}).click();
+      await page.getByRole('listitem')
+      .filter({hasText: 'Soda'})
+      .getByRole('button', {name: '✏️'})
+      .click();
+
+      await page.getByLabel('Recipe Name').fill('Soda 2');
+      await page.getByLabel('Description').fill('better w/o that garbage');
+      await page.getByLabel('Pepsi').uncheck();
+      await page.getByRole('button', { name: 'Update' }).click();
+
+      await expect(page.getByText('Soda 2')).toBeVisible();
+      await expect(page.getByText('better w/o that garbage')).toBeVisible();
+      await expect(page.getByText('Pepsi')).not.toBeVisible();
+    })
+    
+    test('can delete a recipe', async () => {
       await page.getByRole('listitem')
       .filter({hasText: 'Soda'})
       .getByRole('button', {name: '🗑️'})
