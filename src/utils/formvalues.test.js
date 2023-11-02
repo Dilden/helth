@@ -43,45 +43,50 @@ const sample = {
 const sampleRecipe = {
   elements: {
     0: {
+      name: 'id',
+      type: 'text',
+      value: '10'
+    },
+    1: {
       name: 'name',
       type: 'text',
       value: 'pizza'
     },
-    1: {
+    2: {
       name: 'description',
       type: 'text',
       value: 'friday night is pizza night'
     },
-    2: {
+    3: {
       name: 'cheese',
       type: 'checkbox',
       value: '34',
       checked: true
     },
-    3: {
+    4: {
       name: 'sauce',
       type: 'checkbox',
       value: '2',
       checked: true
     },
-    4: {
+    5: {
       name: 'crust',
       type: 'checkbox',
       value: '106',
       checked: true
     },
-    5: {
+    6: {
       name: 'pepsi',
       type: 'checkbox',
       value: '8',
       checked: false
     },
-    5: {
+    7: {
       name: 'submit',
       type: 'submit',
       value: ''
     },
-    length: 6
+    length: 8
   }
 }
 
@@ -120,6 +125,7 @@ describe('form values', () => {
   it('formats values from recipes form', () => {
     const results = formatRecipeFormValues(sampleRecipe);
     expect(results).toEqual({
+      id: 10,
       name: 'pizza',
       description: 'friday night is pizza night',
       items: [

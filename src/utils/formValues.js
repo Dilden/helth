@@ -20,11 +20,11 @@ export const formatRecipeFormValues = (formData) => {
       }
     }
     else {
-      // if(current.name === 'id') {
-      //   accum[current.name] = Number(current.value);
-      // } else {
+      if(current.name === 'id') {
+        accum[current.name] = Number(current.value);
+      } else {
         accum[current.name] = current.value
-      // }
+      }
     }
     return accum;
   }, {});
