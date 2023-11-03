@@ -1,5 +1,6 @@
 import * as dbfun from '$stores/db';
 import { writable, derived } from 'svelte/store';
+  import { lookupItems } from '$utils/recipe.js';
 
 function createTodayStore() {
 
@@ -111,4 +112,18 @@ export const filteredInventory = derived(
     }
   },
   inventory.init()
+) 
+
+
+// returns a store array of promises
+export const formattedRecipes = derived(
+  recipes,
+  ( $recipes ) => {
+    return $recipes.map(async ( recipe ) => {
+      const items = await lookupItems(recipe);
+      recipe.items = await Promise.all(items);
+      return recipe;
+    })
+  },
+  recipes.init()
 ) 
