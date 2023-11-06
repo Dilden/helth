@@ -8,7 +8,7 @@ const config = {
   use: {
     trace: 'on-first-retry'
   },
-  retries: process.env.CI ? 2 : 0
+  retries: 1
 };
 
 export default config;
