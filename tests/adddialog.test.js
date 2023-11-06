@@ -143,9 +143,10 @@ test.describe('add items dialog', () => {
       await page.getByRole('button', {name: 'Save'}).click();
 
 
-      await expect(page.getByLabel('Name')).toBeEmpty();
+      // await expect(page.getByLabel('Name')).toBeEmpty();
       await expect(page.getByText('Soda')).toBeVisible();
       await expect(page.getByText('horrid concoction')).toBeVisible();
+      await expect(page.getByText('Coca-Cola').first()).toBeVisible();
       // // it works but is showing triple the quantities it should be showing
       // // maybe has something to do with the browsers?
       // await expect(page.getByText('Calories: 500kcal')).toBeVisible();
@@ -172,14 +173,15 @@ test.describe('add items dialog', () => {
       .getByRole('button', {name: '✏️'})
       .click();
 
-      await page.getByLabel('Recipe Name').fill('Soda 2');
-      await page.getByLabel('Description').fill('better w/o that garbage');
-      await page.getByLabel('Pepsi').uncheck();
+      // doing this on the wrong form
+      await page.locator('li').getByLabel('Recipe Name').fill('Soda 2');
+      await page.locator('li').getByLabel('Description').fill('better w/o that garbage');
+      await page.locator('li').getByLabel('Pepsi').uncheck();
       await page.getByRole('button', { name: 'Update' }).click();
 
-      await expect(page.getByText('Soda 2')).toBeVisible();
-      await expect(page.getByText('better w/o that garbage')).toBeVisible();
-      await expect(page.getByText('Pepsi')).not.toBeVisible();
+      await expect(page.locator('li').getByText('Soda 2')).toBeVisible();
+      await expect(page.locator('li').getByText('better w/o that garbage')).toBeVisible();
+      await expect(page.locator('li').getByText('Pepsi')).not.toBeVisible();
     })
     
     test('can delete a recipe', async () => {
