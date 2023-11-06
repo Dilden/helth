@@ -1,63 +1,40 @@
 <script>
-  import { recipes, inventory } from '$stores/stores.js';
-  import { lookupItems } from '$utils/recipe.js';
+  import { today, recipes, inventory, formattedRecipes } from '$stores/stores.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
-  import { onMount, afterUpdate } from 'svelte';
 
-  let showForm = false;
-  $: formattedRecipes = [];
+  let showAddForm = false;
+  let editing = undefined;
 
-  const attachItems = () => {
-    return $recipes.map(async ( recipe ) => {
-      const items = await lookupItems(recipe);
-      recipe.items = await Promise.all(items);
-      return recipe;
-    })
+  const editItem = (recipe) => {
+    showAddForm = false;
+    editing = recipe;
   }
-
-  const updateFormatted = async () => {
-    await recipes.init();
-    formattedRecipes = await Promise.all(attachItems());
-  }
-  onMount(async () => {
-    await updateFormatted();
-  })
-
-  afterUpdate(async () => {
-    // only run if # of recipes has changed
-    // creates fun memory leak if not checked for
-    if(formattedRecipes.length !== $recipes?.length) {
-      await updateFormatted();
-    }
-  })
 </script>
 
-<button on:click={() => (showForm = !showForm)}>Add Recipe</button>
+<button on:click={() => { showAddForm = !showAddForm; editing = undefined; }}>Add Recipe</button>
 
-<div class={(showForm ? 'showForm' : 'hideForm' )}>
-  <RecipeForm inventoryItems={ $inventory } />
-</div>
+{#if showAddForm}
+  <RecipeForm inventoryItems={ $inventory } submitCallback={() => { showAddForm = false; editing = undefined }} />
+{/if}
 
 <h3>Recipes</h3>
 <ul>
-  
-  {#if formattedRecipes}
-    {#each formattedRecipes.reverse() as recipe}
+{#await Promise.all( $formattedRecipes ) then formatted}
+    {#each formatted.slice().reverse() as recipe}
       <li>
+        {#if editing?.id === recipe.id}
+          <RecipeForm {recipe} inventoryItems={ $inventory } submitCallback={() => editing = false} />
+        {:else}
           <RecipeItem {recipe} />
+          <button on:click={editItem(recipe)} title="Edit Recipe">✏️</button> <!-- edit  -->
+        {/if}
       </li>
     {/each}
-  {/if}
+{/await}
 </ul>
 
 <style>
-  .showForm {
-    display: block;
-  }
-  .hideForm {
-    display: none;
-  }
   button {
     margin: 1rem;
   }
@@ -72,5 +49,8 @@
   li {
     margin: .75rem;
     padding: 1rem;
+  }
+  li button {
+    margin: 0 .5rem;
   }
 </style>

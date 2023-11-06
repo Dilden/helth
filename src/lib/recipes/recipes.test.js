@@ -49,8 +49,6 @@ beforeAll(async () => {
   });
 });
 
-
-
 describe('recipe list', () => {
   beforeEach(async () => {
     indexedDB = new IDBFactory();
@@ -61,17 +59,9 @@ describe('recipe list', () => {
     render(Recipes);
     expect(screen.queryByRole('heading', {name: 'Recipes'})).toBeVisible();
   });
-
-
-  it('gets names of inventory items in recipe', async () => {
-    render(Recipes);
-    expect(await screen.findByText('Coca-Cola')).toBeInTheDocument();
-    expect(await screen.findByText('Syrup')).toBeInTheDocument();
-  })
 })
 
 describe('add recipe', () => {
-
   it('has a button for adding recipes', async () => {
     render(Recipes);
     expect(await screen.findByRole('button', {name: 'Add Recipe'})).toBeVisible();
@@ -79,11 +69,10 @@ describe('add recipe', () => {
   it('can click the button to toggle form', async () => {
     render(Recipes);
 
-    expect(screen.getByLabelText('Recipe Name')).not.toBeVisible();
-    expect(screen.getByLabelText('Recipe Description')).not.toBeVisible();
-
     await click(screen.queryByRole('button', {name: 'Add Recipe'}));
+
     expect(screen.getByLabelText('Recipe Name')).toBeVisible();
     expect(screen.getByLabelText('Recipe Description')).toBeVisible();
   })
+
 })

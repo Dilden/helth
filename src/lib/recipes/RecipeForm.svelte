@@ -4,6 +4,7 @@
   
   export let recipe = {};
   export let inventoryItems = [];
+  export let submitCallback = () => (false);
   
   let validated = true;
 
@@ -17,10 +18,13 @@
     else {
       validated = false;
     }
+    submitCallback();
   }
 </script>
 <form class="recipeForm" name="AddRecipe" on:submit|preventDefault={handleSubmit}>
-  <input type="hidden" id="id" name="id" value={( recipe.id ? recipe.id : "" )} />
+  {#if recipe.id}
+    <input type="hidden" id="id" name="id" value={recipe.id} />
+  {/if}
   <span class="recipeName">
     <label for="recipeName">Recipe Name</label>
     <input type="text" id="recipeName" name="name" required value={( recipe.name ? recipe.name : "" )}/>
