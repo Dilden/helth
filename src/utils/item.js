@@ -8,3 +8,16 @@ export const nutrientsFromItem = (inventoryItem) => {
 
   return nutrients;
 }
+
+export const nutrientSumsFromList = (itemList) => {
+  const sums = itemList.map(nutrients => nutrientsFromItem(nutrients))
+  .reduce((accum, current) => {
+    Object.entries(current).map(( e ) => {
+      accum[e[0]] = accum[e[0]] || 0;
+      accum[e[0]] += Number( e[1] );
+    });
+    return accum;
+  }, {});
+
+  return sums;
+}

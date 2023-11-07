@@ -1,11 +1,9 @@
 <script>
   import {successToast, errorToast, confirmDialog} from '$utils/toast.js';
   import { nutrientsFromItem } from '$utils/item.js';
-  import { today, inventory } from '$stores/stores.js';
-  import AddItem from '$lib/inventory/AddItem.svelte';
+  import { today, inventory, recipes } from '$stores/stores.js';
 
   export let item;
-  export let addForm;
 
   const addToToday = () => {
     const nutrients = nutrientsFromItem(item);
@@ -20,41 +18,32 @@
     }
   }
 
-  let edit = false;
-  const editItem = () => {
-    edit = !edit;
-    addForm = false;
-  }
   const confirmDelete = () => {
-    confirmDialog('Are you sure you want to delete this item?', deleteItem, () => false);
+    confirmDialog('Are you sure you want to delete this item? This item will also be removed from any Recipes it has been included in.', deleteItem, () => false);
   }
 
-  const deleteItem = () => {
-    inventory.delete(item.id)
+  const deleteItem = async () => {
+    await inventory.delete(item.id)
     .then(() => successToast('Removed item!'))
     .catch(() => errorToast('Error deleting item!'));
+    await recipes.init();
   }
 </script>
 
-{#if edit}
-  <AddItem {item} submitCallback={editItem}/>
-{:else}
-  <h4>{item.name}</h4>
-  <div>
-    <div class="description">{item.description}</div>
-    {#if item.nutrients}
-      <ul>
-      {#each Object.values(item.nutrients) as nutrient}
-        {#if nutrient.quantity > 0}
-          <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
-        {/if}
-      {/each}
-      </ul>
-    {/if}
-  </div>
-{/if}
+<h4>{item.name}</h4>
+<div>
+  <div class="description">{item.description}</div>
+  {#if item.nutrients}
+    <ul>
+    {#each Object.values(item.nutrients) as nutrient}
+      {#if nutrient.quantity > 0}
+        <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
+      {/if}
+    {/each}
+    </ul>
+  {/if}
+</div>
 <button on:click={addToToday} title="Add to Daily Total">➕</button><!--add to daily total -->
-<button on:click={editItem} title="Edit Item">✏️</button> <!-- edit  -->
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <button on:click={confirmDelete} title="Delete Item from Inventory">🗑️</button> <!-- remove from db -->
 

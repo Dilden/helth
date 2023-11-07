@@ -9,3 +9,4 @@ node_modules
 !.env.example
 yarn-error.log
 vite.config.js.timestamp*.mjs
+/test-results

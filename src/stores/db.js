@@ -1,6 +1,5 @@
 import { Dexie } from 'dexie';
 import { thePast } from '$utils/dates';
-import { browser } from '$app/environment';
 
 export const db = new Dexie('helthdb');
 
@@ -60,6 +59,9 @@ db.version(1).stores({
 
 db.version(2).stores({
   inventory: '++id, &barcode, name, description, nutrients'
+})
+db.version(3).stores({
+  recipes: '++id, name, description, items'
 })
 
 export const dbopen = db.open().then(() => {
@@ -148,31 +150,21 @@ export const dbopen = db.open().then(() => {
 async function addDay() {
   try {
     const today = await db.journal.add(defaultDay);
-    console.log(`added ${today}`);
   } catch (error) {
-    console.log('error adding day');
+    // console.log('error adding day');
   }
 }
 
 export const updateLatestDay = async (date, changes) => {
-  if(browser) {
-    return db.journal.update(date, changes);
-  }
-  return {};
+  return db.journal.update(date, changes);
 };
 
 export const getLatestDay = async () => {
-  if(browser) {
-    return db.journal.orderBy('date').reverse().first();
-  }
-  return {};
+  return db.journal.orderBy('date').reverse().first();
 };
 
 export const getJournal = async () => {
-  if(browser) {
-    return db.journal.toArray();
-  }
-  return {};
+  return db.journal.toArray();
 };
 
 /*
@@ -186,72 +178,72 @@ async function addItem(tableName, name, value) {
       name: name,
       value: value
     });
-    console.log(`added ${item}`);
   } catch (error) {
-    console.log(`error adding item to ${tableName}: ${error}`);
+    // console.log(`error adding item to ${tableName}: ${error}`);
   }
 }
 
 export const updateItems = async (tableName, items) => {
-  if(browser) {
-    return db.table(tableName).bulkPut(items);
-  }
-  return {};
+  return db.table(tableName).bulkPut(items);
 }
 
 export const getItems = async (tableName) => {
   // spread all of the settings onto one object
   // so app doesn't need a store for each setting
-  if(browser) {
-    return db.table(tableName).toArray()
+  return db.table(tableName).toArray()
     .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
-   
-  }
-  return {};
 }
 
+
 /*
- * Inventory
+ * List store methods
+ * Inventory, Recipes
  */
+export const getListItems = async (tableName) => {
+  return await db.table(tableName).toArray();
+}
+export const addToList = async (tableName, data) => {
+    return await db.table(tableName).add(data);
+}
+export const updateItemInList = async (tableName, id, data) => {
+  return await db.table(tableName).update(id, data);
+}
+export const deleteFromList = async (tableName, id) => {
+  return await db.table(tableName).delete(id);
+}
+// delete the item from any Recipes first
+export const deleteItemFromRecipes = async (id) => {
+  return await getListItems('recipes')
+    .then((recipes) => {
+      recipes.map(async (recipe) => {
+        const itemMatches = recipe?.items?.filter((item) => {
+          if(item.id === id) {
+            return item;
+          }
+        })
+        if(itemMatches) {
+          recipe.items = recipe?.items?.filter(x => !itemMatches.includes(x));
+          return await updateItemInList('recipes', recipe.id, recipe);
+        }
+      });
+    });
+}
 export const getInventory = async () => {
-  if(browser) {
-    return db.inventory.toArray();
-  }
-  return {};
+  return await getListItems('inventory');
 }
 export const addInventory = async (data) => {
-  if(browser) {
-    return db.inventory.add(data);
-  }
-  return {};
+  return await addToList('inventory', data);
 }
-export const updateInventory = async (id, data) => {
-  if(browser) {
-    return db.inventory.update(id, data);
-  }
-  return {};
-}
-export const deleteInventory = async (id) => {
-  if(browser) {
-    return db.inventory.delete(id);
-  }
-  return {};
+export const getItemByIdFromTable = async (tableName, id) => {
+  return await db.table(tableName).where('id').equals(id).first();
 }
 
 // Persistent Storage https://dexie.org/docs/StorageManager
 export const persist = async () => {
-  if(browser) {
-    console.log('setting persistence...');
-    return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
-  }
-  return {};
+  return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
 }
 
 export const isStoragePersisted = async () => {
-  if(browser) {
-    console.log('checking persistence...');
-    return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
-  }
-  return {};
+  return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
 }
 

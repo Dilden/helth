@@ -1,5 +1,6 @@
 import * as dbfun from '$stores/db';
 import { writable, derived } from 'svelte/store';
+  import { lookupItems } from '$utils/recipe.js';
 
 function createTodayStore() {
 
@@ -64,42 +65,47 @@ function createNameValueStore(tableName) {
   }
 }
 
-function createInventoryStore() {
+function createListStore(listName) {
   const store = writable({});
 
   return {
     ...store,
     init: async () => {
-      const items = dbfun.getInventory();
+      const items = dbfun.getListItems(listName);
       items.then(values => {
         (values) ? store.set(values) : store.set([]);
       })
       return items;
     },
     set: async (newVal) => {
-      const id = newVal.id;
+      const id = Number( newVal.id );
       if(id) {
-        await dbfun.updateInventory(Number(id), newVal)
+        await dbfun.updateItemInList(listName, id, newVal);
       }
       else {
-        await dbfun.addInventory(newVal);
+        await dbfun.addToList(listName, newVal);
       }
-      store.set(await dbfun.getInventory());
+      store.set(await dbfun.getListItems(listName));
     },
     delete: async (id) => {
-      await dbfun.deleteInventory(id);
-      store.set(await dbfun.getInventory());
+      if(listName === 'inventory') {
+        await dbfun.deleteItemFromRecipes(id);
+        // TODO:
+        // recipes store needs to be re-initialized after this
+      }
+      await dbfun.deleteFromList(listName, id);
+      store.set(await dbfun.getListItems(listName));
     }
   }
 }
-
 
 export const today = createTodayStore();
 export const history = createHistoryStore();
 export const settings = createNameValueStore('settings');
 export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
-export const inventory = createInventoryStore();
+export const inventory = createListStore('inventory');
+export const recipes = createListStore('recipes');
 
 // https://stackoverflow.com/a/65616230/759563
 export const searchTerm = writable('');
@@ -111,4 +117,29 @@ export const filteredInventory = derived(
     }
   },
   inventory.init()
+) 
+
+
+// returns a store array of promises
+export const recipeSearch = writable('');
+export const formattedRecipes = derived(
+  [recipeSearch, recipes ],
+  ([$recipeSearch, $recipes ]) => {
+    let searched = $recipes;
+    
+    if(Array.isArray( $recipes )) {
+      searched = $recipes.filter((recipe) => 
+        recipe.name.toLowerCase().includes($recipeSearch.toLowerCase())
+          || 
+          recipe.description.toLowerCase().includes($recipeSearch.toLowerCase())
+      )
+    }
+
+    return searched.map(async ( recipe ) => {
+      const items = await lookupItems(recipe);
+      recipe.items = await Promise.all(items);
+      return recipe;
+    })
+  },
+  recipes.init()
 ) 
