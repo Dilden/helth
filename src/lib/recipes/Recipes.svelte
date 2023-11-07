@@ -1,5 +1,5 @@
 <script>
-  import { today, recipes, inventory, formattedRecipes } from '$stores/stores.js';
+  import { inventory, formattedRecipes } from '$stores/stores.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
 
@@ -12,7 +12,7 @@
   }
 </script>
 
-<button on:click={() => { showAddForm = !showAddForm; editing = undefined; }}>Add Recipe</button>
+<button on:click|preventDefault={() => { showAddForm = !showAddForm; editing = undefined; }}>Add Recipe</button>
 
 {#if showAddForm}
   <RecipeForm inventoryItems={ $inventory } submitCallback={() => { showAddForm = false; editing = undefined }} />
@@ -24,10 +24,10 @@
     {#each formatted.slice().reverse() as recipe}
       <li>
         {#if editing?.id === recipe.id}
-          <RecipeForm {recipe} inventoryItems={ $inventory } submitCallback={() => editing = false} />
+          <RecipeForm {recipe} inventoryItems={ $inventory } submitCallback={() => editing = undefined} />
         {:else}
           <RecipeItem {recipe} />
-          <button on:click={editItem(recipe)} title="Edit Recipe">✏️</button> <!-- edit  -->
+          <button on:click|preventDefault={editItem(recipe)} title="Edit Recipe">✏️</button> <!-- edit  -->
         {/if}
       </li>
     {/each}

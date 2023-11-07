@@ -5,17 +5,21 @@
   import Search from '$lib/inventory/Search.svelte';
   import { inventory, filteredInventory } from '$stores/stores.js';
 
+  let editing = undefined;
   let formVisible = false;
 
+  const editItem = (item) => {
+    formVisible = false;
+    editing = item;
+  }
 </script>
-<button on:click|preventDefault={() => (formVisible = !formVisible)}>Add Item</button>
+<button on:click|preventDefault={() => {formVisible = !formVisible; editing = undefined;}}>Add Item</button>
 
-<div class={formVisible ? 'showForm' : 'hideForm'} >
-  <AddItem submitCallback={() => (formVisible = false)}/>
-</div>
+{#if formVisible}
+  <AddItem submitCallback={() => { formVisible = false; editing = undefined; }}/>
+{/if}
 <div class='inventory'>
   <h3>Saved Items</h3>
-
   <div class='search_bar'>
     <Search />
   </div>
@@ -24,9 +28,14 @@
       <Spinner />
       {:then}
       {#if $inventory.length}
-        {#each $filteredInventory.reverse() as item}
+        {#each $filteredInventory.slice().reverse() as item}
           <li>
-            <Item {item} bind:addForm={formVisible} />
+            {#if editing?.id === item.id}
+              <AddItem {item} submitCallback={() => (editing = undefined)}/>
+            {:else}
+              <Item {item} />
+              <button on:click|preventDefault={editItem(item)} title="Edit Item">✏️</button> <!-- edit  -->
+            {/if}
           </li>
         {/each}
       {/if}
@@ -42,14 +51,11 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
   }
-  .showForm {
-    display: block;
-  }
-  .hideForm {
-    display: none;
-  }
   button {
     margin: 1rem;
+  }
+  li button {
+    margin: .5rem;
   }
   ul {
     list-style: none;

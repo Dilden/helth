@@ -48,7 +48,6 @@ test.describe('add items dialog', () => {
 
         await expect(page.getByText('Sample Item X')).toBeVisible();
         await expect(page.getByText('Sodium: 20mg')).toBeVisible();
-        await expect(page.getByLabel('Name')).toBeEmpty();
       });
 
       test('add item in inventory to daily total', async () => {
@@ -68,7 +67,7 @@ test.describe('add items dialog', () => {
         .click();
 
         await page.getByLabel('inventory-list').locator('#name').fill('New Sample Item');
-        await page.getByRole('textbox', { name: 'kcal' }).fill('200');
+        await page.getByPlaceholder('kcal').fill('200');
         await page.getByRole('button', { name: 'Update' }).click();
 
         await expect(page.getByText('New Sample Item')).toBeVisible();
