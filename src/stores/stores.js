@@ -88,6 +88,11 @@ function createListStore(listName) {
       store.set(await dbfun.getListItems(listName));
     },
     delete: async (id) => {
+      if(listName === 'inventory') {
+        await dbfun.deleteItemFromRecipes(id);
+        // TODO:
+        // recipes store needs to be re-initialized after this
+      }
       await dbfun.deleteFromList(listName, id);
       store.set(await dbfun.getListItems(listName));
     }
