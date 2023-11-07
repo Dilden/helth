@@ -211,6 +211,23 @@ export const updateItemInList = async (tableName, id, data) => {
 export const deleteFromList = async (tableName, id) => {
   return await db.table(tableName).delete(id);
 }
+// delete the item from any Recipes first
+export const deleteItemFromRecipes = async (id) => {
+  return await getListItems('recipes')
+    .then((recipes) => {
+      recipes.map(async (recipe) => {
+        const itemMatches = recipe?.items?.filter((item) => {
+          if(item.id === id) {
+            return item;
+          }
+        })
+        if(itemMatches) {
+          recipe.items = recipe?.items?.filter(x => !itemMatches.includes(x));
+          return await updateItemInList('recipes', recipe.id, recipe);
+        }
+      });
+    });
+}
 export const getInventory = async () => {
   return await getListItems('inventory');
 }

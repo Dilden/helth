@@ -1,8 +1,7 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { dbopen, getListItems, addToList, getItemByIdFromTable } from '$stores/db.js';
-import { updateItemInList } from './db';
+import { dbopen, getListItems, addToList, getItemByIdFromTable, updateItemInList, deleteItemFromRecipes} from '$stores/db.js';
 
 beforeAll(async () => await dbopen);
 afterAll(() => {
@@ -31,4 +30,56 @@ describe.sequential('list tables', () => {
       id: 1, name: 'test', description: 'desc'
     });
   })
+})
+
+it('removes an item from recipes it exists in', async () => {
+  const item1 = {
+    id: 10,
+    name: 'pizza crust',
+    description: 'the base of it all',
+    nutrients: {
+      calories: {
+        name: 'Calories',
+        quantity: '50',
+        unit: 'kcal'
+      }
+    }
+  };
+  const item2 = {
+    id: 11,
+    name: 'sauce',
+    description: 'flavor',
+    nutrients: {
+      calories: {
+        name: 'Calories',
+        quantity: '50',
+        unit: 'kcal'
+      }
+    }
+  };
+  const recipe = {
+    id: 30,
+    name: 'pizza',
+    description: 'friday nights',
+    items: [
+      {id: 10},
+      {id: 11}
+    ]
+  }
+  await addToList( 'inventory', item1 );
+  await addToList( 'inventory', item2 );
+  await addToList('recipes', recipe);
+
+  expect(await getItemByIdFromTable('recipes', 30)).toEqual(recipe);
+  
+  await deleteItemFromRecipes(11);
+  expect(await getItemByIdFromTable('recipes', 30)).toEqual({
+    id: 30,
+    name: 'pizza',
+    description: 'friday nights',
+    items: [
+      {id: 10}
+    ]
+  }
+);
 })
