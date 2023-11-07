@@ -72,4 +72,14 @@
     margin-top: 0;
     position: relative;
   }
+  @media screen and (max-width: 925px) {
+    .recipes {
+      grid-template-rows: 1fr 1fr auto;
+      grid-template-columns: 1fr;
+    }
+    .search_bar, h3, ul {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+  }
 </style>

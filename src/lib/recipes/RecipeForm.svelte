@@ -87,12 +87,12 @@
     grid-column-end: 4;
     margin-bottom: 1rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr ));
     grid-template-rows: auto;
-    gap: 1em;
-    max-height: 20rem;
+    gap: .8em;
   }
   .inventoryItem {
+    justify-self: center;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -110,11 +110,9 @@
     margin: 0;
   }
   .inventoryItem input {
-    width: 10%;
-    height: 1.2rem;
+    width: 1.2rem;
   }
   .inventoryItem label {
-    width: 90%;
     padding-left: .5em;
   }
 
