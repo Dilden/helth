@@ -1,7 +1,7 @@
 <script>
   import {successToast, errorToast, confirmDialog} from '$utils/toast.js';
   import { nutrientsFromItem } from '$utils/item.js';
-  import { today, inventory } from '$stores/stores.js';
+  import { today, inventory, recipes } from '$stores/stores.js';
 
   export let item;
 
@@ -19,13 +19,14 @@
   }
 
   const confirmDelete = () => {
-    confirmDialog('Are you sure you want to delete this item?', deleteItem, () => false);
+    confirmDialog('Are you sure you want to delete this item? This item will also be removed from any Recipes it has been included in.', deleteItem, () => false);
   }
 
-  const deleteItem = () => {
-    inventory.delete(item.id)
+  const deleteItem = async () => {
+    await inventory.delete(item.id)
     .then(() => successToast('Removed item!'))
     .catch(() => errorToast('Error deleting item!'));
+    await recipes.init();
   }
 </script>
 
