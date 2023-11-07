@@ -82,49 +82,34 @@
     max-width: 40rem;
   }
   .inventory {
-    min-height: 120px;
-    max-height: 450px;
     overflow-y: scroll;
     grid-column-start: 2;
     grid-column-end: 4;
     margin-bottom: 1rem;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 1em;
+    max-height: 20rem;
+  }
+  .inventoryItem {
     display: flex;
-    -webkit-flex-flow: row wrap;
-    -moz-flex-flow: row wrap;
-    -ms-flex-flow: row wrap;
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    gap: 10px;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
   }
   .invalid {
     background-color: #794949;
-    /* color: var(--secondary-fore-color); */
     display: block;
     width: 100%;
     padding: 1rem;
-  }
-  .inventoryItem {
-    flex: 1 1 0px;
-    margin: auto;
-    width: auto;
-    max-width: 150px;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
-    align-items: stretch;
   }
   .inventoryItem input, .inventoryItem label {
     margin: 0;
   }
   .inventoryItem input {
     width: 10%;
-    min-width: 20px;
-    max-width: 25px;
+    height: 1.2rem;
   }
   .inventoryItem label {
     width: 90%;
