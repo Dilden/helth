@@ -40,8 +40,6 @@
     flex-flow: row wrap;
     justify-content: center;
     gap: 15px;
-    max-height: 20rem;
-    overflow-y: scroll;
     border: none;
     margin: 0;
     padding: .25rem 0;
