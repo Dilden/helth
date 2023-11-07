@@ -75,4 +75,8 @@ describe('add recipe', () => {
     expect(screen.getByLabelText('Recipe Description')).toBeVisible();
   })
 
+  it('has a search bar', async () => {
+    render(Recipes);
+    expect(screen.getByLabelText('Search Recipes')).toBeVisible();
+  })
 })

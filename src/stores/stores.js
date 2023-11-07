@@ -121,10 +121,21 @@ export const filteredInventory = derived(
 
 
 // returns a store array of promises
+export const recipeSearch = writable('');
 export const formattedRecipes = derived(
-  recipes,
-  ( $recipes ) => {
-    return $recipes.map(async ( recipe ) => {
+  [recipeSearch, recipes ],
+  ([$recipeSearch, $recipes ]) => {
+    let searched = $recipes;
+    
+    if(Array.isArray( $recipes )) {
+      searched = $recipes.filter((recipe) => 
+        recipe.name.toLowerCase().includes($recipeSearch.toLowerCase())
+          || 
+          recipe.description.toLowerCase().includes($recipeSearch.toLowerCase())
+      )
+    }
+
+    return searched.map(async ( recipe ) => {
       const items = await lookupItems(recipe);
       recipe.items = await Promise.all(items);
       return recipe;
