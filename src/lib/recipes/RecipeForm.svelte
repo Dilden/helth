@@ -13,12 +13,12 @@
     if(vals?.items?.length) {
       $recipes = vals;
       event.target.reset();
+      submitCallback();
       validated = true;
     }
     else {
       validated = false;
     }
-    submitCallback();
   }
 </script>
 <form class="recipeForm" name="AddRecipe" on:submit|preventDefault={handleSubmit}>
@@ -102,7 +102,9 @@
     background-color: #794949;
     display: block;
     width: 100%;
-    padding: 1rem;
+    padding: .5rem;
+    grid-column-start: 1;
+    grid-column-end: 6;
   }
   .inventoryItem input, .inventoryItem label {
     margin: 0;
