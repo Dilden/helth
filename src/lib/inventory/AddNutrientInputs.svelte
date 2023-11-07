@@ -2,6 +2,7 @@
   import { list } from '$utils/nutrients.js';
 
   export let nutrients = {};
+  export let validated = true;
 </script>
 
 <div class="nutrientInputs">
@@ -11,6 +12,9 @@
   </h4>
   <em>Enter quantities based on individual serving size</em>
   <fieldset class="nutrientList">
+    {#if !validated}
+      <div class="invalid">At least one nutrient is required!</div>
+    {/if}
     {#each Object.keys(list) as nutrient, index}
       <span class="nutrient {nutrient}">
         <label for="{nutrient}">{list[nutrient].name}</label>
@@ -47,5 +51,12 @@
   }
   .nutrient label, .nutrient input {
     display: block;
+  }
+
+  .invalid {
+    background-color: #794949;
+    display: block;
+    width: 100%;
+    padding: 1rem;
   }
 </style>

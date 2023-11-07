@@ -5,12 +5,19 @@
 
   export let item = {};
   export let submitCallback = () => false;
+  let validated = true;
 
   const handleSubmit = (event) => {
     const vals = formatInventoryFormValues( event.target );
-    $inventory = vals;
-    event.target.reset();
-    submitCallback();
+    if(vals?.nutrients && Object.entries( vals?.nutrients ).length) {
+      validated = true;
+      $inventory = vals;
+      event.target.reset();
+      submitCallback();
+    }
+    else {
+      validated = false;
+    }
   }
 </script>
 
@@ -32,7 +39,7 @@
     <label for="barcode" >Barcode</label>
     <input type="text" id="barcode" name="barcode" value={(item.barcode ? item.barcode : "")} placeholder="UPC/Unique ID" />
   </span>
-  <AddNutrientInputs nutrients={(item.nutrients ? item.nutrients : {})}/>
+  <AddNutrientInputs bind:validated nutrients={(item.nutrients ? item.nutrients : {})}/>
   <input type="submit" value='{ item.id ? "Update" : "Save" }' />
 </form>
 
