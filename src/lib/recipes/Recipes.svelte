@@ -13,7 +13,7 @@
   }
 </script>
 
-<button on:click|preventDefault={() => { showAddForm = !showAddForm; editing = undefined; }}>Add Recipe</button>
+<button on:click|preventDefault={() => { showAddForm = !showAddForm; editing = undefined; }}>{(!showAddForm ? 'Add Recipe': 'Cancel')}</button>
 
 {#if showAddForm}
   <RecipeForm inventoryItems={ $inventory } submitCallback={() => { showAddForm = false; editing = undefined }} />

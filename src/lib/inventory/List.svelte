@@ -13,7 +13,7 @@
     editing = item;
   }
 </script>
-<button on:click|preventDefault={() => {formVisible = !formVisible; editing = undefined;}}>Add Item</button>
+<button on:click|preventDefault={() => {formVisible = !formVisible; editing = undefined;}}>{(!formVisible ? 'Add Item' : 'Cancel')}</button>
 
 {#if formVisible}
   <AddItem submitCallback={() => { formVisible = false; editing = undefined; }}/>
