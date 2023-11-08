@@ -11,6 +11,11 @@ describe('recipe form', () => {
     expect(screen.getByLabelText('Recipe Description')).toBeVisible();
   })
 
+  it('alerts user there are no items in inventory', async () => {
+    render(RecipeForm);
+    expect(screen.getByText('No items found in inventory! Go scan something or Add an Item to your Inventory manually before creating a recipe.')).toBeVisible();
+  })
+
   it('shows inventory items in checkboxes', async () => {
     render(RecipeForm, {
       inventoryItems: [

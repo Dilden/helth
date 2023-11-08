@@ -36,21 +36,25 @@
   </span>
 
   <div class="inventory">
-  {#if !validated}
-    <div class="invalid">At least one item must be selected!</div>
-  {/if}
-  {#each inventoryItems as item}
-      <span class="inventoryItem">
-        {#if recipe.items && recipe.items.map(item => item.id).includes(item.id) }
-          <input checked type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
-        {:else}
-          <input type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
-        {/if}
-        <label for="inventoryItem-{item.id}">
-          {item.name}
-        </label>
-      </span>
-  {/each}
+    {#if inventoryItems?.length}
+      {#if !validated}
+        <div class="invalid">At least one item must be selected!</div>
+      {/if}
+      {#each inventoryItems as item}
+          <span class="inventoryItem">
+            {#if recipe.items && recipe.items.map(item => item.id).includes(item.id) }
+              <input checked type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+            {:else}
+              <input type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+            {/if}
+            <label for="inventoryItem-{item.id}">
+              {item.name}
+            </label>
+          </span>
+      {/each}
+    {:else}
+      <p>No items found in inventory! Go scan something or Add an Item to your Inventory manually before creating a recipe.</p>
+    {/if}
   </div>
   <input type="submit" value="{ recipe.id ? 'Update' : 'Save' }" />
 </form>
