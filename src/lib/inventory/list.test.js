@@ -1,6 +1,6 @@
 import "fake-indexeddb/auto";
 import { describe, it, expect } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/svelte';
+import { render, screen } from '@testing-library/svelte';
 import List from './List.svelte';
 import { inventory } from '../../stores/stores.js';
 
@@ -19,6 +19,7 @@ describe('inventory list', () => {
   // idk how to render this with testing-library since the component
   // uses svelte await
   it.skip('shows a list of items', async () => {
+    await inventory.init();
     await inventory.set([
       {name: 'Coca-Cola', description: 'A refreshingly acidic beverage'},
       {name: 'Pepsi', description: 'A disgustingly acidic beverage'},

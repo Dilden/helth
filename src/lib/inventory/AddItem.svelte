@@ -1,21 +1,30 @@
 <script>
   import { inventory } from '$stores/stores.js';
-  import { formValues } from '$utils/formValues.js';
+  import { formatInventoryFormValues } from '$utils/formValues.js';
   import AddNutrientInputs from './AddNutrientInputs.svelte';
 
   export let item = {};
   export let submitCallback = () => false;
+  let validated = true;
 
   const handleSubmit = (event) => {
-    const vals = formValues( event.target );
-    $inventory = vals;
-    event.target.reset();
-    submitCallback();
+    const vals = formatInventoryFormValues( event.target );
+    if(vals?.nutrients && Object.entries( vals?.nutrients ).length) {
+      validated = true;
+      $inventory = vals;
+      event.target.reset();
+      submitCallback();
+    }
+    else {
+      validated = false;
+    }
   }
 </script>
 
 <form name="AddItem" on:submit|preventDefault={handleSubmit} >
-  <input type="hidden" id="id" name="id" value={( item.id ? item.id : "" )} />
+  {#if item?.id}
+    <input type="hidden" id="id" name="id" value={item.id} />
+  {/if}
   <span class="name">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>
@@ -30,7 +39,7 @@
     <label for="barcode" >Barcode</label>
     <input type="text" id="barcode" name="barcode" value={(item.barcode ? item.barcode : "")} placeholder="UPC/Unique ID" />
   </span>
-  <AddNutrientInputs nutrients={(item.nutrients ? item.nutrients : {})}/>
+  <AddNutrientInputs bind:validated nutrients={(item.nutrients ? item.nutrients : {})}/>
   <input type="submit" value='{ item.id ? "Update" : "Save" }' />
 </form>
 

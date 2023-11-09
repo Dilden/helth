@@ -2,11 +2,11 @@ import path from 'path';
 import { sveltekit } from '@sveltejs/kit/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
-import fs from 'fs';
 
 /** @type {import('vite').UserConfig} */
 const config = {
   test: {
+    css: true,
     globals: true,
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,ts}'],
