@@ -4,17 +4,23 @@
   import { getInventory, addInventory } from '$stores/db';
   import {successToast, errorToast} from '$utils/toast.js';
   import { error } from '@sveltejs/kit';
+  import { getFoodFacts } from '$utils/sources.js';
 
   // scanner
   let selected;
 
   const codeReader = new BrowserMultiFormatReader();
 
+  // const scan = async () => {
+  //   console.log(await getFoodFacts('0027000372425'));
+  // }
+
   async function scan() {
     codeReader
       .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-      .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
-      .then(response => response.json())
+      .then(result => getFoodFacts(result.getText()))
+      // .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
+      // .then(response => response.json())
       .then(val => {
         if(!val.nutrients && val.message) {
           errorToast('Item not found');
