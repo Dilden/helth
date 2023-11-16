@@ -1,9 +1,9 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
-  import { today } from '$stores/stores';
   import { getInventory, addInventory } from '$stores/db';
   import {successToast, errorToast} from '$utils/toast.js';
   import { error } from '@sveltejs/kit';
+  import { getFoodFacts } from '$utils/sources.js';
 
   // scanner
   let selected;
@@ -13,8 +13,7 @@
   async function scan() {
     codeReader
       .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
-      .then(result => fetch(`/api/upc?barcode=${result.getText()}`))
-      .then(response => response.json())
+      .then(result => getFoodFacts(result.getText()))
       .then(val => {
         if(!val.nutrients && val.message) {
           errorToast('Item not found');
@@ -33,10 +32,13 @@
             }
           });
 
-        $today.calories = $today.calories + Number( val.nutrients.calories.quantity );
-        $today.sodium = $today.sodium + Number( val.nutrients.sodium.quantity );
-        $today.protein = $today.protein + Number( val.nutrients.protein.quantity );
-        successToast('Added item to daily total!');
+       // // Add to daily total logic.
+       // // Instead of automatically adding everything scanned,
+       // // a user should be prompted whether they would like to add it now or not.
+        // $today.calories = $today.calories + Number( val.nutrients.calories.quantity );
+        // $today.sodium = $today.sodium + Number( val.nutrients.sodium.quantity );
+        // $today.protein = $today.protein + Number( val.nutrients.protein.quantity );
+        // successToast('Added item to daily total!');
         // document.body.classList.remove('modal-open')
       })
       .catch(error => {
@@ -47,6 +49,7 @@
 
   function cancel() {
       codeReader.reset();
+      // // auto-close scanner
       // document.body.classList.remove('modal-open')
   }
 </script>
