@@ -75,6 +75,12 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.0.20</summary>
+    <ul>
+      <li>Added mobile formatting to about page</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.0.19</summary>
     <ul>
       <li>Added this about page</li>
@@ -86,31 +92,37 @@
 </div>
 
 <style>
-    h2 {
-      text-align: center;
-    }
-    h3 {
-      border-top: var(--secondary-back-color) dotted 2px;
-      padding-top: .5rem;
-    }
-    .container {
-      text-align: center;
-    }
+  h2 {
+    text-align: center;
+  }
+  h3 {
+    border-top: var(--secondary-back-color) dotted 2px;
+    padding-top: .5rem;
+  }
+  .container {
+    text-align: center;
+  }
+  details {
+    margin: 0 auto;
+    max-width: 75%;
+    padding: 0 1.3rem;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.3em;
+  }
+  details[open] summary {
+    background-color: #151F22;
+  }
+  summary {
+    padding: 1rem 1.3rem;
+  }
+  details > p {
+    padding-bottom: .75rem;
+  }
+
+  @media screen and (max-width: 900px) {
     details {
-      margin: 0 auto;
-      max-width: 75%;
-      padding: 0 1.3rem;
-      margin: 0 auto;
-      text-align: left;
-      font-size: 1.3em;
+      max-width: 100%;
     }
-    details[open] summary {
-      background-color: #151F22;
-    }
-    summary {
-      padding: 1rem 1.3rem;
-    }
-    details > p {
-      padding-bottom: .75rem;
-    }
+  }
 </style>
