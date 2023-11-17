@@ -73,6 +73,16 @@
     <p>If talking to people or writing code isn't your thing, then maybe philanthropy is. Donations, even the amount for a coffee or beer; tells me that you appreciate the work I've put into this app. If you donate to this project, I'll even feature your name here on this very page!</p>
     <p>To sponsor me on GitHub, visit <a href="https://github.com/sponsors/Dilden">https://github.com/sponsors/Dilden</a>. If you don't have a GitHub account, you can also make a one-time donation via Stripe for <a href="https://buy.stripe.com/bIY7sX4IP2tjcVydQQ">$5</a>, <a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$10</a>, <a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$20</a>, <a href="https://buy.stripe.com/28o28D4IP9VL5t68wx">$50</a>, or <a href="https://buy.stripe.com/14k4gL1wD9VLg7K6os">$100</a>.</p>
   </details>
+  <h3>changelog</h3>
+  <details >
+    <summary>v0.0.19</summary>
+    <ul>
+      <li>Added this about page</li>
+      <li>Switched icons to be in front of text in titles and nav menu</li>
+      <li>Changed /data page to /settings</li>
+      <li>Added title to settings page</li>
+    </ul>
+  </details>
 </div>
 
 <style>
