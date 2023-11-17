@@ -6,7 +6,7 @@
 </script>
 
 <div class='container'>
-  <h2>charts 📈</h2>
+  <h2>📈 charts</h2>
   <WaterChart />
   <CalorieChart />
   <NutrientsChart />
