@@ -9,7 +9,7 @@
   export let data = [];
 </script>
 
-<h2>track 🗒</h2>
+<h2>🗒 track</h2>
 <Date />
 
 <div class="wrapper">

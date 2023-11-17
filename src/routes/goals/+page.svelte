@@ -5,7 +5,7 @@
     import Protein from '$lib/goals/Protein.svelte';
 </script>
 
-<h2>goals 🥇</h2>
+<h2>🥇 goals</h2>
   <div class="wrapper">
     <div class="item">
       <p>Set your water goal (ml)</p>
