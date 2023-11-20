@@ -55,9 +55,7 @@
 </script>
 
 <div class="scanner">
-  <div class='vid'>
-    <video id="scanner" name="scanner"><track kind="captions" /></video>
-  </div>
+  <div class="empty"></div>
     {#await codeReader.listVideoInputDevices()}
         <p>..waiting</p>
     {:then inputs}
@@ -76,39 +74,40 @@
     {:catch error}
         <p class=".error">oops!</p>
     {/await}
+    <div class='vid'>
+      <video id="scanner" name="scanner"><track kind="captions" /></video>
+    </div>
 </div>
 
 <style>
     .scanner {
-        display: grid;
-        grid-template-rows: [video] 90% [controls] 10% [end] 25px;
-        column-gap: 5px;
-        row-gap: 15px;
-        padding: 0;
-        overflow-y: scroll;
+      display: grid;
+      grid-template-rows: [controls] 10% [video] 90% [end] 25px;
+      column-gap: 5px;
+      row-gap: 20px;
+      padding: 0;
+      min-height: 100%;
     }
     .vid {
-        grid-row-start: 1;
-        grid-row-end: 2;
-        width: 100%;
-        text-align: center;
-        margin: 0 auto;
+      grid-row-start: 2;
+      grid-row-end: 3;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
     }
     video {
       width: 100%;
-      max-height: 55vh;
+      max-height: 60vh;
     }
     .controls {
-        display: grid;
-        grid-row-start: 2;
-        grid-row-end: 3;
-        grid-template-rows: repeat(2, 1fr);
-        grid-template-columns: 1fr 6fr 1fr;
-        text-align: center;
-        text-transform: uppercase;
-        row-gap: 15px;
-        column-gap: 15px;
-        padding: 0 10px;
+      display: grid;
+      grid-row-start: 1;
+      grid-row-end: 2;
+      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: 1fr 6fr 1fr;
+      text-align: center;
+      text-transform: uppercase;
+      gap: 10px 20px;
     }
     .controls label {
         font-size: 1.4em;
