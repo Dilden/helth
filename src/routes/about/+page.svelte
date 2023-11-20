@@ -75,6 +75,14 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.0.21</summary>
+    <ul>
+      <li>Adjusted controls + video of scanner</li>
+      <li>Left-aligned inventory items in recipe edit form for consistent checkbox position</li>
+      <li>Reduced gap between inputs on Recipe & Inventory edit forms</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.0.20</summary>
     <ul>
       <li>Added mobile formatting to about page</li>
