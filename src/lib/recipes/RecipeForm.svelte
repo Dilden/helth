@@ -129,5 +129,8 @@
       grid-column-start: 1;
       grid-column-end: 2;
     }
+    .inventoryItem {
+      justify-self: initial;
+    }
   }
 </style>
