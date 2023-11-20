@@ -74,7 +74,7 @@
   @media screen and (max-width: 900px) {
     form {
       grid-template-columns: 1fr;
-      grid-template-rows: .25fr .25fr .25fr 5fr .25fr;
+      grid-template-rows: 1fr 1fr 1fr auto 1fr;
     }
     .name, .description, .barcode, input[type='submit'] {
       grid-column-start: 1;

@@ -71,4 +71,10 @@
   button {
     margin: 0 .5rem;
   }
+  @media screen and (max-width: 900px) {
+    ul {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
 </style>

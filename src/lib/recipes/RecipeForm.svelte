@@ -123,11 +123,14 @@
   @media screen and (max-width: 900px) {
     form {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr 3fr 1fr;
+      grid-template-rows: 1fr 1fr auto 1fr;
     }
     .recipeName, .recipeDescription, .inventory, input[type='submit'] {
       grid-column-start: 1;
       grid-column-end: 2;
+    }
+    .inventoryItem {
+      justify-self: initial;
     }
   }
 </style>
