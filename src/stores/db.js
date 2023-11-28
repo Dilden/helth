@@ -240,10 +240,13 @@ export const getItemByIdFromTable = async (tableName, id) => {
 
 // Persistent Storage https://dexie.org/docs/StorageManager
 export const persist = async () => {
-  return await navigator.storage && navigator.storage.persist && navigator.storage.persist();
+  return navigator.storage ?
+  await navigator.storage.persist() :
+  undefined;
 }
 
 export const isStoragePersisted = async () => {
-  return await navigator.storage && navigator.storage.persisted && navigator.storage.persisted();
+  console.log(navigator.storage.persisted);
+  return await navigator.storage.persisted();
 }
 
