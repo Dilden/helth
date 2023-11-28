@@ -85,5 +85,8 @@
       grid-column-start: 1;
       grid-column-end: 2;
     }
+    li {
+      padding: .5rem;
+    }
   }
 </style>

@@ -32,16 +32,16 @@
 </script>
 
 <h4>{recipe.name}</h4>
-<p>{recipe.description}</p>
+<div class="description">{recipe.description}</div>
 <div>
-  <ul class='items'>
+  <ul class="items">
     {#each recipe.items as item}
       <li>
         {item.name}
       </li>
     {/each}
   </ul>
-  <ul class='nutrients'>
+  <ul class="nutrients">
     {#each Object.entries(itemNutrientSums) as nutrient}
       {#if nutrient[1]}
         <li>{list[nutrient[0]].name + ': ' + nutrient[1] + list[nutrient[0]].unit}</li>
@@ -55,6 +55,13 @@
 <button on:click={addToToday} title="Add to Daily Total">➕</button>
 
 <style>
+  h4 {
+    margin-left: 0;
+    margin-bottom: .2em 0;
+  }
+  .description {
+    font-size: .9em;
+  }
   ul {
     list-style: none;
     text-align: center;
@@ -75,6 +82,9 @@
     ul {
       text-align: left;
       padding-left: 0;
+    }
+    h4 {
+      margin: .2em 0;
     }
   }
 </style>

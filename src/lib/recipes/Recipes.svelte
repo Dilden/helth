@@ -1,5 +1,5 @@
 <script>
-  import { inventory, formattedRecipes, recipeSearch } from '$stores/stores.js';
+  import { inventory, formattedRecipes } from '$stores/stores.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
   import Search from '$lib/recipes/Search.svelte';
@@ -80,6 +80,9 @@
     .search_bar, h3, ul {
       grid-column-start: 1;
       grid-column-end: 2;
+    }
+    li {
+      padding: .5rem;
     }
   }
 </style>

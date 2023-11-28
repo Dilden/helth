@@ -50,7 +50,7 @@
 <style>
   h4 {
     margin-left: 0;
-    margin-bottom: .4em;
+    margin-bottom: .2em 0;
   }
   .description {
     font-size: .9em;
@@ -63,12 +63,15 @@
     font-size: .8em;
     font-style: italic;
     display: inline-block;
-    margin: 0 1em;
+    margin: 0 .5em;
   }
   button {
     margin: 0 .5rem;
   }
   @media screen and (max-width: 900px) {
+    h4 {
+      margin: .2em 0;
+    }
     ul {
       text-align: left;
       padding-left: 0;
