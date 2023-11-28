@@ -2,7 +2,8 @@
   import { inventory, formattedRecipes } from '$stores/stores.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
-  import Search from '$lib/recipes/Search.svelte';
+  import Search from '$lib/misc/Search.svelte';
+  import { recipeSearch } from '$stores/stores.js';
 
   let showAddForm = false;
   let editing = undefined;
@@ -23,7 +24,7 @@
 <div class="recipes">
   <h3>Recipes</h3>
   <div class="search_bar">
-    <Search />
+    <Search bind:searchStoreVal={$recipeSearch} searchTitle='Search Recipes'/>
   </div>
   <ul>
     {#await Promise.all( $formattedRecipes ) then formatted}

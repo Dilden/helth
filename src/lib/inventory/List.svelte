@@ -2,8 +2,9 @@
   import Item from './Item.svelte';
   import AddItem from '$lib/inventory/AddItem.svelte';
   import Spinner from '$lib/Spinner.svelte';
-  import Search from '$lib/inventory/Search.svelte';
+  import Search from '$lib/misc/Search.svelte';
   import { inventory, filteredInventory } from '$stores/stores.js';
+  import { searchTerm } from '$stores/stores.js';
 
   let editing = undefined;
   let formVisible = false;
@@ -21,7 +22,7 @@
 <div class='inventory'>
   <h3>Saved Items</h3>
   <div class='search_bar'>
-    <Search />
+    <Search bind:searchStoreVal={$searchTerm} />
   </div>
   <ul aria-label='inventory-list'>
     {#await inventory.init()}
