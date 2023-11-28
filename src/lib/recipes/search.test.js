@@ -7,7 +7,7 @@ import Search from './Search.svelte';
 describe('search bar', () => {
   it('has a text input as a search form', () => {
     render(Search);
-    expect(screen.getByLabelText('Search')).toBeVisible();
+    expect(screen.getByLabelText('Search Recipes')).toBeVisible();
   })
   it('has a button to clear the search', () => {
     render(Search);
@@ -15,10 +15,10 @@ describe('search bar', () => {
   })
   it('clicking clear button clears the text input', async () => {
     render(Search);
-    await type( screen.getByLabelText('Search'), 'testing' );
-    expect(screen.getByLabelText('Search')).toHaveValue('testing');
+    await type( screen.getByLabelText('Search Recipes'), 'testing' );
+    expect(screen.getByLabelText('Search Recipes')).toHaveValue('testing');
 
     await click( screen.getByRole('button', {name: 'Clear search'}) )
-    expect(screen.getByLabelText('Search')).toHaveValue('');
+    expect(screen.getByLabelText('Search Recipes')).toHaveValue('');
   })
 })
