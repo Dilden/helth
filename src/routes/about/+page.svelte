@@ -75,6 +75,13 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.0.22</summary>
+    <ul>
+      <li>Fixed persistent storage prompt on iOS</li>
+      <li>Adjusted video element so as to not cover controls on iOS and related devices</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.0.21</summary>
     <ul>
       <li>Adjusted controls + video of scanner</li>
