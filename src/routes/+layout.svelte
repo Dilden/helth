@@ -11,7 +11,7 @@
   onMount(async() => {
     const status = await isStoragePersisted();
     if(!status) {
-      confirmDialog('Don\'t lose your data! Make storage persistent now?', persist, console.log('denied'), true);
+      confirmDialog('Don\'t lose your data! Make storage persistent now?', persist, () => console.log('denied'), true);
     }
   });
 

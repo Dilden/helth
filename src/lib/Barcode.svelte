@@ -55,24 +55,23 @@
 </script>
 
 <div class="scanner">
-  <div class="empty"></div>
     {#await codeReader.listVideoInputDevices()}
-        <p>..waiting</p>
+      <p>..waiting</p>
     {:then inputs}
-        <div class="controls">
-            <label for="inputs">Select device</label>
-            <select id="inputs" name="inputs" bind:value={selected} on:change={() => scan()} >
-                {#each inputs as input}
-                    <option value={input}>{input.label}</option>
-                {/each}
-            </select>
-            <div class='buttons'>
-              <button class="cancel_button" on:click={cancel}>❌ STOP</button>
-              <button class="scan_button" on:click={scan}>📷 SCAN</button>
-            </div>
-        </div>
+      <div class="controls">
+          <label for="inputs">Select device</label>
+          <select id="inputs" name="inputs" bind:value={selected} on:change={() => scan()} >
+              {#each inputs as input}
+                  <option value={input}>{input.label}</option>
+              {/each}
+          </select>
+          <div class='buttons'>
+            <button class="cancel_button" on:click={cancel}>❌ STOP</button>
+            <button class="scan_button" on:click={scan}>📷 SCAN</button>
+          </div>
+      </div>
     {:catch error}
-        <p class=".error">oops!</p>
+      <p class=".error">An error occurred when attempting to connect to your video input devices. Please contact the developer with the following error information: {error}</p>
     {/await}
     <div class='vid'>
       <video id="scanner" name="scanner"><track kind="captions" /></video>
@@ -80,68 +79,73 @@
 </div>
 
 <style>
-    .scanner {
-      display: grid;
-      grid-template-rows: [controls] 10% [video] 90% [end] 25px;
-      column-gap: 5px;
-      row-gap: 20px;
-      padding: 0;
-      min-height: 100%;
-    }
-    .vid {
-      grid-row-start: 2;
-      grid-row-end: 3;
-      width: 100%;
-      text-align: center;
-      margin: 0 auto;
-    }
-    video {
-      width: 100%;
-      max-height: 60vh;
-    }
-    .controls {
-      display: grid;
-      grid-row-start: 1;
-      grid-row-end: 2;
-      grid-template-rows: repeat(2, 1fr);
-      grid-template-columns: 1fr 6fr 1fr;
-      text-align: center;
-      text-transform: uppercase;
-      gap: 10px 20px;
-    }
-    .controls label {
-        font-size: 1.4em;
-        grid-row-start: 1;
-        grid-row-end: 1;
-        grid-column-start: 2;
-        grid-column-end: 3;
-    }
-    .controls select {
-        border: solid 1px grey;
-        grid-row-start: 2;
-        grid-row-end: 2;
-        grid-column-start: 2;
-        grid-column-end: 3;
-    }
-    .controls button {
-        padding: 5px 10px;
-        grid-row-start: 3;
-        grid-row-end: 4;
-    }
-    .buttons {
-      grid-column-start: 2;
-      grid-column-end: 3;
-      display: grid;
-      grid-template-rows: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 10px;
-    }
-    button.cancel_button {
-      grid-column-start: 1;
-      grid-column-end: 2;
-    }
-    button.scan_button {
-      grid-column-start: 2;
-      grid-column-end: 3;
-    }
+  .scanner {
+    display: grid;
+    grid-template-rows: [controls] 1fr [video] 2fr;
+    column-gap: 5px;
+    row-gap: 20px;
+    padding: 0;
+    min-height: 100%;
+  }
+  .vid {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+  video {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: cover;
+  }
+  .controls {
+    display: grid;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-template-rows: .75fr 1fr 1fr;
+    grid-template-columns: 1fr 6fr 1fr;
+    text-align: center;
+    text-transform: uppercase;
+    gap: 10px 0;
+  }
+  .controls label {
+    font-size: 1.3em;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    padding-top: 15px;
+  }
+  .controls select {
+    border: solid 1px grey;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+  .controls button {
+    padding: 5px 10px;
+    /* grid-row-start: 3; */
+    /* grid-row-end: 4; */
+  }
+  .buttons {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+  }
+  button.cancel_button {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+  button.scan_button {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+  @media screen and (max-width: 500px) {
+
+  }
 </style>
