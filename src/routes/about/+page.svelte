@@ -75,6 +75,15 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.0.23</summary>
+    <ul>
+      <li>Added button to the end of search text to allow for clearing it quickly</li>
+      <li>Scroll to search label when focusing on search bar</li>
+      <li>Reduced redundant code around search component</li>
+      <li>Added a pull request template so I quit forgetting to update this page</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.0.22</summary>
     <ul>
       <li>Fixed persistent storage prompt on iOS</li>
