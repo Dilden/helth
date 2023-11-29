@@ -1,6 +1,6 @@
 {
     "name": "helth app",
-    "version": "0.0.24",
+    "version": "0.0.25",
     "scripts": {
         "dev": "vite dev --host",
         "build": "vite build",

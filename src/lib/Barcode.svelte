@@ -1,7 +1,8 @@
 <script>
   import { BrowserMultiFormatReader } from '@zxing/library';
   import { getInventory, addInventory } from '$stores/db';
-  import {successToast, errorToast} from '$utils/toast.js';
+  import { today } from '$stores/stores.js';
+  import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
   import { error } from '@sveltejs/kit';
   import { getFoodFacts } from '$utils/sources.js';
 
@@ -15,6 +16,7 @@
       .decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
       .then(result => getFoodFacts(result.getText()))
       .then(val => {
+
         if(!val.nutrients && val.message) {
           errorToast('Item not found');
           throw error(404, `${val.message}`);
@@ -30,16 +32,10 @@
               .then(() => successToast('Item added to inventory!'))
               .catch(() => errorToast('Error saving item to inventory!'));
             }
+            else {
+              confirmDialog('An item with that barcode already exists in your inventory. Add to your daily total?', () => addToToday(val.nutrients), () => false );
+            }
           });
-
-       // // Add to daily total logic.
-       // // Instead of automatically adding everything scanned,
-       // // a user should be prompted whether they would like to add it now or not.
-        // $today.calories = $today.calories + Number( val.nutrients.calories.quantity );
-        // $today.sodium = $today.sodium + Number( val.nutrients.sodium.quantity );
-        // $today.protein = $today.protein + Number( val.nutrients.protein.quantity );
-        // successToast('Added item to daily total!');
-        // document.body.classList.remove('modal-open')
       })
       .catch(error => {
         console.log(error)
@@ -47,8 +43,15 @@
       .finally(() => codeReader.reset());
   }
 
+  const addToToday = (data) => {
+    $today.calories = $today.calories + Number( data.calories.quantity );
+    $today.sodium = $today.sodium + Number( data.sodium.quantity );
+    $today.protein = $today.protein + Number( data.protein.quantity );
+    successToast('Added item to daily total!');
+  }
+
   function cancel() {
-      codeReader.reset();
+    codeReader.reset();
       // // auto-close scanner
       // document.body.classList.remove('modal-open')
   }
