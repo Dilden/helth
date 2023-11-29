@@ -1,17 +1,17 @@
 <script>
-  // import { searchTerm } from '$stores/stores.js';
   export let searchStoreVal = {};
   export let searchTitle = 'Search';
+  export let scrollTo = true;
 
   const scrollIt = () => {
-    const top = document.getElementById("searching");
+    const top = document.getElementById("searching-" + searchTitle);
     top.scrollIntoView(true, {behavior: 'smooth'});
   }
 </script>
 
-<label id="searching" for="search">{searchTitle}</label>
+<label id="searching-{searchTitle}" for="search-{searchTitle}">{searchTitle}</label>
 <span>
-  <input id="search" bind:value={searchStoreVal} type="text" placeholder='Begin typing...'on:focus={scrollIt}/>
+  <input id="search-{searchTitle}" bind:value={searchStoreVal} type="text" placeholder='Begin typing...' on:focus={(scrollTo ? scrollIt : false )}/>
   <button aria-label="Clear search" on:click|preventDefault={() => searchStoreVal = ''}>❌</button>
 </span>
 
