@@ -73,41 +73,37 @@
     {:catch error}
       <p class=".error">An error occurred when attempting to connect to your video input devices. Please contact the developer with the following error information: {error}</p>
     {/await}
-    <div class='vid'>
-      <video id="scanner" name="scanner"><track kind="captions" /></video>
-    </div>
+    <video id="scanner" name="scanner"><track kind="captions" /></video>
+    <div></div>
 </div>
 
 <style>
   .scanner {
     display: grid;
-    grid-template-rows: [controls] 1fr [video] 2fr;
+    grid-template-rows: [video] 2fr [controls] .5fr [end] .5fr;
     column-gap: 5px;
     row-gap: 20px;
     padding: 0;
     min-height: 100%;
   }
-  .vid {
-    grid-row-start: 2;
-    grid-row-end: 3;
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-  }
   video {
+    grid-row-start: 1;
+    grid-row-end: 2;
     width: 100%;
     max-height: 60vh;
     object-fit: cover;
   }
   .controls {
     display: grid;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
     grid-template-rows: .75fr 1fr 1fr;
     grid-template-columns: 1fr 6fr 1fr;
     text-align: center;
     text-transform: uppercase;
     gap: 10px 0;
+    /* padding-bottom: 40px; */
+    /* margin-top: -25px; */
   }
   .controls label {
     font-size: 1.3em;
@@ -115,7 +111,6 @@
     grid-row-end: 1;
     grid-column-start: 2;
     grid-column-end: 3;
-    padding-top: 15px;
   }
   .controls select {
     border: solid 1px grey;

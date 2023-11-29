@@ -246,7 +246,6 @@ export const persist = async () => {
 }
 
 export const isStoragePersisted = async () => {
-  console.log(navigator.storage.persisted);
   return await navigator.storage.persisted();
 }
 

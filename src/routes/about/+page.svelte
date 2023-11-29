@@ -75,6 +75,13 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.0.24</summary>
+    <ul>
+      <li>Moved controls below scanner video feed</li>
+      <li>Reduced size of ➕ button</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.0.23</summary>
     <ul>
       <li>Added button to the end of search text to allow for clearing it quickly</li>
