@@ -48,8 +48,8 @@
     z-index: 130;
     background: #1ab8b8;
     border-radius: 10px;
-    font-size: 2em;
-    padding: 10px;
+    font-size: 1.7em;
+    padding: 5px;
     border: none;
     box-shadow: 10px 0 15px black;
     touch-action: manipulation;
