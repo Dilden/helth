@@ -153,6 +153,17 @@ test.describe('add items dialog', () => {
       // await expect(page.getByText('Protein: 0mg')).not.toBeVisible();
     })
 
+    test('can search to filter inventory items in recipe form', async () => {
+      await page.getByRole('button', { name: 'Add Recipe' }).click();
+      await page.getByLabel('Search inventory').fill('Pepsi');
+      
+      await expect(page.getByLabel('Pepsi')).toBeVisible();
+      await expect(page.getByLabel('Coca-Cola')).not.toBeVisible();
+
+      await page.getByLabel('Search inventory').fill('');
+      await page.getByRole('button', {name: 'Save'}).click();
+    })
+
     test('adds a recipe to the current daily total', async () => {
         await page.locator('li').filter({hasText: 'Soda'}).getByTitle('Add to Daily Total').click();
         await page.locator('li').filter({hasText: 'Soda'}).getByTitle('Add to Daily Total').click();
