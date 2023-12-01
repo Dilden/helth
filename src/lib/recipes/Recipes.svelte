@@ -1,9 +1,8 @@
 <script>
-  import { inventory, formattedRecipes } from '$stores/stores.js';
+  import { formattedRecipes, recipeSearch, filteredInventory, searchTerm} from '$stores/stores.js';
   import RecipeForm from './RecipeForm.svelte';
   import RecipeItem from './RecipeItem.svelte';
   import Search from '$lib/misc/Search.svelte';
-  import { recipeSearch } from '$stores/stores.js';
 
   let showAddForm = false;
   let editing = undefined;
@@ -17,7 +16,12 @@
 <button on:click|preventDefault={() => { showAddForm = !showAddForm; editing = undefined; }}>{(!showAddForm ? 'Add Recipe': 'Cancel')}</button>
 
 {#if showAddForm}
-  <RecipeForm inventoryItems={ $inventory } submitCallback={() => { showAddForm = false; editing = undefined }} />
+  <div class="search">
+    <Search searchTitle='Search inventory' bind:searchStoreVal={$searchTerm} scrollTo={false}/>
+  </div>
+  {#await Promise.all( $filteredInventory ) then filtered}
+    <RecipeForm inventoryItems={ filtered.slice().reverse() } submitCallback={() => { showAddForm = false; editing = undefined }} />
+  {/await}
 {/if}
 
 
@@ -31,7 +35,10 @@
       {#each formatted.slice().reverse() as recipe}
         <li>
           {#if editing?.id === recipe.id}
-            <RecipeForm {recipe} inventoryItems={ $inventory } submitCallback={() => editing = undefined} />
+            <div class="search">
+              <Search searchTitle='Search inventory' bind:searchStoreVal={$searchTerm} scrollTo={false}/>
+            </div>
+            <RecipeForm {recipe} inventoryItems={ $filteredInventory } submitCallback={() => editing = undefined} />
           {:else}
             <RecipeItem {recipe} />
             <button on:click|preventDefault={editItem(recipe)} title="Edit Recipe">✏️</button> <!-- edit  -->

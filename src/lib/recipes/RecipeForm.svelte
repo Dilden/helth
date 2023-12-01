@@ -1,6 +1,7 @@
 <script>
   import { recipes } from '$stores/stores.js';
   import { formatRecipeFormValues } from '$utils/formValues.js';
+  import InventoryCheckbox from '$lib/recipes/InventoryCheckbox.svelte';
   
   export let recipe = {};
   export let inventoryItems = [];
@@ -43,13 +44,10 @@
       {#each inventoryItems as item}
           <span class="inventoryItem">
             {#if recipe.items && recipe.items.map(item => item.id).includes(item.id) }
-              <input checked type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+              <InventoryCheckbox {item} checked={true}/>
             {:else}
-              <input type="checkbox" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+              <InventoryCheckbox {item} />
             {/if}
-            <label for="inventoryItem-{item.id}">
-              {item.name}
-            </label>
           </span>
       {/each}
     {:else}
@@ -110,14 +108,12 @@
     grid-column-start: 1;
     grid-column-end: 6;
   }
-  .inventoryItem input, .inventoryItem label {
-    margin: 0;
-  }
-  .inventoryItem input {
-    width: 1.2rem;
-  }
-  .inventoryItem label {
-    padding-left: .5em;
+  .search {
+    display: block;
+    width: 100%;
+    padding: .5rem;
+    grid-column-start: 1;
+    grid-column-end: 6;
   }
 
   @media screen and (max-width: 900px) {

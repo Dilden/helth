@@ -74,4 +74,17 @@ describe('recipe form', () => {
     expect(screen.getByLabelText('First')).toBeChecked();
     expect(screen.getByLabelText('Second')).not.toBeChecked();
   })
+
+  it('shows a search box to filter inventory items', () => {
+    render(RecipeForm, {
+      inventoryItems: [
+        {
+          id: 10,
+          name: 'demo',
+          description: 'description goes here'
+        }
+      ]
+    });
+    expect(screen.getByLabel('Search inventory')).toBeVisible();
+  })
 })
