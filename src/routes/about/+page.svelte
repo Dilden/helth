@@ -75,6 +75,14 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.0.26</summary>
+    <ul>
+      <li>Fixed import/export to work with IndexedDB</li>
+      <li>Confirm an import will overwrite all existing data before proceeding</li>
+      <li>Added import progress bar while import runs</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.0.25</summary>
     <ul>
       <li>Toast prompt shown asking if user would like to add to daily total if scanned barcode already exists in inventory</li>

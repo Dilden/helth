@@ -1,27 +1,21 @@
 <script>
-  import { onMount } from 'svelte';
-  import { today, goals, limits, settings, history } from '$stores/stores';
+  import { db } from '$stores/db.js';
+  import { exportDB } from 'dexie-export-import';
+  import Spinner from '$lib/Spinner.svelte';
 
-  onMount(() => {
-    today.init();
-    goals.init();
-    limits.init();
-    settings.init();
-    history.init();
-  });
-
-  const exportData = () => {
-    return JSON.stringify({
-      today: $today,
-      history: $history,
-      goals: $goals,
-      limits: $limits,
-      settings: $settings
-    });
+  let blobUrl = '';
+  const exportData = async () => {
+    const blob = await exportDB(db, {prettyJson: true});
+    blobUrl = URL.createObjectURL(blob);
   }
 </script>
 
-<a href="data:text/json;charset=utf-8,{exportData()}" download="helth_app_{Date.now()}.json">Export Your Data</a>
+
+{#await exportData()}
+  <Spinner />
+{:then}
+  <a href="{blobUrl}" download="helth-app-export-{Date.now()}.json" >Export Data</a>
+{/await}
 
 <style>
   a {
