@@ -107,6 +107,16 @@ export const limits = createNameValueStore('limits');
 export const inventory = createListStore('inventory');
 export const recipes = createListStore('recipes');
 
+export const initStores = async () => {
+  await today.init();
+  await history.init();
+  await settings.init();
+  await goals.init();
+  await limits.init();
+  await inventory.init();
+  await recipes.init();
+}
+
 // https://stackoverflow.com/a/65616230/759563
 export const searchTerm = writable('');
 export const filteredInventory = derived(
@@ -143,3 +153,4 @@ export const formattedRecipes = derived(
   },
   recipes.init()
 ) 
+

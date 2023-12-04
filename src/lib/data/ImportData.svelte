@@ -1,5 +1,6 @@
 <script>
   import { db } from '$stores/db.js';
+  import { initStores } from '$stores/stores.js';
   import { importDB, peakImportFile } from 'dexie-export-import';
   import { errorToast, confirmDialog } from '$utils/toast.js';
 
@@ -27,6 +28,7 @@
     await db.delete();
     await importDB(file, {progressCallback: updateProgress});
     await db.open();
+    await initStores();
   }
 
   const updateProgress = ({totalRows, completedRows}) => {
