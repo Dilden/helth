@@ -14,7 +14,7 @@
 {#await exportData()}
   <Spinner />
 {:then}
-  <a href="{blobUrl}" download="helth-app-export-{Date.now()}.json" >Export Your Data</a>
+  <a href="{blobUrl}" download="helth-app-export-{Date.now()}.json" >Export Data</a>
 {/await}
 
 <style>
