@@ -1,39 +1,59 @@
 <script>
-  import { onMount } from 'svelte';
-  import { today, goals, limits, settings, history } from '$stores/stores';
+  import { db } from '$stores/db.js';
+  import { importDB, peakImportFile } from 'dexie-export-import';
+  import { errorToast, confirmDialog } from '$utils/toast.js';
 
-  onMount(() => {
-    today.init();
-    goals.init();
-    limits.init();
-    settings.init();
-    history.init();
-  });
-  const upload = event => {
-    if(event.target.files && event.target.files.length > 0) {
-      if(confirm("Continuing the import will overwrite any existing data on your device. Would you like to continue?")) {
-        const stream = event.target.files[0].text();
-        stream.then(data => JSON.parse(data))
-          .then(json => {
-            $today = json.today;
-            $history = json.history;
-            $goals = json.goals;
-            $limits = json.limits;
-            $settings = json.settings;
-          })
-          .catch(error => {
-              alert(`Error importing data: ${error}`);
-          });
+  let progress = 0;
+
+  const upload = async (event) => {
+    const file = event.target.files[0]
+    try {
+      if(!file && file.length <= 0) {
+        errorToast('Error importing file');
       }
+
+      const meta = await peakImportFile(file);
+      if(meta.formatName !== 'dexie') {
+        errorToast('Invalid database format name');
+      }
+
+      confirmDialog('Import will overwrite all existing data. Continue?', () => {proceed(file)}, () => errorToast('Import cancelled'));
+    } catch (err) {
+      console.log('Contant developer with the following error: ' + { err })
     }
+  }
+
+  const proceed = async (file) => {
+    await db.delete();
+    await importDB(file, {progressCallback: updateProgress});
+    await db.open();
+  }
+
+  const updateProgress = ({totalRows, completedRows}) => {
+    progress = Math.round(( completedRows / totalRows ) * 100);
   }
 </script>
 
-<label for="data_upload">Import Data</label>
-<input type="file" on:change={upload} id="data_upload"/>
+<div>
+  <label for="data_upload" class="btn">Import Data</label>
+  <input type="file" on:change={upload} id="data_upload"/>
+</div>
+{#if progress}
+  <div>
+    <label class="progress">
+      <progress name="upload" value={progress}></progress>
+    </label>
+    {#if progress == 100}
+      <p>Import complete!</p>
+    {/if}
+  </div>
+{/if}
 
 <style>
-  label {
+  div {
+    margin: 10px 0;
+  }
+  .btn {
     background: var(--a-link-color);
     color: var(--back-color);
     padding: 8px 20px;
@@ -44,7 +64,7 @@
     transition: all 0.3s ease-in-out;
     border: none;
   }
-  label:hover {
+  .btn:hover {
     background: var(--secondary-back-color);
   }
   input {
