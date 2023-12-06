@@ -16,13 +16,13 @@ module.exports = {
     node: true
   },
   overrides: [
-		{
-			files: ['*.svelte'],
-			parser: 'svelte-eslint-parser',
-			parserOptions: {
-				parser: '@typescript-eslint/parser'
-			}
-		},
+    {
+      files: ['*.svelte'],
+      parser: 'svelte-eslint-parser',
+      parserOptions: {
+        parser: '@typescript-eslint/parser'
+      }
+    },
     {
       files: ["**/*.ts", "**/*.tsx"],
       env: { "browser": true, "es6": true, "node": true },
