@@ -1,6 +1,6 @@
 <script>
   import { nutrientSumsFromList } from '$utils/item.js';
-  import { list } from '$utils/nutrients.js';
+  import { list } from '$utils/nutrients';
   import { confirmDialog, successToast, errorToast} from '$utils/toast.js';
   import { recipes, today } from '$stores/stores.js';
 

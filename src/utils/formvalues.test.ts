@@ -3,7 +3,7 @@ import {
   formValues, 
   formatInventoryFormValues,
   formatRecipeFormValues
-} from '$utils/formValues.js';
+} from './formValues';
 
 const sample = {
   elements: {

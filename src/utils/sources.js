@@ -1,5 +1,5 @@
 import { snake_case } from '$utils/naming.js';
-import { list } from '$utils/nutrients.js';
+import { list } from '$utils/nutrients';
 import { error } from '@sveltejs/kit';
 
 const openFoodFacts = (code) => {

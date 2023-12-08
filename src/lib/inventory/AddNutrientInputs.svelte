@@ -1,5 +1,5 @@
 <script>
-  import { list } from '$utils/nutrients.js';
+  import { list } from '$utils/nutrients';
 
   export let nutrients = {};
   export let validated = true;

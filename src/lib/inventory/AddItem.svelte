@@ -1,6 +1,6 @@
 <script>
   import { inventory } from '$stores/stores.js';
-  import { formatInventoryFormValues } from '$utils/formValues.js';
+  import { formatInventoryFormValues } from '$utils/formValues';
   import AddNutrientInputs from './AddNutrientInputs.svelte';
 
   export let item = {};
