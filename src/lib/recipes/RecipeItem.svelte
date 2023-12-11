@@ -44,7 +44,7 @@
   <ul class="nutrients">
     {#each Object.entries(itemNutrientSums) as nutrient}
       {#if nutrient[1]}
-        <li>{list[nutrient[0]].name + ': ' + nutrient[1] + list[nutrient[0]].unit}</li>
+        <li>{list.find((findNutrient) => findNutrient.key === nutrient[0]).name + ': ' + nutrient[1] + list.find((findNutrient) => findNutrient.key === nutrient[0]).unit}</li>
       {/if}
     {/each}
   </ul>

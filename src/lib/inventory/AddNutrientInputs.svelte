@@ -15,10 +15,10 @@
     {#if !validated}
       <div class="invalid">At least one nutrient is required!</div>
     {/if}
-    {#each Object.keys(list) as nutrient, index}
-      <span class="nutrient {nutrient}">
-        <label for="{nutrient}">{list[nutrient].name}</label>
-        <input id="{nutrient}" name="{nutrient}" type="text" placeholder="{list[nutrient].unit}" value="{( nutrients[nutrient] ? nutrients[nutrient].quantity : '')}"/>
+    {#each list as nutrient}
+      <span class="nutrient {nutrient.key}">
+        <label for="{nutrient.key}">{nutrient.name}</label>
+        <input id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value="{( nutrients[nutrient.key] ? nutrients[nutrient.key].quantity : '')}"/>
       </span>
     {/each}
   </fieldset>
