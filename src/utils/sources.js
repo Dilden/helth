@@ -17,7 +17,7 @@ const formatOpenFood = (data) => {
 
   // nutrients require bulk of the effort to format
   // since Open Food Facts API data is often incomplete
-  formatted.nutrients = Object.entries( list ).reduce((accum, [key, value]) => {
+  formatted.nutrients = list.reduce((accum, [key, value]) => {
 
     let nutrimentKey = '';
     // Open Food Facts tracks nutrients using different names than we do
@@ -111,9 +111,10 @@ export const formatSource2 = (data) => {
       }
       
       if(nutrientName !== 'serving') {
+        const found = list.find((nutrient) => nutrient.key === nutrientName);
         accum[nutrientName] = accum[nutrientName] || {};
-        accum[nutrientName].unit = ( key[1].uom ? key[1].uom : list[nutrientName]?.unit );
-        accum[nutrientName].name = ( list[nutrientName].name );
+        accum[nutrientName].unit = ( key[1].uom ? key[1].uom : found.unit );
+        accum[nutrientName].name = ( found.name );
         accum[nutrientName].quantity = ( key[1].total_quantity ? String(key[1].total_quantity) : '0' );
       }
       return accum;
