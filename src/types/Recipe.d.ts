@@ -2,7 +2,7 @@ interface RecipeItem {
   id: Number
 }
 
-interface RecipeValues {
+interface Recipe {
   id: Number | null,
   name: string,
   description: string,
