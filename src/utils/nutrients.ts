@@ -1,152 +1,182 @@
-export const list = {
-  added_sugars: {
+export const list: Nutrient[] = [
+  {
+    key: 'added_sugars',
     name: 'Added Sugars',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  calcium: {
+  {
+    key: 'calcium',
     name: 'Calcium',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  calories: {
+  {
+    key: 'calories',
     name: 'Calories',
-    quantity: '',
+    quantity: null,
     unit: 'kcal'
   },
-  cholesterol: {
+  {
+    key: 'cholesterol',
     name: 'Cholesterol',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  copper: {
+  {
+    key: 'copper',
     name: 'Copper',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  fiber: {
+  {
+    key: 'fiber',
     name: 'Fiber',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  folic_acid: {
+  {
+    key: 'folic_acid',
     name: 'Folic Acid',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  iodine: {
+  {
+    key: 'iodine',
     name: 'Iodine',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  iron: {
+  {
+    key: 'iron',
     name: 'Iron',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  magnesium: {
+  {
+    key: 'magnesium',
     name: 'Magnesium',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  niacin: {
+  {
+    key: 'niacin',
     name: 'Niacin',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  potassium: {
+  {
+    key: 'potassium',
     name: 'Potassium',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  phosphorus: {
+  {
+    key: 'phosphorus',
     name: 'Phosphorus',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  protein: {
+  {
+    key: 'protein',
     name: 'Protein',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  riboflavin: {
+  {
+    key: 'riboflavin',
     name: 'Riboflavin',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  saturated_fat: {
+  {
+    key: 'saturated_fat',
     name: 'Saturated Fat',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  sodium: {
+  {
+    key: 'sodium',
     name: 'Sodium',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  thiamin: {
+  {
+    key: 'thiamin',
     name: 'Thiamin',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   },
-  total_sugar: {
+  {
+    key: 'total_sugar',
     name: 'Total Sugars',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  trans_fat: {
+  {
+    key: 'trans_fat',
     name: 'Trans Fat',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  total_carbohydrate: {
+  {
+    key: 'total_carbohydrate',
     name: 'Total Carbohydrate',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  total_fat: {
+  {
+    key: 'total_fat',
     name: 'Total Fat',
-    quantity: '',
+    quantity: null,
     unit: 'g'
   },
-  vitamin_a: {
+  {
+    key: 'vitamin_a',
     name: 'Vitamin A',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  vitamin_b: {
+  {
+    key: 'vitamin_b',
     name: 'Vitamin B',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  vitamin_b6: {
+  {
+    key: 'vitamin_b6',
     name: 'Vitamin B6',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  vitamin_b12: {
+  {
+    key: 'vitamin_b12',
     name: 'Vitamin B12',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  vitamin_c: {
+  {
+    key: 'vitamin_c',
     name: 'Vitamin C',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  vitamin_e: {
+  {
+    key: 'vitamin_e',
     name: 'Vitamin E',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  vitamin_d: {
+  {
+    key: 'vitamin_d',
     name: 'Vitamin D',
-    quantity: '',
+    quantity: null,
     unit: 'mcg'
   },
-  zinc: {
+  {
+    key: 'zinc',
     name: 'Zinc',
-    quantity: '',
+    quantity: null,
     unit: 'mg'
   }
-};
+];

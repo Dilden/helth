@@ -1,5 +1,8 @@
 import { list } from './nutrients';
 
+
+// Return non-empty values from form data
+// & exclude submit buttons
 export const formValues = (formCollection: HTMLFormElement): Array<HTMLInputElement> => {
   const formFields: HTMLFormControlsCollection = formCollection.elements;
   
@@ -12,11 +15,11 @@ export const formValues = (formCollection: HTMLFormElement): Array<HTMLInputElem
       return false;
     }
   });
-
   return values as Array<HTMLInputElement>;
 }
 
-export const formatRecipeFormValues = (formData: HTMLFormElement): RecipeValues => {
+// Convert Recipe Form Data into object
+export const formatRecipeFormValues = (formData: HTMLFormElement): Recipe => {
   return formValues( formData )
   .reduce((accum, { name, value, type, checked }) => {
     if( type === 'checkbox' && checked) {
@@ -37,45 +40,51 @@ export const formatRecipeFormValues = (formData: HTMLFormElement): RecipeValues 
     }
     return accum;
   }, 
-  {
-    id: 0,
+  <Recipe>{
+    id: null,
     name: '',
     description: '',
     items: [] as RecipeItem[]
   });
 }
 
-export const formatInventoryFormValues = (formData: HTMLFormElement) => {
+// Convert Inventory Form Data into object
+export const formatInventoryFormValues = (formData: HTMLFormElement): InventoryItem => {
   return formValues( formData )
   .reduce((accum, { name, value }) => {
     switch(name) {
-      case 'name':
-        accum.name = value;
-        break;
-      case 'description':
-        accum.description = value;
+      case 'id':
+        accum.id = Number( value );
         break;
       case 'barcode':
-        accum.barcode = value;
+        accum.barcode = Number( value );
         break;
-      case 'id':
-        accum.id = Number(value);
+      case 'description':
+        accum.description = value ;
+        break;
+      case 'name':
+        accum.name = value ;
         break;
       default:
-        accum.nutrients[name] = {
-          name: list[name].name,
-          quantity: value,
-          unit: list[name].unit
+        const found = list.find((nutrient: Nutrient) => nutrient.key === name);
+
+        if(found) {
+          accum.nutrients.push({
+            key: found.key,
+            name: found.name,
+            quantity: Number( value ),
+            unit: found.unit
+          } as Nutrient)
         }
         break;
     }
     return accum;
   }, 
-  {
-    id: 0,
+  <InventoryItem>{
+    id: null,
     name: '',
     description: '',
-    barcode: '',
-    nutrients: {}
+    barcode: null,
+    nutrients: [] as Nutrient[]
   });
 }
