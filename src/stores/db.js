@@ -65,6 +65,7 @@ db.version(3).stores({
 })
 
 // https://dexie.org/docs/Tutorial/Design#database-versioning
+// Old 
 db.version(4).stores({inventory: '++id, &barcode, name, description'}).upgrade(data => {
   return data.table('inventory').toCollection().modify((item) => {
     const asArray = Object.entries( item.nutrients ).map(([index, value]) => {
@@ -215,7 +216,6 @@ export const getListItems = async (tableName) => {
   return await db.table(tableName).toArray();
 }
 export const addToList = async (tableName, data) => {
-  console.log(data);
   return await db.table(tableName).add(data);
 }
 export const updateItemInList = async (tableName, id, data) => {
