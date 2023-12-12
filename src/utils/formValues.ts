@@ -41,7 +41,6 @@ export const formatRecipeFormValues = (formData: HTMLFormElement): Recipe => {
     return accum;
   }, 
   <Recipe>{
-    id: null,
     name: '',
     description: '',
     items: [] as RecipeItem[]
@@ -81,7 +80,6 @@ export const formatInventoryFormValues = (formData: HTMLFormElement): InventoryI
     return accum;
   }, 
   <InventoryItem>{
-    id: null,
     name: '',
     description: '',
     barcode: null,

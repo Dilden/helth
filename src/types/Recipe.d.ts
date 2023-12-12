@@ -3,7 +3,7 @@ interface RecipeItem {
 }
 
 interface Recipe {
-  id: Number | null,
+  id?: Number,
   name: string,
   description: string,
   items: RecipeItem[]
