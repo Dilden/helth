@@ -111,7 +111,6 @@ describe('form values', () => {
   it('returns an InventoryItem w/ nested nutrients array from the form values', async () => {
     const results = formatInventoryFormValues(sample as unknown as HTMLFormElement);
     expect(results).toEqual({ 
-      'id': null,
       'name': 'New inventory item',
       'description': 'Item description',
       'barcode': 123456789102,

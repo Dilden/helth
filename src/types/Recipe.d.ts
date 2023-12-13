@@ -1,9 +1,9 @@
 interface RecipeItem {
-  id: Number
+  id: number
 }
 
 interface Recipe {
-  id?: Number,
+  id?: number,
   name: string,
   description: string,
   items: RecipeItem[]

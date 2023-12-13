@@ -1,7 +1,7 @@
 interface InventoryItem {
-  id?: Number,
+  id?: number,
   name: string,
   description: string,
-  barcode: Number | null,
+  barcode: number | null,
   nutrients: Nutrient[]
 }
