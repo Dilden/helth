@@ -4,7 +4,6 @@
 
   export let item;
 
-  console.log(item.nutrients);
   const addToToday = () => {
     try {
         item.nutrients.map((index) => { 

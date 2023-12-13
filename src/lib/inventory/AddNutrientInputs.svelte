@@ -1,7 +1,7 @@
 <script>
   import { list } from '$utils/nutrients';
 
-  export let nutrients = {};
+  export let nutrients = [];
   export let validated = true;
 </script>
 
@@ -18,7 +18,11 @@
     {#each list as nutrient}
       <span class="nutrient {nutrient.key}">
         <label for="{nutrient.key}">{nutrient.name}</label>
-        <input id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value="{( nutrients[nutrient.key] ? nutrients[nutrient.key].quantity : '')}"/>
+        {#if nutrients.length && nutrients.find(({ key }) => key === nutrient.key )}
+          <input id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value="{nutrients.find(({ key }) => key === nutrient.key ).quantity}"/>
+        {:else}
+          <input id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value=""/>
+        {/if}
       </span>
     {/each}
   </fieldset>
