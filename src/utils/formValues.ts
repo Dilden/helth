@@ -5,8 +5,7 @@ import { list } from './nutrients';
 // & exclude submit buttons
 export const formValues = (formCollection: HTMLFormElement): Array<HTMLInputElement> => {
   const formFields: HTMLFormControlsCollection = formCollection.elements;
-  
-  const values = Object.values(formFields).filter((item) => { 
+  const values = Array.from(formFields).filter((item) => { 
     const ele = item as HTMLInputElement;
     if(ele.type !== 'submit' && ele.value) {
       return true;
