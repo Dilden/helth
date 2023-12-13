@@ -1,16 +1,15 @@
 <script>
   import {successToast, errorToast, confirmDialog} from '$utils/toast.js';
-  import { nutrientsFromItem } from '$utils/item.js';
   import { today, inventory, recipes } from '$stores/stores.js';
 
   export let item;
 
+  console.log(item.nutrients);
   const addToToday = () => {
-    const nutrients = nutrientsFromItem(item);
     try {
-      Object.keys(nutrients).map((index) => { 
-        $today[index] = $today[index] || 0;
-        $today[index] = $today[index] + Number(nutrients[index]); 
+        item.nutrients.map((index) => { 
+        $today[index.key] = $today[index.key] || 0;
+        $today[index.key] = $today[index.key] + index.quantity; 
       });
       successToast('Added to daily total!')
     } catch (err) {
@@ -35,7 +34,7 @@
   <div class="description">{item.description}</div>
   {#if item.nutrients}
     <ul>
-    {#each Object.values(item.nutrients) as nutrient}
+    {#each item.nutrients as nutrient}
       {#if nutrient.quantity > 0}
         <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
       {/if}
