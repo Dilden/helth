@@ -71,6 +71,7 @@ db.version(4).stores({inventory: '++id, &barcode, name, description'}).upgrade(d
     const asArray = Object.entries( item.nutrients ).map(([index, value]) => {
       const obj = {...value};
       obj.key = index;
+      obj.quantity = Number(obj.quantity);
       return obj;
     });
     item.nutrients = asArray;
