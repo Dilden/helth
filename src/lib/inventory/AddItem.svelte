@@ -1,6 +1,6 @@
 <script>
   import { inventory } from '$stores/stores.js';
-  import { formatInventoryFormValues } from '$utils/formValues.js';
+  import { formatInventoryFormValues } from '$utils/formValues';
   import AddNutrientInputs from './AddNutrientInputs.svelte';
 
   export let item = {};
@@ -47,7 +47,7 @@
   form {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 5fr .5fr;
+    grid-template-rows: .5fr 5fr .5fr;
     margin: 1rem;
   }
   form input, form label {

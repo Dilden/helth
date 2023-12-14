@@ -1,7 +1,7 @@
 <script>
-  import { list } from '$utils/nutrients.js';
+  import { list } from '$utils/nutrients';
 
-  export let nutrients = {};
+  export let nutrients = [];
   export let validated = true;
 </script>
 
@@ -15,10 +15,14 @@
     {#if !validated}
       <div class="invalid">At least one nutrient is required!</div>
     {/if}
-    {#each Object.keys(list) as nutrient, index}
-      <span class="nutrient {nutrient}">
-        <label for="{nutrient}">{list[nutrient].name}</label>
-        <input id="{nutrient}" name="{nutrient}" type="text" placeholder="{list[nutrient].unit}" value="{( nutrients[nutrient] ? nutrients[nutrient].quantity : '')}"/>
+    {#each list as nutrient}
+      <span class="nutrient {nutrient.key}">
+        <label for="{nutrient.key}">{nutrient.name}</label>
+        {#if nutrients.length && nutrients.find(({ key }) => key === nutrient.key )}
+          <input id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value="{nutrients.find(({ key }) => key === nutrient.key ).quantity}"/>
+        {:else}
+          <input id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value=""/>
+        {/if}
       </span>
     {/each}
   </fieldset>
@@ -56,5 +60,15 @@
     display: block;
     width: 100%;
     padding: 1rem;
+  }
+
+  @media screen and (max-width: 540px) {
+    .nutrient {
+      width: 100%;
+      margin: 0 auto;
+    }
+    .nutrient label, .nutrient input {
+      width: 100%;
+    }
   }
 </style>

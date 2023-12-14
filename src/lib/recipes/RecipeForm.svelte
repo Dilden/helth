@@ -1,6 +1,6 @@
 <script>
   import { recipes } from '$stores/stores.js';
-  import { formatRecipeFormValues } from '$utils/formValues.js';
+  import { formatRecipeFormValues } from '$utils/formValues';
   
   export let recipe = {};
   export let inventoryItems = [];

@@ -3,7 +3,7 @@ import {
   formValues, 
   formatInventoryFormValues,
   formatRecipeFormValues
-} from '$utils/formValues.js';
+} from './formValues';
 
 const sample = {
   elements: {
@@ -18,25 +18,30 @@ const sample = {
       value: 'Item description'
     },
     2: {
+      name: 'barcode',
+      type: 'text',
+      value: 123456789102
+    },
+    3: {
       name: '',
       type: 'fieldset'
     },
-    3: {
+    4: {
       name: 'calories',
       type: 'text',
       value: '100'
     },
-    4: {
+    5: {
       name: 'added_sugars',
       type: 'text',
       value: '10'
     },
-    5: {
+    6: {
       name: 'submit',
       type: 'submit',
       value: ''
     },
-    length: 6
+    length: 7
   }
 }
 
@@ -92,38 +97,42 @@ const sampleRecipe = {
 
 describe('form values', () => {
   it('returns form input values except submit', () => {
-    const results = formValues(sample);
+    const results = formValues(sample as unknown as HTMLFormElement);
     expect(results).toEqual(
       expect.arrayContaining([
         expect.objectContaining({name: 'name'}),
         expect.objectContaining({name: 'description'}),
+        expect.objectContaining({name: 'barcode'}),
         expect.objectContaining({name: 'added_sugars'}),
         expect.objectContaining({name: 'calories'}),
       ])
     );
   })
-  it('returns an object of key:value pairs + nested nutrients object from the form values', async () => {
-    const results = formatInventoryFormValues(sample);
+  it('returns an InventoryItem w/ nested nutrients array from the form values', async () => {
+    const results = formatInventoryFormValues(sample as unknown as HTMLFormElement);
     expect(results).toEqual({ 
       'name': 'New inventory item',
       'description': 'Item description',
-      'nutrients': {
-        calories: {
+      'barcode': 123456789102,
+      'nutrients': [ 
+        {
+          key: 'calories',
           name: 'Calories',
-          quantity: '100',
+          quantity: 100,
           unit: 'kcal'
         },
-        added_sugars: {
+        {
+          key: 'added_sugars',
           name: 'Added Sugars',
-          quantity: '10',
+          quantity: 10,
           unit: 'g'
         }
-      }
+      ]
     })
   });
 
   it('formats values from recipes form', () => {
-    const results = formatRecipeFormValues(sampleRecipe);
+    const results = formatRecipeFormValues(sampleRecipe as unknown as HTMLFormElement);
     expect(results).toEqual({
       id: 10,
       name: 'pizza',
