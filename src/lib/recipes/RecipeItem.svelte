@@ -69,8 +69,10 @@
     display: inline-block;
     margin: 0 1em;
   }
-  .items li {
+  ul.items li {
     font-size: 1em;
+    font-style: normal;
+    font-weight: bold;
   }
   button {
     margin: 0 .5rem;
