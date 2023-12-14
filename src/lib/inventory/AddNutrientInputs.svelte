@@ -61,4 +61,14 @@
     width: 100%;
     padding: 1rem;
   }
+
+  @media screen and (max-width: 540px) {
+    .nutrient {
+      width: 100%;
+      margin: 0 auto;
+    }
+    .nutrient label, .nutrient input {
+      width: 100%;
+    }
+  }
 </style>
