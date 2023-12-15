@@ -28,7 +28,7 @@
               .map(item => item.barcode)
               .includes(val.barcode)) {
 
-              addInventory(val.nutrients)
+              addInventory(val)
               .then(() => successToast('Item added to inventory!'))
               .catch(() => errorToast('Error saving item to inventory!'));
             }
