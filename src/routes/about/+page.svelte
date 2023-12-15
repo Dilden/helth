@@ -75,7 +75,16 @@
   </details>
   <h3>changelog</h3>
   <details >
-    <summary>v0.1.00</summary>
+    <summary>v0.1.1</summary>
+    <ul>
+      <li>Deleted a closingtag that somehow got left in. Ironic, I know.</li>
+      <li>Item.barcode is now treated as a string as some barcodes have leading 0s and Numbers don't allow that.</li>
+      <li>Refactored Barcode scanner + data formatter for OpenFoodFacts API</li>
+      <li>Removed unused 2nd data source</li>
+    </ul>
+  </details>
+  <details >
+    <summary>v0.1.0</summary>
     <ul>
       <li>BREAKING CHANGE: Upgraded DB to v4 where Nutrients list in Inventory Items are now an array of objects instead of a object of objects</li>
       <li>BREAKING CHANGE: Refactored input formatting code to account for array of nutrient objects</li>
