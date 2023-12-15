@@ -28,12 +28,12 @@
               .map(item => item.barcode)
               .includes(val.barcode)) {
 
-              addInventory(val)
+              addInventory(val.nutrients)
               .then(() => successToast('Item added to inventory!'))
               .catch(() => errorToast('Error saving item to inventory!'));
             }
             else {
-              confirmDialog('An item with that barcode already exists in your inventory. Add to your daily total?', () => addToToday(val.nutrients), () => false );
+              confirmDialog('An item with that barcode already exists in your inventory. Add to your daily total?', () => addToToday(data.find((item) => item.barcode === val.barcode).nutrients), () => false );
             }
           });
       })
@@ -44,10 +44,14 @@
   }
 
   const addToToday = (data) => {
-    $today.calories = $today.calories + Number( data.calories.quantity );
-    $today.sodium = $today.sodium + Number( data.sodium.quantity );
-    $today.protein = $today.protein + Number( data.protein.quantity );
-    successToast('Added item to daily total!');
+    try {
+      data.map(({key, quantity}) => {
+        $today[key] += Number(quantity);
+      })
+      successToast('Added item to daily total!');
+    } catch (e) {
+      errorToast('Error adding item to daily total');
+    }
   }
 
   function cancel() {
