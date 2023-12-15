@@ -55,7 +55,7 @@ export const formatInventoryFormValues = (formData: HTMLFormElement): InventoryI
         accum.id = Number( value );
         break;
       case 'barcode':
-        accum.barcode = Number( value );
+        accum.barcode = value;
         break;
       case 'description':
         accum.description = value ;
