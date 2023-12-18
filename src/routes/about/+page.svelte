@@ -75,6 +75,15 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.1.2</summary>
+    <ul>
+      <li>Add support for Tailwind CSS which should hopefully speed up building</li>
+      <li>Barcode scanner now using Tailwind styles</li>
+      <li>Item form now using Tailwind styles</li>
+      <li>Recipe form now using Tailwind styles</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.1.1</summary>
     <ul>
       <li>Deleted a closingtag that somehow got left in. Ironic, I know.</li>
