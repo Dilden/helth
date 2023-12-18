@@ -21,64 +21,32 @@
   }
 </script>
 
-<form name="AddItem" on:submit|preventDefault={handleSubmit} >
+<form name="AddItem" on:submit|preventDefault={handleSubmit} class="grid grid-cols-1 grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-cols-3 md:grid-rows-[1fr auto 1fr] m-4" >
   {#if item?.id}
     <input type="hidden" id="id" name="id" value={item.id} />
   {/if}
-  <span class="name">
+  <span class="col-start-1 col-end-2">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value={( item.name ? item.name : "" )} required/>
   </span>
 
-  <span class="description">
+  <span class="col-start-1 col-end-2 md:col-start-2 md:col-end-3">
     <label for="description">Description</label>
     <input type="text" id="description" name="description" value={( item.description ? item.description : "")} required/>
   </span>
 
-  <span class="barcode">
+  <span class="col-start-1 col-end-2 md:col-start-3 md:col-end-4">
     <label for="barcode" >Barcode</label>
     <input type="text" id="barcode" name="barcode" value={(item.barcode ? item.barcode : "")} placeholder="UPC/Unique ID" />
   </span>
   <AddNutrientInputs bind:validated nutrients={(item.nutrients ? item.nutrients : {})}/>
-  <input type="submit" value='{ item.id ? "Update" : "Save" }' />
+  <input type="submit" class="col-start-1 col-end-2 md:col-start-2 md:col-end-3" value='{ item.id ? "Update" : "Save" }' />
 </form>
 
 <style>
-  form {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: .5fr 5fr .5fr;
-    margin: 1rem;
-  }
   form input, form label {
     margin: .5rem auto;
     display: block;
     width: 90%;
-  }
-  .name {
-    grid-column-start: 1;
-    grid-column-end: 2;
-  }
-  .description {
-    grid-column-start: 2;
-    grid-column-end: 3;
-  }
-  .barcode {
-    grid-column-start: 3;
-    grid-column-end: 4;
-  }
-  input[type='submit'] {
-    grid-column-start: 2;
-    grid-column-end: 3;
-  }
-  @media screen and (max-width: 900px) {
-    form {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr 1fr auto 1fr;
-    }
-    .name, .description, .barcode, input[type='submit'] {
-      grid-column-start: 1;
-      grid-column-end: 2;
-    }
   }
 </style>

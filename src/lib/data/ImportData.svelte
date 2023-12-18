@@ -37,7 +37,7 @@
 </script>
 
 <div>
-  <label for="data_upload" class="btn">Import Data</label>
+  <label for="data_upload" class="button">Import Data</label>
   <input type="file" on:change={upload} id="data_upload"/>
 </div>
 {#if progress}
@@ -54,20 +54,6 @@
 <style>
   div {
     margin: 10px 0;
-  }
-  .btn {
-    background: var(--a-link-color);
-    color: var(--back-color);
-    padding: 8px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    border: none;
-  }
-  .btn:hover {
-    background: var(--secondary-back-color);
   }
   input {
     display: none;

@@ -7,7 +7,8 @@ export const successToast = message => toast.push(message, {
     '--toastColor': 'mintcream',
     '--toastBackground': 'rgba(72,187,120,0.9)',
     '--toastBarBackground': '#2F855A',
-    '--toastBarHeight': 0
+    '--toastBarHeight': 0,
+    '--toastBoxShadow': '15px 15px 15px 0 black'
   }
 });
 
@@ -16,7 +17,8 @@ export const errorToast = message => toast.push(message, {
   theme: {
     '--toastBackground': '#F25E5E',
     '--toastColor': 'white',
-    '--toastBarHeight': 0
+    '--toastBarHeight': 0,
+    '--toastBoxShadow': '15px 15px 15px 0 black'
   }
 });
 
@@ -26,7 +28,8 @@ export const infoToast = message => toast.push(message, {
   theme: {
     '--toastBackground': '#3783F9',
     '--toastColor': 'white',
-    '--toastBarHeight': 0
+    '--toastBarHeight': 0,
+    '--toastBoxShadow': '15px 15px 15px 0 black'
   }
 });
 
@@ -43,9 +46,10 @@ export const confirmDialog = ( message, confirm, deny, dismiss = false ) => {
       dismissable: dismiss,
       initial: 0,
       theme: {
-        '--toastBackground': '#3783F9',
+        '--toastBackground': '#1f2a2d',
         '--toastColor': 'white',
-        '--toastBarHeight': '0'
+        '--toastBarHeight': '0',
+        '--toastBoxShadow': '15px 15px 15px 0 black'
       },
     });
 }
