@@ -15,7 +15,7 @@
     --a-visited-color: #62aae3;
 
     --button-back-color: #6dbeaf;
-    --button-hover-color: #223135;
+    --button-hover-color: #1ab8b8;
 
     --blockquote-color: #f57c00;
     --pre-color: #1565c0;
@@ -325,6 +325,6 @@
   label.button:hover {
     background: var(--button-hover-color);
     border-radius: var(--universal-border-radius);
-    color: var(--fore-color);
+    /* color: var(--fore-color); */
   }
 }
