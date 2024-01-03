@@ -1,14 +1,5 @@
-<footer>
-  <p>
+<footer class="text-center">
+  <p class="p-0 pt-8">
     made w/💕 by <a href="https://www.closingtags.com">closingtags</a>
   </p>
 </footer>
-
-<style>
-  footer {
-    text-align: center;
-  }
-  p {
-    padding: 30px 0 0;
-  }
-</style>
