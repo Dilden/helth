@@ -1,6 +1,7 @@
 <script>
-    export let isOpen = false;
-    const toggle = () => (isOpen = !isOpen);
+  import meme from './meme.png';
+  export let isOpen = false;
+  const toggle = () => (isOpen = !isOpen);
 </script>
 
 <button title="Menu" class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
@@ -15,6 +16,7 @@
         <li><a href="/settings" on:click={toggle}>⚙️  settings </a></li>
         <li><a href="/about" on:click={toggle}>❓ about</a></li>
     </ul>
+  <img src="{meme}" class="absolute right-0 bottom-0" alt="Meme man wearing a lab coat and stehoscope" width="200" height="auto" />
 </nav>
 
 <style>
