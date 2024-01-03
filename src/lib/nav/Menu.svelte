@@ -16,7 +16,7 @@
         <li><a href="/settings" on:click={toggle}>⚙️  settings </a></li>
         <li><a href="/about" on:click={toggle}>❓ about</a></li>
     </ul>
-  <img src="{meme}" class="absolute right-0 bottom-0 mx-auto max-w-full" alt="Meme man wearing a lab coat and stehoscope" width="auto" height="auto" />
+  <img src="{meme}" class="absolute right-0 bottom-0 mx-auto max-w-full" alt="A 3D rendering of a bald and weirdly long face placed on a person wearing a lab coat with a stehoscope over his shoulders and stadning with his arms crossed." width="auto" height="auto" />
 </nav>
 
 <style>
