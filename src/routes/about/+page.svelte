@@ -1,4 +1,4 @@
-<div class='container'>
+<div class='text-center'>
   <h2>Sponsors</h2>
   <p>You can be the first! Just visit <a href="https://github.com/sponsors/Dilden">https://github.com/sponsors/Dilden</a> to fund the development of this app and get your name listed right here.</p>
   
@@ -181,9 +181,6 @@
   h3 {
     border-top: var(--secondary-back-color) dotted 2px;
     padding-top: .5rem;
-  }
-  .container {
-    text-align: center;
   }
   details {
     margin: 0 auto;
