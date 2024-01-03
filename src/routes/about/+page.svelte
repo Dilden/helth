@@ -75,6 +75,13 @@
   </details>
   <h3>changelog</h3>
   <details >
+    <summary>v0.1.3</summary>
+    <ul>
+      <li>New logo! Updated all icons to reflect new logo as well.</li>
+      <li>Moved the meme man to the navigation drawer</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.1.2</summary>
     <ul>
       <li>Add support for Tailwind CSS which should hopefully speed up building</li>
