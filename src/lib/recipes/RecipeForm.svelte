@@ -22,7 +22,7 @@
 </script>
 
 <form
-	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] grid-cols-1 md:grid-cols-8 m-4 grid"
+	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-8"
 	name="AddRecipe"
 	on:submit|preventDefault={handleSubmit}
 >
@@ -31,9 +31,9 @@
 	{/if}
 
 	<span class="col-start-1 col-end-2 md:col-start-2 md:col-end-5">
-		<label class="w-11/12 block mx-auto my-2" for="recipeName">Recipe Name</label>
+		<label class="mx-auto my-2 block w-11/12" for="recipeName">Recipe Name</label>
 		<input
-      class="w-11/12 block mx-auto my-2"
+			class="mx-auto my-2 block w-11/12"
 			type="text"
 			id="recipeName"
 			name="name"
@@ -43,9 +43,9 @@
 	</span>
 
 	<span class="col-start-1 col-end-2 md:col-start-5 md:col-end-8">
-		<label class="w-11/12 block mx-auto my-2"for="recipeDescription">Recipe Description</label>
+		<label class="mx-auto my-2 block w-11/12" for="recipeDescription">Recipe Description</label>
 		<input
-      class="w-11/12 block mx-auto my-2"
+			class="mx-auto my-2 block w-11/12"
 			type="text"
 			id="recipeDescription"
 			name="description"
@@ -54,13 +54,17 @@
 		/>
 	</span>
 
-	<div class="grid col-start-1 col-end-2 md:col-start-2 md:col-end-8 overflow-scroll mb-4 inventory gap-2 row-auto">
+	<div
+		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll md:col-start-2 md:col-end-8"
+	>
 		{#if inventoryItems?.length}
 			{#if !validated}
-				<div class="block bg-[#794949] w-full p-2 col-start-1 col-end-7">At least one item must be selected!</div>
+				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
+					At least one item must be selected!
+				</div>
 			{/if}
 			{#each inventoryItems as item}
-				<span class="justify-self-auto md:justify-center flex flex-row flex-nowrap items-center content-center">
+				<span class="grid grid-cols-7 content-center items-center justify-self-auto">
 					{#if recipe.items && recipe.items.map((item) => item.id).includes(item.id)}
 						<input
 							checked
@@ -68,12 +72,18 @@
 							value={item.id}
 							name={item.name}
 							id="inventoryItem-{item.id}"
-              class="m-0 w-1/6"
+							class="col-span-1 m-0"
 						/>
 					{:else}
-						<input type="checkbox" class="m-0 w-1/6" value={item.id} name={item.name} id="inventoryItem-{item.id}" />
+						<input
+							type="checkbox"
+							class="col-span-1 m-0"
+							value={item.id}
+							name={item.name}
+							id="inventoryItem-{item.id}"
+						/>
 					{/if}
-					<label class="m-0 pl-2" for="inventoryItem-{item.id}">
+					<label class="col-span-6 m-0" for="inventoryItem-{item.id}">
 						{item.name}
 					</label>
 				</span>
@@ -85,7 +95,11 @@
 			</p>
 		{/if}
 	</div>
-	<input type="submit" class="col-start-1 col-end-2 md:col-start-3 md:col-end-7" value={recipe.id ? 'Update' : 'Save'} />
+	<input
+		type="submit"
+		class="col-start-1 col-end-2 md:col-start-3 md:col-end-7"
+		value={recipe.id ? 'Update' : 'Save'}
+	/>
 </form>
 
 <style>
