@@ -18,7 +18,7 @@
 			.then((val) => {
 				if (!val.nutrients && val.message) {
 					errorToast('Item not found');
-					throw error(404, `${val.message}`);
+					error(404, `${val.message}`);
 				}
 
 				getInventory().then((data) => {
