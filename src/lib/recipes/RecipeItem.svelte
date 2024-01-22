@@ -46,10 +46,10 @@
     {/each}
   </ul>
 </div>
-<!-- remove from db -->
-<button on:click={confirmDelete} title="Delete Recipe">🗑️</button> 
 <!--add to daily total -->
 <button on:click={addToToday} title="Add to Daily Total">➕</button>
+<!-- remove from db -->
+<button on:click={confirmDelete} title="Delete Recipe">🗑️</button> 
 
 <style>
   h4 {

@@ -17,7 +17,7 @@
   }
 </script>
 
-<div class="container">
+<div class="text-center">
   <label for="countValue_{title}" class="countTitle">{title}</label>
   <div class="diffString">{@html diffString}</div> 
   <div class="controls">
@@ -38,9 +38,6 @@
   .countTitle {
     font-size: calc(1rem * var(--heading-ratio) * var(--heading-ratio));
     font-weight: 500;
-  }
-  .container {
-    text-align: center;
   }
   .controls {
     display: -webkit-box;

@@ -1,4 +1,4 @@
-<div class='container'>
+<div class='text-center'>
   <h2>Sponsors</h2>
   <p>You can be the first! Just visit <a href="https://github.com/sponsors/Dilden">https://github.com/sponsors/Dilden</a> to fund the development of this app and get your name listed right here.</p>
   
@@ -75,7 +75,32 @@
   </details>
   <h3>changelog</h3>
   <details >
-    <summary>v0.1.00</summary>
+    <summary>v0.1.3</summary>
+    <ul>
+      <li>New logo! Updated all icons to reflect new logo as well.</li>
+      <li>Moved the meme man to the navigation drawer</li>
+    </ul>
+  </details>
+  <details >
+    <summary>v0.1.2</summary>
+    <ul>
+      <li>Add support for Tailwind CSS which should hopefully speed up building</li>
+      <li>Barcode scanner now using Tailwind styles</li>
+      <li>Item form now using Tailwind styles</li>
+      <li>Recipe form now using Tailwind styles</li>
+    </ul>
+  </details>
+  <details >
+    <summary>v0.1.1</summary>
+    <ul>
+      <li>Deleted a closingtag that somehow got left in. Ironic, I know.</li>
+      <li>Item.barcode is now treated as a string as some barcodes have leading 0s and Numbers don't allow that.</li>
+      <li>Refactored Barcode scanner + data formatter for OpenFoodFacts API</li>
+      <li>Removed unused 2nd data source</li>
+    </ul>
+  </details>
+  <details >
+    <summary>v0.1.0</summary>
     <ul>
       <li>BREAKING CHANGE: Upgraded DB to v4 where Nutrients list in Inventory Items are now an array of objects instead of a object of objects</li>
       <li>BREAKING CHANGE: Refactored input formatting code to account for array of nutrient objects</li>
@@ -156,9 +181,6 @@
   h3 {
     border-top: var(--secondary-back-color) dotted 2px;
     padding-top: .5rem;
-  }
-  .container {
-    text-align: center;
   }
   details {
     margin: 0 auto;

@@ -5,7 +5,7 @@
   import ProteinChart from '$lib/charts/ProteinChart.svelte';
 </script>
 
-<div class='container'>
+<div class="text-center">
   <h2>📈 charts</h2>
   <WaterChart />
   <CalorieChart />
@@ -15,9 +15,6 @@
 
 <style>
     h2 {
-      text-align: center;
-    }
-    .container {
       text-align: center;
     }
 </style>

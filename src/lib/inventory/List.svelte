@@ -33,7 +33,7 @@
           <li>
             {#if editing?.id === item.id}
               <AddItem {item} submitCallback={() => (editing = undefined)}/>
-              <!-- <button on:click|preventDefault={() => (editing = undefined)} title="Cancel">Cancel</button> <!-- cancel  --> -->
+              <!-- <button on:click|preventDefault={() => (editing = undefined)} title="Cancel">Cancel</button> <!-- cancel  -->
             {:else}
               <Item {item} />
               <button on:click|preventDefault={editItem(item)} title="Edit Item">✏️</button> <!-- edit  -->

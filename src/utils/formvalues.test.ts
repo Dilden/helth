@@ -20,7 +20,7 @@ const sample = {
     2: {
       name: 'barcode',
       type: 'text',
-      value: 123456789102
+      value: '123456789102'
     },
     3: {
       name: '',
@@ -113,7 +113,7 @@ describe('form values', () => {
     expect(results).toEqual({ 
       'name': 'New inventory item',
       'description': 'Item description',
-      'barcode': 123456789102,
+      'barcode': '123456789102',
       'nutrients': [ 
         {
           key: 'calories',
