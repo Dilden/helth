@@ -1,23 +1,30 @@
-import { list } from '$utils/nutrients';
+import { list } from './nutrients';
 import { error } from '@sveltejs/kit';
 
-const openFoodFacts = (code) => {
-  // // staging data
-  // return `https://world.openfoodfacts.net/api/v2/product/${code}.json?fields=product_name,nutriments,ingredients_text,serving_size,serving_quantity`
-  // production data
-  return `https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,nutriments,ingredients_text,serving_size,serving_quantity`
+const openFoodFacts = (code: string) => {
+  // if(import.meta.env.DEV) {
+  //   // staging data
+  //   // this server blocks because of CORS
+  //   return `https://world.openfoodfacts.net/api/v2/product/${code}.json?fields=product_name,nutriments,ingredients_text,serving_size,serving_quantity`;
+  // }
+  // else {
+    // production data
+    return `https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,nutriments,ingredients_text,serving_size,serving_quantity`;
+  // }
 }
 
-export const formatOpenFood = (data) => {
-  const formatted = {};
-  formatted.name = data?.product?.product_name_en || data?.product?.product_name;
-  formatted.description = data.product.ingredients_text;
-  formatted.barcode = data.code;
+export const formatOpenFood = (data: any): InventoryItem => {
+  const formatted: InventoryItem = {
+    name: data?.product?.product_name_en || data?.product?.product_name,
+    description: data.product.ingredients_text,
+    barcode: data.code,
+    nutrients: []
+  };
 
   // nutrients require bulk of the effort to format
   // since Open Food Facts API data is often incomplete
-  formatted.nutrients = list.reduce((accum, {key, name, unit}) => {
-    
+  formatted.nutrients = list.reduce((accum, { key, name, unit }) => {
+
     let nutrimentKey = '';
     // Open Food Facts tracks nutrients using different names than we do
     switch(key.replace("_", "-")) {
@@ -68,24 +75,19 @@ export const formatOpenFood = (data) => {
         || data?.product?.nutriments[nutrimentKey + '_serving'] * modifier 
         || data.product.nutriments[nutrimentKey] * modifier;
 
-      accum.push({
-        key: key,
-        name: name,
-        unit: unit,
-        quantity: Math.round(amount)
-      });
+      accum.push({key: key, name: name, unit: unit, quantity: Math.round( amount )});
     }
     return accum;
-  }, []);
+  }, [] as Nutrient[]);
 
   return formatted;
 }
 
-export const getFoodFacts = async (code) => {
+export const getFoodFacts = async (code: string) => {
   return fetch(openFoodFacts(code), {
     method: 'GET',
     headers : {
-      'Origin': 'helth.app (testing)'
+      'Origin': (import.meta.env.DEV ? 'helth.app (testing)' : 'helth.app')
     }
   })
   .then(response => {
