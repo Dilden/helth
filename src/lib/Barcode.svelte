@@ -4,7 +4,7 @@
   import { today } from '$stores/stores.js';
   import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
   import { error } from '@sveltejs/kit';
-  import { getFoodFacts } from '$utils/sources.js';
+  import { getFoodFacts } from '$utils/sources';
 
   // scanner
   let selected;
@@ -17,9 +17,9 @@
       .then(result => getFoodFacts(result.getText()))
       .then(val => {
 
-        if(!val.nutrients && val.message) {
+        if(val.nutrients.length === 0 || !val.name) {
           errorToast('Item not found');
-          throw error(404, `${val.message}`);
+          throw error(404, (val.message ? `${val.message}` : 'Could not add item'));
         }
 
         getInventory()
