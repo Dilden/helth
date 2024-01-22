@@ -12,8 +12,7 @@ const config = {
     include: ['src/**/*.{test,spec}.{js,ts}'],
     reporter: 'verbose',
     setupFiles: [
-      './src/vitest/registerMatchers.js',
-      './src/vitest/cleanupDom.js',
+      './src/vitest/cleanupDom.js'
     ]
   },
   plugins: [
