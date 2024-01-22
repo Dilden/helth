@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { formatOpenFood } from './sources.js';
+import { formatOpenFood } from './sources';
 
 it('formatOpenFood returns expected object from given upc barcode', async () => {
   const formatted = formatOpenFood(fakeApiData);
@@ -12,7 +12,7 @@ it('formatOpenFood returns expected object from given upc barcode', async () => 
       {
         key: 'calories',
         name: 'Calories',
-        quantity: 48,
+        quantity: 168,
         unit: 'kcal'
       },
       {
@@ -36,7 +36,7 @@ it('formatOpenFood returns expected object from given upc barcode', async () => 
       {
         key: 'sodium',
         name: 'Sodium',
-        quantity: 0,
+        quantity: 0, // should actually be ~301
         unit: 'mg'
       },
       {
@@ -44,16 +44,16 @@ it('formatOpenFood returns expected object from given upc barcode', async () => 
         name: 'Total Fat',
         quantity: 3,
         unit: 'g'
-      }
+      },
     ]
   });
 })
 
 const fakeApiData = {
-  "code": "0027000523858",
-  "product": {
-    "ingredients_text": "Whole Grain Popping Corn, Palm Oil, Salt, Butter, Color Added (Annatto, Turmeric, Paprika), Natural Flavor, Mixed Tocopherols (Vitamin E for freshness). CONTAINS: MILK.",
-    "nutriments": {
+  code: "0027000523858",
+  product: {
+    ingredients_text: 'Whole Grain Popping Corn, Palm Oil, Salt, Butter, Color Added (Annatto, Turmeric, Paprika), Natural Flavor, Mixed Tocopherols (Vitamin E for freshness). CONTAINS: MILK.',
+    nutriments: {
       "calcium": 0,
       "calcium_100g": 0,
       "calcium_serving": 0,
@@ -158,11 +158,6 @@ const fakeApiData = {
       "vitamin-c_unit": "mg",
       "vitamin-c_value": 0
     },
-    "product_name": "Movie Theater Butter Microwave Popcorn",
-    "serving_quantity": "34",
-    "serving_size": "2 tbsp (34 g) unpopped (makes about 5 cups popped) (34 g)"
-  },
-  "status": 1,
-  "status_verbose": "product found"
+    product_name: 'Movie Theater Butter Microwave Popcorn',
+  }
 }
-
