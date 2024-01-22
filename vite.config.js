@@ -12,9 +12,11 @@ const config = {
     include: ['src/**/*.{test,spec}.{js,ts}'],
     reporter: 'verbose',
     setupFiles: [
-      './src/vitest/registerMatchers.js',
-      './src/vitest/cleanupDom.js',
+      './src/vitest/cleanupDom.js'
     ]
+  },
+  define: {
+    'APP_VERSION': JSON.stringify(process.env.npm_package_version)
   },
   plugins: [
     sveltekit(),

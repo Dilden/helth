@@ -1,7 +1,7 @@
 import "fake-indexeddb/auto";
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import { type, click } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import Search from './Search.svelte';
 
 describe('search bar', () => {
@@ -14,11 +14,12 @@ describe('search bar', () => {
     expect(screen.getByRole('button', {name: 'Clear search'})).toBeVisible();
   })
   it('clicking clear button clears the text input', async () => {
+    const user = userEvent.setup();
     render(Search, {
       searchStoreVal: 'testing'
     });
 
-    await click( screen.getByRole('button', {name: 'Clear search'}) )
+    await user.click( screen.getByRole('button', {name: 'Clear search'}) )
     expect(screen.getByLabelText('Search')).toHaveValue('');
   })
 })

@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
 import { render, screen } from '@testing-library/svelte';
-import { click } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import { recipes, inventory } from '$stores/stores.js';
 import Recipes from './Recipes.svelte';
@@ -67,9 +67,10 @@ describe('add recipe', () => {
     expect(await screen.findByRole('button', {name: 'Add Recipe'})).toBeVisible();
   });
   it('can click the button to toggle form', async () => {
+    const user = userEvent.setup();
     render(Recipes);
 
-    await click(screen.queryByRole('button', {name: 'Add Recipe'}));
+    await user.click(screen.queryByRole('button', {name: 'Add Recipe'}));
 
     expect(screen.getByLabelText('Recipe Name')).toBeVisible();
     expect(screen.getByLabelText('Recipe Description')).toBeVisible();

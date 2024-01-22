@@ -94,7 +94,7 @@ export const getFoodFacts = async (code: string) => {
     if(response.ok) {
       return response.json();
     }
-    throw error(404, `barcode ${code} not found @ OpenFoodFacts API`);
+    error(404, `barcode ${code} not found @ OpenFoodFacts API`);
   })
   .then(json => formatOpenFood(json));
 }

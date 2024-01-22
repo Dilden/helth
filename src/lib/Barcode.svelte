@@ -16,14 +16,10 @@
 			.decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
 			.then((result) => getFoodFacts(result.getText()))
 			.then((val) => {
-				if (!val.nutrients && val.message) {
-					errorToast('Item not found');
-					throw error(404, `${val.message}`);
-				}
 
         if(val.nutrients.length === 0 || !val.name) {
           errorToast('Item not found');
-          throw error(404, (val.message ? `${val.message}` : 'Could not add item'));
+          error(404, (val.message ? `${val.message}` : 'Could not add item'));
         }
 				getInventory().then((data) => {
 					if (!data.map((item) => item.barcode).includes(val.barcode)) {
