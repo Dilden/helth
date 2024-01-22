@@ -45,7 +45,7 @@
   </details>
   <details >
     <summary>I don't want to lose my data! What do I do?</summary>
-    <p>In the future, helth app will offer a subscription sync service for a monthly fee. Purchasing this subscription will ensure your data can be easily retrieved, even if you lose your device while having the added benefit of supporting development of the project. <s>In the meantime, go to the <a href="/data">settings page</a> and be sure to export your data regularly.</s> Data export/import functionality is currently broken, but we're working on it!</p>
+    <p>In the future, helth.app will offer a subscription sync service for a monthly fee. Purchasing this subscription will ensure your data can be easily retrieved, even if you lose your device while having the added benefit of supporting development of the project. In the meantime, go to the <a href="/data">settings page</a> and be sure to export your data regularly. To restore your data, you can simply use the import button and select your previously exported data.</p>
   </details>
 
   <h3>misc</h3>
@@ -74,6 +74,12 @@
     <p>To sponsor me on GitHub, visit <a href="https://github.com/sponsors/Dilden">https://github.com/sponsors/Dilden</a>. If you don't have a GitHub account, you can also make a one-time donation via Stripe for <a href="https://buy.stripe.com/bIY7sX4IP2tjcVydQQ">$5</a>, <a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$10</a>, <a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$20</a>, <a href="https://buy.stripe.com/28o28D4IP9VL5t68wx">$50</a>, or <a href="https://buy.stripe.com/14k4gL1wD9VLg7K6os">$100</a>.</p>
   </details>
   <h3>changelog</h3>
+  <details >
+    <summary>v0.1.4</summary>
+    <ul>
+      <li>Fixed issue with items being found at OpenFoodFacts but not having name, description, or nutrients.</li>
+    </ul>
+  </details>
   <details >
     <summary>v0.1.3</summary>
     <ul>
