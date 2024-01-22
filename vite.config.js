@@ -15,6 +15,9 @@ const config = {
       './src/vitest/cleanupDom.js'
     ]
   },
+  define: {
+    'APP_VERSION': JSON.stringify(process.env.npm_package_version)
+  },
   plugins: [
     sveltekit(),
     // // enabling basicSsl plugin breaks tests

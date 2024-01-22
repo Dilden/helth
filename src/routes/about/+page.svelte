@@ -1,3 +1,6 @@
+<script>
+  const version = APP_VERSION;
+</script>
 <div class='text-center'>
   <h2>Sponsors</h2>
   <p>You can be the first! Just visit <a href="https://github.com/sponsors/Dilden">https://github.com/sponsors/Dilden</a> to fund the development of this app and get your name listed right here.</p>
@@ -74,6 +77,14 @@
     <p>To sponsor me on GitHub, visit <a href="https://github.com/sponsors/Dilden">https://github.com/sponsors/Dilden</a>. If you don't have a GitHub account, you can also make a one-time donation via Stripe for <a href="https://buy.stripe.com/bIY7sX4IP2tjcVydQQ">$5</a>, <a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$10</a>, <a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$20</a>, <a href="https://buy.stripe.com/28o28D4IP9VL5t68wx">$50</a>, or <a href="https://buy.stripe.com/14k4gL1wD9VLg7K6os">$100</a>.</p>
   </details>
   <h3>changelog</h3>
+  <p>You are running version { version }</p>
+  <details >
+    <summary>v0.1.5</summary>
+    <ul>
+      <li>Updated dependencies to move to SvelteKit 2 and prepare for Svelte 5</li>
+      <li>Some tests needed to be adjusted as later version of testing frameworks also vhanged during upgrade process</li>
+    </ul>
+  </details>
   <details >
     <summary>v0.1.4</summary>
     <ul>
