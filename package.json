@@ -22,7 +22,7 @@
         "@testing-library/user-event": "^14.4.3",
         "@typescript-eslint/eslint-plugin": "^6.13.2",
         "@typescript-eslint/parser": "^6.13.2",
-        "@vite-pwa/sveltekit": "^0.2.7",
+        "@vite-pwa/sveltekit": "^0.3.0",
         "@vitejs/plugin-basic-ssl": "^1.0.1",
         "@zerodevx/svelte-toast": "^0.9.5",
         "autoprefixer": "^10.4.16",
