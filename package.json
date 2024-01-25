@@ -48,10 +48,13 @@
     "@zxing/library": "^0.20.0",
     "chart.js": "^4.3.3",
     "chartjs-plugin-annotation": "^3.0.1",
-    "dexie": "^3.2.4",
+    "dexie": "^4.0.1-beta.6",
+    "dexie-cloud-addon": "^4.0.1-beta.55",
     "dexie-export-import": "^4.0.7"
   },
   "jest": {
-    "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"]
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ]
   }
 }
