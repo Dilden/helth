@@ -1,7 +1,8 @@
 import { Dexie } from 'dexie';
+import { dexieCloud } from 'dexie-cloud-addon';
 import { thePast } from '$utils/dates';
 
-export const db = new Dexie('helthdb');
+export const db = new Dexie('helthdb', { addons: [dexieCloud] });
 
 // default values
 export const defaultDay = {
@@ -76,6 +77,12 @@ db.version(4).stores({inventory: '++id, &barcode, name, description'}).upgrade(d
     });
     item.nutrients = asArray;
   })
+})
+
+
+db.cloud.configure({
+  databaseUrl: "https://z4dxg16ct.dexie.cloud",
+  requireAuth: true
 })
 
 export const dbopen = db.open().then(() => {
