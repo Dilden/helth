@@ -1,25 +1,28 @@
 <script>
+	import { clickOutside } from '$utils/clickOutside';
   import meme from './meme.png';
   export let isOpen = false;
   const toggle = () => (isOpen = !isOpen);
 </script>
 
-<button title="Menu" class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
+<span use:clickOutside on:click_outside={() => isOpen = false}>
+  <button title="Menu" class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
     <i class="hamburger {isOpen ? 'open' : ''}" />
-</button>
-<nav class={isOpen ? 'shown' : ''}>
-  <ul class="list-none text-center m-0 p-0 z-[130] relative bg-[var(--back-color)]">
-    <li><a href="/" on:click={toggle}>🗒 track</a></li>
-    <li><a href="/charts" on:click={toggle}>📈 charts</a></li>
-    <li><a href="/goals" on:click={toggle}>🥇 goals</a></li>
-    <li><a href="/timers" on:click={toggle}>⏲  timers</a></li>
-    <li><a href="/settings" on:click={toggle}>⚙️  settings </a></li>
-    <li><a href="/about" on:click={toggle}>❓ about</a></li>
-  </ul>
-  <span class="absolute right-0 bottom-0 m-0 w-44 lg:w-52 z-[120]">
-    <img src="{meme}" class="w-full h-full" alt="A 3D rendering of a bald and weirdly long face placed on a person wearing a lab coat with a stehoscope over his shoulders and stadning with his arms crossed." width="auto" height="auto" />
-  </span>
-</nav>
+  </button>
+  <nav class={isOpen ? 'shown' : ''}>
+    <ul class="list-none text-center m-0 p-0 z-[130] relative bg-[var(--back-color)]">
+      <li><a href="/" on:click={toggle}>🗒 track</a></li>
+      <li><a href="/charts" on:click={toggle}>📈 charts</a></li>
+      <li><a href="/goals" on:click={toggle}>🥇 goals</a></li>
+      <li><a href="/timers" on:click={toggle}>⏲  timers</a></li>
+      <li><a href="/settings" on:click={toggle}>⚙️  settings </a></li>
+      <li><a href="/about" on:click={toggle}>❓ about</a></li>
+    </ul>
+    <span class="absolute right-0 bottom-0 m-0 w-44 lg:w-52 z-[120]">
+      <img src="{meme}" class="w-full h-full" alt="A 3D rendering of a bald and weirdly long face placed on a person wearing a lab coat with a stehoscope over his shoulders and stadning with his arms crossed." width="auto" height="auto" />
+    </span>
+  </nav>
+</span>
 
 <style>
  /* Pre-tailwind hamburger menu styling */
