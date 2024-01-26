@@ -1,109 +1,86 @@
-<script>
-  export let count;
-  export let title;
-  export let interval = 1;
-  export let max = 100;
-  export let diffString = '';
+<script lang="ts">
+	import { clickOutside } from '$utils/clickOutside';
+	export let count: number;
+	export let title: string;
+	export let interval: number = 1;
+	export let max: number = 100;
+	export let diffString: string = '';
 
-  function increment() {
-    return count = count + interval;
-  }
-  function decrement() {
-    count = count - interval;
-    if(count <= 0) {
-      count = 0;
-    }
-    return count;
-  }
+  const id = title.replace(/[\s()]/g, '');
+	const increment = (): number => {
+		return (count = count + interval);
+	};
+	const decrement = (): number => {
+		count = count - interval;
+		if (count <= 0) {
+			count = 0;
+		}
+		return count;
+	};
+
+	let showOptions = false;
 </script>
 
-<div class="text-center">
-  <label for="countValue_{title}" class="countTitle">{title}</label>
-  <div class="diffString">{@html diffString}</div> 
-  <div class="controls">
-    <button on:click={decrement}> -{interval} </button>
+<div class="relative my-2 text-center">
+	<label for="countValue_{title}" class="text-2xl font-medium">{title}</label>
+	<div class="mx-2 font-normal">{@html diffString}</div>
+	<div class="flex content-center items-center gap-0">
+		<button
+			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-xl rounded-r-none border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-xl hover:rounded-r-none hover:bg-neutral-300"
+			on:click={decrement}
+		>
+			-{interval}
+		</button>
 
-    <input id="countValue_{title}" bind:value={count} type="number" min="0" />
+		<input
+			id="countValue_{title}"
+			class="m-auto min-w-0 flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none focus-visible:border-none p-3 text-2xl"
+			bind:value={count}
+			type="number"
+			min="0"
+		/>
 
-    <button on:click={increment}> +{interval} </button>
-  </div>
-  <input aria-label="Adjust interval for {title}" id="interval_{title}" type="range" min=1 max={max} bind:value={interval}/>
+		<button
+			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-none rounded-r-xl border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-none hover:rounded-r-xl hover:bg-neutral-300"
+			on:click={increment}>
+			+{interval}
+		</button>
+	</div>
+
+  <!-- Options -->
+  <button
+    class="absolute right-0 top-0 bg-transparent hover:bg-transparent p-1 text-2xl text-[--fore-color] hover:text-neutral-200 transition duration-200"
+    on:click={() => (showOptions = !showOptions)}
+    use:clickOutside={'#' + id + '_options'}
+    on:click_outside={() => showOptions = false}
+  >
+    ...
+  </button>
+  {#if showOptions}
+    <div
+      id={id + '_options'}
+      class="absolute text-slate-700 w-full right-0 z-10 mt-2 pt-2 origin-top-right rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="menu-button"
+      tabindex="-1"
+    >
+      <label for="interval_{title}">Adjust -/+ Interval</label>
+      <input
+        class="mx-auto mb-2 w-11/12 p-0 text-5xl "
+        aria-label="Adjust -/+ interval"
+        id="interval_{title}"
+        type="range"
+        min="1"
+        {max}
+        bind:value={interval}
+      />
+    </div>
+  {/if}
 </div>
 
 <style>
-  .diffString {
-    font-weight: 500;
-    margin: .5rem;
-  }
-  .countTitle {
-    font-size: calc(1rem * var(--heading-ratio) * var(--heading-ratio));
-    font-weight: 500;
-  }
-  .controls {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    align-content: center;
-    align-items: center;
-    gap: 0;
-  }
-  input, button {
-    font-size: 1.5em;
-    border: none;
-    margin: auto;
-    padding: 10px;
-    color: #000000;
-    touch-action: manipulation;
-  }
-  input[type='number'] {
-    -webkit-box-flex: 2 1 auto;
-    -moz-box-flex: 2 1 auto;
-    -webkit-flex: 2 1 auto;
-    -ms-flex: 2 1 auto;
-    -moz-appearance: textfield;
-    appearance: textfield;
-    flex: 2 1 auto;
-    width: 50%;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    min-width: 75px;
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  input[type='range'] {
-    width: 90%;
-    font-size: 3em;
-    padding: 0;
-    margin: 10px auto;
-  }
-  button {
-    appearance: none;
-    -webkit-appearance: none;
-    -webkit-box-flex: 1 1 auto;
-    -moz-box-flex: 1 1 auto;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    background-color: #e9e9ed;
-    transition: all 0.2s ease-in-out;
-  }
-  button:first-child {
-    -webkit-border-radius: 10px 0 0 10px;
-    -moz-border-radius: 10px 0 0 10px;
-    border-radius: 10px 0 0 10px;
-  }
-  button:last-child {
-    -webkit-border-radius: 0 10px 10px 0;
-    -moz-border-radius: 0 10px 10px 0;
-    border-radius: 0 10px 10px 0;
-  }
-  button:hover {
-    background-color: #d0d0d7;
-  }
+	input[type='number'] {
+		appearance: textfield;
+	}
 </style>

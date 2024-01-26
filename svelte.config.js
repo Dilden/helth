@@ -10,7 +10,10 @@ const config = {
 				include: ['/*'],
 				exclude: ['<all>']
 			}
-    })
+    }),
+    alias: {
+      '$utils': 'src/utils/'
+    }
   },
   preprocess: vitePreprocess()
 };
