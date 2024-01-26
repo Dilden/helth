@@ -49,25 +49,26 @@
 
   <!-- Options -->
   <button
-    class="absolute right-0 top-0 bg-transparent hover:bg-transparent p-1 text-2xl text-[--fore-color] hover:text-neutral-200"
+    class="absolute right-0 top-0 bg-transparent hover:bg-transparent p-1 text-2xl text-[--fore-color] hover:text-neutral-200 transition duration-200"
     on:click={() => (showOptions = !showOptions)}
-    use:clickOutside={id + '_options'}
-    on:click_outside|stopPropagation={() => showOptions = false}
+    use:clickOutside={'#' + id + '_options'}
+    on:click_outside={() => showOptions = false}
   >
     ...
   </button>
   {#if showOptions}
     <div
       id={id + '_options'}
-      class="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      class="absolute text-slate-700 w-full right-0 z-10 mt-2 pt-2 origin-top-right rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="menu-button"
       tabindex="-1"
     >
+      <label for="interval_{title}">Adjust -/+ Interval</label>
       <input
-        class="mx-auto my-2 w-11/12 p-0 text-5xl"
-        aria-label="Adjust interval for {title}"
+        class="mx-auto mb-2 w-11/12 p-0 text-5xl "
+        aria-label="Adjust -/+ interval"
         id="interval_{title}"
         type="range"
         min="1"

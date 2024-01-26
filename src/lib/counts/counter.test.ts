@@ -43,13 +43,35 @@ describe('counter component', () => {
 		});
 
 		expect(
-      screen.queryByLabelText(`Adjust interval for ${title}`)
-    ).not.toBeVisible();
-    expect(screen.queryByRole('button', { name: '...' })).toBeVisible();
+      screen.queryByLabelText('Adjust -/+ interval')
+    ).toBeNull();
 
 		await user.click(screen.getByRole('button', { name: '...' }));
 		expect(
-      screen.queryByLabelText(`Adjust interval for ${title}`)
+      screen.queryByLabelText('Adjust -/+ interval')
     ).toBeVisible();
+	});
+
+	it('clicking outside of options hides controls', async () => {
+    const user = userEvent.setup();
+		const title = 'options test';
+		render(Counter, {
+			count: 10,
+			title: title,
+			interval: 4,
+			max: 150,
+			diffString: '100 calories remaining'
+		});
+
+		await user.click(screen.getByRole('button', { name: '...' }));
+		expect(
+      screen.queryByLabelText('Adjust -/+ interval')
+    ).toBeVisible();
+
+    await user.click(screen.getByLabelText(title));
+
+		expect(
+      screen.queryByLabelText('Adjust -/+ interval')
+    ).toBeNull();
 	});
 });
