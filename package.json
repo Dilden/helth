@@ -1,6 +1,6 @@
 {
   "name": "helth.app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "scripts": {
     "dev": "vite dev --host",
     "build": "vite build",
@@ -52,6 +52,8 @@
     "dexie-export-import": "^4.0.7"
   },
   "jest": {
-    "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"]
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ]
   }
 }

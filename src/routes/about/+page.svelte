@@ -21,9 +21,9 @@
   </details>
   <details >
     <summary>How do I use helth app?</summary>
-    <p>Its recommended to install helth app on your device for the most consistent experience. For instructions on how to do this with your device, see here: <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing">https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing</a>. You can also use it just like a normal website in your device's web browser.</p>
-    <p>The app is intended to track your daily intake of water, calories, and nutrients. Just input your data to the daily counters on the home page by using the "+" or "-" buttons. Move the slider to increase or decrease the amount you want to add or subtract with each button press from your daily total. You can also set the count for each item directly in the text box.</p>
-    <p>If you click the <span style="background-color: var(--secondary-back-color)">➕</span> button in the bottom right corner, you'll see a pop-up with the tabs "Inventory", "Recipes", and "Scan". Going to the "Scan" tab will allow you to scan the barcode (after you grant the app permission to use your camera) of a food's packaging. Once scanned, that item will be automatically added to your Inventory. From the Inventory, you can modify or adjust any values of the scanned items, add that them to your daily total, or add an item to a Recipe. Recipes are convenient for adding multiple items to your daily total.</p>
+    <p>The app is intended to track daily intake of water, calories, and nutrients. Just input your data to the daily counters on the home page by using the "+" or "-" buttons. Each counter has an button to customize its settings (...). Move the slider to increase or decrease the amount you want to add or subtract with each button press from your daily total. You can also set the count for each item directly in the text box.</p>
+    <p>By clicking the <span style="background-color: var(--secondary-back-color)">➕</span> button in the bottom right corner, you'll be presented with a pop-up which has the tabs "Inventory", "Recipes", and "Scan". Navigating to the "Scan" tab will allow you to scan the barcode (after you grant the app permission to use your camera) of a food's packaging. Once scanned, that item will be automatically added to your Inventory. From the Inventory, any values of the scanned items can be modified, added to the daily total, or added to a Recipe. Recipes are convenient for adding multiple items to the daily total at once. Recipes do not currently support servings per Item but that is a feature planned for a future release!</p>
+    <p>Its recommended to install helth.app on your device for the most consistent experience. For instructions on how to do this with your device, see here: <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing">https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing</a>. You can also use it just like a normal website in your device's web browser.</p>
   </details>
 
   <h3>data & privacy</h3>
@@ -39,7 +39,7 @@
   <details >
     <summary>What is Open Food Facts?</summary>
     <!-- TODO: Find data collected and stored by Open Food Facts API -->
-    <p>Open Food Facts is a non-profit that operates a crowd-sourced food packaging database made by the people, for the people. You can read more about it on their website at <a href="https://world.openfoodfacts.org/discover">https://world.openfoodfacts.org/discover</a>. Because all of the data from Open Food Facts is submitted by users, there is no guarantee that it will be 100% accurate. But in the future, helth app users will be able to contribute back to Open Food Facts to ensure any products you've discovered can be given back to the community.</p>
+    <p>Open Food Facts is a non-profit that operates a crowd-sourced food packaging database made by the people, for the people. You can read more about it on their website at <a href="https://world.openfoodfacts.org/discover">https://world.openfoodfacts.org/discover</a>. Because all of the data from Open Food Facts is submitted by users, there is no guarantee that it will be 100% accurate. But in the future, helth.app users will be able to contribute back to Open Food Facts to ensure any products you've discovered can be given back to the community.</p>
   </details>
   <details >
     <summary>Isn't this hosted on Cloudflare?</summary>
@@ -54,11 +54,11 @@
   <h3>misc</h3>
   <details >
     <summary>I found a bug/something is broken. How do I report it?</summary>
-    <p>If you have a GitHub account, feel free to report the issue on the <a href="https://github.com/Dilden/helth/issues">official repository</a>. Otherwise, send an email to <a href="mailto:support@helth.app?subject=helth app help">support@helth.app</a> with as much information as you can. Helpful tidbits of information are what device you were using, which version operating system is your device running, what browser you used, what street you grew up on, what your mother's maiden name is, what are the last 4 digits of your social security number, etc.</p>
+    <p>If you have a GitHub account, feel free to report the issue on the <a href="https://github.com/Dilden/helth/issues">official repository</a>. Otherwise, send an email to <a href="mailto:support@helth.app?subject=helth app help">support@helth.app</a> with as much information as you can. Helpful information includes what device you were using, which version operating system is your device running, what browser was used, what street you grew up on, what your mother's maiden name is, what the last 4 digits of your social security number are, etc.</p>
   </details>
   <details >
     <summary>What is this app built with?</summary>
-    <p>This app uses many technologies to function. It would <s>not be possible</s> have been a lot tougher without the following open-source projects:</p>
+    <p>This app uses many technologies to function. It would <s>not be possible</s> have been significantly tougher to build without the following open-source projects:</p>
       <ul>
         <li><a href="https://svelte.dev">Svelte</a> for compiling the templates and components used throughout the User Interface (UI)</li>
         <li><a href="https://kit.svelte.dev/">SvelteKit</a> to handle routing and overall management of Svelte projects</li>
@@ -78,6 +78,13 @@
   </details>
   <h3>changelog</h3>
   <p>You are running version { version }</p>
+  <details >
+    <summary>v0.1.6</summary>
+    <ul>
+      <li>Converted Counters to TS</li>
+      <li>Moved -/+ interval slider to options button in top right of each counter</li>
+    </ul>
+  </details>
   <details >
     <summary>v0.1.5</summary>
     <ul>
