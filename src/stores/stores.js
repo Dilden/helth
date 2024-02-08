@@ -1,6 +1,6 @@
 import * as dbfun from '$stores/db';
 import { writable, derived } from 'svelte/store';
-  import { lookupItems } from '$utils/recipe.js';
+import { lookupItems } from '$utils/recipe.js';
 
 function createTodayStore() {
 
@@ -58,7 +58,7 @@ function createNameValueStore(tableName) {
     },
     set: async (newVal) => {
       dbfun.updateItems(tableName, Object.keys(newVal).map((key) => {
-        return {name: key, value: newVal[key].value}
+        return { name: key, value: newVal[key].value }
       }));
       store.set(newVal);
     }
@@ -78,8 +78,8 @@ function createListStore(listName) {
       return items;
     },
     set: async (newVal) => {
-      const id = Number( newVal.id );
-      if(id) {
+      const id = Number(newVal.id);
+      if (id) {
         await dbfun.updateItemInList(listName, id, newVal);
       }
       else {
@@ -88,7 +88,7 @@ function createListStore(listName) {
       store.set(await dbfun.getListItems(listName));
     },
     delete: async (id) => {
-      if(listName === 'inventory') {
+      if (listName === 'inventory') {
         await dbfun.deleteItemFromRecipes(id);
         // TODO:
         // recipes store needs to be re-initialized after this
@@ -121,36 +121,36 @@ export const initStores = async () => {
 export const searchTerm = writable('');
 export const filteredInventory = derived(
   [searchTerm, inventory],
-  ([ $searchTerm, $inventory ]) => {
-    if(Array.isArray( $inventory )) {
+  ([$searchTerm, $inventory]) => {
+    if (Array.isArray($inventory)) {
       return $inventory.filter(item => item.name.toLowerCase().includes($searchTerm.toLowerCase()) || item.description.toLowerCase().includes($searchTerm.toLowerCase()))
     }
   },
   inventory.init()
-) 
+)
 
 
 // returns a store array of promises
 export const recipeSearch = writable('');
 export const formattedRecipes = derived(
-  [recipeSearch, recipes ],
-  ([$recipeSearch, $recipes ]) => {
+  [recipeSearch, recipes],
+  ([$recipeSearch, $recipes]) => {
     let searched = $recipes;
-    
-    if(Array.isArray( $recipes )) {
-      searched = $recipes.filter((recipe) => 
+
+    if (Array.isArray($recipes)) {
+      searched = $recipes.filter((recipe) =>
         recipe.name.toLowerCase().includes($recipeSearch.toLowerCase())
-          || 
-          recipe.description.toLowerCase().includes($recipeSearch.toLowerCase())
+        ||
+        recipe.description.toLowerCase().includes($recipeSearch.toLowerCase())
       )
     }
 
-    return searched.map(async ( recipe ) => {
+    return searched.map(async (recipe) => {
       const items = await lookupItems(recipe);
       recipe.items = await Promise.all(items);
       return recipe;
     })
   },
   recipes.init()
-) 
+)
 

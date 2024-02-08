@@ -1,6 +1,7 @@
+// @ts-ignore
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { recipes } from '$stores/stores.js';
 import { getListItems } from '$stores/db.js';
 
