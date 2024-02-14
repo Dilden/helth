@@ -1,8 +1,10 @@
 import { Dexie } from 'dexie';
 import { dexieCloud } from 'dexie-cloud-addon';
 import { thePast } from '$utils/dates';
+import { migrateRecipeItemIds } from './dbupgrade';
 
 export const db = new Dexie('helthdb', { addons: [dexieCloud] });
+// export const db = new Dexie('helthdb');
 
 // default values
 export const defaultDay = {
@@ -17,21 +19,21 @@ export const settings = {
     name: 'waterInterval',
     value: 500
   },
-  calorieInterval: { 
+  calorieInterval: {
     value: 75,
     name: 'calorieInterval'
   },
-  sodiumInterval: { 
+  sodiumInterval: {
     value: 10,
     name: 'sodiumInterval'
   },
-  proteinInterval: { 
+  proteinInterval: {
     value: 5,
     name: 'proteinInterval'
   },
 }
 export const goals = {
-  water: { 
+  water: {
     value: 2000,
     name: 'water'
   },
@@ -53,7 +55,7 @@ export const limits = {
 
 db.version(1).stores({
   journal: 'date, water, calories, protein, sodium',
-  settings: 'name, value', 
+  settings: 'name, value',
   limits: 'name, value',
   goals: 'name, value'
 });
@@ -67,10 +69,10 @@ db.version(3).stores({
 
 // https://dexie.org/docs/Tutorial/Design#database-versioning
 // Old 
-db.version(4).stores({inventory: '++id, &barcode, name, description'}).upgrade(data => {
+db.version(4).stores({ inventory: '++id, &barcode, name, description' }).upgrade(data => {
   return data.table('inventory').toCollection().modify((item) => {
-    const asArray = Object.entries( item.nutrients ).map(([index, value]) => {
-      const obj = {...value};
+    const asArray = Object.entries(item.nutrients).map(([index, value]) => {
+      const obj = { ...value };
       obj.key = index;
       obj.quantity = Number(obj.quantity);
       return obj;
@@ -79,10 +81,30 @@ db.version(4).stores({inventory: '++id, &barcode, name, description'}).upgrade(d
   })
 })
 
+// https://github.com/dexie/Dexie.js/issues/781#issuecomment-443237897
+// Todo: upgrade all references to the foreign key in recipes.items[]
+// inventory -> temp table
+// recipes -> temp table
+db.version(5).stores({
+  journal: '@guid, date, water, calories, protein, sodium', // 'date' not allowed as PK
+  inventory: null,
+  inventoryTemp: '@guid, id, &barcode, name, description, nutrients',
+  recipesTemp: '@guid, name, description, items',
+  recipes: null
+}).upgrade(async tx => {
+    const items = await tx.inventory.toArray();
+    await tx.inventoryTemp.bulkPut(items);
+
+    const recipes = await tx.recipes.toArray();
+    await tx.recipesTemp.bulkPut(recipes);
+    return tx;
+})
+
 
 db.cloud.configure({
-  databaseUrl: "https://z4dxg16ct.dexie.cloud",
-  requireAuth: true
+  databaseUrl: "https://z9931upd1.dexie.cloud",
+  // requireAuth: true
+  requireAuth: false
 })
 
 export const dbopen = db.open().then(() => {
@@ -90,40 +112,40 @@ export const dbopen = db.open().then(() => {
   // add empty day if it is not
 
   db.journal.orderBy('date').reverse().first()
-  .then(record => {
-    if(!record || thePast(record.date)) {
-      addDay();
-    }
-  });
+    .then(record => {
+      if (!record || thePast(record.date)) {
+        addDay();
+      }
+    });
 
   // settings defaults
   db.settings
-  .where('name')
-  .equals('waterInterval')
+    .where('name')
+    .equals('waterInterval')
     .first()
     .then((interval) => {
       !interval ? addItem('settings', 'waterInterval', settings.waterInterval.value) : interval;
     });
 
   db.settings
-  .where('name')
-  .equals('calorieInterval')
+    .where('name')
+    .equals('calorieInterval')
     .first()
     .then((interval) => {
       !interval ? addItem('settings', 'calorieInterval', settings.calorieInterval.value) : interval;
     });
 
   db.settings
-  .where('name')
-  .equals('sodiumInterval')
+    .where('name')
+    .equals('sodiumInterval')
     .first()
     .then((interval) => {
       !interval ? addItem('settings', 'sodiumInterval', settings.sodiumInterval.value) : interval;
     });
 
   db.settings
-  .where('name')
-  .equals('proteinInterval')
+    .where('name')
+    .equals('proteinInterval')
     .first()
     .then((interval) => {
       !interval ? addItem('settings', 'proteinInterval', settings.proteinInterval.value) : interval;
@@ -131,16 +153,16 @@ export const dbopen = db.open().then(() => {
 
   // goal defaults
   db.goals
-  .where('name')
-  .equals('water')
+    .where('name')
+    .equals('water')
     .first()
     .then((waterGoal) => {
       !waterGoal ? addItem('goals', 'water', goals.water.value) : waterGoal;
     });
 
   db.goals
-  .where('name')
-  .equals('protein')
+    .where('name')
+    .equals('protein')
     .first()
     .then((proteinGoal) => {
       !proteinGoal ? addItem('goals', 'protein', goals.protein.value) : proteinGoal;
@@ -148,16 +170,16 @@ export const dbopen = db.open().then(() => {
 
   // limits
   db.limits
-  .where('name')
-  .equals('calories')
+    .where('name')
+    .equals('calories')
     .first()
     .then((calorieLimit) => {
       !calorieLimit ? addItem('limits', 'calories', limits.calories.value) : calorieLimit;
     });
 
   db.limits
-  .where('name')
-  .equals('sodium')
+    .where('name')
+    .equals('sodium')
     .first()
     .then((sodiumLimit) => {
       !sodiumLimit ? addItem('limits', 'sodium', limits.sodium.value) : sodiumLimit;
@@ -170,9 +192,9 @@ export const dbopen = db.open().then(() => {
  */
 async function addDay() {
   try {
-    const today = await db.journal.add(defaultDay);
+    await db.journal.add(defaultDay);
   } catch (error) {
-    // console.log('error adding day');
+    console.log(error);
   }
 }
 
@@ -212,7 +234,7 @@ export const getItems = async (tableName) => {
   // spread all of the settings onto one object
   // so app doesn't need a store for each setting
   return db.table(tableName).toArray()
-    .then(data => data.reduce((prev, curr) => ({...prev, [curr.name]: curr}), []));
+    .then(data => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
 }
 
 
@@ -238,11 +260,11 @@ export const deleteItemFromRecipes = async (id) => {
     .then((recipes) => {
       recipes.map(async (recipe) => {
         const itemMatches = recipe?.items?.filter((item) => {
-          if(item.id === id) {
+          if (item.id === id) {
             return item;
           }
         })
-        if(itemMatches) {
+        if (itemMatches) {
           recipe.items = recipe?.items?.filter(x => !itemMatches.includes(x));
           return await updateItemInList('recipes', recipe.id, recipe);
         }
@@ -262,8 +284,8 @@ export const getItemByIdFromTable = async (tableName, id) => {
 // Persistent Storage https://dexie.org/docs/StorageManager
 export const persist = async () => {
   return navigator.storage ?
-  await navigator.storage.persist() :
-  undefined;
+    await navigator.storage.persist() :
+    undefined;
 }
 
 export const isStoragePersisted = async () => {
