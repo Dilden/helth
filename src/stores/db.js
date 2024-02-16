@@ -1,7 +1,8 @@
 import { Dexie } from 'dexie';
 import { dexieCloud } from 'dexie-cloud-addon';
 import { thePast } from '$utils/dates';
-import { migrateRecipeItemIds } from './dbupgrade';
+// import { migrateRecipeItemIds } from './dbupgrade';
+import { PUBLIC_DB_URL } from '$env/static/public';
 
 export const db = new Dexie('helthdb', { addons: [dexieCloud] });
 // export const db = new Dexie('helthdb');
@@ -89,20 +90,31 @@ db.version(5).stores({
   journal: '@guid, date, water, calories, protein, sodium', // 'date' not allowed as PK
   inventory: null,
   inventoryTemp: '@guid, id, &barcode, name, description, nutrients',
-  recipesTemp: '@guid, name, description, items',
+  recipesTemp: '@guid, id, name, description, items',
   recipes: null
 }).upgrade(async tx => {
-    const items = await tx.inventory.toArray();
-    await tx.inventoryTemp.bulkPut(items);
+  const items = await tx.inventory.toArray();
+  await tx.inventoryTemp.bulkPut(items);
 
-    const recipes = await tx.recipes.toArray();
-    await tx.recipesTemp.bulkPut(recipes);
-    return tx;
+  const recipes = await tx.recipes.toArray();
+  await tx.recipesTemp.bulkPut(recipes);
 })
 
 
+db.version(6).stores({
+  inventoryTemp: null,
+  inventory: '@id, &barcode, name, description, nutrients',
+  recipes: '@id, name, description, items',
+  recipesTemp: null
+}).upgrade(async tx => {
+  const items = await tx.inventoryTemp.toArray();
+  await tx.inventory.bulkPut(items);
+
+  const recipes = await tx.recipesTemp.toArray();
+  await tx.recipes.bulkPut(recipes);
+})
 db.cloud.configure({
-  databaseUrl: "https://z9931upd1.dexie.cloud",
+  databaseUrl: PUBLIC_DB_URL,
   // requireAuth: true
   requireAuth: false
 })
