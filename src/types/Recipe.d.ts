@@ -1,5 +1,5 @@
 interface RecipeItem {
-  id: number
+  id: number | string
 }
 
 interface Recipe {
