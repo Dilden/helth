@@ -116,7 +116,8 @@ db.version(6).stores({
 db.cloud.configure({
   databaseUrl: PUBLIC_DB_URL,
   // requireAuth: true
-  requireAuth: false
+  requireAuth: false,
+  disableWebSocket: true
 })
 
 export const dbopen = db.open().then(() => {

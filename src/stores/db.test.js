@@ -80,6 +80,9 @@ it('removes an item from recipes it exists in', async () => {
     items: [
       {id: 10}
     ]
-  }
-);
+  });
+})
+
+it('can upgrade db from v4 to v5', async () => {
+
 })
