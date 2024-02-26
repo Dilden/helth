@@ -1,6 +1,6 @@
 import * as dbfun from '$stores/db';
 import { writable, derived } from 'svelte/store';
-  import { lookupItems } from '$utils/recipe.js';
+import { lookupItems } from '$utils/recipe.js';
 
 function createTodayStore() {
 
