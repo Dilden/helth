@@ -79,6 +79,12 @@
   <h3>changelog</h3>
   <p>You are running version { version }</p>
   <details >
+    <summary>v0.1.7</summary>
+    <ul>
+      <li>Fixed issue with date and DB not loading data for current date if the page was opened from a previous day.</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.1.6</summary>
     <ul>
       <li>Converted Counters to TS</li>
