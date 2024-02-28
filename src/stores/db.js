@@ -64,6 +64,20 @@ db.version(3).stores({
   recipes: '++id, name, description, items'
 })
 
+// https://dexie.org/docs/Tutorial/Design#database-versioning
+// Old 
+db.version(4).stores({inventory: '++id, &barcode, name, description'}).upgrade(data => {
+  return data.table('inventory').toCollection().modify((item) => {
+    const asArray = Object.entries( item.nutrients ).map(([index, value]) => {
+      const obj = {...value};
+      obj.key = index;
+      obj.quantity = Number(obj.quantity);
+      return obj;
+    });
+    item.nutrients = asArray;
+  })
+})
+
 export const dbopen = db.open().then(() => {
   // check if today's date is most recent
   // add empty day if it is not
@@ -203,7 +217,7 @@ export const getListItems = async (tableName) => {
   return await db.table(tableName).toArray();
 }
 export const addToList = async (tableName, data) => {
-    return await db.table(tableName).add(data);
+  return await db.table(tableName).add(data);
 }
 export const updateItemInList = async (tableName, id, data) => {
   return await db.table(tableName).update(id, data);

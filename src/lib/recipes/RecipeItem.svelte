@@ -1,6 +1,5 @@
 <script>
-  import { nutrientSumsFromList } from '$utils/item.js';
-  import { list } from '$utils/nutrients.js';
+  import { nutrientSumsFromList } from '$utils/item';
   import { confirmDialog, successToast, errorToast} from '$utils/toast.js';
   import { recipes, today } from '$stores/stores.js';
 
@@ -14,9 +13,9 @@
 
   const addToToday = () => {
     try {
-      Object.keys(itemNutrientSums).map((index) => { 
-        $today[index] = $today[index] || 0;
-        $today[index] = $today[index] + Number(itemNutrientSums[index]); 
+      itemNutrientSums.map((index) => { 
+        $today[index.key] = $today[index.key] || 0;
+        $today[index.key] = $today[index.key] + index.quantity; 
       });
       successToast('Added to daily total!')
     } catch (err) {
@@ -42,17 +41,15 @@
     {/each}
   </ul>
   <ul class="nutrients">
-    {#each Object.entries(itemNutrientSums) as nutrient}
-      {#if nutrient[1]}
-        <li>{list[nutrient[0]].name + ': ' + nutrient[1] + list[nutrient[0]].unit}</li>
-      {/if}
+    {#each itemNutrientSums as nutrient}
+      <li>{nutrient.name + ': ' + nutrient.quantity + nutrient.unit}</li>
     {/each}
   </ul>
 </div>
-<!-- remove from db -->
-<button on:click={confirmDelete} title="Delete Recipe">🗑️</button> 
 <!--add to daily total -->
 <button on:click={addToToday} title="Add to Daily Total">➕</button>
+<!-- remove from db -->
+<button on:click={confirmDelete} title="Delete Recipe">🗑️</button> 
 
 <style>
   h4 {
@@ -72,8 +69,10 @@
     display: inline-block;
     margin: 0 1em;
   }
-  .items li {
+  ul.items li {
     font-size: 1em;
+    font-style: normal;
+    font-weight: bold;
   }
   button {
     margin: 0 .5rem;

@@ -8,3 +8,9 @@ declare namespace App {
     // interface Session {}
     // interface Stuff {}
 }
+
+declare namespace svelteHTML {
+	interface HTMLAttributes<T> {
+		'on:click_outside'?: CompositionEventHandler
+	}
+}

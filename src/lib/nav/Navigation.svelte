@@ -3,16 +3,7 @@
     import Menu from '$lib/nav/Menu.svelte';
 </script>
 
-<header>
+<header class="sticky max-h-[110px] z-10">
     <Helth />
     <Menu />
 </header>
-
-<style>
-    header {
-        background-color: var(--back-color);
-        position: sticky;
-        max-height: 110px;
-        z-index: 10;
-    }
-</style>

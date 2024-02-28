@@ -10,3 +10,4 @@ node_modules
 yarn-error.log
 vite.config.js.timestamp*.mjs
 /test-results
+dexie*

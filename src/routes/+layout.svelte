@@ -1,4 +1,5 @@
 <script>
+  import "../app.css";
   import Navigation from '$lib/nav/Navigation.svelte';
   import Footer from '$lib/nav/Footer.svelte';
   import { dbopen, persist, isStoragePersisted } from '$stores/db';

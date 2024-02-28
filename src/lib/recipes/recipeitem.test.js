@@ -22,34 +22,38 @@ describe('recipe items', () => {
         { 
           name: 'Coca-Cola',
           description: 'a carbonated beverage that will rot your teeth',
-          nutrients: {
-            calories: {
+          nutrients: [
+            {
+              key: 'calories',
               name: 'Calories',
-              quantity: '200',
+              quantity: 200,
               unit: 'kcal'
             },
-            added_sugars: {
+            {
+              key: 'added_sugars',
               name: 'Added Sugars',
-              quantity: '300',
+              quantity: 300,
               unit: 'g'
             }
-          }
+          ]
         },
         { 
           name: 'Pepsi',
           description: 'god, it\'s so awful',
-          nutrients: {
-            calories: {
+          nutrients: [
+            {
+              key: 'calories',
               name: 'Calories',
-              quantity: '250',
+              quantity: 250,
               unit: 'kcal'
             },
-            added_sugars: {
+            {
+              key: 'added_sugars',
               name: 'Added Sugars',
-              quantity: '500',
+              quantity: 500,
               unit: 'g'
             }
-          }
+          ]
         }
       ] }
     });

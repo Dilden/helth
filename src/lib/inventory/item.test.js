@@ -6,18 +6,20 @@ import Item from './Item.svelte';
 const coke = { 
   name: 'Coca-Cola',
   description: 'a carbonated beverage that will rot your teeth',
-  nutrients: {
-    calories: {
+  nutrients: [
+    {
+      key: 'calories',
       name: 'Calories',
       quantity: '200',
       unit: 'kcal'
     },
-    added_sugars: {
+    {
+      key: 'added_sugars',
       name: 'Added Sugars',
       quantity: '300',
       unit: 'g'
     }
-  }
+  ]
 };
 
 describe('inventory items', () => {

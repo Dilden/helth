@@ -17,23 +17,26 @@ describe('add nutrients to an item form inputs', () => {
 });
 
 describe('accepts nutrients', () => {
-  const nutrients = {
-    calories: {
+  const nutrients = [ 
+    {
+      key: 'calories',
       name: 'Calories',
-      quantity: '200',
+      quantity: 200,
       unit: 'kcal'
     },
-    added_sugars: {
+    {
+      key: 'added_sugars',
       name: 'Added Sugars',
-      quantity: '300',
+      quantity: 300,
       unit: 'g'
     },
-    sodium: {
+    {
+      key: 'sodium',
       name: 'Sodium',
-      quantity: '26',
+      quantity: 26,
       unit: 'g'
     }
-  }
+  ]
   it('can accept a nutrients object and populate field values', () => {
     render(AddNutrientInputs, {nutrients});
     expect(screen.getByLabelText('Calories')).toHaveValue('200');
