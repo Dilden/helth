@@ -154,3 +154,4 @@ export const formattedRecipes = derived(
   recipes.init()
 ) 
 
+export const inventoryFilter = writable('');
