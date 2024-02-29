@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
 import RecipeForm from './RecipeForm.svelte';
+import { inventoryFilter } from '$stores/stores';
 
 describe('recipe form', () => {
   it('has text inputs for name and description', async () => {
@@ -85,6 +86,28 @@ describe('recipe form', () => {
         }
       ]
     });
-    expect(screen.getByLabel('Search inventory')).toBeVisible();
+    expect(screen.getByLabelText('Filter inventory')).toBeVisible();
+  })
+
+  it('inventoryFilter text hides elements from inventory', () => {
+    inventoryFilter.set('test');
+    render(RecipeForm, {
+      inventoryItems: [
+        {
+          id: 10,
+          name: 'demo',
+          description: 'description goes here'
+        },
+        {
+          id: 11,
+          name: 'test',
+          description: 'for testing'
+        }
+      ]
+    });
+
+    // parent element is actually hidden
+    expect(screen.getByLabelText('test')).toBeVisible();
+    expect(screen.getByLabelText('demo')).not.toBeVisible();
   })
 })
