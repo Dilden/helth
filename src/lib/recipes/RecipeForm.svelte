@@ -1,7 +1,7 @@
 <script>
-	import { recipes } from '$stores/stores.js';
+	import { recipes, inventoryFilter } from '$stores/stores.js';
 	import { formatRecipeFormValues } from '$utils/formValues';
-  // import InventoryCheckbox from '$lib/recipes/InventoryCheckbox.svelte';
+	import Search from '$lib/misc/Search.svelte';
 
 	export let recipe = {};
 	export let inventoryItems = [];
@@ -58,39 +58,46 @@
 	<div
 		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll md:col-start-2 md:col-end-8"
 	>
+		<div class="col-start-1 col-end-2 m-8 md:col-end-8">
+			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
+			<Search
+				searchTitle="Filter inventory"
+				scrollTo={false}
+				bind:searchStoreVal={$inventoryFilter}
+			/>
+		</div>
 		{#if inventoryItems?.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
 					At least one item must be selected!
 				</div>
 			{/if}
-			{#each inventoryItems as item}
-				<span class="grid grid-cols-7 content-center items-center justify-self-auto">
-					{#if recipe.items && recipe.items.map((item) => item.id).includes(item.id)}
-              <!-- <InventoryCheckbox {item} checked={true}/> -->
-						<input
-							checked
-							type="checkbox"
-							value={item.id}
-							name={item.name}
-							id="inventoryItem-{item.id}"
-							class="col-span-1 m-0"
-						/>
-					{:else}
-              <!-- <InventoryCheckbox {item} /> -->
-						<input
-							type="checkbox"
-							class="col-span-1 m-0"
-							value={item.id}
-							name={item.name}
-							id="inventoryItem-{item.id}"
-						/>
-					{/if}
-					<label class="col-span-6 m-0" for="inventoryItem-{item.id}">
-						{item.name}
-					</label>
-				</span>
-			{/each}
+      <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 content-center gap-2 items-center justify-evenly col-start-1 col-end-8">
+        {#each inventoryItems as item}
+          <!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
+          <span
+            class="grid grid-cols-7 content-center items-center justify-evenly justify-self-auto {item.name
+            .toLowerCase()
+            .includes($inventoryFilter.toLowerCase())
+            ? 'block'
+            : 'hidden'}"
+          >
+            <input
+              id="inventoryItem-{item.id}"
+              type="checkbox"
+              class="col-span-1 m-0 p-4"
+              value={item.id}
+              name={item.name}
+              checked={recipe.items && recipe.items.map((item) => item.id).includes(item.id)
+                ? true
+                : false}
+            />
+            <label class="col-span-6 m-0 ml-2" for="inventoryItem-{item.id}">
+              {item.name}
+            </label>
+          </span>
+        {/each}
+      </div>
 		{:else}
 			<p>
 				No items found in inventory! Go scan something or Add an Item to your Inventory manually
@@ -104,9 +111,3 @@
 		value={recipe.id ? 'Update' : 'Save'}
 	/>
 </form>
-
-<style>
-	.inventory {
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-	}
-</style>
