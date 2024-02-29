@@ -79,6 +79,13 @@
   <h3>changelog</h3>
   <p>You are running version { version }</p>
   <details >
+    <summary>v0.1.8</summary>
+    <ul>
+      <li>Added filtering of Inventory Items on Add/Edit Recipe Form</li>
+      <li>Inventory Items now show in alphabetical order on Add/Edit Recipe Form</li>
+    </ul>
+  </details>
+  <details >
     <summary>v0.1.7</summary>
     <ul>
       <li>Fixed issue with date and DB not loading data for current date if the page was opened from a previous day.</li>
@@ -139,69 +146,6 @@
       <li>Fixed issues of duplicate items and nutrients being shown on Recipes</li>
     </ul>
   </details>
-  <details>
-    <summary>Pre 0.1.0</summary>
-    <details >
-      <summary>v0.0.26</summary>
-      <ul>
-        <li>Fixed import/export to work with IndexedDB</li>
-        <li>Confirm an import will overwrite all existing data before proceeding</li>
-        <li>Added import progress bar while import runs</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.25</summary>
-      <ul>
-        <li>Toast prompt shown asking if user would like to add to daily total if scanned barcode already exists in inventory</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.24</summary>
-      <ul>
-        <li>Moved controls below scanner video feed</li>
-        <li>Reduced size of ➕ button</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.23</summary>
-      <ul>
-        <li>Added button to the end of search text to allow for clearing it quickly</li>
-        <li>Scroll to search label when focusing on search bar</li>
-        <li>Reduced redundant code around search component</li>
-        <li>Added a pull request template so I quit forgetting to update this page</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.22</summary>
-      <ul>
-        <li>Fixed persistent storage prompt on iOS</li>
-        <li>Adjusted video element so as to not cover controls on iOS and related devices</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.21</summary>
-      <ul>
-        <li>Adjusted controls + video of scanner</li>
-        <li>Left-aligned inventory items in recipe edit form for consistent checkbox position</li>
-        <li>Reduced gap between inputs on Recipe & Inventory edit forms</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.20</summary>
-      <ul>
-        <li>Added mobile formatting to about page</li>
-      </ul>
-    </details>
-    <details >
-      <summary>v0.0.19</summary>
-      <ul>
-        <li>Added this about page</li>
-        <li>Switched icons to be in front of text in titles and nav menu</li>
-        <li>Changed /data page to /settings</li>
-        <li>Added title to settings page</li>
-      </ul>
-    </details>
-  </details>
 </div>
 
 <style>
@@ -219,10 +163,6 @@
     margin: 0 auto;
     text-align: left;
     font-size: 1.3em;
-  }
-  details > details {
-    max-width: 100%;
-    padding: 0 .5rem;
   }
   details[open] > summary {
     background-color: #151F22;
