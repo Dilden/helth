@@ -69,29 +69,44 @@ const sampleRecipe = {
       checked: true
     },
     4: {
+      name: 'cheese-servings',
+      type: 'number',
+      value: '2'
+    },
+    5: {
       name: 'sauce',
       type: 'checkbox',
       value: '2',
       checked: true
     },
-    5: {
+    6: {
+      name: 'sauce-servings',
+      type: 'number',
+      value: '1'
+    },
+    7: {
       name: 'crust',
       type: 'checkbox',
       value: '106',
       checked: true
     },
-    6: {
+    8: {
+      name: 'crust-servings',
+      type: 'number',
+      value: '.25'
+    },
+    9: {
       name: 'pepsi',
       type: 'checkbox',
       value: '8',
       checked: false
     },
-    7: {
+    10: {
       name: 'submit',
       type: 'submit',
       value: ''
     },
-    length: 8
+    length: 11
   }
 }
 
@@ -138,9 +153,9 @@ describe('form values', () => {
       name: 'pizza',
       description: 'friday night is pizza night',
       items: [
-        {id: 34},
-        {id: 2},
-        {id: 106}
+        {id: 34, servings: 2},
+        {id: 2, servings: 1},
+        {id: 106, servings: .25}
       ]
     })
   })
