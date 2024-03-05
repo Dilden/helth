@@ -9,14 +9,13 @@
 
 	let validated = true;
 
-  inventoryItems.map((item) => {
-    if(recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
-      item.checked = true;
-    }
-    else {
-      item.checked = false;
-    }
-  })
+	inventoryItems.map((item) => {
+		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+			item.checked = true;
+		} else {
+			item.checked = false;
+		}
+	});
 
 	const handleSubmit = (event) => {
 		const vals = formatRecipeFormValues(event.target);
@@ -65,9 +64,9 @@
 	</span>
 
 	<div
-		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll md:col-start-2 md:col-end-8"
+		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll col-span-full md:col-start-2 md:col-end-8 grid-cols-8"
 	>
-		<div class="col-start-1 col-end-8 mx-8 my-2">
+		<div class="col-span-8 md:col-start-3 md:col-span-4 mx-8 my-2">
 			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
@@ -82,12 +81,12 @@
 				</div>
 			{/if}
 			<div
-				class="col-start-1 col-end-8 grid grid-cols-1 content-center items-center justify-evenly gap-2 lg:grid-cols-4 xl:grid-cols-6"
+				class="col-span-full grid grid-cols-1 content-center items-center justify-evenly gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each inventoryItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
 					<span
-						class="grid grid-cols-5 auto-rows-min content-stretch items-center justify-evenly justify-self-auto gap-y-1 {item.name
+						class="grid auto-rows-min grid-cols-5 content-stretch items-center justify-evenly gap-y-1 justify-self-auto {item.name
 							.toLowerCase()
 							.includes($inventoryFilter.toLowerCase())
 							? 'block'
@@ -99,30 +98,32 @@
 							class="col-span-1 m-0 p-4"
 							value={item.id}
 							name={item.name}
-              bind:checked={item.checked}
+							bind:checked={item.checked}
 						/>
 						<label class="col-span-3 m-0 ml-2" for="inventoryItem-{item.id}">
 							{item.name}
 						</label>
-            {#if item.checked}
-              <div class="relative col-span-1 lg:col-span-3 lg:col-start-2">
-                <label class="absolute text-sm text-gray-500 dark:text-gray-200 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto" for="inventoryItemServing-{item.id}" >
-                  Servings
-                </label>
-                <input 
-                  id="inventoryItemServing-{item.id}" 
-                  type="number" 
-                  class="block px-1 pb-1 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  value={
-                  recipe.items && recipe.items.map((item) => item.id).includes(item.id)
-                    ? recipe.items.find(el => item.id === el.id).servings
-                    : 1
-                  }
-                  step="any"
-                />
-              </div>
-            {/if}
+						{#if item.checked}
+							<div class="relative col-span-1 lg:col-span-3 lg:col-start-2">
+								<label
+									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
+									for="inventoryItemServing-{item.id}"
+								>
+									Servings
+								</label>
+								<input
+									id="inventoryItemServing-{item.id}"
+									type="number"
+									class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-1 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
+									placeholder=" "
+                  required
+									value={recipe.items && recipe.items.map((item) => item.id).includes(item.id)
+										? recipe.items.find((el) => item.id === el.id).servings
+										: 1}
+									step="any"
+								/>
+							</div>
+						{/if}
 					</span>
 				{/each}
 			</div>
