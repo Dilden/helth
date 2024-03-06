@@ -66,7 +66,7 @@
 	<div
 		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll col-span-full md:col-start-2 md:col-end-8 grid-cols-8"
 	>
-		<div class="col-span-8 md:col-start-3 md:col-span-4 mx-8 my-2">
+		<div class="col-span-8 md:col-start-2 md:col-span-6 mx-8 my-2">
 			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
