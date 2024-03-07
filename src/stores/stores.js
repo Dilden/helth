@@ -149,7 +149,6 @@ export const formattedRecipes = derived(
       const items = lookupItems(recipe);
       const lookedUpItems = await Promise.all(items);
 
-      // merge data pulled from Inventory table
       recipe.items = lookedUpItems.map((item) => {
         let found = recipe.items.find((x) => x.id === item.id);
 
