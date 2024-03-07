@@ -1,11 +1,11 @@
 <script>
-  import { nutrientSumsFromList } from '$utils/item';
+  import { nutrientSumsFromList, applyServings } from '$utils/item';
   import { confirmDialog, successToast, errorToast} from '$utils/toast.js';
   import { recipes, today } from '$stores/stores.js';
 
   export let recipe = {};
 
-  const itemNutrientSums = nutrientSumsFromList(recipe.items);
+  let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
 
   const confirmDelete = () => {
     confirmDialog('Are you sure you want to delete this item?', deleteRecipe, () => false);
