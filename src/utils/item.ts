@@ -17,3 +17,15 @@ export const nutrientSumsFromList = (itemList: InventoryItem[] ) => {
 
   return sums;
 }
+
+export const applyServings = ( itemList: InventoryItem[] ) => {
+  return itemList.map((item) => {
+    item.nutrients = item.nutrients.map((nut) => {
+      if(nut.quantity && item.servings) {
+        nut.quantity = nut.quantity * item.servings;
+      }
+      return nut;
+    });
+    return item;
+  });
+}
