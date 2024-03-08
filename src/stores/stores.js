@@ -146,23 +146,17 @@ export const formattedRecipes = derived(
     }
 
     return searched.map(async (recipe) => {
-      const items = lookupItems(recipe);
-      const lookedUpItems = await Promise.all(items);
+      const _items = lookupItems(recipe);
+      const lookedUpItems = await Promise.all(_items);
 
-      recipe.items = lookedUpItems.map((item) => {
+      const items = lookedUpItems.map((item) => {
         let found = recipe.items.find((x) => x.id === item.id);
 
         // default servings to 1 if not set
-        if(found.servings) {
-          item = {...item, ...found};
-        }
-        else { 
-          item.servings = 1;
-        }
-        return item;
+        return { servings: 1, ...found, ...item };
       })
 
-      return recipe;
+      return { ...recipe, items };
     })
   },
   recipes.init()
