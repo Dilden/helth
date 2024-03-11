@@ -64,9 +64,9 @@
 	</span>
 
 	<div
-		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll col-span-full md:col-start-2 md:col-end-8 grid-cols-8"
+		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 overflow-scroll md:col-start-2 md:col-end-8"
 	>
-		<div class="col-span-8 md:col-start-2 md:col-span-6 mx-8 my-2">
+		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
 			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
@@ -116,7 +116,7 @@
 									type="number"
 									class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-1 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
 									placeholder=" "
-                  required
+									required
 									value={recipe.items && recipe.items.map((item) => item.id).includes(item.id)
 										? recipe.items.find((el) => item.id === el.id).servings
 										: 1}
@@ -128,7 +128,7 @@
 				{/each}
 			</div>
 		{:else}
-			<p>
+			<p class="col-span-8">
 				No items found in inventory! Go scan something or Add an Item to your Inventory manually
 				before creating a recipe.
 			</p>
