@@ -1,7 +1,7 @@
 import { getItemByIdFromTable } from '$stores/db.js';
 
-export const lookupItems = (recipe) => {
-  return recipe.items.map(async (item) => {
+export const lookupItems = (recipe: Recipe) => {
+  return recipe.items.map(async (item: RecipeItem) => {
      return await getItemByIdFromTable('inventory', item.id);
   });
 }

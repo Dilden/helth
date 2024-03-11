@@ -72,6 +72,7 @@ describe('add recipe', () => {
 
     await user.click(screen.queryByRole('button', {name: 'Add Recipe'}));
 
+    // TODO: this test failing randomly...
     expect(screen.getByLabelText('Recipe Name')).toBeVisible();
     expect(screen.getByLabelText('Recipe Description')).toBeVisible();
   })
