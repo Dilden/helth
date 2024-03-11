@@ -18,7 +18,8 @@ export const nutrientSumsFromList = (itemList: InventoryItem[]): Nutrient[] => {
 export const applyServings = (itemList: InventoryItem[]): InventoryItem[] => {
 	return itemList.map((item) => {
 		const nutrients = item.nutrients.map((nut) => {
-			const quantity = nut.quantity && item.servings ? nut.quantity * item.servings : 0;
+			const quantity =
+				nut.quantity && item.servings ? Math.round(nut.quantity * item.servings * 100) / 100 : 0;
 			return { ...nut, quantity };
 		});
 		return { ...item, nutrients };
