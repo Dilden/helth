@@ -11,6 +11,12 @@
 		showAddForm = false;
 		editing = recipe;
 	};
+
+	const closeEdit = (id) => {
+		const top = document.getElementById(id);
+		top.scrollIntoView({ behavior: 'smooth' });
+		editing = undefined;
+	};
 </script>
 
 <button
@@ -23,12 +29,11 @@
 {#if showAddForm}
 	{#await inventory.init() then filtered}
 		<RecipeForm
-			inventoryItems={filtered.sort((a, b) =>
-				a.name.toLowerCase().localeCompare(b.name.toLowerCase()) // sort inventory alphabetically
+			inventoryItems={filtered.sort(
+				(a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()) // sort inventory alphabetically
 			)}
 			submitCallback={() => {
 				showAddForm = false;
-				editing = undefined;
 			}}
 		/>
 	{/await}
@@ -42,15 +47,22 @@
 	<ul>
 		{#await Promise.all($formattedRecipes) then formatted}
 			{#each formatted.slice().reverse() as recipe}
-				<li>
+				<li id="listitem-recipe-{recipe.id}">
 					{#if editing?.id === recipe.id}
 						<RecipeForm
 							{recipe}
 							inventoryItems={$inventory.sort((a, b) =>
 								a.name.toLowerCase().localeCompare(b.name.toLowerCase())
 							)}
-							submitCallback={() => (editing = undefined)}
+							submitCallback={() => closeEdit(`listitem-recipe-${recipe.id}`)}
 						/>
+						<!-- rerender is preventing smooth scroll here -->
+						<button
+							on:click|preventDefault={() => closeEdit(`listitem-recipe-${recipe.id}`)}
+							title="Cancel"
+						>
+							Cancel
+						</button>
 					{:else}
 						<RecipeItem {recipe} />
 						<button on:click|preventDefault={editItem(recipe)} title="Edit Recipe">✏️</button>
