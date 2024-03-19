@@ -50,16 +50,23 @@ test.describe('add items dialog', () => {
 
 				await expect(page.getByText('Sample Item X')).toBeVisible();
 				await expect(page.getByText('Sodium: 20mg')).toBeVisible();
+				await expect(page.getByText('Servings')).toHaveValue('1');
 			});
 
 			test('add item in inventory to daily total', async () => {
-				await page.getByTitle('Add to Daily Total').click();
-				await page.getByTitle('Add to Daily Total').click();
+				await page.getByText('Servings').fill('2');
+				await page
+					.getByTitle('Add to Item nutients Daily Total after calculating based on servings')
+					.click();
+				// await page
+				// 	.getByTitle('Add to Item nutients Daily Total after calculating based on servings')
+				// 	.click();
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
 				await expect(page.getByLabel('⚡ calories', { exact: true })).toHaveValue('200');
 				await expect(page.getByLabel('🧂 sodium (mg)', { exact: true })).toHaveValue('40');
 			});
+
 			test('edit item in inventory', async () => {
 				await page.getByRole('button', { name: 'Open Add Dialog' }).click();
 				await page

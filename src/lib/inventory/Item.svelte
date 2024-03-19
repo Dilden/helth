@@ -1,78 +1,87 @@
 <script>
-  import {successToast, errorToast, confirmDialog} from '$utils/toast.js';
-  import { today, inventory, recipes } from '$stores/stores.js';
+	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
+	import { today, inventory, recipes } from '$stores/stores.js';
+	import { toTwoDecimals } from '$utils/numbers';
 
-  export let item;
+	export let item;
 
-  const addToToday = () => {
-    try {
-        item.nutrients.map((index) => { 
-        $today[index.key] = $today[index.key] || 0;
-        $today[index.key] = $today[index.key] + index.quantity; 
-      });
-      successToast('Added to daily total!')
-    } catch (err) {
-      errorToast('Error adding to total!')
-    }
-  }
+	const addToToday = () => {
+		try {
+			const servings = document.getElementById(`inventoryItemServing-${item.id}`).value;
+			item.nutrients.map((index) => {
+				const amount = toTwoDecimals(index.quantity * Number(servings));
+				$today[index.key] = $today[index.key] || 0;
+				$today[index.key] = $today[index.key] + amount;
+			});
+			successToast('Added to daily total!');
+		} catch (err) {
+			errorToast('Error adding to total!');
+		}
+	};
 
-  const confirmDelete = () => {
-    confirmDialog('Are you sure you want to delete this item? This item will also be removed from any Recipes it has been included in.', deleteItem, () => false);
-  }
+	const confirmDelete = () => {
+		confirmDialog(
+			'Are you sure you want to delete this item? This item will also be removed from any Recipes it has been included in.',
+			deleteItem,
+			() => false
+		);
+	};
 
-  const deleteItem = async () => {
-    await inventory.delete(item.id)
-    .then(() => successToast('Removed item!'))
-    .catch(() => errorToast('Error deleting item!'));
-    await recipes.init();
-  }
+	const deleteItem = async () => {
+		await inventory
+			.delete(item.id)
+			.then(() => successToast('Removed item!'))
+			.catch(() => errorToast('Error deleting item!'));
+		await recipes.init();
+	};
 </script>
 
-<h4>{item.name}</h4>
+<h4 class="ml-0 sm:mb-1 md:mb-2">{item.name}</h4>
 <div>
-  <div class="description">{item.description}</div>
-  {#if item.nutrients}
-    <ul>
-    {#each item.nutrients as nutrient}
-      {#if nutrient.quantity > 0}
-        <li>{nutrient.name}: {nutrient.quantity}{nutrient.unit}</li>
-      {/if}
-    {/each}
-    </ul>
-  {/if}
+	<div class="text-sm">{item.description}</div>
+	{#if item.nutrients}
+		<ul class="list-none sm:pl-0 sm:text-left md:text-center">
+			{#each item.nutrients as nutrient}
+				{#if nutrient.quantity > 0}
+					<li class="mx-2 my-0 inline-block text-xs italic">
+						{nutrient.name}: {nutrient.quantity}{nutrient.unit}
+					</li>
+				{/if}
+			{/each}
+		</ul>
+	{/if}
 </div>
-<button on:click={addToToday} title="Add to Daily Total">➕</button><!--add to daily total -->
-<!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
-<button on:click={confirmDelete} title="Delete Item from Inventory">🗑️</button> <!-- remove from db -->
 
-<style>
-  h4 {
-    margin-left: 0;
-    margin-bottom: .2em 0;
-  }
-  .description {
-    font-size: .9em;
-  }
-  ul {
-    list-style: none;
-    text-align: center;
-  }
-  ul li {
-    font-size: .8em;
-    font-style: italic;
-    display: inline-block;
-    margin: 0 .5em;
-  }
-  button {
-    margin: 0 .5rem;
-  }
-  @media screen and (max-width: 900px) {
-    h4 {
-      margin: .2em 0;
-    }
-    ul {
-      text-align: left;
-      padding-left: 0;
-    }
-  }
-</style>
+<div class="relative inline-block align-middle">
+	<label
+		class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-xs text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
+		for="inventoryItemServing-{item.id}"
+	>
+		Servings
+	</label>
+	<input
+		id="inventoryItemServing-{item.id}"
+		type="number"
+		class="peer block w-14 appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-2 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
+		placeholder="1"
+		required
+		value="1"
+		step="any"
+		title="Number of servings to add to daily total"
+	/>
+</div>
+<!--add to daily total -->
+<button
+	class="my-0 ml-2"
+	on:click={addToToday}
+	title="Add to Item nutients Daily Total after calculating based on servings">➕</button
+>
+<!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
+<!-- remove from db -->
+<button
+	class="float-right mb-0 ml-2 mt-2"
+	on:click={confirmDelete}
+	title="Delete Item from Inventory"
+>
+	🗑️
+</button>
