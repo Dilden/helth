@@ -22,8 +22,8 @@
 		if (vals?.items?.length) {
 			$recipes = vals;
 			event.target.reset();
-			submitCallback();
 			validated = true;
+			submitCallback();
 		} else {
 			validated = false;
 		}

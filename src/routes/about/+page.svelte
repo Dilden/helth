@@ -216,6 +216,15 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.1.10</summary>
+		<ul>
+			<li>
+				⭐ New feature ⭐ Specify how many servings of an item or recipe to add to the daily total
+			</li>
+			<li>Misc. formatting of files</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.1.9</summary>
 		<ul>
 			<li>⭐ New feature ⭐ Set number servings for each item included in a recipe!</li>
