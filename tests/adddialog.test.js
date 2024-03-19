@@ -56,11 +56,8 @@ test.describe('add items dialog', () => {
 			test('add item in inventory to daily total', async () => {
 				await page.getByText('Servings').fill('2');
 				await page
-					.getByTitle('Add to Item nutients Daily Total after calculating based on servings')
+					.getByTitle('Add Item nutients (times specified servings) to Daily Total')
 					.click();
-				// await page
-				// 	.getByTitle('Add to Item nutients Daily Total after calculating based on servings')
-				// 	.click();
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
 				await expect(page.getByLabel('⚡ calories', { exact: true })).toHaveValue('200');
@@ -175,8 +172,13 @@ test.describe('add items dialog', () => {
 		});
 
 		test('adds a recipe to the current daily total', async () => {
-			await page.locator('li').filter({ hasText: 'Soda' }).getByTitle('Add to Daily Total').click();
-			await page.locator('li').filter({ hasText: 'Soda' }).getByTitle('Add to Daily Total').click();
+			// await page.locator('li').filter({ hasText: 'Soda' }).getByTitle('Add to Daily Total').click();
+			await page.getByText('Servings').fill('2');
+			await page
+				.locator('li')
+				.filter({ hasText: 'Soda' })
+				.getByTitle('Add Recipe nutients (times specified servings) to Daily Total')
+				.click();
 			await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
 			// await expect( page.getByLabel('⚡ calories', { exact: true }) ).toHaveValue('1000');
