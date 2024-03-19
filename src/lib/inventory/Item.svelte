@@ -13,7 +13,7 @@
 				$today[index.key] = $today[index.key] || 0;
 				$today[index.key] = $today[index.key] + amount;
 			});
-			successToast('Added to daily total!');
+			successToast(`Added ${servings} servings to daily total!`);
 		} catch (err) {
 			errorToast('Error adding to total!');
 		}
@@ -74,7 +74,7 @@
 <button
 	class="my-0 ml-2"
 	on:click={addToToday}
-	title="Add to Item nutients Daily Total after calculating based on servings">➕</button
+	title="Add Item nutients (times specified servings) to Daily Total">➕</button
 >
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <!-- remove from db -->
