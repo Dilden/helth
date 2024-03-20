@@ -216,6 +216,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.1.11</summary>
+		<ul>
+			<li>Addressed some rounding errors from previous update</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.1.10</summary>
 		<ul>
 			<li>
