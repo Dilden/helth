@@ -1,3 +1,5 @@
+import { toTwoDecimals } from '$utils/numbers';
+
 export const nutrientSumsFromList = (itemList: InventoryItem[]): Nutrient[] => {
 	const allNutrients = itemList.map((item) => item.nutrients).flat();
 
@@ -5,7 +7,9 @@ export const nutrientSumsFromList = (itemList: InventoryItem[]): Nutrient[] => {
 		const foundIndex = accum.findIndex(({ key }) => key === current.key);
 
 		if (accum && accum[foundIndex]) {
-			accum[foundIndex].quantity = Number(accum[foundIndex].quantity) + Number(current.quantity);
+			accum[foundIndex].quantity = toTwoDecimals(
+				Number(accum[foundIndex].quantity) + Number(current.quantity)
+			);
 		} else {
 			accum.push(current);
 		}
@@ -19,7 +23,7 @@ export const applyServings = (itemList: InventoryItem[]): InventoryItem[] => {
 	return itemList.map((item) => {
 		const nutrients = item.nutrients.map((nut) => {
 			const quantity =
-				nut.quantity && item.servings ? Math.round(nut.quantity * item.servings * 100) / 100 : 0;
+				nut.quantity && item.servings ? toTwoDecimals(nut.quantity * item.servings) : 0;
 			return { ...nut, quantity };
 		});
 		return { ...item, nutrients };
