@@ -1,35 +1,38 @@
 <script>
-  import { history, limits } from '$stores/stores';
-  import Chart from '$lib/charts/Chart.svelte';
-  import Spinner from '$lib/Spinner.svelte';
+	import { history, limits } from '$stores/stores';
+	import Chart from '$lib/charts/Chart.svelte';
+	import Spinner from '$lib/Spinner.svelte';
 
-  const data = () => {
-    return [
-    {
-      label: 'Calories',
-      data: $history.map(el => el.calories),
-      backgroundColor: "#fc173e",
-      borderColor: "#fc173e"
-    }];
-  } 
-  const labels = () => {
-    return $history.map(el => {
-          let date = new Date(el.date);
-          return date.toLocaleDateString();
-      }
-    );
-  } 
+	export let range = 7;
+	const data = () => {
+		return [
+			{
+				label: 'Calories',
+				data: $history.map((el) => el.calories).slice(Number(-range)),
+				backgroundColor: '#fc173e',
+				borderColor: '#fc173e'
+			}
+		];
+	};
+	const labels = () => {
+		return $history
+			.map((el) => {
+				let date = new Date(el.date);
+				return date.toLocaleDateString();
+			})
+			.slice(Number(-range));
+	};
 </script>
 
 <h3>Calories</h3>
 {#await history.init()}
-  <Spinner />
+	<Spinner />
 {:then}
-  {#await limits.init()}
-  <Spinner />
-  {:then}
-    <Chart chartType="line" data={data()} limit={$limits.calories.value} labels={labels()} />
-  {/await}
+	{#await limits.init()}
+		<Spinner />
+	{:then}
+		<Chart chartType="line" data={data()} limit={$limits.calories.value} labels={labels()} />
+	{/await}
 {:catch error}
-  <p>error</p>
+	<p>error</p>
 {/await}
