@@ -216,6 +216,15 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.1.12</summary>
+		<ul>
+			<li>
+				⭐ New feature ⭐ <br /> Charts can now show fine-grained history. This is helpful for looking
+				back on your past week, 2 weeks, month, or year!
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.1.11</summary>
 		<ul>
 			<li>Addressed some rounding errors from previous update</li>
@@ -225,7 +234,7 @@
 		<summary>v0.1.10</summary>
 		<ul>
 			<li>
-				⭐ New feature ⭐ Specify how many servings of an item or recipe to add to the daily total
+				⭐ New feature ⭐ <br /> Specify how many servings of an item or recipe to add to the daily total
 			</li>
 			<li>Misc. formatting of files</li>
 		</ul>
