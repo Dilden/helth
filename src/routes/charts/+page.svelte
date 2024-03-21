@@ -5,27 +5,23 @@
 	import ProteinChart from '$lib/charts/ProteinChart.svelte';
 
 	$: range = 7;
-	const historyRange = [7, 30, 90, 365, 0];
+	const historyRange = [7, 14, 30, 90, 180, 365, 0];
 </script>
 
 <div class="text-center">
-	<h2>📈 charts</h2>
+	<h2 class="text-center">📈 charts</h2>
 	<div>
 		<label for="chartRange">Show previous</label>
-		<select id="chartRange" value={range} class="max-w-max">
+		<select id="chartRange" bind:value={range} class="max-w-max p-2">
 			{#each historyRange as option}
-				<option value={option}>{option ? `${option} days` : 'All history'}</option>
+				<option value={option}>{option ? `${option} days` : 'all days'}</option>
 			{/each}
 		</select>
 	</div>
-	<WaterChart {range} />
-	<CalorieChart />
-	<NutrientsChart />
-	<ProteinChart />
+	{#key range}
+		<WaterChart {range} />
+		<CalorieChart {range} />
+		<NutrientsChart {range} />
+		<ProteinChart {range} />
+	{/key}
 </div>
-
-<style>
-	h2 {
-		text-align: center;
-	}
-</style>
