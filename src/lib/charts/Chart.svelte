@@ -6,12 +6,25 @@
 	Chart.register(...registerables, annotationPlugin);
 
 	let chart;
-	export let chartType = 'line';
-	export let data = [];
+	const chartType = 'line';
+	// export let data = [];
 	export let labels = [];
 	export let unit = '';
 	export let goal = 0;
 	export let limit = 0;
+
+	export let storeData;
+	export let label = '';
+	export let color = '#2417fc';
+
+	const data = [
+		{
+			label: label,
+			data: storeData,
+			backgroundColor: color,
+			borderColor: color
+		}
+	];
 
 	const annotation = {
 		type: 'line',
