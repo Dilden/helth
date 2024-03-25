@@ -3,19 +3,22 @@ export const list: Nutrient[] = [
 		key: 'added_sugars',
 		name: 'Added Sugars',
 		quantity: null,
-		unit: 'g'
+		unit: 'g',
+		emoji: '🍬'
 	},
 	{
 		key: 'calcium',
 		name: 'Calcium',
 		quantity: null,
-		unit: 'mg'
+		unit: 'mg',
+		emoji: '🍼'
 	},
 	{
 		key: 'calories',
 		name: 'Calories',
 		quantity: null,
-		unit: 'kcal'
+		unit: 'kcal',
+		emoji: '⚡'
 	},
 	{
 		key: 'cholesterol',
@@ -27,7 +30,8 @@ export const list: Nutrient[] = [
 		key: 'copper',
 		name: 'Copper',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🟫'
 	},
 	{
 		key: 'fiber',
@@ -69,7 +73,8 @@ export const list: Nutrient[] = [
 		key: 'potassium',
 		name: 'Potassium',
 		quantity: null,
-		unit: 'mg'
+		unit: 'mg',
+		emoji: '🍌'
 	},
 	{
 		key: 'phosphorus',
@@ -81,7 +86,8 @@ export const list: Nutrient[] = [
 		key: 'protein',
 		name: 'Protein',
 		quantity: null,
-		unit: 'g'
+		unit: 'g',
+		emoji: '🍗'
 	},
 	{
 		key: 'riboflavin',
@@ -99,7 +105,8 @@ export const list: Nutrient[] = [
 		key: 'sodium',
 		name: 'Sodium',
 		quantity: null,
-		unit: 'mg'
+		unit: 'mg',
+		emoji: '🧂'
 	},
 	{
 		key: 'thiamin',
@@ -111,7 +118,8 @@ export const list: Nutrient[] = [
 		key: 'total_sugar',
 		name: 'Total Sugars',
 		quantity: null,
-		unit: 'g'
+		unit: 'g',
+		emoji: '🍩'
 	},
 	{
 		key: 'trans_fat',
@@ -123,7 +131,8 @@ export const list: Nutrient[] = [
 		key: 'total_carbohydrate',
 		name: 'Total Carbohydrate',
 		quantity: null,
-		unit: 'g'
+		unit: 'g',
+		emoji: '🍞'
 	},
 	{
 		key: 'total_fat',
@@ -135,49 +144,58 @@ export const list: Nutrient[] = [
 		key: 'vitamin_a',
 		name: 'Vitamin A',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🅰️'
 	},
 	{
 		key: 'vitamin_b',
 		name: 'Vitamin B',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🅱️'
 	},
 	{
 		key: 'vitamin_b6',
 		name: 'Vitamin B6',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🅱️6️⃣'
 	},
 	{
 		key: 'vitamin_b12',
 		name: 'Vitamin B12',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🅱️1️⃣2️⃣'
 	},
 	{
 		key: 'vitamin_c',
 		name: 'Vitamin C',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🍋'
 	},
 	{
 		key: 'vitamin_e',
 		name: 'Vitamin E',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '🥜'
 	},
 	{
 		key: 'vitamin_d',
 		name: 'Vitamin D',
 		quantity: null,
-		unit: 'mcg'
+		unit: 'mcg',
+		emoji: '☀️'
 	},
 	{
 		key: 'water',
 		name: 'Water',
 		quantity: null,
-		unit: 'ml'
+		unit: 'ml',
+		emoji: '💧',
+		countMax: 1000
 	},
 	{
 		key: 'zinc',

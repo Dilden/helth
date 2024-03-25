@@ -60,8 +60,8 @@ test.describe('add items dialog', () => {
 					.click();
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
-				await expect(page.getByLabel('⚡ calories', { exact: true })).toHaveValue('200');
-				await expect(page.getByLabel('🧂 sodium (mg)', { exact: true })).toHaveValue('40');
+				await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).toHaveValue('200');
+				await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).toHaveValue('40');
 			});
 
 			test('edit item in inventory', async () => {
@@ -181,10 +181,10 @@ test.describe('add items dialog', () => {
 				.click();
 			await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
-			// await expect( page.getByLabel('⚡ calories', { exact: true }) ).toHaveValue('1000');
-			await expect(page.getByLabel('⚡ calories', { exact: true })).not.toHaveValue('0');
+			// await expect( page.getByLabel('⚡ Calories', { exact: true }) ).toHaveValue('1000');
+			await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).not.toHaveValue('0');
 			// await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).toHaveValue('80');
-			await expect(page.getByLabel('🧂 sodium (mg)', { exact: true })).not.toHaveValue('0');
+			await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).not.toHaveValue('0');
 		});
 
 		test('edits a recipe', async () => {
