@@ -13,7 +13,7 @@
 <div
 	class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
 >
-	{#await today.init() && settings.init() && limits.init() && goals.init()}
+	{#await Promise.all([today.init(), settings.init(), limits.init(), goals.init()])}
 		<Spinner />
 	{:then}
 		{#each list as nutrient}
