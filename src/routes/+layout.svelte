@@ -2,7 +2,7 @@
 	import '../app.css';
 	import Navigation from '$lib/nav/Navigation.svelte';
 	import Footer from '$lib/nav/Footer.svelte';
-	import { dbopen, persist, isStoragePersisted } from '$stores/db';
+	import { db, addDefaults, persist, isStoragePersisted } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import Spinner from '$lib/Spinner.svelte';
@@ -32,7 +32,7 @@
 <div class="main" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
 	<div class="content">
-		{#await dbopen}
+		{#await db.open().then(() => addDefaults())}
 			<Spinner />
 		{:then}
 			<slot />
