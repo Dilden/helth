@@ -18,13 +18,11 @@
 	{:then}
 		{#each list as nutrient}
 			<div class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]">
+				<!-- TODO: Just pass in the nutrient -->
 				<Counter
-					title={(nutrient?.emoji ? nutrient?.emoji + ' ' : '') +
-						nutrient.name +
-						` (${nutrient.unit})`}
+					item={nutrient}
 					bind:count={$today[nutrient.key]}
 					bind:interval={$settings[nutrient.key + 'Interval'].value}
-					max={nutrient?.countMax}
 					limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
 					goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
 				/>
