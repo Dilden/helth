@@ -17,7 +17,7 @@
 >
 	<label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 	<input
-		class="mx-auto mb-2 w-11/12 p-0 text-5xl"
+		class="mx-auto w-11/12 p-0 text-5xl"
 		aria-label="Adjust -/+ interval"
 		id="interval_{key}"
 		type="range"
@@ -25,4 +25,6 @@
 		{max}
 		bind:value={interval}
 	/>
+	<label for="enabled_{key}" class="font-bold">Hide</label>
+	<input type="checkbox" id="enabled_{key}" class="m-1 mb-3 p-2" />
 </div>
