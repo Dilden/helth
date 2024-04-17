@@ -22,18 +22,21 @@
 	};
 
 	let showOptions = false;
-	$: diffString = '<br />';
+	$: goalString = '';
+	$: limitString = '';
 
 	const diffMsg = () => {
-		let diff = 0;
-
-		if (limit) {
-			diff = toTwoDecimals(limit - count);
-			diffString = diff >= 0 ? `${diff} remaining` : `${-diff} over limit 😢`;
-		}
 		if (goal) {
+			let diff = 0;
 			diff = toTwoDecimals(goal - count);
-			diffString = diff >= 0 ? `${diff} remaining` : `${-diff} over goal! 🥳`;
+			goalString =
+				diff >= 0 ? `${diff} to 🥅` : `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
+		}
+		if (limit) {
+			let diff = 0;
+			diff = toTwoDecimals(limit - count);
+			limitString =
+				diff >= 0 ? `${diff} to limit` : `<span class="text-red-600">${-diff} over limit 😢</span>`;
 		}
 	};
 
@@ -49,7 +52,18 @@
 	<label for="countValue_{item.key}" class="text-2xl font-medium"
 		>{(item?.emoji ? item?.emoji + ' ' : '') + item.name + ` (${item.unit})`}</label
 	>
-	<div class="mx-2 font-normal">{@html diffString}</div>
+	<div class="mx-2 mb-1 grid grid-cols-2 font-normal">
+		{#if !goalString && !limitString}
+			<br />&nbsp;
+		{:else}
+			<span>
+				{@html goalString}
+			</span>
+			<span>
+				{@html limitString}
+			</span>
+		{/if}
+	</div>
 	<div class="flex content-center items-center gap-0">
 		<button
 			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-xl rounded-r-none border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-xl hover:rounded-r-none hover:bg-neutral-300"
