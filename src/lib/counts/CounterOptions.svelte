@@ -17,7 +17,7 @@
 >
 	<label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 	<input
-		class="mx-auto w-11/12 p-0 text-5xl"
+		class="mx-auto block w-11/12 p-0 text-5xl"
 		aria-label="Adjust -/+ interval"
 		id="interval_{key}"
 		type="range"
