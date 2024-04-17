@@ -15,40 +15,50 @@ export const defaultDay = {
 
 // create default settings + defaultDay values
 const settings = {};
+const goals = {};
+const limits = {};
 list.forEach(({ key }) => {
 	settings[key + 'Interval'] = { name: key + 'Interval', value: 5 };
+	goals[key] = { name: key, value: 0 };
+	limits[key] = { name: key, value: 0 };
 
 	if (key === 'water') {
 		settings[key + 'Interval'] = { name: key + 'Interval', value: 500 };
+		goals[key] = { name: key, value: 2000 };
+		limits[key] = { name: key, value: 3000 };
 	} else if (key === 'calories') {
 		settings[key + 'Interval'] = { name: key + 'Interval', value: 75 };
+		goals[key] = { name: key, value: 1600 };
+		limits[key] = { name: key, value: 1800 };
 	} else if (key === 'sodium') {
 		settings[key + 'Interval'] = { name: key + 'Interval', value: 10 };
+		goals[key] = { name: key, value: 2200 };
+		limits[key] = { name: key, value: 3000 };
 	}
 
 	defaultDay[key] = 0;
 });
 
-export const goals = {
-	water: {
-		value: 2000,
-		name: 'water'
-	},
-	protein: {
-		value: 50,
-		name: 'protein'
-	}
-};
-export const limits = {
-	calories: {
-		value: 1800,
-		name: 'calories'
-	},
-	sodium: {
-		value: 3000,
-		name: 'sodium'
-	}
-};
+// export const goals = {
+// 	water: {
+// 		value: 2000,
+// 		name: 'water'
+// 	},
+// 	protein: {
+// 		value: 50,
+// 		name: 'protein'
+// 	}
+// };
+// export const limits = {
+// 	calories: {
+// 		value: 1800,
+// 		name: 'calories'
+// 	},
+// 	sodium: {
+// 		value: 3000,
+// 		name: 'sodium'
+// 	}
+// };
 
 db.version(1).stores({
 	journal: 'date, water, calories, protein, sodium',
@@ -203,7 +213,7 @@ export const addDefaults = () => {
 			}
 		});
 
-	// settings defaults
+	// settings, goals, limits defaults
 	list.forEach(({ key }) => {
 		db.settings
 			.where('name')
@@ -214,39 +224,21 @@ export const addDefaults = () => {
 					? addItem('settings', key + 'Interval', settings[key + 'Interval'].value) // not found, add default setting
 					: interval;
 			});
+
+		db.goals
+			.where('name')
+			.equals(key)
+			.first()
+			.then((goal) => {
+				!goal ? addItem('goals', key, goals[key].value) : goal;
+			});
+
+		db.limits
+			.where('name')
+			.equals(key)
+			.first()
+			.then((limit) => {
+				!limit ? addItem('limits', key, limits[key].value) : limit;
+			});
 	});
-
-	// goal defaults
-	db.goals
-		.where('name')
-		.equals('water')
-		.first()
-		.then((waterGoal) => {
-			!waterGoal ? addItem('goals', 'water', goals.water.value) : waterGoal;
-		});
-
-	db.goals
-		.where('name')
-		.equals('protein')
-		.first()
-		.then((proteinGoal) => {
-			!proteinGoal ? addItem('goals', 'protein', goals.protein.value) : proteinGoal;
-		});
-
-	// limits
-	db.limits
-		.where('name')
-		.equals('calories')
-		.first()
-		.then((calorieLimit) => {
-			!calorieLimit ? addItem('limits', 'calories', limits.calories.value) : calorieLimit;
-		});
-
-	db.limits
-		.where('name')
-		.equals('sodium')
-		.first()
-		.then((sodiumLimit) => {
-			!sodiumLimit ? addItem('limits', 'sodium', limits.sodium.value) : sodiumLimit;
-		});
 };
