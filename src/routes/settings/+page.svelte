@@ -12,7 +12,7 @@
 		<Spinner />
 	{:then}
 		<details class="my-2">
-			<summary class="text-2xl"> 🏅goals and limits </summary>
+			<summary class="text-2xl"> 🏅goals, limits, & nutrients </summary>
 			<div
 				class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
 			>
@@ -45,12 +45,20 @@
 								min="0"
 							/>
 						</div>
+						<div>
+							<label for="enabled_{nutrient.key}" class="font-bold">Show this nutrient?</label>
+							<input
+								type="checkbox"
+								id="enabled_{nutrient.key}"
+								class="m-1 mb-3 p-2"
+								bind:checked={$settings[nutrient.key].value.enabled}
+							/>
+						</div>
 					</div>
 				{/each}
 			</div>
 		</details>
 	{/await}
-
 	<details class="my-2">
 		<summary class="text-2xl">💾 data</summary>
 		<div class="mx-auto my-6"><ExportData /></div>

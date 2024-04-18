@@ -17,16 +17,18 @@
 		<Spinner />
 	{:then}
 		{#each list as nutrient}
-			<div class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]">
-				<!-- TODO: Just pass in the nutrient -->
-				<Counter
-					item={nutrient}
-					bind:count={$today[nutrient.key]}
-					bind:interval={$settings[nutrient.key + 'Interval'].value}
-					limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
-					goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
-				/>
-			</div>
+			{#if $settings[nutrient.key].value.enabled}
+				<div class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]">
+					<!-- TODO: Just pass in the nutrient -->
+					<Counter
+						item={nutrient}
+						bind:count={$today[nutrient.key]}
+						bind:interval={$settings[nutrient.key].value.interval}
+						limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
+						goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
+					/>
+				</div>
+			{/if}
 		{/each}
 	{/await}
 </div>

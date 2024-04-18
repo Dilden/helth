@@ -18,47 +18,26 @@ const settings = {};
 const goals = {};
 const limits = {};
 list.forEach(({ key }) => {
-	settings[key + 'Interval'] = { name: key + 'Interval', value: 5 };
+	settings[key] = { interval: 5, enabled: true };
 	goals[key] = { name: key, value: 0 };
 	limits[key] = { name: key, value: 0 };
 
 	if (key === 'water') {
-		settings[key + 'Interval'] = { name: key + 'Interval', value: 500 };
+		settings[key] = { interval: 500, enabled: true };
 		goals[key] = { name: key, value: 2000 };
 		limits[key] = { name: key, value: 3000 };
 	} else if (key === 'calories') {
-		settings[key + 'Interval'] = { name: key + 'Interval', value: 75 };
+		settings[key] = { interval: 75, enabled: true };
 		goals[key] = { name: key, value: 1600 };
 		limits[key] = { name: key, value: 1800 };
 	} else if (key === 'sodium') {
-		settings[key + 'Interval'] = { name: key + 'Interval', value: 10 };
+		settings[key] = { interval: 10, enabled: true };
 		goals[key] = { name: key, value: 2200 };
 		limits[key] = { name: key, value: 3000 };
 	}
 
 	defaultDay[key] = 0;
 });
-
-// export const goals = {
-// 	water: {
-// 		value: 2000,
-// 		name: 'water'
-// 	},
-// 	protein: {
-// 		value: 50,
-// 		name: 'protein'
-// 	}
-// };
-// export const limits = {
-// 	calories: {
-// 		value: 1800,
-// 		name: 'calories'
-// 	},
-// 	sodium: {
-// 		value: 3000,
-// 		name: 'sodium'
-// 	}
-// };
 
 db.version(1).stores({
 	journal: 'date, water, calories, protein, sodium',
@@ -90,6 +69,19 @@ db.version(4)
 					return obj;
 				});
 				item.nutrients = asArray;
+			});
+	});
+
+// Keep one settings object per nutrient
+db.version(5)
+	.stores({ settings: 'name, value' })
+	.upgrade((data) => {
+		return data
+			.table('settings')
+			.toCollection()
+			.modify((option) => {
+				option.name = option.name.replace('Interval', '');
+				option.value = { interval: option.value, enabled: true };
 			});
 	});
 
@@ -217,11 +209,11 @@ export const addDefaults = () => {
 	list.forEach(({ key }) => {
 		db.settings
 			.where('name')
-			.equals(key + 'Interval')
+			.equals(key)
 			.first()
 			.then((interval) => {
 				!interval
-					? addItem('settings', key + 'Interval', settings[key + 'Interval'].value) // not found, add default setting
+					? addItem('settings', key, settings[key]) // not found, add default setting
 					: interval;
 			});
 
