@@ -45,7 +45,7 @@
 								min="0"
 							/>
 						</div>
-						<div>
+						<div class="my-2">
 							<label for="enabled_{nutrient.key}" class="font-bold">Show this nutrient?</label>
 							<input
 								type="checkbox"
