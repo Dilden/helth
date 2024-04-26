@@ -19,7 +19,6 @@
 		{#each list as nutrient}
 			{#if $settings[nutrient.key].value.enabled}
 				<div class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]">
-					<!-- TODO: Just pass in the nutrient -->
 					<Counter
 						item={nutrient}
 						bind:count={$today[nutrient.key]}
