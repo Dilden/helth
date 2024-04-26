@@ -1,43 +1,59 @@
 <script>
-  import { list } from '$utils/nutrients';
+	import { settings } from '$stores/stores';
+	import { list } from '$utils/nutrients';
+	import Spinner from '$lib/Spinner.svelte';
 
-  export let nutrients = [];
-  export let validated = true;
+	export let nutrients = [];
+	export let validated = true;
 </script>
 
 <div class="col-start-1 col-end-4">
-  <hr>
-  <h4 class="ml-0">
-    Nutrients
-  </h4>
-  <em>Enter quantities based on individual serving size</em>
-  <fieldset class="col-start-1 col-end-4 flex flex-row flex-wrap justify-center gap-15px border-none m-0 px-1 py-0">
-    {#if !validated}
-      <div class="block w-full p-4 bg-[#794949]">At least one nutrient is required!</div>
-    {/if}
-    {#each list as nutrient}
-      <span class="p-1 nutrient {nutrient.key}">
-        <label class="block" for="{nutrient.key}">{nutrient.name}</label>
-        {#if nutrients.length && nutrients.find(({ key }) => key === nutrient.key )}
-          <input class="block" id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value="{nutrients.find(({ key }) => key === nutrient.key ).quantity}"/>
-        {:else}
-          <input class="block" id="{nutrient.key}" name="{nutrient.key}" type="text" placeholder="{nutrient.unit}" value=""/>
-        {/if}
-      </span>
-    {/each}
-  </fieldset>
-  <hr>
+	<hr />
+	<h4 class="ml-0">Nutrients</h4>
+	<em>Enter quantities based on individual serving size</em>
+	<fieldset
+		class="gap-15px col-start-1 col-end-4 m-0 flex flex-row flex-wrap justify-center border-none px-1 py-0"
+	>
+		{#if !validated}
+			<div class="block w-full bg-[#794949] p-4">At least one nutrient is required!</div>
+		{/if}
+		{#await settings.init()}
+			<Spinner />
+		{:then}
+			{#each list as nutrient}
+				<!-- only hiding values so they any new items scanned will have all possible data -->
+				<span
+					class="nutrient p-1 {nutrient.key} {$settings[nutrient.key]?.value?.enabled
+						? 'inline-block'
+						: 'hidden'}"
+				>
+					<label class="block" for={nutrient.key}>{nutrient.name}</label>
+					<input
+						class="block"
+						id={nutrient.key}
+						name={nutrient.key}
+						type="text"
+						placeholder={nutrient.unit}
+						value={nutrients.length && nutrients.find(({ key }) => key === nutrient.key)
+							? nutrients.find(({ key }) => key === nutrient.key).quantity
+							: ''}
+					/>
+				</span>
+			{/each}
+		{/await}
+	</fieldset>
+	<hr />
 </div>
 
 <style>
-
-  @media screen and (max-width: 540px) {
-    .nutrient {
-      width: 100%;
-      margin: 0 auto;
-    }
-    .nutrient label, .nutrient input {
-      width: 100%;
-    }
-  }
+	@media screen and (max-width: 540px) {
+		.nutrient {
+			width: 100%;
+			margin: 0 auto;
+		}
+		.nutrient label,
+		.nutrient input {
+			width: 100%;
+		}
+	}
 </style>
