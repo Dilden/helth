@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { settings } from '$stores/stores';
 	export let key: string = '';
 	export let interval: number = 0;
 	export let max: number = 100;
@@ -25,6 +26,11 @@
 		{max}
 		bind:value={interval}
 	/>
-	<label for="enabled_{key}" class="font-bold">Hide</label>
-	<input type="checkbox" id="enabled_{key}" class="m-1 mb-3 p-2" />
+	<label for="enabled_{key}" class="font-bold">Show this counter?</label>
+	<input
+		type="checkbox"
+		id="enabled_{key}"
+		bind:checked={$settings[key].value.enabled}
+		class="m-1 mb-3 p-2"
+	/>
 </div>

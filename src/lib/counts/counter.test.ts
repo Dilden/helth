@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import { list } from '$utils/nutrients';
 import userEvent from '@testing-library/user-event';
@@ -27,7 +28,9 @@ describe('counter component', () => {
 		await user.click(screen.getByRole('button', { name: '-2' }));
 		expect(screen.queryByLabelText('🍬 Added Sugars (g)')).toHaveValue(3);
 	});
+});
 
+describe('options', () => {
 	it('clicking options button shows controls', async () => {
 		const user = userEvent.setup();
 		render(Counter, {
@@ -57,4 +60,33 @@ describe('counter component', () => {
 
 		expect(screen.queryByLabelText('Adjust -/+ interval')).toBeNull();
 	});
+
+	// it('hides a counter when checkbox is checked', async () => {
+	// 	const user = userEvent.setup();
+	// 	render(Counter, {
+	// 		count: 10,
+	// 		item: { ...list[0], ...{ countMax: 150 } },
+	// 		interval: 4
+	// 	});
+
+	// 	await user.click(screen.getByRole('button', { name: '...' }));
+
+	// 	const box = screen.getByRole('checkbox', { name: 'Show this counter?' });
+	// 	expect(box).not.toBeChecked();
+	// 	await user.click(box);
+	// 	expect(
+	// 		screen.getByLabelText(list[0].emoji + ' ' + list[0].name + ` (${list[0].unit})`)
+	// 	).not.toBeVisible();
+	// });
+});
+
+vi.mock('$stores/stores', async () => {
+	const { writable } = await import('svelte/store');
+	return {
+		settings: {
+			...writable(defaultSettingsStoreValues),
+			set: vi.fn(),
+			init: vi.fn()
+		}
+	};
 });
