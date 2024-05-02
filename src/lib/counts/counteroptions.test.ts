@@ -1,11 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import CounterOptions from './CounterOptions.svelte';
 
 describe('counter options', () => {
 	it('shows slider input', async () => {
 		render(CounterOptions, {
-			key: 'test-key',
+			key: 'calories',
 			interval: 4,
 			max: 150
 		});
@@ -16,12 +17,23 @@ describe('counter options', () => {
 
 	it('shows a checkbox to hide the counter', async () => {
 		render(CounterOptions, {
-			key: 'test-key',
+			key: 'calories',
 			interval: 4,
 			max: 150
 		});
 
-		expect(screen.getByLabelText('Hide')).toBeVisible();
+		expect(screen.getByLabelText('Show this counter?')).toBeVisible();
 		expect(screen.getByRole('checkbox')).toBeVisible();
 	});
+});
+
+vi.mock('$stores/stores', async () => {
+	const { writable } = await import('svelte/store');
+	return {
+		settings: {
+			...writable(defaultSettingsStoreValues),
+			set: vi.fn(),
+			init: vi.fn()
+		}
+	};
 });
