@@ -1,6 +1,8 @@
 <script>
 	import { list } from '$utils/nutrients';
 	import { today, settings, limits, goals } from '$stores/stores';
+	import { blur } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';
@@ -16,9 +18,15 @@
 	{#await Promise.all([today.init(), settings.init(), limits.init(), goals.init()])}
 		<Spinner />
 	{:then}
-		{#each list as nutrient}
-			{#if $settings[nutrient.key].value.enabled}
-				<div class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]">
+		{#each list as nutrient (nutrient.key)}
+			<!-- When this issue is resolved, the following div should use animate:flip -->
+			<!-- https://github.com/sveltejs/svelte/issues/7209 -->
+			<div
+				transition:blur
+				animate:flip
+				class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+			>
+				{#if $settings[nutrient.key].value.enabled}
 					<Counter
 						item={nutrient}
 						bind:count={$today[nutrient.key]}
@@ -26,8 +34,8 @@
 						limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
 						goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
 					/>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		{/each}
 	{/await}
 </div>
