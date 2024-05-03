@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { clickOutside } from '$utils/clickOutside';
 	import { toTwoDecimals } from '$utils/numbers';
+	import { fade } from 'svelte/transition';
 	import { onMount, afterUpdate } from 'svelte';
 	import CounterOptions from './CounterOptions.svelte';
 
@@ -98,7 +99,9 @@
 		...
 	</button>
 	{#if showOptions}
-		<CounterOptions max={item?.countMax} key={item.key} bind:interval />
+		<span transition:fade={{ duration: 75 }}>
+			<CounterOptions max={item?.countMax} key={item.key} bind:interval />
+		</span>
 	{/if}
 </div>
 
