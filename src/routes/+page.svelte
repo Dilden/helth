@@ -49,7 +49,7 @@
 			{#each enabled as nutrient (nutrient.key)}
 				<div
 					transition:blur
-					animate:flip={{ duration: 350 }}
+					animate:flip={{ duration: 900 }}
 					class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 				>
 					<Counter
