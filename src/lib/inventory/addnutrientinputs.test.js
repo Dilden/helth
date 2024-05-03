@@ -1,7 +1,11 @@
 import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import AddNutrientInputs from './AddNutrientInputs.svelte';
+
+afterEach(() => {
+	vi.restoreAllMocks();
+});
 
 vi.mock('$stores/stores', async () => {
 	const { writable } = await import('svelte/store');
@@ -25,9 +29,9 @@ describe('add nutrients to an item form inputs', () => {
 		expect(await screen.findByLabelText('Cholesterol')).toBeVisible();
 		expect(await screen.findByLabelText('Total Sugars')).toBeVisible();
 		expect(await screen.findByLabelText('Sodium')).toBeVisible();
-		expect(await screen.findByLabelText('Added Sugars')).toBeInTheDocument();
-		expect(await screen.findByLabelText('Added Sugars')).not.toBeVisible();
+		expect(await screen.findByLabelText('Added Sugars')).toBeVisible();
 		expect(await screen.findByLabelText('Fiber')).not.toBeVisible();
+		expect(await screen.findByLabelText('Magnesium')).not.toBeVisible();
 	});
 });
 
