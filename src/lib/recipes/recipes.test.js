@@ -1,9 +1,7 @@
 import 'fake-indexeddb/auto';
-// import { IDBFactory } from 'fake-indexeddb';
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, afterEach, beforeAll, beforeEach } from 'vitest';
-// import { recipes, inventory } from '$stores/stores.js';
 import Recipes from './Recipes.svelte';
 
 afterEach(() => {
