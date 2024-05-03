@@ -1,8 +1,8 @@
-<script lang="ts">
+<script>
 	import { settings } from '$stores/stores';
-	export let key: string = '';
-	export let interval: number = 0;
-	export let max: number = 100;
+	export let key = '';
+	export let interval = 0;
+	export let max = 100;
 </script>
 
 <div

@@ -100,6 +100,7 @@
 	</button>
 	{#if showOptions}
 		<span transition:fade={{ duration: 75 }}>
+			<!-- <span transition:fade> -->
 			<CounterOptions max={item?.countMax} key={item.key} bind:interval />
 		</span>
 	{/if}

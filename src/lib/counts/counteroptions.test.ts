@@ -1,7 +1,11 @@
 import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import CounterOptions from './CounterOptions.svelte';
+
+afterEach(() => {
+	vi.restoreAllMocks();
+});
 
 describe('counter options', () => {
 	it('shows slider input', async () => {
