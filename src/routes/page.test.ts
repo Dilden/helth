@@ -25,37 +25,46 @@ vi.mock('$stores/stores', async () => {
 			init: vi.fn()
 		},
 		today: {
-			...writable(0),
+			...writable([]),
 			set: vi.fn(),
 			init: vi.fn()
 		},
 		limits: {
-			...writable(0),
+			...writable({
+				value: 0
+			}),
 			set: vi.fn(),
 			init: vi.fn()
 		},
 		goals: {
-			...writable(0),
+			...writable({
+				value: 0
+			}),
 			set: vi.fn(),
 			init: vi.fn()
 		},
 		searchTerm: {
-			...writable(0),
+			...writable(''),
 			set: vi.fn(),
 			init: vi.fn()
 		},
 		filteredInventory: {
-			...writable(0),
+			...writable([]),
+			set: vi.fn(),
+			init: vi.fn()
+		},
+		inventoryFilter: {
+			...writable(''),
 			set: vi.fn(),
 			init: vi.fn()
 		},
 		inventory: {
-			...writable(0),
+			...writable([]),
 			set: vi.fn(),
 			init: vi.fn()
 		},
 		recipes: {
-			...writable(0),
+			...writable([]),
 			set: vi.fn(),
 			init: vi.fn()
 		}
