@@ -1,5 +1,5 @@
 export const defaultSettingsStoreValues = {
-	added_sugars: { name: 'added_sugars', value: { interval: 50, enabled: false } },
+	added_sugars: { name: 'added_sugars', value: { interval: 50, enabled: true } },
 	calcium: {
 		name: 'calcium',
 		value: {
@@ -19,7 +19,7 @@ export const defaultSettingsStoreValues = {
 	magnesium: { name: 'magnesium', value: { interval: 5, enabled: false } },
 	niacin: { name: 'niacin', value: { interval: 5, enabled: false } },
 	phosphorus: { name: 'phosphorus', value: { interval: 5, enabled: false } },
-	potassium: { name: 'potassium', value: { interval: 5, enabled: false } },
+	potassium: { name: 'potassium', value: { interval: 5, enabled: true } },
 	protein: { name: 'protein', value: { interval: 25, enabled: true } },
 	riboflavin: { name: 'riboflavin', value: { interval: 5, enabled: false } },
 	saturated_fat: { name: 'saturated_fat', value: { interval: 5, enabled: false } },
@@ -36,5 +36,5 @@ export const defaultSettingsStoreValues = {
 	vitamin_d: { name: 'vitamin_d', value: { interval: 5, enabled: false } },
 	vitamin_e: { name: 'vitamin_e', value: { interval: 5, enabled: false } },
 	water: { name: 'water', value: { interval: 381, enabled: true } },
-	zinc: { name: 'zinc', value: { interval: 5, enabled: false } }
+	zinc: { name: 'zinc', value: { interval: 5, enabled: true } }
 };
