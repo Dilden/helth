@@ -1,9 +1,15 @@
 import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { settings } from '$stores/stores';
+import { get } from 'svelte/store';
 import { render, screen } from '@testing-library/svelte';
 import { list } from '$utils/nutrients';
 import userEvent from '@testing-library/user-event';
 import Counter from './Counter.svelte';
+
+afterEach(() => {
+	vi.restoreAllMocks();
+});
 
 describe('counter component', () => {
 	it('renders a counter component with matching props', () => {
@@ -57,27 +63,26 @@ describe('options', () => {
 		expect(screen.queryByLabelText('Adjust -/+ interval')).toBeVisible();
 
 		await user.click(screen.getByLabelText('🍬 Added Sugars (g)'));
-
-		expect(screen.queryByLabelText('Adjust -/+ interval')).toBeNull();
+		setTimeout(() => expect(screen.queryByLabelText('Adjust -/+ interval')).toBeNull(), 120);
 	});
 
-	// it('hides a counter when checkbox is checked', async () => {
-	// 	const user = userEvent.setup();
-	// 	render(Counter, {
-	// 		count: 10,
-	// 		item: { ...list[0], ...{ countMax: 150 } },
-	// 		interval: 4
-	// 	});
+	it('hides a counter when checkbox is checked', async () => {
+		const user = userEvent.setup();
+		render(Counter, {
+			count: 10,
+			item: { ...list[2], ...{ countMax: 150 } },
+			interval: 4
+		});
 
-	// 	await user.click(screen.getByRole('button', { name: '...' }));
+		await user.click(screen.getByRole('button', { name: '...' }));
 
-	// 	const box = screen.getByRole('checkbox', { name: 'Show this counter?' });
-	// 	expect(box).not.toBeChecked();
-	// 	await user.click(box);
-	// 	expect(
-	// 		screen.getByLabelText(list[0].emoji + ' ' + list[0].name + ` (${list[0].unit})`)
-	// 	).not.toBeVisible();
-	// });
+		const box = screen.getByRole('checkbox', { name: 'Show this counter?' });
+		expect(box).toBeChecked();
+		await user.click(box);
+
+		const newStore: any = get(settings);
+		expect(newStore.calories.value.enabled).toBe(false);
+	});
 });
 
 vi.mock('$stores/stores', async () => {
