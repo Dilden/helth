@@ -32,7 +32,7 @@
 <div class="main" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
 	<div class="content">
-		{#await db.open().then(() => addDefaults())}
+		{#await db.open().then(async () => await addDefaults())}
 			<Spinner />
 		{:then}
 			<slot />
