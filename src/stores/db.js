@@ -194,14 +194,14 @@ export const isStoragePersisted = async () => {
 	return await navigator.storage.persisted();
 };
 
-export const addDefaults = () => {
+export const addDefaults = async () => {
 	db.journal
 		.orderBy('date')
 		.reverse()
 		.first()
-		.then((record) => {
+		.then(async (record) => {
 			if (!record || thePast(record.date)) {
-				addDay();
+				await addDay();
 			}
 		});
 
@@ -211,9 +211,9 @@ export const addDefaults = () => {
 			.where('name')
 			.equals(key)
 			.first()
-			.then((interval) => {
+			.then(async (interval) => {
 				!interval
-					? addItem('settings', key, settings[key]) // not found, add default setting
+					? await addItem('settings', key, settings[key]) // not found, add default setting
 					: interval;
 			});
 
@@ -221,16 +221,16 @@ export const addDefaults = () => {
 			.where('name')
 			.equals(key)
 			.first()
-			.then((goal) => {
-				!goal ? addItem('goals', key, goals[key].value) : goal;
+			.then(async (goal) => {
+				!goal ? await addItem('goals', key, goals[key].value) : goal;
 			});
 
 		db.limits
 			.where('name')
 			.equals(key)
 			.first()
-			.then((limit) => {
-				!limit ? addItem('limits', key, limits[key].value) : limit;
+			.then(async (limit) => {
+				!limit ? await addItem('limits', key, limits[key].value) : limit;
 			});
 	});
 };
