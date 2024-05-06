@@ -85,10 +85,12 @@ db.version(5)
 			});
 	});
 
-export const dbopen = db.open().then(() => {
+db.on('populate', async () => await addDefaults());
+
+export const dbopen = db.open().then(async () => {
 	// check if today's date is most recent
 	// add empty day if it is not
-	addDefaults();
+	await addDefaults();
 });
 
 /*
@@ -96,9 +98,9 @@ export const dbopen = db.open().then(() => {
  */
 async function addDay() {
 	try {
-		const today = await db.journal.add(defaultDay);
+		await db.journal.add(defaultDay);
 	} catch (error) {
-		// console.log('error adding day');
+		console.log('error adding day');
 	}
 }
 
@@ -126,7 +128,7 @@ async function addItem(tableName, name, value) {
 			value: value
 		});
 	} catch (error) {
-		// console.log(`error adding item to ${tableName}: ${error}`);
+		console.log(`error adding item to ${tableName}: ${error.message}`);
 	}
 }
 
