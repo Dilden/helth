@@ -19,8 +19,8 @@ test.describe('add items dialog', () => {
 		test('clicking Add Item shows form inputs', async ({ page }) => {
 			await page.getByRole('button', { name: 'Add Item' }).click();
 			await expect(page.getByLabel('Name')).toBeVisible();
-			await expect(page.getByLabel('Added Sugars')).toBeVisible();
-			await expect(page.getByLabel('Iron')).toBeVisible();
+			await expect(page.getByLabel(' Added Sugars', { exact: true })).toBeVisible();
+			await expect(page.getByLabel('Iron', { exact: true })).toBeVisible();
 		});
 
 		// run the next few tests in sequence
@@ -58,9 +58,8 @@ test.describe('add items dialog', () => {
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
 				await expect(page.getByText('Added 2 servings to daily total!')).toBeVisible();
-				// TODO: counters not loading only on tests
-				// await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).toHaveValue('200');
-				// await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).toHaveValue('40');
+				await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).toHaveValue('200');
+				await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).toHaveValue('40');
 			});
 
 			test('edit item in inventory', async () => {
@@ -112,6 +111,7 @@ test.describe('add items dialog', () => {
 
 		test.beforeAll(async ({ browser }) => {
 			page = await browser.newPage();
+			await page.route('**', (route) => route.continue());
 			await page.goto('/');
 			await page
 				.locator('li')
@@ -154,9 +154,9 @@ test.describe('add items dialog', () => {
 			await expect(page.getByText('Coca-Cola').first()).toBeVisible();
 			// // it works but is showing triple the quantities it should be showing
 			// // maybe has something to do with the browsers?
-			// await expect(page.getByText('Calories: 500kcal')).toBeVisible();
-			// await expect(page.getByText('Sodium: 40mg')).toBeVisible();
-			// await expect(page.getByText('Protein: 0mg')).not.toBeVisible();
+			await expect(page.getByText('Calories: 500kcal')).toBeVisible();
+			await expect(page.getByText('Sodium: 40mg')).toBeVisible();
+			await expect(page.getByText('Protein: 0mg')).not.toBeVisible();
 		});
 
 		test('can filter inventory items in recipe form', async () => {
@@ -181,11 +181,8 @@ test.describe('add items dialog', () => {
 			await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
 			await expect(page.getByText('Added 2 servings of Soda to daily total!')).toBeVisible();
-			// TODO: IndexedDB doesn't seem to work with Playwright. counters never load
-			// await expect( page.getByLabel('⚡ Calories', { exact: true }) ).toHaveValue('1000');
-			// await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).not.toHaveValue('0');
-			// // await expect( page.getByLabel('🧂 sodium (mg)', { exact: true }) ).toHaveValue('80');
-			// await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).not.toHaveValue('0');
+			await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).toHaveValue('1000');
+			await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).toHaveValue('80');
 		});
 
 		test('edits a recipe', async () => {
@@ -221,7 +218,7 @@ test.describe('add items dialog', () => {
 				.getByTitle('Yes')
 				.click();
 
-			await expect(page.getByText('Soda')).not.toBeVisible();
+			await expect(page.getByText('Soda', {exact: true})).not.toBeVisible();
 		});
 	});
 	// test.describe('scanner', () => {
