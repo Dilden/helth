@@ -12,28 +12,25 @@
 	$: enabled = list;
 	onMount(async () => {
 		await settings.init();
-
-		enabled = list
-			.filter((item) => {
-				if ($settings[item.key]?.value?.enabled) {
-					return item;
-				} else {
-					return undefined;
-				}
-			})
-			.filter((val) => val !== undefined);
+		setEnabledItems();
 	});
 	afterUpdate(() => {
-		enabled = list
-			.filter((item) => {
-				if ($settings[item.key]?.value?.enabled) {
-					return item;
-				} else {
-					return undefined;
-				}
-			})
-			.filter((val) => val !== undefined);
+		setEnabledItems();
 	});
+
+	const setEnabledItems = () => {
+		if ($settings !== undefined) {
+			enabled = list
+				.filter((item) => {
+					if ($settings[item.key]?.value?.enabled) {
+						return item;
+					} else {
+						return undefined;
+					}
+				})
+				.filter((val) => val !== undefined);
+		}
+	};
 </script>
 
 <h2 class="text-center">🗒 track</h2>
@@ -42,7 +39,7 @@
 <div
 	class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
 >
-	{#await Promise.all([today.init(), limits.init(), goals.init()])}
+	{#await Promise.all([settings.init(), today.init(), limits.init(), goals.init()])}
 		<Spinner />
 	{:then}
 		{#if enabled.length !== 0}
