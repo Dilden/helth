@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, afterEach, beforeAll, beforeEach } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import Recipes from './Recipes.svelte';
 
 afterEach(() => {
