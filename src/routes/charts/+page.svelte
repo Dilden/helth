@@ -1,6 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { history, goals, limits } from '$stores/stores';
+	import { history, goals, limits, settings } from '$stores/stores';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
@@ -19,27 +19,28 @@
 			{/each}
 		</select>
 	</div>
-	{#await history.init() && goals.init() && limits.init()}
+	{#await Promise.all([history.init(), goals.init(), limits.init(), settings.init()])}
 		<Spinner />
 	{:then}
 		{#each list as trackableItem, index}
-			<h3>{trackableItem.name}</h3>
-			{#key range}
-				<Chart
-					{range}
-					storeData={$history.map((el) => el[trackableItem.key]).slice(Number(-range))}
-					labels={$history
-						.map((el) => {
-							let date = new Date(el.date);
-							return date.toLocaleDateString();
-						})
-						.slice(Number(-range))}
-					unit={trackableItem.unit}
-					goal={$goals[trackableItem.key]?.value ? $goals[trackableItem.key]?.value : 0}
-					limit={$limits[trackableItem.key]?.value ? $limits[trackableItem.key]?.value : 0}
-					color={colors[index % 4]}
-				/>
-			{/key}
+			{#if $settings[trackableItem.key].value.enabled}
+				<h3>{trackableItem.name}</h3>
+				{#key range}
+					<Chart
+						storeData={$history.map((el) => el[trackableItem.key]).slice(Number(-range))}
+						labels={$history
+							.map((el) => {
+								let date = new Date(el.date);
+								return date.toLocaleDateString();
+							})
+							.slice(Number(-range))}
+						unit={trackableItem.unit}
+						goal={$goals[trackableItem.key]?.value ? $goals[trackableItem.key]?.value : 0}
+						limit={$limits[trackableItem.key]?.value ? $limits[trackableItem.key]?.value : 0}
+						color={colors[index % 4]}
+					/>
+				{/key}
+			{/if}
 		{/each}
 	{/await}
 </div>
