@@ -53,19 +53,19 @@
 	<label for="countValue_{item.key}" class="text-2xl font-medium"
 		>{(item?.emoji ? item?.emoji + ' ' : '') + item.name + ` (${item.unit})`}</label
 	>
-	<div class="mx-2 mb-1 grid grid-cols-2 font-normal">
+	<div class="mx-0 mb-1 grid w-auto grid-cols-2 font-normal md:mx-2">
 		{#if !goalString && !limitString}
 			<br />&nbsp;
 		{:else}
-			<span>
+			<span class="w-auto">
 				{@html goalString}
 			</span>
-			<span>
+			<span class="w-auto">
 				{@html limitString}
 			</span>
 		{/if}
 	</div>
-	<div class="flex content-center items-center gap-0">
+	<div class="m-auto flex w-[90vw] content-center items-center gap-0 md:w-auto">
 		<button
 			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-xl rounded-r-none border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-xl hover:rounded-r-none hover:bg-neutral-300"
 			on:click={decrement}
@@ -75,7 +75,7 @@
 
 		<input
 			id="countValue_{item.key}"
-			class="m-auto min-w-0 flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none p-3 text-2xl focus-visible:border-none"
+			class="m-auto w-auto min-w-0 flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none p-3 text-2xl focus-visible:border-none"
 			bind:value={count}
 			type="number"
 			min="0"
