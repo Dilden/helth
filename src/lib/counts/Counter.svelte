@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { clickOutside } from '$utils/clickOutside';
-	export let count: number;
-	export let title: string;
-	export let interval: number = 1;
-	export let max: number = 100;
-	export let diffString: string = '';
+	import { toTwoDecimals } from '$utils/numbers';
+	import { fade } from 'svelte/transition';
+	import { onMount, afterUpdate } from 'svelte';
+	import CounterOptions from './CounterOptions.svelte';
 
-  const id = title.replace(/[\s()]/g, '');
+	export let item: Nutrient;
+	export let count: number;
+	export let interval: number = 1;
+	export let limit = 0;
+	export let goal = 0;
+
 	const increment = (): number => {
 		return (count = count + interval);
 	};
@@ -19,12 +23,49 @@
 	};
 
 	let showOptions = false;
+	$: goalString = '';
+	$: limitString = '';
+
+	const diffMsg = () => {
+		if (goal) {
+			let diff = 0;
+			diff = toTwoDecimals(goal - count);
+			goalString =
+				diff >= 0 ? `${diff} to 🥅` : `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
+		}
+		if (limit) {
+			let diff = 0;
+			diff = toTwoDecimals(limit - count);
+			limitString =
+				diff >= 0 ? `${diff} to limit` : `<span class="text-red-600">${-diff} over limit 😢</span>`;
+		}
+	};
+
+	onMount(() => {
+		diffMsg();
+	});
+	afterUpdate(() => {
+		diffMsg();
+	});
 </script>
 
 <div class="relative my-2 text-center">
-	<label for="countValue_{title}" class="text-2xl font-medium">{title}</label>
-	<div class="mx-2 font-normal">{@html diffString}</div>
-	<div class="flex content-center items-center gap-0">
+	<label for="countValue_{item.key}" class="text-2xl font-medium"
+		>{(item?.emoji ? item?.emoji + ' ' : '') + item.name + ` (${item.unit})`}</label
+	>
+	<div class="mx-0 mb-1 grid w-auto grid-cols-2 font-normal md:mx-2">
+		{#if !goalString && !limitString}
+			<br />&nbsp;
+		{:else}
+			<span class="w-auto">
+				{@html goalString}
+			</span>
+			<span class="w-auto">
+				{@html limitString}
+			</span>
+		{/if}
+	</div>
+	<div class="m-auto flex w-[90vw] content-center items-center gap-0 md:w-auto">
 		<button
 			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-xl rounded-r-none border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-xl hover:rounded-r-none hover:bg-neutral-300"
 			on:click={decrement}
@@ -33,8 +74,8 @@
 		</button>
 
 		<input
-			id="countValue_{title}"
-			class="m-auto min-w-0 flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none focus-visible:border-none p-3 text-2xl"
+			id="countValue_{item.key}"
+			class="m-auto w-auto min-w-0 flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none p-3 text-2xl focus-visible:border-none"
 			bind:value={count}
 			type="number"
 			min="0"
@@ -42,41 +83,27 @@
 
 		<button
 			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-none rounded-r-xl border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-none hover:rounded-r-xl hover:bg-neutral-300"
-			on:click={increment}>
+			on:click={increment}
+		>
 			+{interval}
 		</button>
 	</div>
 
-  <!-- Options -->
-  <button
-    class="absolute right-0 top-0 bg-transparent hover:bg-transparent p-1 text-2xl text-[--fore-color] hover:text-neutral-200 transition duration-200"
-    on:click={() => (showOptions = !showOptions)}
-    use:clickOutside={'#' + id + '_options'}
-    on:click_outside={() => showOptions = false}
-  >
-    ...
-  </button>
-  {#if showOptions}
-    <div
-      id={id + '_options'}
-      class="absolute text-slate-700 w-full right-0 z-10 mt-2 pt-2 origin-top-right rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="menu-button"
-      tabindex="-1"
-    >
-      <label for="interval_{title}">Adjust -/+ Interval</label>
-      <input
-        class="mx-auto mb-2 w-11/12 p-0 text-5xl "
-        aria-label="Adjust -/+ interval"
-        id="interval_{title}"
-        type="range"
-        min="1"
-        {max}
-        bind:value={interval}
-      />
-    </div>
-  {/if}
+	<!-- Options -->
+	<button
+		class="absolute right-0 top-0 bg-transparent p-1 text-2xl text-[--fore-color] transition duration-200 hover:bg-transparent hover:text-neutral-200"
+		on:click={() => (showOptions = !showOptions)}
+		use:clickOutside={'#' + item.key + '_options'}
+		on:click_outside={() => (showOptions = false)}
+	>
+		...
+	</button>
+	{#if showOptions}
+		<span transition:fade={{ duration: 75 }}>
+			<!-- <span transition:fade> -->
+			<CounterOptions max={item?.countMax} key={item.key} bind:interval />
+		</span>
+	{/if}
 </div>
 
 <style>

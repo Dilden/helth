@@ -2,10 +2,9 @@
 	import '../app.css';
 	import Navigation from '$lib/nav/Navigation.svelte';
 	import Footer from '$lib/nav/Footer.svelte';
-	import { dbopen, persist, isStoragePersisted } from '$stores/db';
+	import { persist, isStoragePersisted } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
-	import Spinner from '$lib/Spinner.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import { confirmDialog } from '$utils/toast.js';
 	import { updated } from '$app/stores';
@@ -32,11 +31,7 @@
 <div class="main" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
 	<div class="content">
-		{#await dbopen}
-			<Spinner />
-		{:then}
-			<slot />
-		{/await}
+		<slot />
 	</div>
 	<div class="footer">
 		<Footer />
