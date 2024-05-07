@@ -216,6 +216,21 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.2.0</summary>
+		<ul>
+			<li>More nutrients! Counter trackers are now generated for every nutrient.</li>
+			<li>Hide any nutrient from the counter options menu (the '...' on each counter)</li>
+			<li>Nutrients can be reenabled on the <a href="/settings">/settings</a> page.</li>
+			<li>Set a goal & limit on each nutrient in your settings!</li>
+			<li>
+				Hiding a nutrient hides it in Inventory item entry form. The values are still saved from
+				scanned items.
+			</li>
+			<li>A lot of work went into revamping the structure of IndexedDB.</li>
+			<li>Not that you care but I also fixed some issues with flaky and brittle tests.</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.1.12</summary>
 		<ul>
 			<li>
