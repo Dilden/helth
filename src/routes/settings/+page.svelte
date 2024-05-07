@@ -12,7 +12,7 @@
 		<Spinner />
 	{:then}
 		<details class="my-2">
-			<summary class="text-2xl"> 🏅goals, limits, & nutrients </summary>
+			<summary class="text-left text-2xl"> 🏅goals, limits, & nutrients </summary>
 			<div
 				class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
 			>
@@ -60,9 +60,9 @@
 		</details>
 	{/await}
 	<details class="my-2">
-		<summary class="text-2xl">💾 data</summary>
-		<div class="mx-auto my-6"><ExportData /></div>
-		<div><ImportData /></div>
+		<summary class="text-left text-2xl">💾 data</summary>
+		<div class="mx-auto my-6 inline-block"><ExportData /></div>
+		<div class="mx-auto my-6 inline-block"><ImportData /></div>
 	</details>
 </div>
 
