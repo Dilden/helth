@@ -21,6 +21,13 @@ export const list: Nutrient[] = [
 		emoji: '⚡'
 	},
 	{
+		key: 'caffeine',
+		name: 'Caffeine',
+		quantity: null,
+		unit: 'mg',
+		emoji: '☕'
+	},
+	{
 		key: 'cholesterol',
 		name: 'Cholesterol',
 		quantity: null,
