@@ -14,6 +14,7 @@ it('shows counters for all nutrients', async () => {
 	expect(await screen.findByText('🍗 Protein (g)')).toBeVisible();
 	expect(await screen.findByText('🍌 Potassium (mg)')).toBeVisible();
 	expect(await screen.findByText('Zinc (mg)')).toBeVisible();
+	expect(await screen.findByText('☕ Caffeine (mg)')).toBeVisible();
 });
 
 vi.mock('$stores/stores', async () => {

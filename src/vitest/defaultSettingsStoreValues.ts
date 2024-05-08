@@ -8,6 +8,7 @@ export const defaultSettingsStoreValues = {
 		}
 	},
 	calories: { name: 'calories', value: { interval: 100, enabled: true } },
+	caffeine: { name: 'caffeine', value: { interval: 5, enabled: true } },
 	cholesterol: { name: 'cholesterol', value: { interval: 100, enabled: true } },
 	total_sugars: { name: 'total_sugars', value: { interval: 100, enabled: true } },
 	sodium: { name: 'sodium', value: { interval: 50, enabled: true } },
