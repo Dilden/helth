@@ -6,7 +6,7 @@
 	import CounterOptions from './CounterOptions.svelte';
 
 	export let item: Nutrient;
-	export let count: number;
+	export let count: number = 0;
 	export let interval: number = 1;
 	export let limit = 0;
 	export let goal = 0;
