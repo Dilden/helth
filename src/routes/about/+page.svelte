@@ -216,6 +216,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.2.1</summary>
+		<ul>
+			<li>Added caffeine to possible nutrients!</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.2.0</summary>
 		<ul>
 			<li>More nutrients! Counter trackers are now generated for every nutrient.</li>
