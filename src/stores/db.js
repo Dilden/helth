@@ -17,8 +17,8 @@ export const defaultDay = {
 const settings = {};
 const goals = {};
 const limits = {};
-list.forEach(({ key }) => {
-	settings[key] = { interval: 5, enabled: true };
+list.forEach(({ key }, index) => {
+	settings[key] = { interval: 5, enabled: true, position: index };
 	goals[key] = { name: key, value: 0 };
 	limits[key] = { name: key, value: 0 };
 
@@ -85,11 +85,20 @@ db.version(5)
 			});
 	});
 
+db.version(6)
+	.stores({ settings: 'name, value' })
+	.upgrade((data) => {
+		return data
+			.table('settings')
+			.toCollection()
+			.modify((option) => {
+				option.value.position = 0;
+			});
+	});
+
 db.on('populate', async () => await addDefaults());
 
 export const dbopen = db.open().then(async () => {
-	// check if today's date is most recent
-	// add empty day if it is not
 	await addDefaults();
 });
 

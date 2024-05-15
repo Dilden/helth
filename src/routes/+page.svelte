@@ -31,6 +31,18 @@
 					}
 				})
 				.filter((val) => val !== undefined);
+			// // sort by numerical property
+			// .sort((a, b) => a.position - b.position);
+			// // sort alphabetically
+			// .sort((a, b) => {
+			// 	if (a.key > b.key) {
+			// 		return -1;
+			// 	}
+			// 	if (a.key < b.key) {
+			// 		return 1;
+			// 	}
+			// 	return 0;
+			// });
 		}
 	};
 
