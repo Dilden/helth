@@ -51,7 +51,7 @@
 	// };
 	const dragStartHandler = (event) => {
 		console.log(event);
-		event.dataTransfer.setData('text/html', event.target.outerHTML);
+		event.dataTransfer.setData('text/plain', event.target.id);
 	};
 	const dragOverHandler = (event) => {
 		event.preventDefault();
@@ -59,9 +59,8 @@
 	};
 	const dropHandler = (event) => {
 		event.preventDefault();
-		const data = event.dataTransfer.getData('text/html');
-		console.log(data);
-		event.target.innerHTML += data;
+		const elId = event.dataTransfer.getData('text/plain');
+		document.getElementById('counter_drop_zone').appendChild(document.getElementById(elId));
 	};
 </script>
 
@@ -69,6 +68,7 @@
 <Date />
 
 <p
+	id="counter_drop_zone"
 	on:dragover={dragOverHandler}
 	on:drop={dropHandler}
 	class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
@@ -82,6 +82,7 @@
 		{#if enabled.length !== 0}
 			{#each enabled as nutrient (nutrient.key)}
 				<p
+					id="counter_{nutrient.key}"
 					class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 					transition:blur
 					animate:flip={{ duration: 900 }}
