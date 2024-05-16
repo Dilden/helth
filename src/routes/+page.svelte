@@ -3,8 +3,8 @@
 	import { today, settings, limits, goals } from '$stores/stores';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	// import { dndzone } from 'svelte-dnd-action';
 	import { onMount, afterUpdate } from 'svelte';
+	import { dragOver, dragStart, drop, dragEnter, dragLeave } from '$utils/dnd';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';
@@ -44,24 +44,6 @@
 			// });
 		}
 	};
-
-	// const handleMove = (e) => {
-	// 	console.log(e);
-	// 	enabled = e.detail.items;
-	// };
-	const dragStartHandler = (event) => {
-		console.log(event);
-		event.dataTransfer.setData('text/plain', event.target.id);
-	};
-	const dragOverHandler = (event) => {
-		event.preventDefault();
-		event.dataTransfer.dropEffect = 'move';
-	};
-	const dropHandler = (event) => {
-		event.preventDefault();
-		const elId = event.dataTransfer.getData('text/plain');
-		document.getElementById('counter_drop_zone').appendChild(document.getElementById(elId));
-	};
 </script>
 
 <h2 class="text-center">🗒 track</h2>
@@ -69,13 +51,12 @@
 
 <p
 	id="counter_drop_zone"
-	on:dragover={dragOverHandler}
-	on:drop={dropHandler}
-	class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
+	on:dragover={dragOver}
+	on:drop={drop}
+	on:dragenter={dragEnter}
+	on:dragleave={dragLeave}
+	class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 transition-all md:justify-start md:gap-y-3"
 >
-	<!-- use:dndzone={{ items: enabled, flipDurationMs: 300 }} -->
-	<!-- on:consider={handleMove} -->
-	<!-- on:finalize={handleMove} -->
 	{#await Promise.all([settings.init(), today.init(), limits.init(), goals.init()])}
 		<Spinner />
 	{:then}
@@ -83,11 +64,11 @@
 			{#each enabled as nutrient (nutrient.key)}
 				<p
 					id="counter_{nutrient.key}"
-					class="m-auto flex-[2_1_auto] sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+					class="m-auto flex-[2_1_auto] transition-all sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 					transition:blur
 					animate:flip={{ duration: 900 }}
 					draggable="true"
-					on:dragstart={dragStartHandler}
+					on:dragstart={dragStart}
 				>
 					<Counter
 						item={nutrient}
