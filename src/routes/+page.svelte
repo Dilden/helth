@@ -64,7 +64,7 @@
 			{#each enabled as nutrient (nutrient.key)}
 				<p
 					id="counter_{nutrient.key}"
-					class="m-auto flex-[2_1_auto] transition-all sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+					class="m-auto flex-[2_1_auto] p-1 transition-all sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 					transition:blur
 					animate:flip={{ duration: 900 }}
 					draggable="true"

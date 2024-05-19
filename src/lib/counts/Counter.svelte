@@ -49,7 +49,7 @@
 	});
 </script>
 
-<div class="relative my-2 text-center">
+<div class="relative m-2 text-center">
 	<label for="countValue_{item.key}" class="text-2xl font-medium"
 		>{(item?.emoji ? item?.emoji + ' ' : '') + item.name + ` (${item.unit})`}</label
 	>
