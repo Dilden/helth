@@ -14,7 +14,7 @@ export const dragEnter = (event: DragEvent) => {
 	event.preventDefault();
 	const el: Element = event.target as Element;
 
-	if (el.id.startsWith('counter_')) {
+	if (el.id.includes('counter_')) {
 		el.classList.add('bg-emerald-200');
 	} else {
 		const parent: Element = el.parentNode as Element;
@@ -27,7 +27,10 @@ export const dragEnter = (event: DragEvent) => {
 export const dragLeave = (event: DragEvent) => {
 	event.preventDefault();
 	const el: Element = event.target as Element;
-	el.classList.remove('bg-emerald-200');
+
+	if (el.id.includes('counter_')) {
+		el.classList.remove('bg-emerald-200');
+	}
 };
 
 export const drop = (event: DragEvent) => {
@@ -40,10 +43,12 @@ export const drop = (event: DragEvent) => {
 	const closestChild: Element = possibleDrops
 		.filter((el) => dropZone.contains(el))
 		.filter((ele) => ele.id.startsWith('counter_'))[0];
-	console.log(closestChild);
 
 	if (event.dataTransfer) {
 		const elId = event.dataTransfer.getData('application/component') as string;
+
+		const toMove = document.getElementById(elId);
+		toMove?.classList.remove('bg-emerald-200');
 		if (closestChild.isSameNode(dropZone)) {
 			closestChild.prepend(document.getElementById(elId) as Element);
 
