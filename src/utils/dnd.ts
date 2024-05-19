@@ -1,5 +1,8 @@
 export const dragStart = (event: DragEvent) => {
-	event?.dataTransfer?.setData('application/component', event?.target?.id);
+	const el: Element = event.target as Element;
+	if (el && event.dataTransfer) {
+		event.dataTransfer.setData('application/component', el.id);
+	}
 };
 
 export const dragOver = (event: DragEvent) => {
@@ -9,36 +12,46 @@ export const dragOver = (event: DragEvent) => {
 
 export const dragEnter = (event: DragEvent) => {
 	event.preventDefault();
-	if (event.target.id.startsWith('counter_')) {
-		event.target.classList.add('bg-emerald-200');
+	const el: Element = event.target as Element;
+
+	if (el.id.startsWith('counter_')) {
+		el.classList.add('bg-emerald-200');
 	} else {
-		event.target.parentNode.closest('p').classList.add('bg-emerald-200');
+		const parent: Element = el.parentNode as Element;
+		if (parent) {
+			parent.closest('p')?.classList.add('bg-emerald-200');
+		}
 	}
 };
 
 export const dragLeave = (event: DragEvent) => {
 	event.preventDefault();
-	event.target!.classList.remove('bg-emerald-200');
+	const el: Element = event.target as Element;
+	el.classList.remove('bg-emerald-200');
 };
 
 export const drop = (event: DragEvent) => {
 	event.preventDefault();
 
-	const target = event.target;
-	const dropZone = document.getElementById('counter_drop_zone');
-	const possibleDrops = document.elementsFromPoint(event.x, event.y);
+	const target: Element = event.target as Element;
+	const dropZone: Element = document.getElementById('counter_drop_zone') as Element;
+	const possibleDrops: Array<Element> = document.elementsFromPoint(event.x, event.y);
 
-	const closestChild = possibleDrops
+	const closestChild: Element = possibleDrops
 		.filter((el) => dropZone.contains(el))
 		.filter((ele) => ele.id.startsWith('counter_'))[0];
+	console.log(closestChild);
 
-	const elId = event.dataTransfer.getData('application/component');
-	if (closestChild.isSameNode(dropZone)) {
-		closestChild.prepend(document.getElementById(elId));
+	if (event.dataTransfer) {
+		const elId = event.dataTransfer.getData('application/component') as string;
+		if (closestChild.isSameNode(dropZone)) {
+			closestChild.prepend(document.getElementById(elId) as Element);
 
-		closestChild.remove('bg-emerald-200');
-	} else {
-		closestChild.before(document.getElementById(elId));
-		target.parentNode.closest('p').classList.remove('bg-emerald-200');
+			closestChild.classList.remove('bg-emerald-200');
+		} else {
+			closestChild.before(document.getElementById(elId) as Element);
+			const parent: Element = target.parentNode as Element;
+			parent.closest('p')?.classList.remove('bg-emerald-200');
+		}
 	}
 };
