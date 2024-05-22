@@ -1,3 +1,12 @@
+const dropStyles = [
+	'border-l-2',
+	'border-emerald-200',
+	'before:content-["+"]',
+	'before:inline-block',
+	'before:absolute',
+	'before:top-1/4'
+];
+
 export const dragStart = (event: DragEvent) => {
 	const el: Element = event.target as Element;
 	if (el && event.dataTransfer) {
@@ -14,13 +23,16 @@ export const dragEnter = (event: DragEvent) => {
 	event.preventDefault();
 	const el: Element = event.target as Element;
 
+	const dropZone: Element = document.getElementById('counter_drop_zone') as Element;
+	const parent: Element = el.parentNode as Element;
 	if (el.id.includes('counter_')) {
-		el.classList.add('bg-emerald-200');
-	} else {
-		const parent: Element = el.parentNode as Element;
-		if (parent) {
-			parent.closest('p')?.classList.add('bg-emerald-200');
+		if (!el.isSameNode(dropZone)) {
+			el.classList.add(...dropStyles);
+		} else {
+			el.children[0].classList.add(...dropStyles);
 		}
+	} else {
+		parent.closest('p')?.classList.add(...dropStyles);
 	}
 };
 
@@ -28,8 +40,13 @@ export const dragLeave = (event: DragEvent) => {
 	event.preventDefault();
 	const el: Element = event.target as Element;
 
+	const dropZone: Element = document.getElementById('counter_drop_zone') as Element;
 	if (el.id.includes('counter_')) {
-		el.classList.remove('bg-emerald-200');
+		if (el.isSameNode(dropZone)) {
+			dropZone.children[1].classList.remove(...dropStyles);
+		} else {
+			el.classList.remove(...dropStyles);
+		}
 	}
 };
 
@@ -48,15 +65,17 @@ export const drop = (event: DragEvent) => {
 		const elId = event.dataTransfer.getData('application/component') as string;
 
 		const toMove = document.getElementById(elId);
-		toMove?.classList.remove('bg-emerald-200');
+		toMove?.classList.remove(...dropStyles);
 		if (closestChild.isSameNode(dropZone)) {
 			closestChild.prepend(document.getElementById(elId) as Element);
 
-			closestChild.classList.remove('bg-emerald-200');
+			closestChild.classList.remove(...dropStyles);
 		} else {
 			closestChild.before(document.getElementById(elId) as Element);
 			const parent: Element = target.parentNode as Element;
-			parent.closest('p')?.classList.remove('bg-emerald-200');
+			parent.closest('p')?.classList.remove(...dropStyles);
 		}
+		dropZone.children[0].classList.remove(...dropStyles);
+		dropZone.children[1].classList.remove(...dropStyles);
 	}
 };

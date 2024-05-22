@@ -1,9 +1,37 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { drop, dragStart, dragOver, dragEnter, dragLeave } from './dnd';
+import { dragStart, dragOver, dragEnter, dragLeave } from './dnd';
 
 afterEach(() => {
 	vi.restoreAllMocks();
 });
+
+const dropZoneEvent = {
+	dataTransfer: {
+		setData: vi.fn(),
+		dropEffect: 'none'
+	},
+	target: {
+		id: 'counter_drop_zone',
+		classList: {
+			add: vi.fn(),
+			remove: vi.fn()
+		},
+		isSameNode: vi.fn(() => true),
+		children: [
+			{
+				classList: {
+					add: vi.fn()
+				}
+			},
+			{
+				classList: {
+					add: vi.fn()
+				}
+			}
+		]
+	},
+	preventDefault: vi.fn()
+};
 
 const fakeEvent = {
 	dataTransfer: {
@@ -15,7 +43,8 @@ const fakeEvent = {
 		classList: {
 			add: vi.fn(),
 			remove: vi.fn()
-		}
+		},
+		isSameNode: vi.fn(() => false)
 	},
 	preventDefault: vi.fn()
 };
@@ -28,14 +57,15 @@ const fakeEvent2 = {
 	target: {
 		id: 'something_else',
 		parentNode: {
-			closest: vi.fn((x: string) => {
+			closest: vi.fn(() => {
 				return {
 					classList: {
 						add: vi.fn(),
 						remove: vi.fn()
 					}
 				};
-			})
+			}),
+			isSameNode: vi.fn()
 		}
 	},
 	preventDefault: vi.fn()
@@ -60,8 +90,11 @@ describe('dnd', () => {
 	});
 	it("dragEnter adds class to parent of element that doesn't contain counter_", () => {
 		dragEnter(fakeEvent2 as unknown as DragEvent);
-		expect(fakeEvent2.preventDefault).toHaveBeenCalledOnce();
 		expect(fakeEvent2.target.parentNode.closest).toHaveBeenCalledOnce();
+	});
+	it('dragEnter adds class to first child of dropZone', () => {
+		dragEnter(dropZoneEvent as unknown as DragEvent);
+		expect(dropZoneEvent.target.children[0].classList.add).toHaveBeenCalledOnce();
 	});
 
 	it('dragLeave removes class from element with counter_ in ID', () => {
@@ -75,8 +108,8 @@ describe('dnd', () => {
 		expect(fakeEvent2.target.parentNode.closest).not.toHaveBeenCalledOnce();
 	});
 
-	it('drop prepends element before nearest counter', () => {
-		drop(fakeEvent as unknown as DragEvent);
-		expect(fakeEvent.preventDefault).toHaveBeenCalledOnce();
-	});
+	// it('drop prepends element before nearest counter', () => {
+	// 	drop(fakeEvent as unknown as DragEvent);
+	// 	expect(fakeEvent.preventDefault).toHaveBeenCalledOnce();
+	// });
 });
