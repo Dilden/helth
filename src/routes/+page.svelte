@@ -55,7 +55,7 @@
 	on:drop={drop}
 	on:dragenter={dragEnter}
 	on:dragleave={dragLeave}
-	class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 transition-all md:justify-start md:gap-y-3"
+	class="flex-start flex flex-row flex-wrap justify-center gap-4 gap-y-7 transition-all md:justify-start md:gap-y-3"
 >
 	{#await Promise.all([settings.init(), today.init(), limits.init(), goals.init()])}
 		<Spinner />
@@ -64,7 +64,7 @@
 			{#each enabled as nutrient (nutrient.key)}
 				<p
 					id="counter_{nutrient.key}"
-					class="m-auto flex-[2_1_auto] p-1 transition-all sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+					class="relative top-1/2 m-auto flex-[2_1_auto] p-1 text-3xl transition-all sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 					transition:blur
 					animate:flip={{ duration: 900 }}
 					draggable="true"
