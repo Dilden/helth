@@ -8,7 +8,7 @@ const config = {
 	test: {
 		css: true,
 		globals: true,
-		environment: './src/vitest/custom-jsdom',
+		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
 				console: true

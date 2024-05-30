@@ -1,7 +1,6 @@
 const dropStyles = [
 	'border-l-2',
 	'border-emerald-200',
-	'before:content-["+"]',
 	'before:inline-block',
 	'before:absolute',
 	'before:top-1/4'
