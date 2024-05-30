@@ -29,6 +29,17 @@ describe('counter options', () => {
 		expect(screen.getByLabelText('Show this counter?')).toBeVisible();
 		expect(screen.getByRole('checkbox')).toBeVisible();
 	});
+
+	it('has buttons to adjust position', async () => {
+		render(CounterOptions, {
+			key: 'calories',
+			interval: 4,
+			max: 150
+		});
+
+		expect(screen.getByRole('button', { name: '⬆️ Move Up' })).toBeVisible();
+		expect(screen.getByRole('button', { name: '⬇️ Move Down' })).toBeVisible();
+	});
 });
 
 vi.mock('$stores/stores', async () => {

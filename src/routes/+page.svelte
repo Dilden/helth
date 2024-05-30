@@ -4,7 +4,7 @@
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { onMount, afterUpdate } from 'svelte';
-	import { dragOver, dragStart, drop, dragEnter, dragLeave } from '$utils/dnd';
+	// import { dragOver, dragStart, drop, dragEnter, dragLeave } from '$utils/dnd';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';
@@ -31,17 +31,6 @@
 				})
 				.filter((val) => val !== undefined)
 				.sort((a, b) => a.position - b.position);
-			// sort by numerical property
-			// sort alphabetically
-			// .sort((a, b) => {
-			// 	if (a.key > b.key) {
-			// 		return -1;
-			// 	}
-			// 	if (a.key < b.key) {
-			// 		return 1;
-			// 	}
-			// 	return 0;
-			// });
 		}
 	};
 </script>
@@ -51,10 +40,6 @@
 
 <p
 	id="counter_drop_zone"
-	on:dragover={dragOver}
-	on:drop={drop}
-	on:dragenter={dragEnter}
-	on:dragleave={dragLeave}
 	class="flex-start flex flex-row flex-wrap justify-center gap-4 gap-y-7 transition-all md:justify-start md:gap-y-3"
 >
 	{#await Promise.all([settings.init(), today.init(), limits.init(), goals.init()])}
@@ -67,8 +52,6 @@
 					class="relative top-1/2 m-auto flex-[2_1_auto] p-1 text-3xl transition-all sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 					transition:blur
 					animate:flip={{ duration: 900 }}
-					draggable="true"
-					on:dragstart={dragStart}
 				>
 					<Counter
 						item={nutrient}

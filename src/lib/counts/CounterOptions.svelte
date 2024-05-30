@@ -3,6 +3,11 @@
 	export let key = '';
 	export let interval = 0;
 	export let max = 100;
+
+	const moveUp = () => {
+		// $settings[key].value.enabled
+		console.log($settings[key].value.position);
+	};
 </script>
 
 <div
@@ -16,6 +21,10 @@
 	aria-labelledby="menu-button"
 	tabindex="-1"
 >
+	<div class="flex flex-auto justify-around">
+		<button type="button" on:click={moveUp}>⬆️ Move Up</button>
+		<button type="button" on:click={moveDown}>⬇️ Move Down</button>
+	</div>
 	<label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 	<input
 		class="mx-auto block w-11/12 p-0 text-5xl"
