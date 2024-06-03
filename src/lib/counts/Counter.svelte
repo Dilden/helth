@@ -11,6 +11,9 @@
 	export let limit = 0;
 	export let goal = 0;
 
+	export let moveUpCallback = () => {};
+	export let moveDownCallback = () => {};
+
 	const increment = (): number => {
 		return (count = count + interval);
 	};
@@ -101,7 +104,13 @@
 	{#if showOptions}
 		<span transition:fade={{ duration: 75 }}>
 			<!-- <span transition:fade> -->
-			<CounterOptions max={item?.countMax} key={item.key} bind:interval />
+			<CounterOptions
+				max={item?.countMax}
+				key={item.key}
+				bind:interval
+				{moveUpCallback}
+				{moveDownCallback}
+			/>
 		</span>
 	{/if}
 </div>

@@ -66,7 +66,7 @@ describe('options', () => {
 		setTimeout(() => expect(screen.queryByLabelText('Adjust -/+ interval')).toBeNull(), 120);
 	});
 
-	it.skip('changes store value when checkbox is unchecked', async () => {
+	it('changes store value when checkbox is unchecked', async () => {
 		const user = userEvent.setup();
 		render(Counter, {
 			count: 10,

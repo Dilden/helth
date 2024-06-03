@@ -4,9 +4,12 @@
 	export let interval = 0;
 	export let max = 100;
 
-	const moveUp = () => {
-		// $settings[key].value.enabled
-		console.log($settings[key].value.position);
+	export let moveUpCallback = (fn) => {
+		fn();
+	};
+
+	export let moveDownCallback = (fn) => {
+		fn();
 	};
 </script>
 
@@ -22,8 +25,10 @@
 	tabindex="-1"
 >
 	<div class="flex flex-auto justify-around">
-		<button type="button" on:click={moveUp}>⬆️ Move Up</button>
-		<button type="button" on:click={moveDown}>⬇️ Move Down</button>
+		<button class="hover:text-slate-100" type="button" on:click={moveUpCallback}>⬆️ Move Up</button>
+		<button class="hover:text-slate-100" type="button" on:click={moveDownCallback}
+			>⬇️ Move Down</button
+		>
 	</div>
 	<label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 	<input

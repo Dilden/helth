@@ -40,6 +40,22 @@ describe('counter options', () => {
 		expect(screen.getByRole('button', { name: '⬆️ Move Up' })).toBeVisible();
 		expect(screen.getByRole('button', { name: '⬇️ Move Down' })).toBeVisible();
 	});
+
+	it('calls callback on Move button clicks', () => {
+		const spy = vi.fn();
+		render(CounterOptions, {
+			key: 'calories',
+			interval: 4,
+			max: 150,
+			moveUpCallback: spy,
+			moveDownCallback: spy
+		});
+
+		screen.getByRole('button', { name: '⬆️ Move Up' }).click();
+		expect(spy).toHaveBeenCalledOnce();
+		screen.getByRole('button', { name: '⬇️ Move Down' }).click();
+		expect(spy).toHaveBeenCalledTimes(2);
+	});
 });
 
 vi.mock('$stores/stores', async () => {
