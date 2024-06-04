@@ -98,10 +98,11 @@ const config = {
 		fs: {
 			allow: ['static']
 		},
-		https: process.env.NODE_ENV === 'development' ? true : false,
+		https: {},
 		port: 3000,
 		strictPort: true,
-		hmr: true // set to 'false' for testing on old iOS devices
+		hmr: true, // set to 'false' for testing on old iOS devices,
+		proxy: {}
 	},
 	// // enabling HTTPS in basicSsl plugin breaks tests
 	// preview: {
