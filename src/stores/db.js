@@ -23,15 +23,15 @@ list.forEach(({ key }, index) => {
 	limits[key] = { name: key, value: 0 };
 
 	if (key === 'water') {
-		settings[key] = { interval: 500, enabled: true };
+		settings[key].interval = 500;
 		goals[key] = { name: key, value: 2000 };
 		limits[key] = { name: key, value: 3000 };
 	} else if (key === 'calories') {
-		settings[key] = { interval: 75, enabled: true };
+		settings[key].interval = 75;
 		goals[key] = { name: key, value: 1600 };
 		limits[key] = { name: key, value: 1800 };
 	} else if (key === 'sodium') {
-		settings[key] = { interval: 10, enabled: true };
+		settings[key].interval = 10;
 		goals[key] = { name: key, value: 2200 };
 		limits[key] = { name: key, value: 3000 };
 	}
@@ -92,7 +92,9 @@ db.version(6)
 			.table('settings')
 			.toCollection()
 			.modify((option) => {
-				option.value.position = 0;
+				if (!option.value.position) {
+					option.value.position = 0;
+				}
 			});
 	});
 
