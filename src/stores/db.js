@@ -17,21 +17,21 @@ export const defaultDay = {
 const settings = {};
 const goals = {};
 const limits = {};
-list.forEach(({ key }) => {
-	settings[key] = { interval: 5, enabled: true };
+list.forEach(({ key }, index) => {
+	settings[key] = { interval: 5, enabled: true, position: index };
 	goals[key] = { name: key, value: 0 };
 	limits[key] = { name: key, value: 0 };
 
 	if (key === 'water') {
-		settings[key] = { interval: 500, enabled: true };
+		settings[key].interval = 500;
 		goals[key] = { name: key, value: 2000 };
 		limits[key] = { name: key, value: 3000 };
 	} else if (key === 'calories') {
-		settings[key] = { interval: 75, enabled: true };
+		settings[key].interval = 75;
 		goals[key] = { name: key, value: 1600 };
 		limits[key] = { name: key, value: 1800 };
 	} else if (key === 'sodium') {
-		settings[key] = { interval: 10, enabled: true };
+		settings[key].interval = 10;
 		goals[key] = { name: key, value: 2200 };
 		limits[key] = { name: key, value: 3000 };
 	}
@@ -85,11 +85,22 @@ db.version(5)
 			});
 	});
 
+db.version(6)
+	.stores({ settings: 'name, value' })
+	.upgrade((data) => {
+		return data
+			.table('settings')
+			.toCollection()
+			.modify((option) => {
+				if (!option.value.position) {
+					option.value.position = 0;
+				}
+			});
+	});
+
 db.on('populate', async () => await addDefaults());
 
 export const dbopen = db.open().then(async () => {
-	// check if today's date is most recent
-	// add empty day if it is not
 	await addDefaults();
 });
 

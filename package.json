@@ -1,6 +1,6 @@
 {
   "name": "helth.app",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "dev": "vite dev --host",
     "build": "vite build",
@@ -20,6 +20,7 @@
     "@testing-library/jest-dom": "^6.0.1",
     "@testing-library/svelte": "^4.0.3",
     "@testing-library/user-event": "^14.4.3",
+    "@types/jsdom": "^21.1.6",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "@vite-pwa/sveltekit": "^0.3.0",
