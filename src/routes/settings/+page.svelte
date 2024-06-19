@@ -1,6 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
 	import { settings, limits, goals } from '$stores/stores';
+	import CounterOptions from '$lib/counts/CounterOptions.svelte';
 	import ExportData from '$lib/data/ExportData.svelte';
 	import ImportData from '$lib/data/ImportData.svelte';
 	import Spinner from '$lib/Spinner.svelte';
@@ -18,7 +19,7 @@
 			>
 				{#each list as nutrient}
 					<div
-						class="alt-bg m-auto flex-[2_1_auto] px-1 pb-4 pt-2 sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+						class="m-auto flex-[2_1_auto] bg-gray-200 px-1 pb-4 pt-2 text-black sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 					>
 						<div class="w-full text-center text-xl font-medium">
 							{(nutrient?.emoji ? nutrient?.emoji + ' ' : '') +
@@ -46,12 +47,10 @@
 							/>
 						</div>
 						<div class="my-2">
-							<label for="enabled_{nutrient.key}" class="font-bold">Show this nutrient?</label>
-							<input
-								type="checkbox"
-								id="enabled_{nutrient.key}"
-								class="m-1 mb-3 p-2"
-								bind:checked={$settings[nutrient.key].value.enabled}
+							<CounterOptions
+								max={nutrient?.countMax}
+								key={nutrient.key}
+								bind:interval={$settings[nutrient.key].value.interval}
 							/>
 						</div>
 					</div>

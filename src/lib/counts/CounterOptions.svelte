@@ -14,10 +14,9 @@
 </script>
 
 <div class="flex flex-auto justify-around">
-	<button class="hover:text-slate-100" type="button" on:click={moveUpCallback}>⬆️ Move Up</button>
-	<button class="hover:text-slate-100" type="button" on:click={moveDownCallback}
-		>⬇️ Move Down</button
-	>
+	<!-- <button class="text-[#26B170] hover:text-slate-100" type="button" on:click={moveUpCallback} -->
+	<button type="button" on:click={moveUpCallback}>⬆️ Move Up</button>
+	<button type="button" on:click={moveDownCallback}>⬇️ Move Down</button>
 </div>
 <label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 <input
