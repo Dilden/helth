@@ -1,10 +1,44 @@
 <script>
 	import { list } from '$utils/nutrients';
 	import { settings, limits, goals } from '$stores/stores';
+	import { onMount, afterUpdate } from 'svelte';
+	import { blur } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 	import CounterOptions from '$lib/counts/CounterOptions.svelte';
 	import ExportData from '$lib/data/ExportData.svelte';
 	import ImportData from '$lib/data/ImportData.svelte';
 	import Spinner from '$lib/Spinner.svelte';
+
+	$: enabled = list;
+	onMount(async () => {
+		await settings.init();
+		setEnabledItems();
+	});
+	afterUpdate(() => {
+		setEnabledItems();
+	});
+
+	const setEnabledItems = () => {
+		if ($settings !== undefined) {
+			enabled = list
+				.map((item) => {
+					item.position = $settings[item.key]?.value?.position;
+					return item;
+				})
+				.sort((a, b) => a.position - b.position);
+		}
+	};
+
+	const moveCallback = (positionA, positionB) => {
+		const x = Object.values($settings).find(({ value }) => value.position === positionA);
+		const y = Object.values($settings).find(({ value }) => value.position === positionB);
+
+		if (x && y) {
+			$settings[x.name].value.position = positionB;
+			$settings[y.name].value.position = positionA;
+			setEnabledItems();
+		}
+	};
 </script>
 
 <div class="p-7 text-center">
@@ -17,9 +51,11 @@
 			<div
 				class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 md:justify-start md:gap-y-3"
 			>
-				{#each list as nutrient}
+				{#each enabled as nutrient, index (nutrient.key)}
 					<div
 						class="m-auto flex-[2_1_auto] bg-gray-200 px-1 pb-4 pt-2 text-black sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+						transition:blur
+						animate:flip={{ duration: 900 }}
 					>
 						<div class="w-full text-center text-xl font-medium">
 							{(nutrient?.emoji ? nutrient?.emoji + ' ' : '') +
@@ -51,6 +87,16 @@
 								max={nutrient?.countMax}
 								key={nutrient.key}
 								bind:interval={$settings[nutrient.key].value.interval}
+								moveUpCallback={() =>
+									moveCallback(
+										$settings[nutrient.key].value.position,
+										$settings[nutrient.key].value.position - 1
+									)}
+								moveDownCallback={() =>
+									moveCallback(
+										$settings[nutrient.key].value.position,
+										$settings[nutrient.key].value.position + 1
+									)}
 							/>
 						</div>
 					</div>
@@ -64,9 +110,3 @@
 		<div class="mx-auto my-6 inline-block"><ImportData /></div>
 	</details>
 </div>
-
-<style>
-	.alt-bg:nth-child(even) {
-		background-color: #1a2426;
-	}
-</style>
