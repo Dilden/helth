@@ -4,7 +4,6 @@
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { onMount, afterUpdate } from 'svelte';
-	// import { dragOver, dragStart, drop, dragEnter, dragLeave } from '$utils/dnd';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';
