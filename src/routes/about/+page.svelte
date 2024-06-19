@@ -222,6 +222,7 @@
 			<li>
 				All options for a nutrient can now be set on the <a href="/settings">settings</a> page.
 			</li>
+			<li>Charts appear in same order as nutrient/counters are shown on home page</li>
 		</ul>
 	</details>
 	<details>
