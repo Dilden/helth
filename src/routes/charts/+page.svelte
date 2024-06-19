@@ -1,8 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
 	import { history, goals, limits, settings } from '$stores/stores';
-	import { blur } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
 	import { onMount, afterUpdate } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
