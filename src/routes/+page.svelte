@@ -13,7 +13,7 @@
 	$: enabled = list;
 	onMount(async () => {
 		await settings.init();
-		// setEnabledItems();
+		setEnabledItems();
 	});
 	afterUpdate(() => {
 		setEnabledItems();
@@ -24,9 +24,8 @@
 			enabled = list
 				.filter((item) => {
 					if ($settings[item.key]?.value?.enabled) {
+						item.position = $settings[item.key]?.value?.position;
 						return item;
-					} else {
-						return undefined;
 					}
 				})
 				.filter((val) => val !== undefined)
@@ -34,32 +33,16 @@
 		}
 	};
 
-	const moveCallback = (moveIndex, swapWithIndex) => {
-		// if (moveIndex && swapWithIndex) {
-		// 	const key = enabled[moveIndex].key;
-		// 	const swapKey = enabled[swapWithIndex].key;
-		// 	console.log('key is: ' + key);
-		// 	console.log('to swap with: ' + swapKey);
-		// 	const moveTo = $settings[swapKey].value.position;
-		// 	$settings[swapKey].value.position = $settings[key].value.position;
-		// 	$settings[key].value.position = moveTo;
-		// 	console.log($settings[swapKey].value.position);
-		// 	console.log($settings[key].value.position);
-		// 	setEnabledItems();
-		// }
-		// if( $settings[moveKey].value.position === 0) {
-		//   return;
-		// }
-		// if($settings[moveKey].value.position <= $settings[prevKey].value.position) {
-		//   $settings[moveKey].value.position = $settings[moveKey].value.position + 1;
-		//   $settings[prevKey].value.position = $settings[prevKey].value.position - 1;
-		// }
-		// if($settings[moveKey].value.position > $settings[prevKey].value.position) {
-		//   $settings[moveKey].value.position = $settings[moveKey].value.position - 1;
-		//   $settings[prevKey].value.position = $settings[prevKey].value.position + 1;
-		// }
+	const moveCallback = (positionA, positionB) => {
+		const x = Object.values($settings).find(({ value }) => value.position === positionA);
+		const y = Object.values($settings).find(({ value }) => value.position === positionB);
+
+		if (x && y) {
+			$settings[x.name].value.position = positionB;
+			$settings[y.name].value.position = positionA;
+			setEnabledItems();
+		}
 	};
-	// const moveDownCallback = (incrementKey, decrementKey) => {};
 </script>
 
 <h2 class="text-center">🗒 track</h2>
@@ -85,6 +68,16 @@
 						bind:interval={$settings[nutrient.key].value.interval}
 						limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
 						goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
+						moveUpCallback={() =>
+							moveCallback(
+								$settings[nutrient.key].value.position,
+								$settings[nutrient.key].value.position - 1
+							)}
+						moveDownCallback={() =>
+							moveCallback(
+								$settings[nutrient.key].value.position,
+								$settings[nutrient.key].value.position + 1
+							)}
 					/>
 				</div>
 			{/each}
