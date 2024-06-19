@@ -103,14 +103,25 @@
 	</button>
 	{#if showOptions}
 		<span transition:fade={{ duration: 75 }}>
-			<!-- <span transition:fade> -->
-			<CounterOptions
-				max={item?.countMax}
-				key={item.key}
-				bind:interval
-				{moveUpCallback}
-				{moveDownCallback}
-			/>
+			<div
+				class="z-11 absolute right-2 top-[43px] h-0 w-0 border-8 border-t-[0px] border-solid border-transparent border-x-transparent border-y-gray-200"
+			></div>
+			<div
+				id={item.key + '_options'}
+				class="absolute right-0 top-[42px] z-10 mt-2 w-full origin-top-right rounded-md bg-gray-200 pt-2 text-slate-700 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+				role="menu"
+				aria-orientation="vertical"
+				aria-labelledby="menu-button"
+				tabindex="-1"
+			>
+				<CounterOptions
+					max={item?.countMax}
+					key={item.key}
+					bind:interval
+					{moveUpCallback}
+					{moveDownCallback}
+				/>
+			</div>
 		</span>
 	{/if}
 </div>
