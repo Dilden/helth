@@ -48,6 +48,7 @@ describe('options', () => {
 		expect(screen.queryByLabelText('Adjust -/+ interval')).toBeNull();
 
 		await user.click(screen.getByRole('button', { name: '...' }));
+		expect(screen.getByRole('menu')).toBeVisible();
 		expect(screen.queryByLabelText('Adjust -/+ interval')).toBeVisible();
 	});
 

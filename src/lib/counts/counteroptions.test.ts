@@ -15,7 +15,6 @@ describe('counter options', () => {
 			max: 150
 		});
 
-		expect(screen.getByRole('menu')).toBeVisible();
 		expect(screen.getByLabelText('Adjust -/+ interval')).toBeVisible();
 	});
 
