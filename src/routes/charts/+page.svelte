@@ -1,12 +1,38 @@
 <script>
 	import { list } from '$utils/nutrients';
 	import { history, goals, limits, settings } from '$stores/stores';
+	import { blur } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
+	import { onMount, afterUpdate } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
 	$: range = 7;
 	const historyRange = [7, 14, 30, 90, 180, 365, 0];
 	const colors = ['#fce417', '#ffffff', '#fc173e', '#2417fc'];
+
+	$: enabled = list;
+	onMount(async () => {
+		await settings.init();
+		setEnabledItems();
+	});
+	afterUpdate(() => {
+		setEnabledItems();
+	});
+
+	const setEnabledItems = () => {
+		if ($settings !== undefined) {
+			enabled = list
+				.filter((item) => {
+					if ($settings[item.key]?.value?.enabled) {
+						item.position = $settings[item.key]?.value?.position;
+						return item;
+					}
+				})
+				.filter((val) => val !== undefined)
+				.sort((a, b) => a.position - b.position);
+		}
+	};
 </script>
 
 <div class="text-center">
@@ -22,7 +48,7 @@
 	{#await Promise.all([history.init(), goals.init(), limits.init(), settings.init()])}
 		<Spinner />
 	{:then}
-		{#each list as trackableItem, index}
+		{#each enabled as trackableItem, index}
 			{#if $settings[trackableItem.key].value.enabled}
 				<h3>{trackableItem.name}</h3>
 				{#key range}

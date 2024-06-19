@@ -216,6 +216,15 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.2.2</summary>
+		<ul>
+			<li>Move nutrients around in stack by clicking/tapping Move Up or Move Down</li>
+			<li>
+				All options for a nutrient can now be set on the <a href="/settings">settings</a> page.
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.2.1</summary>
 		<ul>
 			<li>Added caffeine to possible nutrients!</li>
