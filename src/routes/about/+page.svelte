@@ -216,6 +216,15 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.2.3</summary>
+		<ul>
+			<li>
+				Fixed an issue where nutrient counters were unmovable as they were all given the same
+				position. Only affected existing databases.
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.2.2</summary>
 		<ul>
 			<li>Move nutrients around in stack by clicking/tapping Move Up or Move Down</li>
