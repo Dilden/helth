@@ -92,8 +92,9 @@ db.version(6)
 			.table('settings')
 			.toCollection()
 			.modify((option) => {
+				const pos = list.findIndex((nutrient) => option.name === nutrient.key);
 				if (!option.value.position) {
-					option.value.position = 0;
+					option.value.position = pos;
 				}
 			});
 	});
