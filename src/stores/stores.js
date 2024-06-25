@@ -14,7 +14,7 @@ function createTodayStore() {
 		},
 		set: async (newVal) => {
 			dbfun.getLatestDay().then((day) => {
-				dbfun.updateLatestDay(day.date, newVal);
+				dbfun.updateDay(day.date, newVal);
 			});
 			store.set(newVal);
 		}
