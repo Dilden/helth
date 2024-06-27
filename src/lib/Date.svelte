@@ -34,8 +34,6 @@
 			dateObj.getUTCMonth() + 1 + '/' + dateObj.getUTCDate() + '/' + dateObj.getUTCFullYear();
 
 		edit = false;
-
-		console.log($today.date);
 	};
 </script>
 

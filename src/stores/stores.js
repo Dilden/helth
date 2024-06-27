@@ -23,6 +23,9 @@ function createTodayStore() {
 		setDate: async (date) => {
 			workingDate = date;
 			workingDay = dbfun.getDay(workingDate);
+			// if (workingDay.then(day) is null)
+			// db.journal.add({ ...dbfun.defaultDay, date: workingDate })
+			// then workingDay = dbfun.getDay(workingDate)
 		}
 	};
 }
