@@ -5,18 +5,24 @@ import { lookupItems } from '$utils/recipe';
 function createTodayStore() {
 	const store = writable({});
 
+	let workingDate = new Date().setHours(0, 0, 0, 0);
+	let workingDay = dbfun.getDay(workingDate);
 	return {
 		...store,
 		init: async () => {
-			return dbfun.getLatestDay().then((day) => {
-				day ? store.set(day) : store.set(dbfun.defaultDay);
+			return workingDay.then((day) => {
+				day ? store.set(day) : store.set({ ...dbfun.defaultDay, date: workingDate });
 			});
 		},
 		set: async (newVal) => {
-			dbfun.getLatestDay().then((day) => {
+			workingDay.then((day) => {
 				dbfun.updateDay(day.date, newVal);
 			});
 			store.set(newVal);
+		},
+		setDate: async (date) => {
+			workingDate = date;
+			workingDay = dbfun.getDay(workingDate);
 		}
 	};
 }

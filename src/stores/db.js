@@ -120,6 +120,10 @@ export const updateDay = async (date, changes) => {
 	return db.journal.update(date, changes);
 };
 
+export const getDay = async (date) => {
+	return db.journal.get(date);
+};
+
 export const getLatestDay = async () => {
 	return db.journal.orderBy('date').reverse().first();
 };

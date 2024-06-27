@@ -1,17 +1,19 @@
 <script>
 	import { onMount } from 'svelte';
-	import { today } from '$stores/stores';
+	import { today, history } from '$stores/stores';
 	import { thePast } from '$utils/dates';
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
-	let dateObj, format;
+	let dateObj;
+	$: format = '';
 	let edit = false;
 
-	onMount(() => {
-		today.init().then(() => {
+	onMount(async () => {
+		await today.init().then(() => {
 			dateObj = new Date($today.date);
-			format = dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+			format =
+				dateObj.getUTCMonth() + 1 + '/' + dateObj.getUTCDate() + '/' + dateObj.getUTCFullYear();
 
 			document.addEventListener('visibilitychange', () => {
 				if (thePast(dateObj)) {
@@ -21,12 +23,23 @@
 		});
 	});
 
-	const callback = () => {
+	const callback = async (e) => {
+		const changeTo = new Date(e.target.value).getTime();
+
+		await today.setDate(changeTo);
+		await today.init();
+
+		dateObj = new Date($today.date);
+		format =
+			dateObj.getUTCMonth() + 1 + '/' + dateObj.getUTCDate() + '/' + dateObj.getUTCFullYear();
+
 		edit = false;
+
+		console.log($today.date);
 	};
 </script>
 
-{#await today.init()}
+{#await Promise.all([today.init(), history.init()])}
 	<Spinner />
 {:then}
 	<div class="text-center">
