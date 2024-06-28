@@ -42,10 +42,8 @@
 	};
 </script>
 
-<div class="mx-3">
-	<label for="data_upload" class="button">Import Data</label>
-	<input class="hidden" type="file" on:change={upload} id="data_upload" />
-</div>
+<label for="data_upload" class="button">Import Data</label>
+<input class="hidden" type="file" on:change={upload} id="data_upload" />
 {#if progress}
 	<div class="m-3">
 		<label class="progress">

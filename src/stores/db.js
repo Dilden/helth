@@ -116,8 +116,12 @@ async function addDay() {
 	}
 }
 
-export const updateLatestDay = async (date, changes) => {
+export const updateDay = async (date, changes) => {
 	return db.journal.update(date, changes);
+};
+
+export const getDay = async (date) => {
+	return db.journal.get(date);
 };
 
 export const getLatestDay = async () => {
