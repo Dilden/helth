@@ -22,10 +22,14 @@ function createTodayStore() {
 		},
 		setDate: async (date) => {
 			workingDate = date;
-			workingDay = dbfun.getDay(workingDate);
-			// if (workingDay.then(day) is null)
-			// db.journal.add({ ...dbfun.defaultDay, date: workingDate })
-			// then workingDay = dbfun.getDay(workingDate)
+			workingDay = dbfun.getDay(workingDate).then(async (day) => {
+				console.log(day);
+				if (!day) {
+					dbfun.addDay({ ...dbfun.defaultDay, date: workingDate });
+				}
+				day = dbfun.getDay(workingDate);
+				return day;
+			});
 		}
 	};
 }
