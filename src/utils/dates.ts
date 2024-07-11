@@ -22,6 +22,21 @@ export const utcToHuman = (newDate: number): string => {
 	return dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
 };
 
+export const dateToPicker = (val: Date = new Date()): string => {
+	const month = val.getMonth() + 1;
+	const day = val.getDate();
+
+	return (
+		val.getFullYear() +
+		'-' +
+		(month.toString().length === 1 ? '0' : '') +
+		month.toString() +
+		'-' +
+		(day.toString().length === 1 ? '0' : '') +
+		day.toString()
+	);
+};
+
 export const addTimezoneOffset = (timestamp: number): number => {
 	const checkDate = new Date(timestamp);
 

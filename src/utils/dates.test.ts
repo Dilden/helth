@@ -1,5 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { thePast, zeroHours, toUtc, utcToHuman, addTimezoneOffset, isDST } from './dates';
+import {
+	thePast,
+	zeroHours,
+	toUtc,
+	utcToHuman,
+	addTimezoneOffset,
+	isDST,
+	dateToPicker
+} from './dates';
 
 describe('date utilities', () => {
 	beforeEach(() => {
@@ -37,6 +45,12 @@ describe('date utilities', () => {
 		vi.setSystemTime(current);
 		expect(utcToHuman(1719810000000)).toEqual('7/1/2024');
 	});
+
+	it('converts a Date object to datepicker value', () => {
+		const current = new Date('July 1, 2024 11:36:00');
+		vi.setSystemTime(current);
+		expect(dateToPicker()).toEqual('2024-07-01');
+	});
 });
 
 describe('DST', () => {
@@ -51,10 +65,6 @@ describe('DST', () => {
 		expect(isDST()).toBe(true);
 	});
 
-	// if current date is DST && date to check is DST, only do getTimeZoneOffset * 60k
-	// if current date is DST && date to check is NOT DST, do getTimeZoneOffset * 60k + 1 hour
-	// if current date is NOT DST and date to check is DST, do getTimeZoneOffset * 60k - 1 hour
-	// if current date is NOT DST && date to check is NOT DST, do getTimeZoneOffset * 60k
 	it('adds offset to DST timestamp when current date is DST', () => {
 		const current = new Date('July 1, 2024 11:36:00');
 		vi.setSystemTime(current);
