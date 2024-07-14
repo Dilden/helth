@@ -23,7 +23,6 @@ function createTodayStore() {
 		setDate: async (date) => {
 			workingDate = date;
 			workingDay = dbfun.getDay(workingDate).then(async (day) => {
-				console.log(day);
 				if (!day) {
 					dbfun.addDay({ ...dbfun.defaultDay, date: workingDate });
 				}
