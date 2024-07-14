@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { today, history } from '$stores/stores';
-	import { thePast } from '$utils/dates';
+	import { thePast, addTimezoneOffset, dateToPicker, utcToHuman } from '$utils/dates';
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
@@ -12,8 +12,7 @@
 	onMount(async () => {
 		await today.init().then(() => {
 			dateObj = new Date($today.date);
-			format =
-				dateObj.getUTCMonth() + 1 + '/' + dateObj.getUTCDate() + '/' + dateObj.getUTCFullYear();
+			format = dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
 
 			document.addEventListener('visibilitychange', () => {
 				if (thePast(dateObj)) {
@@ -24,14 +23,14 @@
 	});
 
 	const callback = async (e) => {
-		const changeTo = new Date(e.target.value).getTime();
+		const utc = new Date(e.target.value).getTime();
+
+		const changeTo = addTimezoneOffset(utc);
 
 		await today.setDate(changeTo);
 		await today.init();
 
-		dateObj = new Date($today.date);
-		format =
-			dateObj.getUTCMonth() + 1 + '/' + dateObj.getUTCDate() + '/' + dateObj.getUTCFullYear();
+		format = utcToHuman(changeTo);
 
 		edit = false;
 	};
@@ -43,6 +42,12 @@
 	<div class="text-center">
 		{#if edit}
 			<DatePicker {callback} />
+			<br />
+			<button
+				class="m-2"
+				on:click={async () => await callback({ target: { value: dateToPicker() } })}>Today</button
+			>
+			<button class="m-2" on:click={() => (edit = false)}>Cancel</button>
 		{:else}
 			<h3 class="text-center"><button on:click={() => (edit = !edit)}>{format}</button></h3>
 		{/if}
