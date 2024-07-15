@@ -108,24 +108,28 @@ export const dbopen = db.open().then(async () => {
 /*
  * Today
  */
-async function addDay() {
+export async function addDay(newDay = defaultDay) {
 	try {
-		await db.journal.add(defaultDay);
+		await db.journal.add(newDay);
 	} catch (error) {
 		console.log('error adding day');
 	}
 }
 
-export const updateLatestDay = async (date, changes) => {
-	return db.journal.update(date, changes);
+export const updateDay = async (date, changes) => {
+	return await db.journal.update(date, changes);
+};
+
+export const getDay = async (date) => {
+	return await db.journal.get(date);
 };
 
 export const getLatestDay = async () => {
-	return db.journal.orderBy('date').reverse().first();
+	return await db.journal.orderBy('date').reverse().first();
 };
 
 export const getJournal = async () => {
-	return db.journal.toArray();
+	return await db.journal.toArray();
 };
 
 /*

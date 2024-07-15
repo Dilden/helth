@@ -30,6 +30,11 @@ vi.mock('$stores/stores', async () => {
 			set: vi.fn(),
 			init: vi.fn()
 		},
+		history: {
+			...writable([]),
+			set: vi.fn(),
+			init: vi.fn()
+		},
 		limits: {
 			...writable({
 				value: 0

@@ -216,6 +216,27 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.3.0</summary>
+		<ul>
+			<li>
+				Users can now select dates in the past by tapping the date button at the top of the tracking
+				page. Doing so will open a date picker which will set the actively edited date. Any previous
+				values for that date will be loaded into each counter and subsequent changes to those values
+				will persist.
+			</li>
+			<li>
+				Note: Safari on iOS does not respect the <code>max</code> attribute for date pickers. As such,
+				selecting a date in the future will show an error message and force the user to select another
+				date.
+			</li>
+			<li>
+				If a date is selected in which a nutrient didn't previously exist, the value will default to
+				0.
+			</li>
+			<li>Added button to cancel or go to today's date under date picker.</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.2.3</summary>
 		<ul>
 			<li>
