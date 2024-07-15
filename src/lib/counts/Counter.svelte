@@ -33,22 +33,30 @@
 		if (goal) {
 			let diff = 0;
 			diff = toTwoDecimals(goal - count);
-			goalString =
-				diff >= 0 ? `${diff} to 🥅` : `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
+			if (diff) {
+				goalString =
+					diff >= 0 ? `${diff} to 🥅` : `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
+			}
 		}
 		if (limit) {
 			let diff = 0;
 			diff = toTwoDecimals(limit - count);
-			limitString =
-				diff >= 0 ? `${diff} to limit` : `<span class="text-red-600">${-diff} over limit 😢</span>`;
+			if (diff) {
+				limitString =
+					diff >= 0
+						? `${diff} to limit`
+						: `<span class="text-red-600">${-diff} over limit 😢</span>`;
+			}
 		}
 	};
 
 	onMount(() => {
 		diffMsg();
+		count ||= 0; // count may be null
 	});
 	afterUpdate(() => {
 		diffMsg();
+		count ||= 0;
 	});
 </script>
 
