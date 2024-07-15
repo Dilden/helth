@@ -1,7 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { today, history } from '$stores/stores';
-	import { thePast, addTimezoneOffset, dateToPicker, utcToHuman } from '$utils/dates';
+	import { thePast, addTimezoneOffset, dateToPicker, utcToHuman, toUtc } from '$utils/dates';
+	import { errorToast } from '$utils/toast';
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
@@ -24,15 +25,18 @@
 
 	const callback = async (e) => {
 		const utc = new Date(e.target.value).getTime();
+		if (utc > toUtc()) {
+			errorToast('Selecting a date in the future is not allowed.');
+		} else {
+			const changeTo = addTimezoneOffset(utc);
 
-		const changeTo = addTimezoneOffset(utc);
+			await today.setDate(changeTo);
+			await today.init();
 
-		await today.setDate(changeTo);
-		await today.init();
+			format = utcToHuman(changeTo);
 
-		format = utcToHuman(changeTo);
-
-		edit = false;
+			edit = false;
+		}
 	};
 </script>
 
