@@ -28,12 +28,12 @@
 	{@html webManifest}
 </svelte:head>
 
-<div class="main" data-sveltekit-reload={$updated ? '' : 'off'}>
+<div class="flex h-full flex-col" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
-	<div class="content">
+	<div class="flex-auto px-4">
 		<slot />
 	</div>
-	<div class="footer">
+	<div class="shrink-0">
 		<Footer />
 	</div>
 </div>
@@ -42,18 +42,3 @@
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
 	<ReloadPrompt />
 {/await}
-
-<style>
-	.main {
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-	.content {
-		flex: 1 0 auto;
-		padding: 0 15px;
-	}
-	.footer {
-		flex-shrink: 0;
-	}
-</style>
