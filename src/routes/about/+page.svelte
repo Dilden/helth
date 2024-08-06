@@ -216,6 +216,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.3.1</summary>
+		<ul>
+			<li>Addressed issue of data sometimes being lost on app refresh</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.3.0</summary>
 		<ul>
 			<li>
@@ -309,88 +315,12 @@
 		</ul>
 	</details>
 	<details>
-		<summary>v0.1.8</summary>
-		<ul>
-			<li>Added filtering of Inventory Items on Add/Edit Recipe Form</li>
-			<li>Inventory Items now show in alphabetical order on Add/Edit Recipe Form</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.7</summary>
+		<summary>Older versions</summary>
 		<ul>
 			<li>
-				Fixed issue with date and DB not loading data for current date if the page was opened from a
-				previous day.
+				See the <a href="https://github.com/Dilden/helth" target="_blank">GitHub repository</a> for more
+				information
 			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.6</summary>
-		<ul>
-			<li>Converted Counters to TS</li>
-			<li>Moved -/+ interval slider to options button in top right of each counter</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.5</summary>
-		<ul>
-			<li>Updated dependencies to move to SvelteKit 2 and prepare for Svelte 5</li>
-			<li>
-				Some tests needed to be adjusted as later version of testing frameworks also vhanged during
-				upgrade process
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.4</summary>
-		<ul>
-			<li>
-				Fixed issue with items being found at OpenFoodFacts but not having name, description, or
-				nutrients.
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.3</summary>
-		<ul>
-			<li>New logo! Updated all icons to reflect new logo as well.</li>
-			<li>Moved the meme man to the navigation drawer</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.2</summary>
-		<ul>
-			<li>Add support for Tailwind CSS which should hopefully speed up building</li>
-			<li>Barcode scanner now using Tailwind styles</li>
-			<li>Item form now using Tailwind styles</li>
-			<li>Recipe form now using Tailwind styles</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.1</summary>
-		<ul>
-			<li>Deleted a closingtag that somehow got left in. Ironic, I know.</li>
-			<li>
-				Item.barcode is now treated as a string as some barcodes have leading 0s and Numbers don't
-				allow that.
-			</li>
-			<li>Refactored Barcode scanner + data formatter for OpenFoodFacts API</li>
-			<li>Removed unused 2nd data source</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.0</summary>
-		<ul>
-			<li>
-				BREAKING CHANGE: Upgraded DB to v4 where Nutrients list in Inventory Items are now an array
-				of objects instead of a object of objects
-			</li>
-			<li>
-				BREAKING CHANGE: Refactored input formatting code to account for array of nutrient objects
-			</li>
-			<li>Introduced TypeScript into conversion code</li>
-			<li>Styling changes to use more screen space on Inventory input form</li>
-			<li>Fixed issues of duplicate items and nutrients being shown on Recipes</li>
 		</ul>
 	</details>
 </div>

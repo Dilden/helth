@@ -1,8 +1,9 @@
 <script>
 	import '../app.css';
 	import Navigation from '$lib/nav/Navigation.svelte';
+	import Spinner from '$lib/Spinner.svelte';
 	import Footer from '$lib/nav/Footer.svelte';
-	import { persist, isStoragePersisted } from '$stores/db';
+	import { persist, isStoragePersisted, dbopen } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
@@ -28,12 +29,16 @@
 	{@html webManifest}
 </svelte:head>
 
-<div class="main" data-sveltekit-reload={$updated ? '' : 'off'}>
+<div class="flex h-full flex-col" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
-	<div class="content">
-		<slot />
+	<div class="flex-auto px-4">
+		{#await dbopen}
+			<Spinner />
+		{:then}
+			<slot />
+		{/await}
 	</div>
-	<div class="footer">
+	<div class="shrink-0">
 		<Footer />
 	</div>
 </div>
@@ -42,18 +47,3 @@
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
 	<ReloadPrompt />
 {/await}
-
-<style>
-	.main {
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-	.content {
-		flex: 1 0 auto;
-		padding: 0 15px;
-	}
-	.footer {
-		flex-shrink: 0;
-	}
-</style>
