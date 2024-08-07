@@ -72,14 +72,14 @@
 </div>
 <!--add to daily total -->
 <button
-	class="my-0 ml-2"
+	class="mx-1 my-0"
 	on:click={addToToday}
 	title="Add Item nutients (times specified servings) to Daily Total">➕</button
 >
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <!-- remove from db -->
 <button
-	class="float-right mb-0 ml-2 mt-2"
+	class="float-right mx-1 mb-0 mt-2"
 	on:click={confirmDelete}
 	title="Delete Item from Inventory"
 >

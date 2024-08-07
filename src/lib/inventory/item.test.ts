@@ -28,6 +28,7 @@ describe('inventory items', () => {
 		render(Item, { item: { name: 'Coca-Cola' } });
 		expect(screen.queryByText('Coca-Cola')).toBeVisible();
 	});
+
 	it('shows actionable buttons on an item', () => {
 		render(Item, { item: { name: 'Coca-Cola' } });
 
