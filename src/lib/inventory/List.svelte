@@ -3,13 +3,17 @@
 	import AddItem from '$lib/inventory/AddItem.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import Search from '$lib/misc/Search.svelte';
-	import { inventory, filteredInventory } from '$stores/stores.js';
-	import { searchTerm } from '$stores/stores.js';
+	import { inventory, filteredInventory, searchTerm } from '$stores/stores.js';
 
 	let editing = undefined;
 	let formVisible = false;
 
 	const editItem = (item) => {
+		formVisible = false;
+		editing = item;
+	};
+
+	const duplicateItem = () => {
 		formVisible = false;
 		editing = item;
 	};
@@ -52,19 +56,24 @@
 						{#if editing?.id === item.id}
 							<AddItem {item} submitCallback={() => closeEdit(`listitem-item-${item.id}`)} />
 							<button
-								class="m-2"
-								on:click|preventDefault={() => closeEdit(`listitem-item-${item.id}`)}
 								title="Cancel"
+								on:click|preventDefault={() => closeEdit(`listitem-item-${item.id}`)}
+								class="m-2"
 							>
 								Cancel
 							</button>
 							<!-- cancel -->
 						{:else}
 							<Item {item} />
-							<button class="m-2" on:click|preventDefault={editItem(item)} title="Edit Item"
+							<button title="Edit Item" on:click|preventDefault={editItem(item)} class="m-2"
 								>✏️</button
 							>
 							<!-- edit  -->
+							<button
+								title="Duplicate Item"
+								on:click|preventDefault={duplicateItem(item)}
+								class="m-2">⏩</button
+							>
 						{/if}
 					</li>
 				{/each}
