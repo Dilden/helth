@@ -22,6 +22,7 @@
 </script>
 
 <button
+	class="m-4"
 	on:click|preventDefault={() => {
 		formVisible = !formVisible;
 		editing = undefined;
@@ -36,21 +37,22 @@
 		}}
 	/>
 {/if}
-<div class="inventory">
-	<h3>Saved Items</h3>
-	<div class="search_bar">
+<div class="grid grid-cols-1 grid-rows-[1fr_auto] md:grid-cols-2">
+	<h3 class="col-start-1 col-end-3 md:col-end-2">Saved Items</h3>
+	<div class="relative col-start-1 col-end-2 m-2 mt-0 md:col-start-2 md:col-end-3">
 		<Search bind:searchStoreVal={$searchTerm} />
 	</div>
-	<ul aria-label="inventory-list">
+	<ul aria-label="inventory-list" class="col-start-1 col-end-2 mb-8 list-none p-0 md:col-end-3">
 		{#await inventory.init()}
 			<Spinner />
 		{:then}
 			{#if $inventory.length}
 				{#each $filteredInventory.slice().reverse() as item}
-					<li id="listitem-item-{item.id}">
+					<li id="listitem-item-{item.id}" class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4">
 						{#if editing?.id === item.id}
 							<AddItem {item} submitCallback={() => closeEdit(`listitem-item-${item.id}`)} />
 							<button
+								class="m-2"
 								on:click|preventDefault={() => closeEdit(`listitem-item-${item.id}`)}
 								title="Cancel"
 							>
@@ -59,7 +61,9 @@
 							<!-- cancel -->
 						{:else}
 							<Item {item} />
-							<button on:click|preventDefault={editItem(item)} title="Edit Item">✏️</button>
+							<button class="m-2" on:click|preventDefault={editItem(item)} title="Edit Item"
+								>✏️</button
+							>
 							<!-- edit  -->
 						{/if}
 					</li>
@@ -70,51 +74,3 @@
 		{/await}
 	</ul>
 </div>
-
-<style>
-	.inventory {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr auto;
-	}
-	button {
-		margin: 1rem;
-	}
-	li button {
-		margin: 0.5rem;
-	}
-	ul {
-		list-style: none;
-		margin-bottom: 2rem;
-		grid-column-start: 1;
-		grid-column-end: 3;
-		padding: 0;
-	}
-	li {
-		margin: 0.75rem;
-		padding: 1rem;
-	}
-	ul li:nth-child(odd) {
-		background: #1f2a2d;
-	}
-	.search_bar {
-		margin: var(--universal-margin);
-		margin-top: 0;
-		position: relative;
-	}
-	@media screen and (max-width: 925px) {
-		.inventory {
-			grid-template-rows: 1fr 1fr auto;
-			grid-template-columns: 1fr;
-		}
-		.search_bar,
-		h3,
-		ul {
-			grid-column-start: 1;
-			grid-column-end: 2;
-		}
-		li {
-			padding: 0.5rem;
-		}
-	}
-</style>
