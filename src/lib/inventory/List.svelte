@@ -15,7 +15,7 @@
 	};
 
 	const duplicateItem = (item) => {
-		let { id, barcode, ...rest } = item;
+		const { id, barcode, ...rest } = item;
 		$inventory = rest;
 		successToast(`Duplicated ${rest.name}!`);
 	};
