@@ -111,7 +111,8 @@ const config = {
 	resolve: {
 		alias: {
 			$utils: path.resolve('./src/utils'),
-			$stores: path.resolve('./src/stores')
+			$stores: path.resolve('./src/stores'),
+			$vitest: path.resolve('./src/vitest')
 		}
 	},
 	ssr: {
