@@ -74,8 +74,7 @@
 <button
 	class="mx-2 my-0"
 	on:click={addToToday}
-	title="Add Recipe nutients (times specified servings) to Daily Total">➕</button
+	title="Add Recipe nutients (multiplied by specified servings) to Daily Total">➕</button
 >
 <!-- remove from db -->
-<button class="float-right mb-0 ml-2 mt-2" on:click={confirmDelete} title="Delete Recipe">🗑️</button
->
+<button class="float-right m-2 mt-0" on:click={confirmDelete} title="Delete Recipe">🗑️</button>
