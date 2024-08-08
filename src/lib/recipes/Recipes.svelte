@@ -1,8 +1,9 @@
 <script>
-	import { formattedRecipes, recipeSearch, inventory } from '$stores/stores.js';
+	import { recipes, formattedRecipes, recipeSearch, inventory } from '$stores/stores.js';
 	import RecipeForm from './RecipeForm.svelte';
 	import RecipeItem from './RecipeItem.svelte';
 	import Search from '$lib/misc/Search.svelte';
+	import { successToast } from '$utils/toast.js';
 
 	let showAddForm = false;
 	let editing = undefined;
@@ -10,6 +11,11 @@
 	const editItem = (recipe) => {
 		showAddForm = false;
 		editing = recipe;
+	};
+	const duplicateItem = (recipe) => {
+		const { id, ...rest } = recipe;
+		$recipes = rest;
+		successToast(`Duplicated ${rest.name}!`);
 	};
 
 	const closeEdit = (id) => {
@@ -20,6 +26,7 @@
 </script>
 
 <button
+	class="m-4"
 	on:click|preventDefault={() => {
 		showAddForm = !showAddForm;
 		editing = undefined;
@@ -39,15 +46,15 @@
 	{/await}
 {/if}
 
-<div class="recipes">
-	<h3>Recipes</h3>
-	<div class="search_bar">
+<div class="grid grid-cols-1 grid-rows-[1fr_auto] md:grid-cols-2">
+	<h3 class="col-start-1 col-end-3 md:col-end-2">Recipes</h3>
+	<div class="relative col-start-1 col-end-2 m-2 mt-0 md:col-start-2 md:col-end-3">
 		<Search bind:searchStoreVal={$recipeSearch} searchTitle="Search Recipes" />
 	</div>
-	<ul>
+	<ul class="col-start-1 col-end-2 mb-8 list-none p-0 md:col-end-3">
 		{#await Promise.all($formattedRecipes) then formatted}
 			{#each formatted.slice().reverse() as recipe}
-				<li id="listitem-recipe-{recipe.id}">
+				<li class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4" id="listitem-recipe-{recipe.id}">
 					{#if editing?.id === recipe.id}
 						<RecipeForm
 							{recipe}
@@ -60,64 +67,24 @@
 						<button
 							on:click|preventDefault={() => closeEdit(`listitem-recipe-${recipe.id}`)}
 							title="Cancel"
+							class="mx-1 sm:mx-2"
 						>
 							Cancel
 						</button>
 					{:else}
 						<RecipeItem {recipe} />
-						<button on:click|preventDefault={editItem(recipe)} title="Edit Recipe">✏️</button>
+						<button on:click|preventDefault={editItem(recipe)} title="Edit Recipe" class="mx-2"
+							>✏️</button
+						>
 						<!-- edit  -->
+						<button
+							on:click|preventDefault={duplicateItem(recipe)}
+							title="Duplicate Recipe"
+							class="mx-1 sm:mx-2">⏩</button
+						>
 					{/if}
 				</li>
 			{/each}
 		{/await}
 	</ul>
 </div>
-
-<style>
-	.recipes {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr auto;
-	}
-	button {
-		margin: 1rem;
-	}
-	ul {
-		list-style: none;
-		margin-bottom: 2rem;
-		padding: 0;
-		grid-column-start: 1;
-		grid-column-end: 3;
-	}
-	ul li:nth-child(odd) {
-		background: #1f2a2d;
-	}
-	li {
-		margin: 0.75rem;
-		padding: 1rem;
-	}
-	li button {
-		margin: 0 0.5rem;
-	}
-	.search_bar {
-		margin: var(--universal-margin);
-		margin-top: 0;
-		position: relative;
-	}
-	@media screen and (max-width: 925px) {
-		.recipes {
-			grid-template-rows: 1fr 1fr auto;
-			grid-template-columns: 1fr;
-		}
-		.search_bar,
-		h3,
-		ul {
-			grid-column-start: 1;
-			grid-column-end: 2;
-		}
-		li {
-			padding: 0.5rem;
-		}
-	}
-</style>

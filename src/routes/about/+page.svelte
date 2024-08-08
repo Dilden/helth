@@ -216,6 +216,17 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.3.2</summary>
+		<ul>
+			<li>
+				⭐ New feature ⭐ Dupliacte an inventory or recipe item! Doing so will not copy over the
+				barcode of any duplicated items. Names, descriptions, nutrients, will be kept but this will
+				show up as another item in your inventory or recipe list so be sure to make appropriate
+				changes right away!
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.3.1</summary>
 		<ul>
 			<li>Addressed issue of data sometimes being lost on app refresh</li>

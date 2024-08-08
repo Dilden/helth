@@ -16,7 +16,7 @@ const config = {
 		},
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		reporter: 'verbose',
-		setupFiles: ['./src/vitest/cleanupDom.js']
+		setupFiles: ['./src/vitest/cleanupDom']
 	},
 	define: {
 		APP_VERSION: JSON.stringify(process.env.npm_package_version)
@@ -111,7 +111,8 @@ const config = {
 	resolve: {
 		alias: {
 			$utils: path.resolve('./src/utils'),
-			$stores: path.resolve('./src/stores')
+			$stores: path.resolve('./src/stores'),
+			$vitest: path.resolve('./src/vitest')
 		}
 	},
 	ssr: {
