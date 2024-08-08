@@ -78,10 +78,6 @@
 >
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <!-- remove from db -->
-<button
-	class="float-right mx-1 mb-0 mt-2"
-	on:click={confirmDelete}
-	title="Delete Item from Inventory"
->
+<button class="float-right m-1 sm:m-2" on:click={confirmDelete} title="Delete Item from Inventory">
 	🗑️
 </button>

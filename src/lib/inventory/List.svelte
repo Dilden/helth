@@ -67,14 +67,14 @@
 							<!-- cancel -->
 						{:else}
 							<Item {item} />
-							<button title="Edit Item" on:click|preventDefault={editItem(item)} class="m-2"
+							<button title="Edit Item" on:click|preventDefault={editItem(item)} class="m-1 sm:m-2"
 								>✏️</button
 							>
 							<!-- edit  -->
 							<button
 								title="Duplicate Item"
 								on:click|preventDefault={duplicateItem(item)}
-								class="m-2">⏩</button
+								class="m-1 sm:m-2">⏩</button
 							>
 						{/if}
 					</li>

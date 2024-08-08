@@ -67,7 +67,7 @@
 						<button
 							on:click|preventDefault={() => closeEdit(`listitem-recipe-${recipe.id}`)}
 							title="Cancel"
-							class="mx-2"
+							class="mx-1 sm:mx-2"
 						>
 							Cancel
 						</button>
@@ -80,7 +80,7 @@
 						<button
 							on:click|preventDefault={duplicateItem(recipe)}
 							title="Duplicate Recipe"
-							class="mx-2">⏩</button
+							class="mx-1 sm:mx-2">⏩</button
 						>
 					{/if}
 				</li>
