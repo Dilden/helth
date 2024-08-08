@@ -21,6 +21,7 @@ describe('recipe items', () => {
 		render(RecipeItem, {
 			recipe: {
 				name: 'Awful mix',
+				description: 'the absolute worst',
 				items: [
 					{
 						name: 'Coca-Cola',
