@@ -216,6 +216,15 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.3.3</summary>
+		<ul>
+			<li>
+				Changes to menu CSS styling. Bigger, better button for more pressing action! (also, it's
+				Tailwind now. Sorry not sorry!)
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.3.2</summary>
 		<ul>
 			<li>
