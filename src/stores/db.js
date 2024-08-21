@@ -104,6 +104,13 @@ db.version(6)
 
 db.on('populate', async () => await addDefaults());
 
+db.cloud.configure({
+	databaseUrl: PUBLIC_DB_URL,
+	// requireAuth: true
+	requireAuth: false,
+	disableWebSocket: true
+});
+
 export const dbopen = db.open().then(async () => {
 	await addDefaults();
 });

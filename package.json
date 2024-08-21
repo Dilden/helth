@@ -49,8 +49,8 @@
     "@zxing/library": "^0.20.0",
     "chart.js": "^4.3.3",
     "chartjs-plugin-annotation": "^3.0.1",
-    "dexie": "^4.0.1-beta.6",
-    "dexie-cloud-addon": "^4.0.1-beta.55",
+    "dexie": "^4.0.8",
+    "dexie-cloud-addon": "^4.0.8",
     "dexie-export-import": "^4.0.7"
   },
   "jest": {
