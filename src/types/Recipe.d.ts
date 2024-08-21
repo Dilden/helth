@@ -1,10 +1,11 @@
 interface RecipeItem {
-  id: number | string
+	id: number | string;
+	servings: number;
 }
 
 interface Recipe {
-  id?: number,
-  name: string,
-  description: string,
-  items: RecipeItem[]
+	id?: number;
+	name: string;
+	description: string;
+	items: RecipeItem[];
 }

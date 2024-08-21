@@ -1,114 +1,70 @@
 <script>
 	import { clickOutside } from '$utils/clickOutside';
-  import meme from './meme.png';
-  export let isOpen = false;
-  const toggle = () => (isOpen = !isOpen);
+	import meme from './meme.png';
+	export let isOpen = false;
+	const toggle = () => (isOpen = !isOpen);
+	const links = [
+		{
+			href: '/',
+			text: '🗒 track'
+		},
+		{
+			href: '/charts',
+			text: '📈 charts'
+		},
+		{
+			href: '/timers',
+			text: '⏰ timers'
+		},
+		{
+			href: '/settings',
+			text: '⚙️  settings'
+		},
+		{
+			href: '/about',
+			text: '❓ about'
+		}
+	];
 </script>
 
-<span use:clickOutside on:click_outside={() => isOpen = false}>
-  <button title="Menu" class="menu {isOpen ? 'moved' : ''}" on:click={toggle}>
-    <i class="hamburger {isOpen ? 'open' : ''}" />
-  </button>
-  <nav class={isOpen ? 'shown' : ''}>
-    <ul class="list-none text-center m-0 p-0 z-[130] relative bg-[var(--back-color)]">
-      <li><a href="/" on:click={toggle}>🗒 track</a></li>
-      <li><a href="/charts" on:click={toggle}>📈 charts</a></li>
-      <li><a href="/goals" on:click={toggle}>🥇 goals</a></li>
-      <li><a href="/timers" on:click={toggle}>⏲  timers</a></li>
-      <li><a href="/settings" on:click={toggle}>⚙️  settings </a></li>
-      <li><a href="/about" on:click={toggle}>❓ about</a></li>
-    </ul>
-    <span class="absolute right-0 bottom-0 m-0 w-44 lg:w-52 z-[120]">
-      <img src="{meme}" class="w-full h-full" alt="A 3D rendering of a bald and weirdly long face placed on a person wearing a lab coat with a stehoscope over his shoulders and stadning with his arms crossed." width="auto" height="auto" />
-    </span>
-  </nav>
+<span use:clickOutside on:click_outside={() => (isOpen = false)}>
+	<button
+		title="Menu"
+		class="content-[' '] fixed top-0 z-[100] touch-manipulation rounded-bl-lg border-none bg-[var(--back-color)] p-8 text-left text-[var(--fore-color)] no-underline shadow-xl drop-shadow-lg transition-all duration-200 ease-in-out hover:rounded-bl-lg hover:bg-[#293b40] {isOpen
+			? 'right-64'
+			: 'right-0'}"
+		on:click={toggle}
+	>
+		<i
+			class="content-[' '] before:content-[' '] after:content-[' '] absolute right-3 top-[50%] block w-9 p-[1px] transition-all duration-200 ease-in-out before:absolute before:right-0 before:block before:w-9 before:bg-[var(--fore-color)] before:p-[1px] before:transition-all before:duration-200 before:ease-in-out after:absolute after:right-0 after:block after:w-9 after:bg-[var(--fore-color)] after:p-[1px] after:transition-all after:duration-200 after:ease-in-out {isOpen
+				? 'bg-transparent before:top-0 before:rotate-45 after:bottom-0 after:-rotate-45'
+				: 'bg-[var(--fore-color)] before:top-2 after:bottom-2'}"
+		/>
+	</button>
+	<nav
+		class="fixed top-0 z-[110] h-full min-w-64 bg-[var(--back-color)] transition-all duration-200 ease-in-out {isOpen
+			? 'right-0 shadow-2xl'
+			: 'right-[-16rem]'}"
+	>
+		<ul class="relative z-[130] m-0 list-none bg-[var(--back-color)] p-0 text-center">
+			{#each links as { text, href }}
+				<li class="m-0 p-0">
+					<a
+						class="m-0 block px-0 py-5 text-[var(--a-link-color)] no-underline transition-all duration-300 ease-in-out visited:text-[var(--a-link-color)] hover:bg-[var(--secondary-back-color)] hover:no-underline"
+						{href}
+						on:click={toggle}>{text}</a
+					>
+				</li>
+			{/each}
+		</ul>
+		<span class="absolute bottom-0 right-0 z-[120] m-0 w-44 lg:w-52">
+			<img
+				src={meme}
+				class="h-full w-full"
+				alt="A 3D rendering of a bald and weirdly long face placed on a person wearing a lab coat with a stehoscope over his shoulders and stadning with his arms crossed."
+				width="auto"
+				height="auto"
+			/>
+		</span>
+	</nav>
 </span>
-
-<style>
- /* Pre-tailwind hamburger menu styling */
-  nav {
-      position: fixed;
-      z-index: 110;
-      right: -250px;
-      min-width: 250px;
-      height: 100%;
-      background-color: var(--back-color);
-      transition: all 0.3s ease-in-out;
-      top: 0;
-  }
-  nav.shown {
-      right: 0;
-      box-shadow: 0px 65px 10px 0px black;
-  }
-  li {
-      margin: 0;
-      padding: 0;
-  }
-  li a {
-      display: block;
-      padding: 20px 0;
-      margin: 0;
-      text-decoration: none;
-      color: var(--a-link-color);
-      transition: all 0.4s ease-in-out;
-  }
-  li a:hover {
-    background-color: var(--secondary-back-color);
-  }
-  .menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    content: ' ';
-    padding: 30px;
-    text-align: left;
-    text-shadow: 0 0 5px black;
-    color: var(--fore-color);
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-    background-color: var(--back-color);
-    border-radius: 0 0 0 10px;
-    box-shadow: 0px 0px 10px 0px black;
-    touch-action: manipulation;
-    z-index: 100;
-    border: none;
-  }
-  .menu.moved {
-      right: 250px;
-  }
-  .hamburger {
-      top: 50%;
-  }
-  .hamburger,
-  .hamburger::before,
-  .hamburger::after {
-      display: block;
-      content: ' ';
-      width: 30px;
-      padding: 1px;
-      transition: all 0.3s ease-in-out;
-      background-color: var(--fore-color);
-      position: absolute;
-      right: 10px;
-  }
-
-  .hamburger::before {
-      top: -8px;
-      right: 0;
-  }
-  .hamburger::after {
-      bottom: -8px;
-      right: 0;
-  }
-  .hamburger.open {
-      background-color: transparent;
-  }
-  .open.hamburger::after {
-      transform: rotate(45deg);
-      bottom: 0;
-  }
-  .open.hamburger::before {
-      transform: rotate(-45deg);
-      top: 0;
-  }
-</style>

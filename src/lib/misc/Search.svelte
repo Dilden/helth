@@ -1,39 +1,29 @@
 <script>
-  // import { searchTerm } from '$stores/stores.js';
-  export let searchStoreVal = {};
-  export let searchTitle = 'Search';
+	export let searchStoreVal = {};
+	export let searchTitle = 'Search';
+	export let scrollTo = true;
 
-  const scrollIt = () => {
-    const top = document.getElementById("searching");
-    top.scrollIntoView(true, {behavior: 'smooth'});
-  }
+	const scrollIt = () => {
+		const top = document.getElementById('searching-' + searchTitle);
+		top.scrollIntoView({ behavior: 'smooth' });
+	};
 </script>
 
-<label id="searching" for="search">{searchTitle}</label>
-<span>
-  <input id="search" bind:value={searchStoreVal} type="text" placeholder='Begin typing...'on:focus={scrollIt}/>
-  <button aria-label="Clear search" on:click|preventDefault={() => searchStoreVal = ''}>❌</button>
+<label class="m-0 block w-full" id="searching-{searchTitle}" for="search-{searchTitle}"
+	>{searchTitle}</label
+>
+<span class="flex justify-start focus-within:outline">
+	<input
+		class="m-0 block w-full border-none focus-within:outline-none"
+		id="search-{searchTitle}"
+		bind:value={searchStoreVal}
+		type="text"
+		placeholder="Begin typing..."
+		on:focus={scrollTo ? scrollIt : false}
+	/>
+	<button
+		class="border-none"
+		aria-label="Clear search"
+		on:click|preventDefault={() => (searchStoreVal = '')}>❌</button
+	>
 </span>
-
-<style>
-  span {
-    display: flex;
-    justify-content: flex-start;
-    border: solid 1px gray;
-  }
-  span:focus-within {
-    outline: solid 1px cyan;
-  }
-  label, input {
-    display: block;
-    margin: 0;
-    width: 100%;
-  }
-  input, button {
-    border: none;
-  }
-  input:focus-visible {
-    outline: none;
-  }
-  
-</style>

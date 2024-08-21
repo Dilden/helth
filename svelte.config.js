@@ -12,7 +12,8 @@ const config = {
 			}
     }),
     alias: {
-      '$utils': 'src/utils/'
+      '$utils': 'src/utils/',
+      '$stores': 'src/stores/'
     }
   },
   preprocess: vitePreprocess()

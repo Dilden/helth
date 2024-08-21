@@ -1,94 +1,87 @@
 <script>
-  import Item from './Item.svelte';
-  import AddItem from '$lib/inventory/AddItem.svelte';
-  import Spinner from '$lib/Spinner.svelte';
-  import Search from '$lib/misc/Search.svelte';
-  import { inventory, filteredInventory } from '$stores/stores.js';
-  import { searchTerm } from '$stores/stores.js';
+	import Item from './Item.svelte';
+	import AddItem from '$lib/inventory/AddItem.svelte';
+	import Spinner from '$lib/Spinner.svelte';
+	import Search from '$lib/misc/Search.svelte';
+	import { inventory, filteredInventory, searchTerm } from '$stores/stores.js';
+	import { successToast } from '$utils/toast.js';
 
-  let editing = undefined;
-  let formVisible = false;
+	let editing = undefined;
+	let formVisible = false;
 
-  const editItem = (item) => {
-    formVisible = false;
-    editing = item;
-  }
+	const editItem = (item) => {
+		formVisible = false;
+		editing = item;
+	};
+
+	const duplicateItem = (item) => {
+		const { id, barcode, ...rest } = item;
+		$inventory = rest;
+		successToast(`Duplicated ${rest.name}!`);
+	};
+
+	const closeEdit = (id) => {
+		const top = document.getElementById(id);
+		top.scrollIntoView({ behavior: 'smooth' });
+		editing = undefined;
+	};
 </script>
-<button on:click|preventDefault={() => {formVisible = !formVisible; editing = undefined;}}>{(!formVisible ? 'Add Item' : 'Cancel')}</button>
+
+<button
+	class="m-4"
+	on:click|preventDefault={() => {
+		formVisible = !formVisible;
+		editing = undefined;
+	}}>{!formVisible ? 'Add Item' : 'Cancel'}</button
+>
 
 {#if formVisible}
-  <AddItem submitCallback={() => { formVisible = false; editing = undefined; }}/>
+	<AddItem
+		submitCallback={() => {
+			formVisible = false;
+			editing = undefined;
+		}}
+	/>
 {/if}
-<div class='inventory'>
-  <h3>Saved Items</h3>
-  <div class='search_bar'>
-    <Search bind:searchStoreVal={$searchTerm} />
-  </div>
-  <ul aria-label='inventory-list'>
-    {#await inventory.init()}
-      <Spinner />
-      {:then}
-      {#if $inventory.length}
-        {#each $filteredInventory.slice().reverse() as item}
-          <li>
-            {#if editing?.id === item.id}
-              <AddItem {item} submitCallback={() => (editing = undefined)}/>
-              <!-- <button on:click|preventDefault={() => (editing = undefined)} title="Cancel">Cancel</button> <!-- cancel  -->
-            {:else}
-              <Item {item} />
-              <button on:click|preventDefault={editItem(item)} title="Edit Item">✏️</button> <!-- edit  -->
-            {/if}
-          </li>
-        {/each}
-      {/if}
-      {:catch error}
-      <p>Error displaying inventory: {error}</p>
-    {/await}
-  </ul>
+<div class="grid grid-cols-1 grid-rows-[1fr_auto] md:grid-cols-2">
+	<h3 class="col-start-1 col-end-3 md:col-end-2">Saved Items</h3>
+	<div class="relative col-start-1 col-end-2 m-2 mt-0 md:col-start-2 md:col-end-3">
+		<Search bind:searchStoreVal={$searchTerm} />
+	</div>
+	<ul aria-label="inventory-list" class="col-start-1 col-end-2 mb-8 list-none p-0 md:col-end-3">
+		{#await inventory.init()}
+			<Spinner />
+		{:then}
+			{#if $inventory.length}
+				{#each $filteredInventory.slice().reverse() as item}
+					<li id="listitem-item-{item.id}" class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4">
+						{#if editing?.id === item.id}
+							<AddItem {item} submitCallback={() => closeEdit(`listitem-item-${item.id}`)} />
+							<button
+								title="Cancel"
+								on:click|preventDefault={() => closeEdit(`listitem-item-${item.id}`)}
+								class="m-2"
+							>
+								Cancel
+							</button>
+							<!-- cancel -->
+						{:else}
+							<Item {item} />
+							<button title="Edit Item" on:click|preventDefault={editItem(item)} class="m-1 sm:m-2"
+								>✏️</button
+							>
+							<!-- edit  -->
+							<button
+								title="Duplicate Item"
+								on:click|preventDefault={duplicateItem(item)}
+								class="m-1 sm:m-2">⏩</button
+							>
+						{/if}
+					</li>
+				{/each}
+			{/if}
+		{:catch error}
+			<p>Error displaying inventory: {error}</p>
+		{/await}
+	</ul>
 </div>
-
-<style>
-  .inventory {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr auto;
-  }
-  button {
-    margin: 1rem;
-  }
-  li button {
-    margin: .5rem;
-  }
-  ul {
-    list-style: none;
-    margin-bottom: 2rem;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    padding: 0;
-  }
-  li {
-    margin: .75rem;
-    padding: 1rem;
-  }
-  ul li:nth-child(odd) {
-    background: #1F2A2D;
-  }
-  .search_bar {
-    margin: var(--universal-margin);
-    margin-top: 0;
-    position: relative;
-  }
-  @media screen and (max-width: 925px) {
-    .inventory {
-      grid-template-rows: 1fr 1fr auto;
-      grid-template-columns: 1fr;
-    }
-    .search_bar, h3, ul {
-      grid-column-start: 1;
-      grid-column-end: 2;
-    }
-    li {
-      padding: .5rem;
-    }
-  }
-</style>

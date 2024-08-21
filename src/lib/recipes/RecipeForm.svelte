@@ -1,6 +1,7 @@
 <script>
-	import { recipes } from '$stores/stores.js';
+	import { recipes, inventoryFilter } from '$stores/stores.js';
 	import { formatRecipeFormValues } from '$utils/formValues';
+	import Search from '$lib/misc/Search.svelte';
 
 	export let recipe = {};
 	export let inventoryItems = [];
@@ -8,13 +9,21 @@
 
 	let validated = true;
 
+	inventoryItems.map((item) => {
+		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+			item.checked = true;
+		} else {
+			item.checked = false;
+		}
+	});
+
 	const handleSubmit = (event) => {
 		const vals = formatRecipeFormValues(event.target);
 		if (vals?.items?.length) {
 			$recipes = vals;
 			event.target.reset();
-			submitCallback();
 			validated = true;
+			submitCallback();
 		} else {
 			validated = false;
 		}
@@ -55,41 +64,71 @@
 	</span>
 
 	<div
-		class="inventory col-start-1 col-end-2 row-auto mb-4 grid gap-2 overflow-scroll md:col-start-2 md:col-end-8"
+		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 overflow-scroll md:col-start-2 md:col-end-8"
 	>
+		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
+			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
+			<Search
+				searchTitle="Filter inventory"
+				scrollTo={false}
+				bind:searchStoreVal={$inventoryFilter}
+			/>
+		</div>
 		{#if inventoryItems?.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
 					At least one item must be selected!
 				</div>
 			{/if}
-			{#each inventoryItems as item}
-				<span class="grid grid-cols-7 content-center items-center justify-self-auto">
-					{#if recipe.items && recipe.items.map((item) => item.id).includes(item.id)}
+			<div
+				class="col-span-full grid grid-cols-1 content-center items-center justify-evenly gap-2 lg:grid-cols-4 xl:grid-cols-6"
+			>
+				{#each inventoryItems as item}
+					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
+					<span
+						class="grid auto-rows-min grid-cols-5 content-stretch items-center justify-evenly gap-y-1 justify-self-auto {item.name
+							.toLowerCase()
+							.includes($inventoryFilter.toLowerCase())
+							? 'block'
+							: 'hidden'}"
+					>
 						<input
-							checked
+							id="inventoryItem-{item.id}"
 							type="checkbox"
+							class="col-span-1 m-0 p-4"
 							value={item.id}
 							name={item.name}
-							id="inventoryItem-{item.id}"
-							class="col-span-1 m-0"
+							bind:checked={item.checked}
 						/>
-					{:else}
-						<input
-							type="checkbox"
-							class="col-span-1 m-0"
-							value={item.id}
-							name={item.name}
-							id="inventoryItem-{item.id}"
-						/>
-					{/if}
-					<label class="col-span-6 m-0" for="inventoryItem-{item.id}">
-						{item.name}
-					</label>
-				</span>
-			{/each}
+						<label class="col-span-3 m-0 ml-2" for="inventoryItem-{item.id}">
+							{item.name}
+						</label>
+						{#if item.checked}
+							<div class="relative col-span-1 lg:col-span-3 lg:col-start-2">
+								<label
+									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
+									for="inventoryItemServing-{item.id}"
+								>
+									Servings
+								</label>
+								<input
+									id="inventoryItemServing-{item.id}"
+									type="number"
+									class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-1 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
+									placeholder=" "
+									required
+									value={recipe.items && recipe.items.map((item) => item.id).includes(item.id)
+										? recipe.items.find((el) => item.id === el.id).servings
+										: 1}
+									step="any"
+								/>
+							</div>
+						{/if}
+					</span>
+				{/each}
+			</div>
 		{:else}
-			<p>
+			<p class="col-span-8">
 				No items found in inventory! Go scan something or Add an Item to your Inventory manually
 				before creating a recipe.
 			</p>
@@ -101,9 +140,3 @@
 		value={recipe.id ? 'Update' : 'Save'}
 	/>
 </form>
-
-<style>
-	.inventory {
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-	}
-</style>
