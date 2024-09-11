@@ -2,6 +2,7 @@
   "name": "helth.app",
   "version": "0.3.3",
   "scripts": {
+    "cloud": "dexie-cloud",
     "dev": "vite dev --host",
     "build": "vite build",
     "package": "vite package",
@@ -27,6 +28,7 @@
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@zerodevx/svelte-toast": "^0.9.5",
     "autoprefixer": "^10.4.16",
+    "dexie-cloud": "^1.2.2",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte": "^2.32.4",
