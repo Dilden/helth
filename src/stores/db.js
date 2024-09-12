@@ -1,11 +1,12 @@
 import { Dexie } from 'dexie';
-import { dexieCloud } from 'dexie-cloud-addon';
+// import { dexieCloud } from 'dexie-cloud-addon';
 import { thePast } from '$utils/dates';
-import { PUBLIC_DB_URL } from '$env/static/public';
+// import { PUBLIC_DB_URL } from '$env/static/public';
 import { list } from '$utils/nutrients';
+import { migrateInventoryIds, migrateRecipeItemIds } from './dbupgrade';
 
-export const db = new Dexie('helthdb', { addons: [dexieCloud] });
-// export const db = new Dexie('helthdb');
+// export const db = new Dexie('helthdb', { addons: [dexieCloud] });
+export const db = new Dexie('helthdb');
 
 // default values
 export const defaultDay = {
@@ -102,14 +103,66 @@ db.version(6)
 			});
 	});
 
+db.version(7)
+	.stores({
+		inventory: null,
+		inventoryTemp: 'id, &barcode, name, description',
+		recipes: null,
+		recipesTemp: 'id, name, description, items'
+	})
+	.upgrade(async (tx) => {
+		const inv = await tx.table('inventory').toArray();
+		const rec = await tx.table('recipes').toArray();
+
+		await tx.table('inventoryTemp').bulkAdd(inv);
+		await tx.table('recipesTemp').bulkAdd(rec);
+	});
+
+db.version(8)
+	.stores({
+		inventoryTemp: null,
+		inventory: '&id, barcode, name, description',
+		recipesTemp: null,
+		recipes: '&id, name, description, items'
+	})
+	.upgrade(async (tx) => {
+		const inv = await tx.table('inventoryTemp').toArray();
+		const rec = await tx.table('recipesTemp').toArray();
+
+		await tx.table('inventory').bulkAdd(inv);
+		await tx.table('recipes').bulkAdd(rec);
+
+		await tx
+			.table('inventory')
+			.toCollection()
+			.modify(async (record) => {
+				const oldId = record.id;
+				const id = crypto.randomUUID();
+
+				// await db
+				// 	.table('recipes')
+				// 	.toCollection()
+				// 	.modify((recipe) => {
+				// 		recipe.items = recipe.items.map((item) => {
+				// 			if (item.id === oldId) {
+				// 				item.id = id;
+				// 			}
+				// 			return item;
+				// 		});
+				// 	});
+
+				record.id = id;
+			});
+	});
+
 db.on('populate', async () => await addDefaults());
 
-db.cloud.configure({
-	databaseUrl: PUBLIC_DB_URL,
-	// requireAuth: true
-	requireAuth: false,
-	disableWebSocket: true
-});
+// db.cloud.configure({
+// 	databaseUrl: PUBLIC_DB_URL,
+// 	// requireAuth: true
+// 	requireAuth: false,
+// 	disableWebSocket: true
+// });
 
 export const dbopen = db.open().then(async () => {
 	await addDefaults();
@@ -179,7 +232,7 @@ export const getListItems = async (tableName) => {
 	return await db.table(tableName).toArray();
 };
 export const addToList = async (tableName, data) => {
-	return await db.table(tableName).add(data);
+	return await db.table(tableName).add({ id: crypto.randomUUID(), ...data });
 };
 export const updateItemInList = async (tableName, id, data) => {
 	return await db.table(tableName).update(id, data);
