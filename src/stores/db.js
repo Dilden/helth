@@ -162,16 +162,16 @@ db.version(9)
 	.upgrade(async (tx) => {
 
 		const inv = await tx.table('inventory').toArray();
-    inv.map(async ( item ) => {
+    inv.forEach(async ( item ) => {
       await tx
         .table('recipes')
         .toCollection()
         .modify((recipe) => {
-          recipe.items = recipe.items.map((rItem) => {
-            if (rItem.id === item.id ) {
-              rItem.id = item.uid;
+          recipe.items = recipe.items.map((recipeItem) => {
+            if (recipeItem.id === item.id ) {
+              recipeItem.id = item.uid;
             }
-            return item;
+            return recipeItem;
           });
         });
     })
