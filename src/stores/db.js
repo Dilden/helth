@@ -103,10 +103,11 @@ db.version(6)
 			});
 	});
 
+// move data to temp tables to change PK
 db.version(7)
 	.stores({
 		inventory: null,
-		inventoryTemp: 'id, &barcode, name, description',
+		inventoryTemp: 'id, barcode, name, description',
 		recipes: null,
 		recipesTemp: 'id, name, description, items'
 	})
@@ -118,6 +119,8 @@ db.version(7)
 		await tx.table('recipesTemp').bulkAdd(rec);
 	});
 
+// drop temp tables allowing for new PK
+// give each record a UID
 db.version(8)
 	.stores({
 		inventoryTemp: null,
@@ -136,22 +139,61 @@ db.version(8)
 			.table('inventory')
 			.toCollection()
 			.modify(async (record) => {
-				const oldId = record.id;
-				const id = crypto.randomUUID();
+				record.uid = crypto.randomUUID();
+			});
+		await tx
+			.table('recipes')
+			.toCollection()
+			.modify(async (record) => {
+				record.uid = crypto.randomUUID();
+			});
+	});
 
-				// await db
-				// 	.table('recipes')
-				// 	.toCollection()
-				// 	.modify((recipe) => {
-				// 		recipe.items = recipe.items.map((item) => {
-				// 			if (item.id === oldId) {
-				// 				item.id = id;
-				// 			}
-				// 			return item;
-				// 		});
-				// 	});
 
-				record.id = id;
+// find all IDs from inventory
+// set recipes.items[].id to inventory item.uid
+// set recipes.id to uid
+// set inventory.id to uid
+db.version(9)
+	.stores({
+		inventory: '&id, barcode, name, description, created',
+		recipes: '&id, name, description, items, created'
+	})
+	.upgrade(async (tx) => {
+
+		const inv = await tx.table('inventory').toArray();
+    inv.map(async ( item ) => {
+      await tx
+        .table('recipes')
+        .toCollection()
+        .modify((recipe) => {
+          recipe.items = recipe.items.map((rItem) => {
+            if (rItem.id === item.id ) {
+              rItem.id = item.uid;
+            }
+            return item;
+          });
+        });
+    })
+
+    // set id = uid
+    const createdAt = new Date();
+		await tx
+			.table('recipes')
+			.toCollection()
+			.modify(record => {
+        record.created = createdAt.getTime() + record.id;
+				record.id = record.uid;
+        delete record.uid;
+			});
+
+		await tx
+			.table('inventory')
+			.toCollection()
+			.modify(record => {
+        record.created = createdAt.getTime() + record.id;
+				record.id = record.uid;
+        delete record.uid;
 			});
 	});
 
