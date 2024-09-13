@@ -9,7 +9,7 @@ beforeAll(async () => {
 	await recipes.init();
 });
 
-describe.sequential('recipes stores', () => {
+describe.sequential('recipes store r/w to DB', () => {
 	it('can set a value', async () => {
 		await recipes.set({
 			name: 'first recipe',
@@ -36,7 +36,7 @@ describe.sequential('recipes stores', () => {
 			description: recipesList[0].description
 		});
 
-		const unsub = await recipes.subscribe((value) => {
+		const unsub = recipes.subscribe((value) => {
 			expect(value).toContainEqual(
 				expect.objectContaining({
 					name: 'updated',
@@ -51,7 +51,7 @@ describe.sequential('recipes stores', () => {
 		const recipesList = await getListItems('recipes');
 		await recipes.delete(recipesList[0].id);
 
-		const unsub = await recipes.subscribe((value) => {
+		const unsub = recipes.subscribe((value) => {
 			expect(value).toStrictEqual([]);
 		});
 		unsub();

@@ -89,9 +89,8 @@ function createListStore(listName) {
 			return items;
 		},
 		set: async (newVal) => {
-			const id = Number(newVal.id);
-			if (id) {
-				await dbfun.updateItemInList(listName, id, newVal);
+			if (newVal.id) {
+				await dbfun.updateItemInList(listName, newVal.id, newVal);
 			} else {
 				await dbfun.addToList(listName, newVal);
 			}
