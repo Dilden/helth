@@ -17,37 +17,38 @@ afterAll(() => {
 
 describe.sequential('list tables', () => {
 	it('adds an item to a list', async () => {
-		await addToList('recipes', { id: 1, name: 'test', description: 'desc' });
+		await addToList('recipes', { id: '1', name: 'test', description: 'desc', created: '1' });
 	});
 
 	it('cannot add an item with the same ID', async () => {
 		expect(
 			async () =>
-				await addToList('recipes', { id: 1, name: 'should fail', description: 'plz fail' })
+				await addToList('recipes', { id: '1', name: 'should fail', description: 'plz fail' })
 		).rejects.toThrowError();
 	});
 
 	it('can update an item in the list', async () => {
-		await addToList('recipes', { id: 2, name: 'number 2', description: 'another thing' });
-		await updateItemInList('recipes', 2, { name: 'numero dos' });
+		await addToList('recipes', { id: '2', name: 'number 2', description: 'another thing' });
+		await updateItemInList('recipes', '2', { name: 'numero dos' });
 		expect(await getListItems('recipes')).toContainEqual(
 			expect.objectContaining({ name: 'numero dos', description: 'another thing' })
 		);
 	});
 
 	it('can get an item from a table by id', async () => {
-		const one = await getItemByIdFromTable('recipes', 1);
+		const one = await getItemByIdFromTable('recipes', '1');
 		expect(one).toEqual({
-			id: 1,
+			id: '1',
 			name: 'test',
-			description: 'desc'
+			description: 'desc',
+			created: '1'
 		});
 	});
 });
 
 it('removes an item from recipes it exists in', async () => {
 	const item1 = {
-		id: 10,
+		id: '10',
 		name: 'pizza crust',
 		description: 'the base of it all',
 		nutrients: {
@@ -59,7 +60,7 @@ it('removes an item from recipes it exists in', async () => {
 		}
 	};
 	const item2 = {
-		id: 11,
+		id: '11',
 		name: 'sauce',
 		description: 'flavor',
 		nutrients: {
@@ -71,22 +72,24 @@ it('removes an item from recipes it exists in', async () => {
 		}
 	};
 	const recipe = {
-		id: 30,
+		id: '30',
 		name: 'pizza',
 		description: 'friday nights',
-		items: [{ id: 10 }, { id: 11 }]
+		items: [{ id: '10' }, { id: '11' }],
+		created: '0'
 	};
 	await addToList('inventory', item1);
 	await addToList('inventory', item2);
 	await addToList('recipes', recipe);
 
-	expect(await getItemByIdFromTable('recipes', 30)).toEqual(recipe);
+	expect(await getItemByIdFromTable('recipes', '30')).toEqual(recipe);
 
-	await deleteItemFromRecipes(11);
-	expect(await getItemByIdFromTable('recipes', 30)).toEqual({
-		id: 30,
+	await deleteItemFromRecipes('11');
+	expect(await getItemByIdFromTable('recipes', '30')).toEqual({
+		id: '30',
 		name: 'pizza',
 		description: 'friday nights',
-		items: [{ id: 10 }]
+		items: [{ id: '10' }],
+		created: '0'
 	});
 });

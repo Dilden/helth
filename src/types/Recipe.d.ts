@@ -4,7 +4,7 @@ interface RecipeItem {
 }
 
 interface Recipe {
-	id?: number;
+	id?: string;
 	name: string;
 	description: string;
 	items: RecipeItem[];

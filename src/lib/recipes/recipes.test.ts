@@ -27,7 +27,7 @@ describe('add recipe', () => {
 		const user = userEvent.setup();
 		render(Recipes);
 
-		await user.click(screen.queryByRole('button', { name: 'Add Recipe' }));
+		await user.click(screen.queryByRole('button', { name: 'Add Recipe' }) as Element);
 
 		expect(screen.getByLabelText('Recipe Name')).toBeVisible();
 		expect(screen.getByLabelText('Recipe Description')).toBeVisible();

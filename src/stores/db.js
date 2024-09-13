@@ -115,10 +115,13 @@ export const getItems = async (tableName) => {
  * Inventory, Recipes
  */
 export const getListItems = async (tableName) => {
-	return await db.table(tableName).toArray();
+	return await db.table(tableName).orderBy('created').toArray();
 };
 export const addToList = async (tableName, data) => {
-	return await db.table(tableName).add({ id: crypto.randomUUID(), ...data });
+	const createdAt = new Date();
+	return await db
+		.table(tableName)
+		.add({ id: crypto.randomUUID(), created: createdAt.getTime(), ...data });
 };
 export const updateItemInList = async (tableName, id, data) => {
 	return await db.table(tableName).update(id, data);

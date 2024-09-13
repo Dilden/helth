@@ -176,7 +176,7 @@ test.describe('add items dialog', () => {
 			await page
 				.locator('li')
 				.filter({ hasText: 'Soda' })
-				.getByTitle('Add Recipe nutients (times specified servings) to Daily Total')
+				.getByTitle('Add Recipe nutients (multiplied by specified servings) to Daily Total')
 				.click();
 			await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
@@ -218,7 +218,7 @@ test.describe('add items dialog', () => {
 				.getByTitle('Yes')
 				.click();
 
-			await expect(page.getByText('Soda', {exact: true})).not.toBeVisible();
+			await expect(page.getByText('Soda', { exact: true })).not.toBeVisible();
 		});
 	});
 	// test.describe('scanner', () => {
