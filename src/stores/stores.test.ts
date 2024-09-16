@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
 import { describe, it, expect, beforeAll } from 'vitest';
 import { recipes } from '$stores/stores.js';
-import { getListItems } from '$stores/db.js';
+import { getListItems } from '$stores/db';
 
 beforeAll(async () => {
 	indexedDB = new IDBFactory();

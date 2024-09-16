@@ -1,5 +1,5 @@
 <script>
-	import { db, addDefaults } from '$stores/db.js';
+	import { db, addDefaults } from '$stores/db';
 	import { initStores } from '$stores/stores.js';
 	import { importDB, peakImportFile } from 'dexie-export-import';
 	import { errorToast, confirmDialog } from '$utils/toast.js';

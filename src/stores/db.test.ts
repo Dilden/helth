@@ -8,7 +8,7 @@ import {
 	getItemByIdFromTable,
 	updateItemInList,
 	deleteItemFromRecipes
-} from '$stores/db.js';
+} from '$stores/db';
 
 beforeAll(async () => await dbopen);
 afterAll(() => {

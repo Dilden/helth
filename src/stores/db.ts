@@ -1,4 +1,4 @@
-import { Dexie } from 'dexie';
+import Dexie, { type EntityTable } from 'dexie';
 import { thePast } from '$utils/dates';
 import { list } from '$utils/nutrients';
 import { migrate } from './dbmigrations';
@@ -6,7 +6,149 @@ import { migrate } from './dbmigrations';
 // import { dexieCloud } from 'dexie-cloud-addon';
 
 // export const db = new Dexie('helthdb', { addons: [dexieCloud] });
-export const db = new Dexie('helthdb');
+export const db = new Dexie('helthdb') as Dexie & {
+	inventory: EntityTable<InventoryItem, 'id'>;
+	recipes: EntityTable<Recipe, 'id'>;
+	settings: EntityTable<Setting, 'name'>;
+	goals: EntityTable<Goal, 'name'>;
+	limits: EntityTable<Limit, 'name'>;
+	journal: EntityTable<Journal, 'date'>;
+};
+
+migrate(db);
+
+db.on('populate', async () => await addDefaults());
+
+// db.cloud.configure({
+// 	databaseUrl: PUBLIC_DB_URL,
+// 	// requireAuth: true
+// 	requireAuth: false,
+// 	disableWebSocket: true
+// });
+
+export const dbopen = db.open().then(async () => {
+	await addDefaults();
+});
+
+/*
+ * Today
+ */
+export async function addDay(newDay = defaultDay) {
+	try {
+		await db.journal.add(newDay);
+	} catch (error) {
+		console.log('error adding day');
+	}
+}
+
+export const updateDay = async (date: number, changes: Omit<Journal, 'date'>) => {
+	return await db.journal.update(date, changes);
+};
+
+export const getDay = async (date: number) => {
+	return await db.journal.get(date);
+};
+
+export const getLatestDay = async () => {
+	return await db.journal.orderBy('date').reverse().first();
+};
+
+export const getJournal = async () => {
+	return await db.journal.toArray();
+};
+
+/*
+ * Setting, Goals, Items
+ */
+
+// specify table name to put name/value pair there
+async function addItem<T>(tableName: string, name: keyof T, value: T) {
+	try {
+		await db.table(tableName).add({
+			name: name,
+			value: value
+		});
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(`error adding item to ${tableName}: ${error.message}`);
+		}
+	}
+}
+
+export const updateItems = async (tableName: string, items: readonly any[]) => {
+	return db.table(tableName).bulkPut(items);
+};
+
+export const getItems = async (tableName: string) => {
+	// spread all of the settings onto one object
+	// so app doesn't need a store for each setting
+	return db
+		.table(tableName)
+		.toArray()
+		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
+};
+
+/*
+ * List store methods
+ * Inventory, Recipes
+ */
+export const getListItems = async (tableName: string) => {
+	return await db.table(tableName).orderBy('created').toArray();
+};
+
+// if data.id or data.created is present, it will override the default values
+// powerful for testing, but potentially dangerous
+// DB should throw error if ID already exists
+export const addToList = async <T>(tableName: string, data: T) => {
+	const createdAt = new Date();
+	return await db
+		.table(tableName)
+		.add({ id: crypto.randomUUID(), created: createdAt.getTime(), ...data });
+};
+export const updateItemInList = async (
+	tableName: string,
+	id: string,
+	data: InventoryItem | Recipe
+) => {
+	return await db.table(tableName).update(id, data);
+};
+export const deleteFromList = async (tableName: string, id: string) => {
+	return await db.table(tableName).delete(id);
+};
+// delete the item from any Recipes first
+export const deleteItemFromRecipes = async (id: string) => {
+	return await getListItems('recipes').then((recipes) => {
+		recipes.map(async (recipe) => {
+			const itemMatches = recipe?.items?.filter((item: RecipeItem) => {
+				if (item.id === id) {
+					return item;
+				}
+			});
+			if (itemMatches) {
+				recipe.items = recipe?.items?.filter((x: RecipeItem) => !itemMatches.includes(x));
+				return await updateItemInList('recipes', recipe.id, recipe);
+			}
+		});
+	});
+};
+export const getInventory = async () => {
+	return await getListItems('inventory');
+};
+export const addInventory = async (data: InventoryItem) => {
+	return await addToList('inventory', data);
+};
+export const getItemByIdFromTable = async (tableName: string, id: string | number) => {
+	return await db.table(tableName).where('id').equals(id).first();
+};
+
+// Persistent Storage https://dexie.org/docs/StorageManager
+export const persist = async () => {
+	return navigator.storage ? await navigator.storage.persist() : undefined;
+};
+
+export const isStoragePersisted = async () => {
+	return await navigator.storage.persisted();
+};
 
 // default values
 export const defaultDay = {
@@ -39,138 +181,13 @@ list.forEach(({ key }, index) => {
 	defaultDay[key] = 0;
 });
 
-migrate(db);
-
-db.on('populate', async () => await addDefaults());
-
-// db.cloud.configure({
-// 	databaseUrl: PUBLIC_DB_URL,
-// 	// requireAuth: true
-// 	requireAuth: false,
-// 	disableWebSocket: true
-// });
-
-export const dbopen = db.open().then(async () => {
-	await addDefaults();
-});
-
-/*
- * Today
- */
-export async function addDay(newDay = defaultDay) {
-	try {
-		await db.journal.add(newDay);
-	} catch (error) {
-		console.log('error adding day');
-	}
-}
-
-export const updateDay = async (date, changes) => {
-	return await db.journal.update(date, changes);
-};
-
-export const getDay = async (date) => {
-	return await db.journal.get(date);
-};
-
-export const getLatestDay = async () => {
-	return await db.journal.orderBy('date').reverse().first();
-};
-
-export const getJournal = async () => {
-	return await db.journal.toArray();
-};
-
-/*
- * Setting, Goals, Items
- */
-
-// specify table name to put name/value pair there
-async function addItem(tableName, name, value) {
-	try {
-		await db.table(tableName).add({
-			name: name,
-			value: value
-		});
-	} catch (error) {
-		console.log(`error adding item to ${tableName}: ${error.message}`);
-	}
-}
-
-export const updateItems = async (tableName, items) => {
-	return db.table(tableName).bulkPut(items);
-};
-
-export const getItems = async (tableName) => {
-	// spread all of the settings onto one object
-	// so app doesn't need a store for each setting
-	return db
-		.table(tableName)
-		.toArray()
-		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
-};
-
-/*
- * List store methods
- * Inventory, Recipes
- */
-export const getListItems = async (tableName) => {
-	return await db.table(tableName).orderBy('created').toArray();
-};
-export const addToList = async (tableName, data) => {
-	const createdAt = new Date();
-	return await db
-		.table(tableName)
-		.add({ id: crypto.randomUUID(), created: createdAt.getTime(), ...data });
-};
-export const updateItemInList = async (tableName, id, data) => {
-	return await db.table(tableName).update(id, data);
-};
-export const deleteFromList = async (tableName, id) => {
-	return await db.table(tableName).delete(id);
-};
-// delete the item from any Recipes first
-export const deleteItemFromRecipes = async (id) => {
-	return await getListItems('recipes').then((recipes) => {
-		recipes.map(async (recipe) => {
-			const itemMatches = recipe?.items?.filter((item) => {
-				if (item.id === id) {
-					return item;
-				}
-			});
-			if (itemMatches) {
-				recipe.items = recipe?.items?.filter((x) => !itemMatches.includes(x));
-				return await updateItemInList('recipes', recipe.id, recipe);
-			}
-		});
-	});
-};
-export const getInventory = async () => {
-	return await getListItems('inventory');
-};
-export const addInventory = async (data) => {
-	return await addToList('inventory', data);
-};
-export const getItemByIdFromTable = async (tableName, id) => {
-	return await db.table(tableName).where('id').equals(id).first();
-};
-
-// Persistent Storage https://dexie.org/docs/StorageManager
-export const persist = async () => {
-	return navigator.storage ? await navigator.storage.persist() : undefined;
-};
-
-export const isStoragePersisted = async () => {
-	return await navigator.storage.persisted();
-};
-
 export const addDefaults = async () => {
 	db.journal
 		.orderBy('date')
 		.reverse()
 		.first()
 		.then(async (record) => {
-			if (!record || thePast(record.date)) {
+			if (!record || thePast(new Date(record.date))) {
 				await addDay();
 			}
 		});
