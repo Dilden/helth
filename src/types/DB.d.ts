@@ -8,7 +8,7 @@ interface Limit {
 	value: number;
 }
 
-interface Journal {
+interface JournalEntry {
 	date: number;
 	[key: string]: number;
 }
@@ -18,6 +18,7 @@ interface Setting {
 	value: {
 		interval: number;
 		enabled: boolean;
+		position: index;
 	};
 }
 

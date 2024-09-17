@@ -12,7 +12,7 @@ export const db = new Dexie('helthdb') as Dexie & {
 	settings: EntityTable<Setting, 'name'>;
 	goals: EntityTable<Goal, 'name'>;
 	limits: EntityTable<Limit, 'name'>;
-	journal: EntityTable<Journal, 'date'>;
+	journal: EntityTable<JournalEntry, 'date'>;
 };
 
 migrate(db);
@@ -41,7 +41,7 @@ export async function addDay(newDay = defaultDay) {
 	}
 }
 
-export const updateDay = async (date: number, changes: Omit<Journal, 'date'>) => {
+export const updateDay = async (date: number, changes: Omit<JournalEntry, 'date'>) => {
 	return await db.journal.update(date, changes);
 };
 
@@ -62,7 +62,11 @@ export const getJournal = async () => {
  */
 
 // specify table name to put name/value pair there
-async function addItem<T>(tableName: string, name: keyof T, value: T) {
+async function addItem(
+	tableName: string,
+	name: string,
+	value: Limit['value'] | Goal['value'] | Setting['value']
+) {
 	try {
 		await db.table(tableName).add({
 			name: name,
@@ -151,14 +155,15 @@ export const isStoragePersisted = async () => {
 };
 
 // default values
-export const defaultDay = {
+export const defaultDay: JournalEntry = {
 	date: new Date().setHours(0, 0, 0, 0)
 };
 
 // create default settings + defaultDay values
-const settings = {};
-const goals = {};
-const limits = {};
+const settings: Record<string, Setting['value']> = {};
+const goals: Record<string, Goal> = {};
+const limits: Record<string, Limit> = {};
+
 list.forEach(({ key }, index) => {
 	settings[key] = { interval: 5, enabled: true, position: index };
 	goals[key] = { name: key, value: 0 };
