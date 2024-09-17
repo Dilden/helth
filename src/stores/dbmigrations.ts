@@ -1,4 +1,4 @@
-import { Dexie } from 'dexie';
+import { type Dexie } from 'dexie';
 import { list } from '$utils/nutrients';
 
 export function migrate(db: Dexie): void {
