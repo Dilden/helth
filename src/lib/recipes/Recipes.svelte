@@ -13,7 +13,7 @@
 		editing = recipe;
 	};
 	const duplicateItem = (recipe) => {
-		const { id, ...rest } = recipe;
+		const { id, created, ...rest } = recipe;
 		$recipes = rest;
 		successToast(`Duplicated ${rest.name}!`);
 	};
