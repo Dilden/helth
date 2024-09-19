@@ -23,3 +23,7 @@ interface Setting {
 }
 
 interface Settings extends Array<Setting> {}
+
+interface NameValueStore {
+	[key: string]: Goal | Limit | Setting;
+}

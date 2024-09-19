@@ -3,7 +3,7 @@
 	import AddItem from '$lib/inventory/AddItem.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import Search from '$lib/misc/Search.svelte';
-	import { inventory, filteredInventory, searchTerm } from '$stores/stores.js';
+	import { inventory, filteredInventory, searchTerm } from '$stores/stores';
 	import { successToast } from '$utils/toast.js';
 
 	let editing = undefined;

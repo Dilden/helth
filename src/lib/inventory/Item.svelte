@@ -1,6 +1,6 @@
 <script>
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
-	import { today, inventory, recipes } from '$stores/stores.js';
+	import { today, inventory, recipes } from '$stores/stores';
 	import { toTwoDecimals } from '$utils/numbers';
 
 	export let item;

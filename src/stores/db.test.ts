@@ -29,7 +29,13 @@ describe.sequential('list tables', () => {
 
 	it('can update an item in the list', async () => {
 		await addToList('recipes', { id: '2', name: 'number 2', description: 'another thing' });
-		await updateItemInList('recipes', '2', { name: 'numero dos' });
+		const sample: InventoryItem = {
+			name: 'numero dos',
+			description: 'another thing',
+			nutrients: [],
+			barcode: null
+		};
+		await updateItemInList('recipes', '2', sample);
 		expect(await getListItems('recipes')).toContainEqual(
 			expect.objectContaining({ name: 'numero dos', description: 'another thing' })
 		);

@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
 import { describe, it, expect, beforeAll } from 'vitest';
-import { recipes } from '$stores/stores.js';
+import { recipes } from '$stores/stores';
 import { getListItems } from '$stores/db';
 
 beforeAll(async () => {
@@ -13,7 +13,8 @@ describe.sequential('recipes store r/w to DB', () => {
 	it('can set a value', async () => {
 		await recipes.set({
 			name: 'first recipe',
-			description: 'its just a test, bro'
+			description: 'its just a test, bro',
+			items: []
 		});
 
 		const unsub = recipes.subscribe((value) => {
@@ -33,7 +34,8 @@ describe.sequential('recipes store r/w to DB', () => {
 		await recipes.set({
 			id: recipesList[0].id,
 			name: 'updated',
-			description: recipesList[0].description
+			description: recipesList[0].description,
+			items: []
 		});
 
 		const unsub = recipes.subscribe((value) => {

@@ -1,5 +1,5 @@
 <script>
-	import { recipes, inventoryFilter } from '$stores/stores.js';
+	import { recipes, inventoryFilter } from '$stores/stores';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
