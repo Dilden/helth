@@ -2,7 +2,7 @@
 	import { nutrientSumsFromList, applyServings } from '$utils/item';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
-	import { recipes, today } from '$stores/stores.js';
+	import { recipes, today } from '$stores/stores';
 
 	export let recipe = {};
 

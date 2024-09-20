@@ -20,7 +20,7 @@ export const formatRecipeFormValues = (formData: HTMLFormElement): Recipe => {
 	return formValues(formData).reduce(
 		(accum, { name, value, type, checked }, index, arr) => {
 			if (type === 'checkbox' && checked) {
-				const id = Number(value);
+				const id = value;
 				let servings = 1;
 
 				// the next value should be the servings size as a number
@@ -35,7 +35,7 @@ export const formatRecipeFormValues = (formData: HTMLFormElement): Recipe => {
 			} else {
 				switch (name) {
 					case 'id':
-						accum.id = Number(value);
+						accum.id = value;
 						break;
 					case 'name':
 						accum.name = value;
@@ -61,7 +61,7 @@ export const formatInventoryFormValues = (formData: HTMLFormElement): InventoryI
 		(accum, { name, value }) => {
 			switch (name) {
 				case 'id':
-					accum.id = Number(value);
+					accum.id = value;
 					break;
 				case 'barcode':
 					accum.barcode = value;

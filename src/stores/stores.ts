@@ -6,7 +6,7 @@ function createTodayStore() {
 	const store = writable({});
 
 	let workingDate = new Date().setHours(0, 0, 0, 0);
-	let workingDay = dbfun.getDay(workingDate);
+	let workingDay: Promise<JournalEntry | undefined> = dbfun.getDay(workingDate);
 	return {
 		...store,
 		init: async () => {
@@ -14,20 +14,21 @@ function createTodayStore() {
 				day ? store.set(day) : store.set({ ...dbfun.defaultDay, date: workingDate });
 			});
 		},
-		set: async (newVal) => {
+		set: async (newVal: JournalEntry) => {
 			workingDay.then((day) => {
-				dbfun.updateDay(day.date, newVal);
+				if (day) {
+					dbfun.updateDay(day.date, newVal);
+				}
 			});
 			store.set(newVal);
 		},
-		setDate: async (date) => {
+		setDate: async (date: number) => {
 			workingDate = date;
 			workingDay = dbfun.getDay(workingDate).then(async (day) => {
 				if (!day) {
 					dbfun.addDay({ ...dbfun.defaultDay, date: workingDate });
 				}
-				day = dbfun.getDay(workingDate);
-				return day;
+				return dbfun.getDay(workingDate);
 			});
 		}
 	};
@@ -45,14 +46,14 @@ function createHistoryStore() {
 			});
 			return journal;
 		},
-		set: async (newVal) => {
+		set: async (newVal: JournalEntry[]) => {
 			dbfun.updateItems('journal', newVal);
 			store.set(newVal);
 		}
 	};
 }
 
-function createNameValueStore(tableName) {
+function createNameValueStore(tableName: string) {
 	const store = writable({});
 
 	return {
@@ -60,11 +61,11 @@ function createNameValueStore(tableName) {
 		init: async () => {
 			const items = dbfun.getItems(tableName);
 			items.then((values) => {
-				values.length != 0 ? store.set(values) : store.set(dbfun[tableName]);
+				values.length != 0 ? store.set(values) : store.set('');
 			});
 			return items;
 		},
-		set: async (newVal) => {
+		set: async (newVal: NameValueStore) => {
 			dbfun.updateItems(
 				tableName,
 				Object.keys(newVal).map((key) => {
@@ -76,7 +77,7 @@ function createNameValueStore(tableName) {
 	};
 }
 
-function createListStore(listName) {
+function createListStore(listName: string) {
 	const store = writable({});
 
 	return {
@@ -88,16 +89,15 @@ function createListStore(listName) {
 			});
 			return items;
 		},
-		set: async (newVal) => {
-			const id = Number(newVal.id);
-			if (id) {
-				await dbfun.updateItemInList(listName, id, newVal);
+		set: async (newVal: InventoryItem | Recipe) => {
+			if (newVal.id) {
+				await dbfun.updateItemInList(listName, newVal.id, newVal);
 			} else {
 				await dbfun.addToList(listName, newVal);
 			}
 			store.set(await dbfun.getListItems(listName));
 		},
-		delete: async (id) => {
+		delete: async (id: string) => {
 			if (listName === 'inventory') {
 				await dbfun.deleteItemFromRecipes(id);
 				// TODO:
@@ -139,6 +139,7 @@ export const filteredInventory = derived(
 					item.description.toLowerCase().includes($searchTerm.toLowerCase())
 			);
 		}
+		return $inventory;
 	},
 	inventory.init()
 );
@@ -148,29 +149,29 @@ export const recipeSearch = writable('');
 export const formattedRecipes = derived(
 	[recipeSearch, recipes],
 	([$recipeSearch, $recipes]) => {
-		let searched = $recipes;
-
 		if (Array.isArray($recipes)) {
+			let searched = $recipes;
 			searched = $recipes.filter(
 				(recipe) =>
 					recipe.name.toLowerCase().includes($recipeSearch.toLowerCase()) ||
 					recipe.description.toLowerCase().includes($recipeSearch.toLowerCase())
 			);
-		}
 
-		return searched.map(async (recipe) => {
-			const _items = lookupItems(recipe);
-			const lookedUpItems = await Promise.all(_items);
+			return searched.map(async (recipe: Recipe) => {
+				const _items = lookupItems(recipe);
+				const lookedUpItems = await Promise.all(_items);
 
-			const items = lookedUpItems.map((item) => {
-				let found = recipe.items.find((x) => x.id === item.id);
+				const items = lookedUpItems.map((item) => {
+					let found = recipe.items.find((x) => x.id === item.id);
 
-				// default servings to 1 if not set
-				return { servings: 1, ...found, ...item };
+					// default servings to 1 if not set
+					return { servings: 1, ...found, ...item };
+				});
+
+				return { ...recipe, items };
 			});
-
-			return { ...recipe, items };
-		});
+		}
+		return $recipes;
 	},
 	recipes.init()
 );

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import List from './List.svelte';
-import { inventory } from '$stores/stores';
 
 afterEach(() => {
 	vi.restoreAllMocks();

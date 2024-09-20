@@ -1,10 +1,10 @@
 <script>
-  import { BrowserMultiFormatReader } from '@zxing/library';
-  import { getInventory, addInventory } from '$stores/db';
-  import { today } from '$stores/stores.js';
-  import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
-  import { error } from '@sveltejs/kit';
-  import { getFoodFacts } from '$utils/sources';
+	import { BrowserMultiFormatReader } from '@zxing/library';
+	import { getInventory, addInventory } from '$stores/db';
+	import { today } from '$stores/stores';
+	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
+	import { error } from '@sveltejs/kit';
+	import { getFoodFacts } from '$utils/sources';
 
 	// scanner
 	let selected;
@@ -16,11 +16,10 @@
 			.decodeOnceFromVideoDevice(selected.deviceId, 'scanner')
 			.then((result) => getFoodFacts(result.getText()))
 			.then((val) => {
-
-        if(val.nutrients.length === 0 || !val.name) {
-          errorToast('Item not found');
-          error(404, (val.message ? `${val.message}` : 'Could not add item'));
-        }
+				if (val.nutrients.length === 0 || !val.name) {
+					errorToast('Item not found');
+					error(404, val.message ? `${val.message}` : 'Could not add item');
+				}
 				getInventory().then((data) => {
 					if (!data.map((item) => item.barcode).includes(val.barcode)) {
 						addInventory(val)

@@ -1,5 +1,5 @@
 <script>
-	import { recipes, formattedRecipes, recipeSearch, inventory } from '$stores/stores.js';
+	import { recipes, formattedRecipes, recipeSearch, inventory } from '$stores/stores';
 	import RecipeForm from './RecipeForm.svelte';
 	import RecipeItem from './RecipeItem.svelte';
 	import Search from '$lib/misc/Search.svelte';
@@ -13,7 +13,7 @@
 		editing = recipe;
 	};
 	const duplicateItem = (recipe) => {
-		const { id, ...rest } = recipe;
+		const { id, created, ...rest } = recipe;
 		$recipes = rest;
 		successToast(`Duplicated ${rest.name}!`);
 	};

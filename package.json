@@ -1,7 +1,8 @@
 {
   "name": "helth.app",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "scripts": {
+    "cloud": "dexie-cloud",
     "dev": "vite dev --host",
     "build": "vite build",
     "package": "vite package",
@@ -27,6 +28,7 @@
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@zerodevx/svelte-toast": "^0.9.5",
     "autoprefixer": "^10.4.16",
+    "dexie-cloud": "^1.2.2",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte": "^2.32.4",
@@ -49,7 +51,8 @@
     "@zxing/library": "^0.20.0",
     "chart.js": "^4.3.3",
     "chartjs-plugin-annotation": "^3.0.1",
-    "dexie": "^3.2.4",
+    "dexie": "^4.0.8",
+    "dexie-cloud-addon": "^4.0.8",
     "dexie-export-import": "^4.0.7"
   },
   "jest": {

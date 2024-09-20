@@ -1,5 +1,5 @@
 <script>
-	import { inventory } from '$stores/stores.js';
+	import { inventory } from '$stores/stores';
 	import { formatInventoryFormValues } from '$utils/formValues';
 	import AddNutrientInputs from './AddNutrientInputs.svelte';
 

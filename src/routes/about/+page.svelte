@@ -30,7 +30,7 @@
 			Because helth app (or helth.app) started as a joke. I thought <a
 				href="https://en.wikipedia.org/wiki/Meme_Man">meme man</a
 			> was funny. When I started the app, I liked to joke about how unhealthy some of my eating habits
-			were.
+			were. I started working on this app to change those habits.
 		</p>
 	</details>
 	<details>
@@ -148,6 +148,17 @@
 		</p>
 	</details>
 	<details>
+		<summary>Is there a community of people who use helth.app?</summary>
+		<p>
+			As of now, not really. But we can start one together! I'm using GitHub to build this app and
+			there is a Discussion page on the project repository where we can talk about it! See <a
+				href="https://github.com/Dilden/helth/discussions"
+				>https://github.com/Dilden/helth/discussions</a
+			>. Of course, you will need a GitHub account to communicate there. If there seems to be enough
+			interest, then I'd like to start a separate forum for community usage.
+		</p>
+	</details>
+	<details>
 		<summary>What is this app built with?</summary>
 		<p>
 			This app uses many technologies to function. It would <s>not be possible</s> have been significantly
@@ -215,6 +226,18 @@
 	</details>
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
+	<details>
+		<summary>v0.3.4</summary>
+		<ul>
+			<li>
+				Migrated Inventory + Recipe PK's to cryptographically secure UID to prevent collisions. This
+				is prepatory work for implementing cloud sync functionality with Dexie Cloud.
+			</li>
+			<li>
+				Converted some files from <code>.js</code> to <code>.ts</code>
+			</li>
+		</ul>
+	</details>
 	<details>
 		<summary>v0.3.3</summary>
 		<ul>

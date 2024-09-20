@@ -1,19 +1,20 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
 import { describe, it, expect, beforeAll } from 'vitest';
-import { recipes } from '$stores/stores.js';
-import { getListItems } from '$stores/db.js';
+import { recipes } from '$stores/stores';
+import { getListItems } from '$stores/db';
 
 beforeAll(async () => {
 	indexedDB = new IDBFactory();
 	await recipes.init();
 });
 
-describe.sequential('recipes stores', () => {
+describe.sequential('recipes store r/w to DB', () => {
 	it('can set a value', async () => {
 		await recipes.set({
 			name: 'first recipe',
-			description: 'its just a test, bro'
+			description: 'its just a test, bro',
+			items: []
 		});
 
 		const unsub = recipes.subscribe((value) => {
@@ -33,10 +34,11 @@ describe.sequential('recipes stores', () => {
 		await recipes.set({
 			id: recipesList[0].id,
 			name: 'updated',
-			description: recipesList[0].description
+			description: recipesList[0].description,
+			items: []
 		});
 
-		const unsub = await recipes.subscribe((value) => {
+		const unsub = recipes.subscribe((value) => {
 			expect(value).toContainEqual(
 				expect.objectContaining({
 					name: 'updated',
@@ -51,7 +53,7 @@ describe.sequential('recipes stores', () => {
 		const recipesList = await getListItems('recipes');
 		await recipes.delete(recipesList[0].id);
 
-		const unsub = await recipes.subscribe((value) => {
+		const unsub = recipes.subscribe((value) => {
 			expect(value).toStrictEqual([]);
 		});
 		unsub();
