@@ -48,7 +48,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@zxing/library": "^0.20.0",
+    "@zxing/library": "^0.21.3",
     "chart.js": "^4.3.3",
     "chartjs-plugin-annotation": "^3.0.1",
     "dexie": "^4.0.8",
