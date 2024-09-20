@@ -33,7 +33,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte": "^2.32.4",
     "fake-indexeddb": "^6.0.0",
-    "jsdom": "^22.1.0",
+    "jsdom": "^25.0.0",
     "postcss": "^8.4.32",
     "prettier": "^3.0.2",
     "prettier-plugin-svelte": "^3.0.3",
