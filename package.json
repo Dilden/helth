@@ -26,7 +26,7 @@
     "@typescript-eslint/parser": "^8.7.0",
     "@vite-pwa/sveltekit": "^0.3.0",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
-    "@zerodevx/svelte-toast": "^0.9.5",
+    "@zerodevx/svelte-toast": "^0.9.6",
     "autoprefixer": "^10.4.16",
     "dexie-cloud": "^1.2.2",
     "eslint": "^9.11.1",
