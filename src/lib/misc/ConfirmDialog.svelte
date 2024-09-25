@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toast } from '@zerodevx/svelte-toast';
+	import { toast } from '$stores/toaststore';
 
 	export let message = '';
 	export let callbackConfirm = () => true;
