@@ -6,7 +6,7 @@
 	import { persist, isStoragePersisted, dbopen } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
-	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import SvelteToast from '$lib/toast/SvelteToast.svelte';
 	import { confirmDialog } from '$utils/toast.js';
 	import { updated } from '$app/stores';
 
