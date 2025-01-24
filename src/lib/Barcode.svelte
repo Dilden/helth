@@ -7,7 +7,7 @@
 	import { getFoodFacts } from '$utils/sources';
 
 	// scanner
-	let selected;
+	let selected = $state();
 
 	const codeReader = new BrowserMultiFormatReader();
 
@@ -69,15 +69,15 @@
 				name="inputs"
 				class="col-start-2 col-end-6 row-start-2 row-end-2 border border-solid border-gray-500"
 				bind:value={selected}
-				on:change={() => scan()}
+				onchange={() => scan()}
 			>
 				{#each inputs as input}
 					<option value={input}>{input.label}</option>
 				{/each}
 			</select>
 			<div class="col-start-2 col-end-6 grid grid-cols-2 grid-rows-1 gap-x-5">
-				<button class="col-start-1 col-end-2" on:click={cancel}>❌ STOP</button>
-				<button class="col-start-2 col-end-3" on:click={scan}>📷 SCAN</button>
+				<button class="col-start-1 col-end-2" onclick={cancel}>❌ STOP</button>
+				<button class="col-start-2 col-end-3" onclick={scan}>📷 SCAN</button>
 			</div>
 		</div>
 	{:catch error}
