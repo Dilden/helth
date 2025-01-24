@@ -1,7 +1,11 @@
-<script>
-	// source: https://github.com/thetrisatria/svelte-loading-animation/blob/master/src/Spinner.svelte
-	export let size = '64px';
-	export let color = '#26B170';
+<script lang="ts">
+	interface Props {
+		// source: https://github.com/thetrisatria/svelte-loading-animation/blob/master/src/Spinner.svelte
+		size?: string;
+		color?: string;
+	}
+
+	let { size = '64px', color = '#26B170' }: Props = $props();
 </script>
 
 <div class="mx-auto">
