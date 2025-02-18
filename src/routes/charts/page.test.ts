@@ -49,3 +49,5 @@ vi.mock('$stores/stores', async () => {
 		}
 	};
 });
+
+vi.mock('chart.js');
