@@ -3,6 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { settings } from '$stores/stores';
 import { get } from 'svelte/store';
 import { render, screen } from '@testing-library/svelte';
+import '@testing-library/jest-dom/vitest';
 import { list } from '$utils/nutrients';
 import userEvent from '@testing-library/user-event';
 import Counter from './Counter.svelte';
