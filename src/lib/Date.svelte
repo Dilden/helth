@@ -6,7 +6,7 @@
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
-	let dateObj = $state(new Date($today.date));
+	let dateObj = $derived(new Date($today.date));
 	let format = $derived(
 		dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear()
 	);
@@ -21,8 +21,6 @@
 
 			await today.setDate(changeTo);
 			await today.init();
-
-			dateObj = new Date(changeTo);
 
 			edit = false;
 		}

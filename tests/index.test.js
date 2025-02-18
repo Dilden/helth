@@ -19,9 +19,8 @@ test.describe('index', () => {
 	});
 
 	test('current date is shown', async () => {
-		const dateObj: Date = new Date();
-		const format: string =
-			dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+		const dateObj = new Date();
+		const format = dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
 
 		expect(await page.textContent('h3')).toBe(format);
 	});
