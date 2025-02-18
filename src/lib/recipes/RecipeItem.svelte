@@ -4,7 +4,8 @@
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
 	import { recipes, today } from '$stores/stores';
 
-	export let recipe = {};
+	/** @type {{recipe?: any}} */
+	let { recipe = {} } = $props();
 
 	let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
 
@@ -73,8 +74,8 @@
 <!--add to daily total -->
 <button
 	class="mx-1 my-0 sm:mx-2"
-	on:click={addToToday}
+	onclick={addToToday}
 	title="Add Recipe nutients (multiplied by specified servings) to Daily Total">➕</button
 >
 <!-- remove from db -->
-<button class="float-right m-1 sm:m-2" on:click={confirmDelete} title="Delete Recipe">🗑️</button>
+<button class="float-right m-1 sm:m-2" onclick={confirmDelete} title="Delete Recipe">🗑️</button>

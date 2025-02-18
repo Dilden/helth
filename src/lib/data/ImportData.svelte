@@ -4,7 +4,7 @@
 	import { importDB, peakImportFile } from 'dexie-export-import';
 	import { errorToast, confirmDialog } from '$utils/toast.js';
 
-	let progress = 0;
+	let progress = $state(0);
 
 	const upload = async (event) => {
 		const file = event.target.files[0];
@@ -43,7 +43,7 @@
 </script>
 
 <label for="data_upload" class="button">Import Data</label>
-<input class="hidden" type="file" on:change={upload} id="data_upload" />
+<input class="hidden" type="file" onchange={upload} id="data_upload" />
 {#if progress}
 	<div class="m-3">
 		<label class="progress">

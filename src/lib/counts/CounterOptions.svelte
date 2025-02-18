@@ -1,22 +1,25 @@
 <script>
 	import { settings } from '$stores/stores';
-	export let key = '';
-	export let interval = 0;
-	export let max = 100;
 
-	export let moveUpCallback = (fn) => {
-		fn();
-	};
 
-	export let moveDownCallback = (fn) => {
+	/** @type {{key?: string, interval?: number, max?: number, moveUpCallback?: any, moveDownCallback?: any}} */
+	let {
+		key = '',
+		interval = $bindable(0),
+		max = 100,
+		moveUpCallback = (fn) => {
 		fn();
-	};
+	},
+		moveDownCallback = (fn) => {
+		fn();
+	}
+	} = $props();
 </script>
 
 <div class="flex flex-auto justify-around">
 	<!-- <button class="text-[#26B170] hover:text-slate-100" type="button" on:click={moveUpCallback} -->
-	<button type="button" on:click={moveUpCallback}>⬆️ Move Up</button>
-	<button type="button" on:click={moveDownCallback}>⬇️ Move Down</button>
+	<button type="button" onclick={moveUpCallback}>⬆️ Move Up</button>
+	<button type="button" onclick={moveDownCallback}>⬇️ Move Down</button>
 </div>
 <label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 <input

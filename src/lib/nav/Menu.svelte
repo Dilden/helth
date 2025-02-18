@@ -1,7 +1,8 @@
 <script>
 	import { clickOutside } from '$utils/clickOutside';
 	import meme from './meme.png';
-	export let isOpen = false;
+	/** @type {{isOpen?: boolean}} */
+	let { isOpen = $bindable(false) } = $props();
 	const toggle = () => (isOpen = !isOpen);
 	const links = [
 		{
@@ -27,24 +28,22 @@
 	];
 </script>
 
-<span use:clickOutside on:click_outside={() => (isOpen = false)}>
-	<button
+<span use:clickOutside onclick_outside={() => (isOpen = false)}>
+	<!-- // js-less button -->
+	<input type="checkbox" id="menu-btn" bind:checked={isOpen} class="peer hidden" />
+	<label
+		for="menu-btn"
 		title="Menu"
-		class="content-[' '] fixed top-0 z-[100] touch-manipulation rounded-bl-lg border-none bg-[var(--back-color)] p-8 text-left text-[var(--fore-color)] no-underline shadow-xl drop-shadow-lg transition-all duration-200 ease-in-out hover:rounded-bl-lg hover:bg-[#293b40] {isOpen
-			? 'right-64'
-			: 'right-0'}"
-		on:click={toggle}
+		aria-label="Menu"
+		class="content-[' '] fixed right-0 top-0 z-[100] touch-manipulation rounded-bl-lg border-none bg-[var(--back-color)] p-8 text-left text-[var(--fore-color)] no-underline shadow-xl drop-shadow-lg transition-all duration-200 ease-in-out hover:rounded-bl-lg hover:bg-[var(--secondary-back-color)] peer-checked:right-64"
 	>
-		<i
-			class="content-[' '] before:content-[' '] after:content-[' '] absolute right-3 top-[50%] block w-9 p-[1px] transition-all duration-200 ease-in-out before:absolute before:right-0 before:block before:w-9 before:bg-[var(--fore-color)] before:p-[1px] before:transition-all before:duration-200 before:ease-in-out after:absolute after:right-0 after:block after:w-9 after:bg-[var(--fore-color)] after:p-[1px] after:transition-all after:duration-200 after:ease-in-out {isOpen
-				? 'bg-transparent before:top-0 before:rotate-45 after:bottom-0 after:-rotate-45'
-				: 'bg-[var(--fore-color)] before:top-2 after:bottom-2'}"
-		/>
-	</button>
+		<span
+			class="content-[' '] before:content-[' '] after:content-[' '] absolute right-3 top-[50%] block w-9 bg-[var(--fore-color)] p-[1px] transition-all duration-200 ease-in-out before:absolute before:right-0 before:top-2 before:block before:w-9 before:bg-[var(--fore-color)] before:p-[1px] before:transition-all before:duration-200 before:ease-in-out after:absolute after:bottom-2 after:right-0 after:block after:w-9 after:bg-[var(--fore-color)] after:p-[1px] after:transition-all after:duration-200 after:ease-in-out"
+		></span>
+	</label>
+
 	<nav
-		class="fixed top-0 z-[110] h-full min-w-64 bg-[var(--back-color)] transition-all duration-200 ease-in-out {isOpen
-			? 'right-0 shadow-2xl'
-			: 'right-[-16rem]'}"
+		class="fixed right-[-16rem] top-0 z-[110] flex h-full min-w-64 flex-col justify-between bg-[var(--back-color)] transition-all duration-200 ease-in-out peer-checked:right-0 peer-checked:shadow-2xl"
 	>
 		<ul class="relative z-[130] m-0 list-none bg-[var(--back-color)] p-0 text-center">
 			{#each links as { text, href }}
@@ -52,7 +51,7 @@
 					<a
 						class="m-0 block px-0 py-5 text-[var(--a-link-color)] no-underline transition-all duration-300 ease-in-out visited:text-[var(--a-link-color)] hover:bg-[var(--secondary-back-color)] hover:no-underline"
 						{href}
-						on:click={toggle}>{text}</a
+						onclick={toggle}>{text}</a
 					>
 				</li>
 			{/each}
@@ -68,3 +67,17 @@
 		</span>
 	</nav>
 </span>
+
+<style>
+	#menu-btn:checked ~ label span {
+		background: transparent;
+		&:before {
+			top: 0;
+			rotate: 45deg;
+		}
+		&:after {
+			bottom: 0;
+			rotate: -45deg;
+		}
+	}
+</style>

@@ -1,12 +1,14 @@
 <script>
+	import { preventDefault } from 'svelte/legacy';
+
 	import { recipes, formattedRecipes, recipeSearch, inventory } from '$stores/stores';
 	import RecipeForm from './RecipeForm.svelte';
 	import RecipeItem from './RecipeItem.svelte';
 	import Search from '$lib/misc/Search.svelte';
 	import { successToast } from '$utils/toast.js';
 
-	let showAddForm = false;
-	let editing = undefined;
+	let showAddForm = $state(false);
+	let editing = $state(undefined);
 
 	const editItem = (recipe) => {
 		showAddForm = false;
@@ -27,10 +29,10 @@
 
 <button
 	class="m-4"
-	on:click|preventDefault={() => {
+	onclick={preventDefault(() => {
 		showAddForm = !showAddForm;
 		editing = undefined;
-	}}>{!showAddForm ? 'Add Recipe' : 'Cancel'}</button
+	})}>{!showAddForm ? 'Add Recipe' : 'Cancel'}</button
 >
 
 {#if showAddForm}
@@ -65,7 +67,7 @@
 						/>
 						<!-- rerender is preventing smooth scroll here -->
 						<button
-							on:click|preventDefault={() => closeEdit(`listitem-recipe-${recipe.id}`)}
+							onclick={preventDefault(() => closeEdit(`listitem-recipe-${recipe.id}`))}
 							title="Cancel"
 							class="mx-1 sm:mx-2"
 						>
@@ -73,12 +75,12 @@
 						</button>
 					{:else}
 						<RecipeItem {recipe} />
-						<button on:click|preventDefault={editItem(recipe)} title="Edit Recipe" class="mx-2"
+						<button onclick={preventDefault(editItem(recipe))} title="Edit Recipe" class="mx-2"
 							>✏️</button
 						>
 						<!-- edit  -->
 						<button
-							on:click|preventDefault={duplicateItem(recipe)}
+							onclick={preventDefault(duplicateItem(recipe))}
 							title="Duplicate Recipe"
 							class="mx-1 sm:mx-2">⏩</button
 						>

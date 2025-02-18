@@ -5,17 +5,20 @@
 
 	Chart.register(...registerables, annotationPlugin);
 
-	let chart;
+	let chart = $state();
 	const chartType = 'line';
 	// export let data = [];
-	export let labels = [];
-	export let unit = '';
-	export let goal = 0;
-	export let limit = 0;
 
-	export let storeData;
-	export let label = '';
-	export let color = '#2417fc';
+	/** @type {{labels?: any, unit?: string, goal?: number, limit?: number, storeData: any, label?: string, color?: string}} */
+	let {
+		labels = [],
+		unit = '',
+		goal = 0,
+		limit = 0,
+		storeData,
+		label = '',
+		color = '#2417fc'
+	} = $props();
 
 	const data = [
 		{
@@ -73,7 +76,7 @@
 </script>
 
 <div class="chart">
-	<canvas bind:this={chart} width={1000} />
+	<canvas bind:this={chart} width={1000}></canvas>
 </div>
 
 <style>

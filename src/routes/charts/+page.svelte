@@ -1,15 +1,23 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { list } from '$utils/nutrients';
 	import { history, goals, limits, settings } from '$stores/stores';
 	import { onMount, afterUpdate } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	$: range = 7;
+	let range;
+	run(() => {
+		range = 7;
+	});
 	const historyRange = [7, 14, 30, 90, 180, 365, 0];
 	const colors = ['#fce417', '#ffffff', '#fc173e', '#2417fc'];
 
-	$: enabled = list;
+	let enabled;
+	run(() => {
+		enabled = list;
+	});
 	onMount(async () => {
 		await settings.init();
 		setEnabledItems();

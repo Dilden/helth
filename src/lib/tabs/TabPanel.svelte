@@ -1,6 +1,8 @@
 <script>
 	import { getContext } from 'svelte';
 	import { TABS } from './Tabs.svelte';
+	/** @type {{children?: import('svelte').Snippet}} */
+	let { children } = $props();
 
 	const panel = {};
 	const { registerPanel, selectedPanel } = getContext(TABS);
@@ -9,5 +11,5 @@
 </script>
 
 {#if $selectedPanel === panel}
-	<slot></slot>
+	{@render children?.()}
 {/if}

@@ -1,4 +1,6 @@
 <script>
+	import { preventDefault } from 'svelte/legacy';
+
 	import Item from './Item.svelte';
 	import AddItem from '$lib/inventory/AddItem.svelte';
 	import Spinner from '$lib/Spinner.svelte';
@@ -6,8 +8,8 @@
 	import { inventory, filteredInventory, searchTerm } from '$stores/stores';
 	import { successToast } from '$utils/toast.js';
 
-	let editing = undefined;
-	let formVisible = false;
+	let editing = $state(undefined);
+	let formVisible = $state(false);
 
 	const editItem = (item) => {
 		formVisible = false;
@@ -29,10 +31,10 @@
 
 <button
 	class="m-4"
-	on:click|preventDefault={() => {
+	onclick={preventDefault(() => {
 		formVisible = !formVisible;
 		editing = undefined;
-	}}>{!formVisible ? 'Add Item' : 'Cancel'}</button
+	})}>{!formVisible ? 'Add Item' : 'Cancel'}</button
 >
 
 {#if formVisible}
@@ -59,7 +61,7 @@
 							<AddItem {item} submitCallback={() => closeEdit(`listitem-item-${item.id}`)} />
 							<button
 								title="Cancel"
-								on:click|preventDefault={() => closeEdit(`listitem-item-${item.id}`)}
+								onclick={preventDefault(() => closeEdit(`listitem-item-${item.id}`))}
 								class="m-2"
 							>
 								Cancel
@@ -67,13 +69,13 @@
 							<!-- cancel -->
 						{:else}
 							<Item {item} />
-							<button title="Edit Item" on:click|preventDefault={editItem(item)} class="m-1 sm:m-2"
+							<button title="Edit Item" onclick={preventDefault(editItem(item))} class="m-1 sm:m-2"
 								>✏️</button
 							>
 							<!-- edit  -->
 							<button
 								title="Duplicate Item"
-								on:click|preventDefault={duplicateItem(item)}
+								onclick={preventDefault(duplicateItem(item))}
 								class="m-1 sm:m-2">⏩</button
 							>
 						{/if}

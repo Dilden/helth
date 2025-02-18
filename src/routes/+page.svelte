@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { list } from '$utils/nutrients';
 	import { today, settings, limits, goals } from '$stores/stores';
 	import { blur } from 'svelte/transition';
@@ -9,7 +11,10 @@
 	import Add from '$lib/Add.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	$: enabled = list;
+	let enabled;
+	run(() => {
+		enabled = list;
+	});
 	onMount(async () => {
 		await settings.init();
 		setEnabledItems();

@@ -1,6 +1,6 @@
 <script>
-  export let item = {};
-  export let checked = false;
+  /** @type {{item?: any, checked?: boolean}} */
+  let { item = {}, checked = false } = $props();
 </script>
 
 {#if checked }

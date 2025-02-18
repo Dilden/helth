@@ -1,7 +1,8 @@
 <script>
 	import { fade } from 'svelte/transition';
 	// modal
-	export let open = false;
+	/** @type {{open?: boolean, children?: import('svelte').Snippet}} */
+	let { open = $bindable(false), children } = $props();
 	const toggle = () => {
 		open = !open;
 		if (open) {
@@ -15,14 +16,14 @@
 </script>
 
 <div class="modal {open ? 'open' : ''}">
-	<slot />
+	{@render children?.()}
 </div>
 
 {#key open}
 	<button
 		name="add"
 		aria-label={open ? 'Close Add Dialog' : 'Open Add Dialog'}
-		on:click={toggle}
+		onclick={toggle}
 		transition:fade={{ duration: 250 }}
 		class="toggler">{open ? '❌' : '➕'}</button
 	>

@@ -1,17 +1,19 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { onMount, onDestroy } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import { linear } from 'svelte/easing';
 	import { toast } from '$stores/toaststore';
 
-	/** @type {import('./stores.js').SvelteToastOptions} */
-	export let item;
+	/** @type {{item: import('./stores.js').SvelteToastOptions}} */
+	let { item = $bindable() } = $props();
 
 	/** @type {any} */
-	let next = item.initial;
-	let prev = next;
-	let paused = false;
-	let cprops = {};
+	let next = $state(item.initial);
+	let prev = $state(item.initial);
+	let paused = $state(false);
+	let cprops = $state({});
 	/** @type {any} */
 	let unlisten;
 	/** @type {MouseEvent | KeyboardEvent} */
@@ -59,22 +61,28 @@
 		handler();
 	}
 
-	$: if (next !== item.next) {
-		next = item.next;
-		prev = $progress;
-		paused = false;
-		progress.set(next).then(autoclose);
-	}
+	run(() => {
+		if (next !== item.next) {
+			next = item.next;
+			prev = $progress;
+			paused = false;
+			progress.set(next).then(autoclose);
+		}
+	});
 
-	$: if (item.component) {
-		const { props = {}, sendIdTo } = item.component;
-		cprops = { ...props, ...(sendIdTo && { [sendIdTo]: item.id }) };
-	}
+	run(() => {
+		if (item.component) {
+			const { props = {}, sendIdTo } = item.component;
+			cprops = { ...props, ...(sendIdTo && { [sendIdTo]: item.id }) };
+		}
+	});
 
 	// `progress` has been renamed to `next`; shim included for backward compatibility, to remove in next major
-	$: if (!check(item.progress)) {
-		item.next = item.progress;
-	}
+	run(() => {
+		if (!check(item.progress)) {
+			item.next = item.progress;
+		}
+	});
 
 	onMount(listen);
 
@@ -88,14 +96,14 @@
 	role="status"
 	class="_toastItem"
 	class:pe={item.pausable}
-	on:mouseenter={() => {
+	onmouseenter={() => {
 		if (item.pausable) pause();
 	}}
-	on:mouseleave={resume}
+	onmouseleave={resume}
 >
 	<div class="_toastMsg" class:pe={item.component}>
 		{#if item.component}
-			<svelte:component this={item.component.src} {...cprops} />
+			<item.component.src />
 		{:else}
 			{@html item.msg}
 		{/if}
@@ -105,8 +113,8 @@
 			class="_toastBtn pe"
 			role="button"
 			tabindex="0"
-			on:click={(ev) => close(ev)}
-			on:keydown={(ev) => {
+			onclick={(ev) => close(ev)}
+			onkeydown={(ev) => {
 				if (ev instanceof KeyboardEvent && ['Enter', ' '].includes(ev.key)) close(ev);
 			}}
 		></div>

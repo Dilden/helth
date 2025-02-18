@@ -3,8 +3,8 @@
 	import { list } from '$utils/nutrients';
 	import Spinner from '$lib/Spinner.svelte';
 
-	export let nutrients = [];
-	export let validated = true;
+	/** @type {{nutrients?: any, validated?: boolean}} */
+	let { nutrients = [], validated = true } = $props();
 </script>
 
 <div class="col-start-1 col-end-4">

@@ -1,25 +1,31 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { fade, fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { toast } from '$stores/toaststore';
 	import ToastItem from './ToastItem.svelte';
 
-	/** @type {import('./stores.js').SvelteToastOptions} */
-	export let options = {};
-	/** @type {(string|'default')} */
-	export let target = 'default';
+	
+	
+	/** @type {{options?: import('./stores.js').SvelteToastOptions, target?: (string|'default')}} */
+	let { options = {}, target = 'default' } = $props();
 
 	/** @type {import('./stores.js').SvelteToastOptions[]} */
-	let items = [];
+	let items = $state([]);
 
 	/** @param {Object<string,string|number>} [theme] */
 	function getCss(theme) {
 		return theme ? Object.keys(theme).reduce((a, c) => `${a}${c}:${theme[c]};`, '') : undefined;
 	}
 
-	$: toast._init(target, options);
+	run(() => {
+		toast._init(target, options);
+	});
 
-	$: items = $toast.filter((i) => i.target === target);
+	run(() => {
+		items = $toast.filter((i) => i.target === target);
+	});
 </script>
 
 <ul class="_toastContainer">

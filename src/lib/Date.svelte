@@ -6,9 +6,9 @@
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
-	let dateObj;
-	$: format = '';
-	let edit = false;
+	let dateObj = $state();
+	let format = $state('');
+	let edit = $state(false);
 
 	onMount(async () => {
 		await today.init().then(() => {
@@ -49,11 +49,11 @@
 			<br />
 			<button
 				class="m-2"
-				on:click={async () => await callback({ target: { value: dateToPicker() } })}>Today</button
+				onclick={async () => await callback({ target: { value: dateToPicker() } })}>Today</button
 			>
-			<button class="m-2" on:click={() => (edit = false)}>Cancel</button>
+			<button class="m-2" onclick={() => (edit = false)}>Cancel</button>
 		{:else}
-			<h3 class="text-center"><button on:click={() => (edit = !edit)}>{format}</button></h3>
+			<h3 class="text-center"><button onclick={() => (edit = !edit)}>{format}</button></h3>
 		{/if}
 	</div>
 {/await}

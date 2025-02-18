@@ -3,7 +3,8 @@
 	import { today, inventory, recipes } from '$stores/stores';
 	import { toTwoDecimals } from '$utils/numbers';
 
-	export let item;
+	/** @type {{item: any}} */
+	let { item } = $props();
 
 	const addToToday = () => {
 		try {
@@ -73,11 +74,11 @@
 <!--add to daily total -->
 <button
 	class="mx-1 my-0"
-	on:click={addToToday}
+	onclick={addToToday}
 	title="Add Item nutients (times specified servings) to Daily Total">➕</button
 >
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <!-- remove from db -->
-<button class="float-right m-1 sm:m-2" on:click={confirmDelete} title="Delete Item from Inventory">
+<button class="float-right m-1 sm:m-2" onclick={confirmDelete} title="Delete Item from Inventory">
 	🗑️
 </button>

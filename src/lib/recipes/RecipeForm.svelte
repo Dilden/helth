@@ -1,13 +1,14 @@
 <script>
+	import { preventDefault } from 'svelte/legacy';
+
 	import { recipes, inventoryFilter } from '$stores/stores';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
-	export let recipe = {};
-	export let inventoryItems = [];
-	export let submitCallback = () => false;
+	/** @type {{recipe?: any, inventoryItems?: any, submitCallback?: any}} */
+	let { recipe = {}, inventoryItems = [], submitCallback = () => false } = $props();
 
-	let validated = true;
+	let validated = $state(true);
 
 	inventoryItems.map((item) => {
 		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
@@ -33,7 +34,7 @@
 <form
 	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-8"
 	name="AddRecipe"
-	on:submit|preventDefault={handleSubmit}
+	onsubmit={preventDefault(handleSubmit)}
 >
 	{#if recipe.id}
 		<input type="hidden" id="id" name="id" value={recipe.id} />
