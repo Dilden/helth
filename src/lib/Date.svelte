@@ -12,22 +12,6 @@
 	);
 	let edit = $state(false);
 
-	// onMount(async () => {
-	// await today.init().then(() => {
-
-	// const pickerInit = () => {
-	// dateObj = new Date($today.date);
-	// format = dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
-
-	// document.addEventListener('visibilitychange', () => {
-	// 	if (thePast(dateObj)) {
-	// 		document.location.reload();
-	// 	}
-	// });
-	// };
-	// 	});
-	// });
-
 	const callback = async (e) => {
 		const utc = new Date(e.target.value).getTime();
 		if (utc > toUtc()) {
