@@ -99,7 +99,7 @@
 							class="col-span-1 m-0 p-4"
 							value={item.id}
 							name={item.name}
-							bind:checked={item.checked}
+							checked={item.checked}
 						/>
 						<label class="col-span-3 m-0 ml-2" for="inventoryItem-{item.id}">
 							{item.name}
