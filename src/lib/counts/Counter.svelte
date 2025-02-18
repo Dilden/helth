@@ -17,7 +17,7 @@
 
 	let {
 		item,
-		count = $bindable(0),
+		count = 0,
 		interval = $bindable(1),
 		limit = 0,
 		goal = 0,

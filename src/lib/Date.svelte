@@ -6,22 +6,27 @@
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
-	let dateObj = $state();
-	let format = $state('');
+	let dateObj = $state(new Date($today.date));
+	let format = $derived(
+		dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear()
+	);
 	let edit = $state(false);
 
-	onMount(async () => {
-		await today.init().then(() => {
-			dateObj = new Date($today.date);
-			format = dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+	// onMount(async () => {
+	// await today.init().then(() => {
 
-			document.addEventListener('visibilitychange', () => {
-				if (thePast(dateObj)) {
-					document.location.reload();
-				}
-			});
-		});
-	});
+	// const pickerInit = () => {
+	// dateObj = new Date($today.date);
+	// format = dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+
+	// document.addEventListener('visibilitychange', () => {
+	// 	if (thePast(dateObj)) {
+	// 		document.location.reload();
+	// 	}
+	// });
+	// };
+	// 	});
+	// });
 
 	const callback = async (e) => {
 		const utc = new Date(e.target.value).getTime();
@@ -33,7 +38,7 @@
 			await today.setDate(changeTo);
 			await today.init();
 
-			format = utcToHuman(changeTo);
+			dateObj = new Date(changeTo);
 
 			edit = false;
 		}

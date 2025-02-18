@@ -1,25 +1,20 @@
 <script>
-	import { run } from 'svelte/legacy';
-
 	import { list } from '$utils/nutrients';
 	import { today, settings, limits, goals } from '$stores/stores';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { onMount, afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	let enabled;
-	run(() => {
-		enabled = list;
-	});
+	let enabled = $state(list);
 	onMount(async () => {
 		await settings.init();
 		setEnabledItems();
 	});
-	afterUpdate(() => {
+	$effect(() => {
 		setEnabledItems();
 	});
 
