@@ -103,7 +103,7 @@
 >
 	<div class="_toastMsg" class:pe={item.component}>
 		{#if item.component}
-			<item.component.src />
+			<item.component.src {...cprops} />
 		{:else}
 			{@html item.msg}
 		{/if}
