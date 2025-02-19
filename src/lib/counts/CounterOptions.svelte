@@ -1,18 +1,17 @@
 <script>
 	import { settings } from '$stores/stores';
 
-
 	/** @type {{key?: string, interval?: number, max?: number, moveUpCallback?: any, moveDownCallback?: any}} */
 	let {
 		key = '',
 		interval = $bindable(0),
 		max = 100,
 		moveUpCallback = (fn) => {
-		fn();
-	},
+			fn();
+		},
 		moveDownCallback = (fn) => {
-		fn();
-	}
+			fn();
+		}
 	} = $props();
 </script>
 

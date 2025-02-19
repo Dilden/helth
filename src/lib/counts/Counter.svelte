@@ -2,7 +2,6 @@
 	import { clickOutside } from '$utils/clickOutside';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
 	import CounterOptions from './CounterOptions.svelte';
 
 	interface Props {
@@ -17,7 +16,7 @@
 
 	let {
 		item,
-		count = 0,
+		count = $bindable(0),
 		interval = $bindable(1),
 		limit = 0,
 		goal = 0,
@@ -37,37 +36,31 @@
 	};
 
 	let showOptions = $state(false);
-	let goalString = $state('');
-	let limitString = $state('');
 
-	const diffMsg = () => {
+	let goalString = $derived.by(() => {
 		if (goal) {
 			let diff = 0;
 			diff = toTwoDecimals(goal - count);
 			if (diff) {
-				goalString =
-					diff >= 0 ? `${diff} to 🥅` : `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
+				return diff >= 0
+					? `${diff} to 🥅`
+					: `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
 			}
 		}
+		return '';
+	});
+
+	let limitString = $derived.by(() => {
 		if (limit) {
 			let diff = 0;
 			diff = toTwoDecimals(limit - count);
 			if (diff) {
-				limitString =
-					diff >= 0
-						? `${diff} to limit`
-						: `<span class="text-red-600">${-diff} over limit 😢</span>`;
+				return diff >= 0
+					? `${diff} to limit`
+					: `<span class="text-red-600">${-diff} over limit 😢</span>`;
 			}
 		}
-	};
-
-	onMount(() => {
-		diffMsg();
-		count ||= 0; // count may be null
-	});
-	$effect(() => {
-		diffMsg();
-		count ||= 0;
+		return '';
 	});
 </script>
 
