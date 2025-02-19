@@ -75,12 +75,14 @@
 						</button>
 					{:else}
 						<RecipeItem {recipe} />
-						<button onclick={preventDefault(editItem(recipe))} title="Edit Recipe" class="mx-2"
-							>✏️</button
+						<button
+							onclick={preventDefault(() => editItem(recipe))}
+							title="Edit Recipe"
+							class="mx-2">✏️</button
 						>
 						<!-- edit  -->
 						<button
-							onclick={preventDefault(duplicateItem(recipe))}
+							onclick={preventDefault(() => duplicateItem(recipe))}
 							title="Duplicate Recipe"
 							class="mx-1 sm:mx-2">⏩</button
 						>
