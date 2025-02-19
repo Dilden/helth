@@ -69,13 +69,15 @@
 							<!-- cancel -->
 						{:else}
 							<Item {item} />
-							<button title="Edit Item" onclick={preventDefault(editItem(item))} class="m-1 sm:m-2"
-								>✏️</button
+							<button
+								title="Edit Item"
+								onclick={preventDefault(() => editItem(item))}
+								class="m-1 sm:m-2">✏️</button
 							>
 							<!-- edit  -->
 							<button
 								title="Duplicate Item"
-								onclick={preventDefault(duplicateItem(item))}
+								onclick={preventDefault(() => duplicateItem(item))}
 								class="m-1 sm:m-2">⏩</button
 							>
 						{/if}
