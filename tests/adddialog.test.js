@@ -32,6 +32,11 @@ test.describe('add items dialog', () => {
 				page = await browser.newPage();
 				await page.goto('/');
 				await page.getByRole('status').getByRole('button', { name: 'Yes' }).click();
+				await page
+					.getByRole('alert')
+					.filter({ hasText: 'App ready to work offline' })
+					.getByRole('button', { name: 'Close' })
+					.click();
 				await page.getByRole('button', { name: 'Open Add Dialog' }).click();
 			});
 
@@ -117,6 +122,11 @@ test.describe('add items dialog', () => {
 				.locator('li')
 				.filter({ hasText: "Don't lose your data! Make storage persistent now? Yes No" })
 				.getByTitle('Yes')
+				.click();
+			await page
+				.getByRole('alert')
+				.filter({ hasText: 'App ready to work offline' })
+				.getByRole('button', { name: 'Close' })
 				.click();
 			await page.getByRole('button', { name: 'Open Add Dialog' }).click();
 
