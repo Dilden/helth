@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { toast } from '$stores/toaststore';
 
+	type callbackFn = () => boolean;
+
 	interface Props {
 		message?: string;
-		callbackConfirm?: any;
-		callbackDeny?: any;
+		callbackConfirm?: callbackFn;
+		callbackDeny?: callbackFn;
 	}
 
 	let { message = '', callbackConfirm = () => true, callbackDeny = () => false }: Props = $props();
