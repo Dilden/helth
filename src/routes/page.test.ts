@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
 import { defaultSettingsStoreValues } from '../vitest/defaultSettingsStoreValues';
+import { defaultTodayStoreValues } from '../vitest/defaultTodayStore';
 import { it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import Page from './+page.svelte';
@@ -26,7 +27,7 @@ vi.mock('$stores/stores', async () => {
 			init: vi.fn()
 		},
 		today: {
-			...writable([]),
+			...writable(defaultTodayStoreValues),
 			set: vi.fn(),
 			init: vi.fn()
 		},
