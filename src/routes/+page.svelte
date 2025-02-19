@@ -9,18 +9,9 @@
 	import Add from '$lib/Add.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	let enabled = $state(list);
-	onMount(async () => {
-		await settings.init();
-		setEnabledItems();
-	});
-	$effect(() => {
-		setEnabledItems();
-	});
-
-	const setEnabledItems = () => {
+	let enabled = $derived.by(() => {
 		if ($settings !== undefined) {
-			enabled = list
+			return list
 				.filter((item) => {
 					if ($settings[item.key]?.value?.enabled) {
 						item.position = $settings[item.key]?.value?.position;
@@ -30,7 +21,7 @@
 				.filter((val) => val !== undefined)
 				.sort((a, b) => a.position - b.position);
 		}
-	};
+	});
 
 	const moveCallback = (positionA, positionB) => {
 		const x = Object.values($settings).find(({ value }) => value.position === positionA);
@@ -39,7 +30,6 @@
 		if (x && y) {
 			$settings[x.name].value.position = positionB;
 			$settings[y.name].value.position = positionA;
-			setEnabledItems();
 		}
 	};
 </script>
