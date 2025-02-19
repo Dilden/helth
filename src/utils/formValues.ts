@@ -24,7 +24,7 @@ export const formatRecipeFormValues = (formData: HTMLFormElement): Recipe => {
 				let servings = 1;
 
 				// the next value should be the servings size as a number
-				if (arr[index + 1].type === 'number') {
+				if (arr[index + 1]?.type === 'number') {
 					servings = Number(arr[index + 1].value);
 				}
 
