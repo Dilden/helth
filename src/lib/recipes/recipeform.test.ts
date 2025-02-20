@@ -1,6 +1,7 @@
 import 'fake-indexeddb/auto';
 import { render, screen, within } from '@testing-library/svelte';
-import { describe, it, expect } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, assert } from 'vitest';
 import RecipeForm from './RecipeForm.svelte';
 import { inventoryFilter } from '$stores/stores';
 
@@ -93,6 +94,18 @@ describe('recipe form', () => {
 				.closest('span')!; // ! magically tells TS that this won't be null
 			expect(within(boxAncestor).getByLabelText('Second')).not.toBeChecked();
 			expect(within(boxAncestor).queryByLabelText('Servings')).toBeNull();
+		});
+
+		it('shows servings input when checkbox is clicked', async () => {
+			const user = userEvent.setup();
+			render(RecipeForm, recipeHasItem1);
+
+			const third = screen.getByRole('checkbox', { name: 'third thing' })!;
+			const container = third.closest('span');
+			await user.click(third);
+			if (container !== null) {
+				expect(within(container).getByRole('spinbutton', { name: 'Servings' })).toBeVisible();
+			}
 		});
 	});
 

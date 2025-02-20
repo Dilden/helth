@@ -10,13 +10,18 @@
 
 	let validated = $state(true);
 
-	inventoryItems.forEach((item) => {
-		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
-			item.checked = true;
-		} else {
-			item.checked = false;
-		}
-	});
+	// inventoryItems isn't reactive when it comes in but we can make it reactive...
+	let reactiveItems = $state(
+		inventoryItems.map((item) => {
+			// need to set whether an item should be checked in the list
+			if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+				item.checked = true;
+			} else {
+				item.checked = false;
+			}
+			return item;
+		})
+	);
 
 	const handleSubmit = (event) => {
 		const vals = formatRecipeFormValues(event.target);
@@ -75,7 +80,7 @@
 				bind:searchStoreVal={$inventoryFilter}
 			/>
 		</div>
-		{#if inventoryItems?.length}
+		{#if reactiveItems?.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
 					At least one item must be selected!
@@ -84,28 +89,30 @@
 			<div
 				class="col-span-full grid grid-cols-1 content-center items-center justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
-				{#each inventoryItems as item}
+				{#each reactiveItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
-					<span
-						class="flex flex-row content-stretch items-center justify-evenly gap-2 justify-self-auto p-2 odd:bg-[var(--back-color)] {item.name
-							.toLowerCase()
-							.includes($inventoryFilter.toLowerCase())
-							? 'block'
-							: 'hidden'}"
-					>
-						<input
-							id="inventoryItem-{item.id}"
-							type="checkbox"
-							class="m-0 scale-125 md:scale-150"
-							value={item.id}
-							name={item.name}
-							checked={item.checked}
-						/>
-						<label class="m-0 ml-2" for="inventoryItem-{item.id}">
-							{item.name}
-						</label>
+					<div class="flex flex-col">
+						<span
+							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 odd:bg-[var(--back-color)] md:justify-evenly {item.name
+								.toLowerCase()
+								.includes($inventoryFilter.toLowerCase())
+								? 'block'
+								: 'hidden'}"
+						>
+							<input
+								id="inventoryItem-{item.id}"
+								type="checkbox"
+								class="m-0 scale-125 md:scale-150"
+								value={item.id}
+								name={item.name}
+								bind:checked={item.checked}
+							/>
+							<label class="m-0 ml-2" for="inventoryItem-{item.id}">
+								{item.name}
+							</label>
+						</span>
 						{#if item.checked}
-							<div class="relative">
+							<div class="">
 								<label
 									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
 									for="inventoryItemServing-{item.id}"
@@ -125,7 +132,7 @@
 								/>
 							</div>
 						{/if}
-					</span>
+					</div>
 				{/each}
 			</div>
 		{:else}
