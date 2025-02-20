@@ -1,6 +1,6 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
-
+	import { blur } from 'svelte/transition';
 	import { recipes, inventoryFilter } from '$stores/stores';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
@@ -87,13 +87,13 @@
 				</div>
 			{/if}
 			<div
-				class="col-span-full grid grid-cols-1 content-center items-center justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
+				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each reactiveItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
-					<div class="flex flex-col">
+					<div class="flex flex-col justify-start gap-y-1 odd:bg-[var(--back-color)]">
 						<span
-							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 odd:bg-[var(--back-color)] md:justify-evenly {item.name
+							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 md:justify-evenly {item.name
 								.toLowerCase()
 								.includes($inventoryFilter.toLowerCase())
 								? 'block'
@@ -112,7 +112,7 @@
 							</label>
 						</span>
 						{#if item.checked}
-							<div class="">
+							<span class="relative" transition:blur>
 								<label
 									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
 									for="inventoryItemServing-{item.id}"
@@ -130,7 +130,7 @@
 										: 1}
 									step="any"
 								/>
-							</div>
+							</span>
 						{/if}
 					</div>
 				{/each}
