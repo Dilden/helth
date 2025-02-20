@@ -10,7 +10,7 @@
 
 	let validated = $state(true);
 
-	inventoryItems.map((item) => {
+	inventoryItems.forEach((item) => {
 		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
 			item.checked = true;
 		} else {
@@ -65,7 +65,7 @@
 	</span>
 
 	<div
-		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 overflow-scroll md:col-start-2 md:col-end-8"
+		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 md:col-start-2 md:col-end-8"
 	>
 		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
 			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
@@ -82,7 +82,7 @@
 				</div>
 			{/if}
 			<div
-				class="col-span-full grid grid-cols-1 content-center items-center justify-evenly gap-2 lg:grid-cols-4 xl:grid-cols-6"
+				class="col-span-full grid grid-cols-1 content-center items-center justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each inventoryItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
@@ -96,7 +96,7 @@
 						<input
 							id="inventoryItem-{item.id}"
 							type="checkbox"
-							class="col-span-1 m-0 p-4"
+							class="col-span-1 m-0 scale-150"
 							value={item.id}
 							name={item.name}
 							checked={item.checked}
