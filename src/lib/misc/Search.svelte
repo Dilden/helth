@@ -20,7 +20,7 @@
 		bind:value={searchStoreVal}
 		type="text"
 		placeholder="Begin typing..."
-		onfocus={scrollTo ? scrollIt : false}
+		onfocus={() => (scrollTo ? scrollIt : false)}
 	/>
 	<button
 		class="border-none"
