@@ -107,12 +107,12 @@
 								name={item.name}
 								bind:checked={item.checked}
 							/>
-							<label class="m-0 ml-2" for="inventoryItem-{item.id}">
+							<label class="m-0 ml-2 w-full lg:w-auto" for="inventoryItem-{item.id}">
 								{item.name}
 							</label>
 						</span>
 						{#if item.checked}
-							<span class="relative" transition:blur>
+							<span class="relative w-auto" transition:blur>
 								<label
 									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
 									for="inventoryItemServing-{item.id}"
