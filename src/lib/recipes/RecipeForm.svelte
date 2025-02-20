@@ -87,7 +87,7 @@
 				{#each inventoryItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
 					<span
-						class="grid auto-rows-min grid-cols-5 content-stretch items-center justify-evenly gap-y-1 justify-self-auto {item.name
+						class="flex flex-row content-stretch items-center justify-evenly gap-2 justify-self-auto p-2 odd:bg-[var(--back-color)] {item.name
 							.toLowerCase()
 							.includes($inventoryFilter.toLowerCase())
 							? 'block'
@@ -96,16 +96,16 @@
 						<input
 							id="inventoryItem-{item.id}"
 							type="checkbox"
-							class="col-span-1 m-0 scale-150"
+							class="m-0 scale-125 md:scale-150"
 							value={item.id}
 							name={item.name}
 							checked={item.checked}
 						/>
-						<label class="col-span-3 m-0 ml-2" for="inventoryItem-{item.id}">
+						<label class="m-0 ml-2" for="inventoryItem-{item.id}">
 							{item.name}
 						</label>
 						{#if item.checked}
-							<div class="relative col-span-1 lg:col-span-3 lg:col-start-2">
+							<div class="relative">
 								<label
 									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
 									for="inventoryItemServing-{item.id}"
