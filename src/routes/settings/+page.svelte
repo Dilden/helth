@@ -1,9 +1,7 @@
 <script>
-	import { run } from 'svelte/legacy';
-
 	import { list } from '$utils/nutrients';
 	import { settings, limits, goals } from '$stores/stores';
-	import { onMount, afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import CounterOptions from '$lib/counts/CounterOptions.svelte';
@@ -11,28 +9,16 @@
 	import ImportData from '$lib/data/ImportData.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	let enabled;
-	run(() => {
-		enabled = list;
-	});
-	onMount(async () => {
-		await settings.init();
-		setEnabledItems();
-	});
-	afterUpdate(() => {
-		setEnabledItems();
-	});
-
-	const setEnabledItems = () => {
+	let enabled = $derived.by(() => {
 		if ($settings !== undefined) {
-			enabled = list
+			return list
 				.map((item) => {
 					item.position = $settings[item.key]?.value?.position;
 					return item;
 				})
 				.sort((a, b) => a.position - b.position);
 		}
-	};
+	});
 
 	const moveCallback = (positionA, positionB) => {
 		const x = Object.values($settings).find(({ value }) => value.position === positionA);
@@ -41,7 +27,6 @@
 		if (x && y) {
 			$settings[x.name].value.position = positionB;
 			$settings[y.name].value.position = positionA;
-			setEnabledItems();
 		}
 	};
 </script>
