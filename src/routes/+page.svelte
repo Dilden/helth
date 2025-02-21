@@ -3,7 +3,6 @@
 	import { today, settings, limits, goals } from '$stores/stores';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { onMount } from 'svelte';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';

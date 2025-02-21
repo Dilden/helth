@@ -9,19 +9,9 @@
 	const historyRange = [7, 14, 30, 90, 180, 365, 0];
 	const colors = ['#fce417', '#ffffff', '#fc173e', '#2417fc'];
 
-	let enabled = $state(list);
-
-	onMount(async () => {
-		await settings.init();
-		setEnabledItems();
-	});
-	$effect(() => {
-		setEnabledItems();
-	});
-
-	const setEnabledItems = () => {
+	let enabled = $derived.by(() => {
 		if ($settings !== undefined) {
-			enabled = list
+			return list
 				.filter((item) => {
 					if ($settings[item.key]?.value?.enabled) {
 						item.position = $settings[item.key]?.value?.position;
@@ -31,7 +21,7 @@
 				.filter((val) => val !== undefined)
 				.sort((a, b) => a.position - b.position);
 		}
-	};
+	});
 </script>
 
 <div class="text-center">
