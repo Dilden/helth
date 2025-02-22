@@ -91,9 +91,11 @@
 			>
 				{#each reactiveItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
-					<div class="flex flex-col justify-start gap-y-1 odd:bg-[var(--back-color)]">
+					<div
+						class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-[var(--back-color)] lg:w-auto lg:flex-col lg:justify-start"
+					>
 						<span
-							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 md:justify-evenly {item.name
+							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 {item.name
 								.toLowerCase()
 								.includes($inventoryFilter.toLowerCase())
 								? 'block'
@@ -112,7 +114,7 @@
 							</label>
 						</span>
 						{#if item.checked}
-							<span class="relative w-auto" transition:blur>
+							<span class="relative w-auto max-w-20" transition:blur>
 								<label
 									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
 									for="inventoryItemServing-{item.id}"
