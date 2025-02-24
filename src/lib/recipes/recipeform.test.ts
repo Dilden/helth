@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { render, screen, within } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, assert } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import RecipeForm from './RecipeForm.svelte';
 import { inventoryFilter } from '$stores/stores';
 

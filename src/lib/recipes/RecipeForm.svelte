@@ -92,14 +92,14 @@
 				{#each reactiveItems as item}
 					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
 					<div
-						class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-[var(--back-color)] lg:w-auto lg:flex-col lg:justify-start"
+						class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-[var(--back-color)] lg:w-auto lg:flex-col lg:justify-start {item.name
+							.toLowerCase()
+							.includes($inventoryFilter.toLowerCase())
+							? 'block'
+							: 'hidden'}"
 					>
 						<span
-							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 {item.name
-								.toLowerCase()
-								.includes($inventoryFilter.toLowerCase())
-								? 'block'
-								: 'hidden'}"
+							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2"
 						>
 							<input
 								id="inventoryItem-{item.id}"
