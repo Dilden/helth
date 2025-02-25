@@ -2,7 +2,8 @@
 	import { nutrientSumsFromList, applyServings } from '$utils/item';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
-	import { recipes, today } from '$stores/stores';
+	import { today } from '$stores/stores';
+	import { recipes } from '$stores/stores.svelte';
 
 	/** @type {{recipe?: any}} */
 	let { recipe = {} } = $props();
@@ -26,9 +27,9 @@
 			errorToast('Error adding to total!');
 		}
 	};
-	const deleteRecipe = () => {
-		recipes
-			.delete(recipe.id)
+	const deleteRecipe = async () => {
+		await recipes
+			.remove(recipe.id)
 			.then(() => successToast('Removed recipe!'))
 			.catch(() => errorToast('Error deleting recipe!'));
 	};

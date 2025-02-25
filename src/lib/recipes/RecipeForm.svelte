@@ -1,7 +1,8 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 	import { blur } from 'svelte/transition';
-	import { recipes, inventoryFilter } from '$stores/stores';
+	import { inventoryFilter } from '$stores/stores';
+	import { recipes } from '$stores/stores.svelte';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
@@ -23,10 +24,10 @@
 		})
 	);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		const vals = formatRecipeFormValues(event.target);
 		if (vals?.items?.length) {
-			$recipes = vals;
+			await recipes.add(vals);
 			event.target.reset();
 			validated = true;
 			submitCallback();

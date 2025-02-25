@@ -1,7 +1,8 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 
-	import { recipes, formattedRecipes, recipeSearch, inventory } from '$stores/stores';
+	import { formattedRecipes, recipeSearch, inventory } from '$stores/stores';
+	import { recipes } from '$stores/stores.svelte';
 	import RecipeForm from './RecipeForm.svelte';
 	import RecipeItem from './RecipeItem.svelte';
 	import Search from '$lib/misc/Search.svelte';
@@ -14,9 +15,9 @@
 		showAddForm = false;
 		editing = recipe;
 	};
-	const duplicateItem = (recipe) => {
+	const duplicateItem = async (recipe) => {
 		const { id, created, ...rest } = recipe;
-		$recipes = rest;
+		await recipes.add(rest);
 		successToast(`Duplicated ${rest.name}!`);
 	};
 
