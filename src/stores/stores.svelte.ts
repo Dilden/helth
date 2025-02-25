@@ -1,6 +1,6 @@
 import * as dbfun from '$stores/db';
 
-function createListStore(tableName: string) {
+function createListStore(tableName: 'inventory' | 'recipes') {
 	let data: InventoryItem[] | Recipe[] = $state([]);
 
 	function get() {
@@ -21,7 +21,12 @@ function createListStore(tableName: string) {
 		await init();
 	}
 
-	return { get, init, add, remove };
+	async function update(id: string, newItem: InventoryItem | Recipe) {
+		await dbfun.updateItemInList(tableName, id, newItem);
+		await init();
+	}
+
+	return { get, init, add, remove, update };
 }
 
-export const inventory = createListStore('inventory' as const);
+export const inventory = createListStore('inventory');
