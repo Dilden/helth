@@ -13,7 +13,11 @@
 		const vals = formatInventoryFormValues(event.target);
 		if (vals?.nutrients && Object.entries(vals?.nutrients).length) {
 			validated = true;
-			await inventory.add(vals);
+			if (vals.id) {
+				await inventory.update(vals.id, vals);
+			} else {
+				await inventory.add(vals);
+			}
 			event.target.reset();
 			submitCallback();
 		} else {
