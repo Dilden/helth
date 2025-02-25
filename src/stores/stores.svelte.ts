@@ -30,3 +30,4 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 }
 
 export const inventory = createListStore('inventory');
+export const recipes = createListStore('recipes');

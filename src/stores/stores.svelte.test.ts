@@ -1,8 +1,8 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect, beforeAll } from 'vitest';
-import { inventory } from '$stores/stores.svelte';
+import { inventory, recipes } from '$stores/stores.svelte';
 
-describe('inventory', () => {
+describe.sequential('inventory', () => {
 	it('can add an item', async () => {
 		await inventory.add(testItem);
 
@@ -14,7 +14,6 @@ describe('inventory', () => {
 	// TODO
 	// should remove an item from any existing recipes as well
 	it('can remove an item', async () => {
-		await inventory.add(testItem);
 		await inventory.add(testItem2);
 		expect(inventory.get()).toEqual(
 			expect.arrayContaining([
@@ -64,12 +63,47 @@ describe('inventory', () => {
 	});
 });
 
-describe('recipes', () => {
-	it.skip('can add a recipe', async () => {});
+describe.sequential('recipes', () => {
+	it('can add a recipe', async () => {
+		await recipes.add(recipe1);
 
-	it.skip('can update a recipe', async () => {});
+		expect(recipes.get()).toEqual(
+			expect.arrayContaining([expect.objectContaining({ name: 'first recipe' })])
+		);
+	});
 
-	it.skip('can remove a recipe', () => {});
+	it('can update a recipe', async () => {
+		await recipes.add(recipe2);
+		await recipes.update('22222', {
+			name: 'second',
+			description: 'something else now',
+			items: [
+				{ id: '1234', servings: 1 },
+				{ id: '3333', servings: 3 }
+			]
+		});
+
+		expect(recipes.get()).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ name: 'first recipe' }),
+				expect.objectContaining({
+					name: 'second',
+					description: 'something else now',
+					items: expect.arrayContaining([
+						expect.objectContaining({ id: '1234' }),
+						expect.objectContaining({ id: '3333' })
+					])
+				})
+			])
+		);
+	});
+
+	it('can remove a recipe', async () => {
+		await recipes.remove('22222');
+		expect(recipes.get()).toEqual(
+			expect.not.arrayContaining([expect.objectContaining({ id: '22222' })])
+		);
+	});
 });
 
 const testItem: InventoryItem = {
@@ -112,4 +146,17 @@ const testItem3: InventoryItem = {
 			quantity: 300
 		}
 	]
+};
+
+const recipe1 = {
+	name: 'first recipe',
+	description: 'its just a test, bro',
+	items: []
+};
+
+const recipe2 = {
+	id: '22222',
+	name: '2nd',
+	description: 'SHOULD CHANGE ON UPDATE',
+	items: []
 };
