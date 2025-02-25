@@ -106,6 +106,50 @@ describe.sequential('recipes', () => {
 	});
 });
 
+it('removes a linked item from a recipe when an item is deleted', async () => {
+	await inventory.add({ ...testItem2, id: '666' });
+	await inventory.add({ ...testItem3, id: '777' });
+	await recipes.add({
+		id: '55555',
+		name: 'recipe with real items',
+		description: 'only one item should remain...',
+		items: [
+			{
+				id: '666',
+				servings: 2
+			},
+			{ id: '777', servings: 1 }
+		]
+	});
+
+	expect(recipes.get()).toEqual(
+		expect.arrayContaining([
+			expect.objectContaining({
+				id: '55555',
+				items: expect.arrayContaining([
+					expect.objectContaining({ id: '666' }),
+					expect.objectContaining({ id: '777' })
+				])
+			})
+		])
+	);
+
+	await inventory.remove('666');
+
+	// TODO: after removing an inventory item, the recipes store must be reinitialized!
+	// consider refactoring the store to automatically do this
+	await recipes.init();
+
+	expect(recipes.get()).toEqual(
+		expect.arrayContaining([
+			expect.objectContaining({
+				id: '55555',
+				items: expect.not.arrayContaining([expect.objectContaining({ id: '666' })])
+			})
+		])
+	);
+});
+
 const testItem: InventoryItem = {
 	name: 'test item',
 	description: 'desc goes here',

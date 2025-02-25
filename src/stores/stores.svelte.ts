@@ -7,8 +7,8 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 		return data;
 	}
 
-	async function init() {
-		data = await dbfun.getListItems(tableName);
+	async function init(reinit: string = tableName) {
+		data = await dbfun.getListItems(reinit);
 	}
 
 	async function add(item: InventoryItem | Recipe) {
@@ -17,6 +17,9 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 	}
 
 	async function remove(id: string) {
+		if (tableName === 'inventory') {
+			await dbfun.deleteItemFromRecipes(id);
+		}
 		await dbfun.deleteFromList(tableName, id);
 		await init();
 	}
