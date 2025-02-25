@@ -1,5 +1,5 @@
 import 'fake-indexeddb/auto';
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { inventory, recipes } from '$stores/stores.svelte';
 
 describe.sequential('inventory', () => {
@@ -11,8 +11,6 @@ describe.sequential('inventory', () => {
 		);
 	});
 
-	// TODO
-	// should remove an item from any existing recipes as well
 	it('can remove an item', async () => {
 		await inventory.add(testItem2);
 		expect(inventory.get()).toEqual(
