@@ -26,7 +26,7 @@ describe('inventory list', () => {
 	});
 });
 
-vi.mock('$stores/stores', async () => {
+vi.mock('$stores/stores.svelte', async () => {
 	const defaultInventory = [
 		{
 			id: 1,
@@ -77,10 +77,11 @@ vi.mock('$stores/stores', async () => {
 	const { writable, derived } = await import('svelte/store');
 	return {
 		inventory: {
-			...writable(defaultInventory),
-			set: vi.fn(),
+			add: vi.fn(),
 			init: vi.fn(async () => Promise.resolve(defaultInventory)),
-			delete: vi.fn()
+			remove: vi.fn(),
+			update: vi.fn(),
+			get: vi.fn(() => defaultInventory)
 		},
 		filteredInventory: {
 			...derived(writable(''), () => defaultInventory, defaultInventory)
@@ -94,12 +95,6 @@ vi.mock('$stores/stores', async () => {
 			...writable(0),
 			set: vi.fn(),
 			init: vi.fn()
-		},
-		recipes: {
-			...writable(0),
-			set: vi.fn(),
-			init: vi.fn(),
-			delete: vi.fn()
 		}
 	};
 });
