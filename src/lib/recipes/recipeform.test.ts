@@ -81,7 +81,7 @@ describe('recipe form', () => {
 
 			const boxAncestor: HTMLElement = screen
 				.getByRole('checkbox', { name: 'First' })
-				.closest('span')!; // ! magically tells TS that this won't be null
+				.closest('div')!; // ! magically tells TS that this won't be null
 			expect(within(boxAncestor).getByLabelText('First')).toBeChecked();
 			expect(within(boxAncestor).getByLabelText('Servings')).toHaveValue(3);
 		});
@@ -91,7 +91,7 @@ describe('recipe form', () => {
 
 			const boxAncestor: HTMLElement = screen
 				.getByRole('checkbox', { name: 'Second' })
-				.closest('span')!; // ! magically tells TS that this won't be null
+				.closest('div')!; // ! magically tells TS that this won't be null
 			expect(within(boxAncestor).getByLabelText('Second')).not.toBeChecked();
 			expect(within(boxAncestor).queryByLabelText('Servings')).toBeNull();
 		});
@@ -101,7 +101,7 @@ describe('recipe form', () => {
 			render(RecipeForm, recipeHasItem1);
 
 			const third = screen.getByRole('checkbox', { name: 'third thing' })!;
-			const container = third.closest('span');
+			const container = third.closest('div');
 			await user.click(third);
 			if (container !== null) {
 				expect(within(container).getByRole('spinbutton', { name: 'Servings' })).toBeVisible();
