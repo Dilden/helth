@@ -1,6 +1,7 @@
 <script>
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
-	import { today, inventory, recipes } from '$stores/stores';
+	import { today } from '$stores/stores';
+	import { inventory, recipes } from '$stores/stores.svelte';
 	import { toTwoDecimals } from '$utils/numbers';
 
 	/** @type {{item: any}} */
@@ -30,10 +31,10 @@
 
 	const deleteItem = async () => {
 		await inventory
-			.delete(item.id)
+			.remove(item.id)
 			.then(() => successToast('Removed item!'))
 			.catch(() => errorToast('Error deleting item!'));
-		await recipes.init();
+		await recipes.init(); // recipes store must be re-initialized as its state will remain stale otherwise
 	};
 </script>
 

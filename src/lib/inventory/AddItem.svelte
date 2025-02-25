@@ -1,7 +1,7 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 
-	import { inventory } from '$stores/stores';
+	import { inventory } from '$stores/stores.svelte';
 	import { formatInventoryFormValues } from '$utils/formValues';
 	import AddNutrientInputs from './AddNutrientInputs.svelte';
 
@@ -9,11 +9,11 @@
 	let { item = {}, submitCallback = () => false } = $props();
 	let validated = $state(true);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		const vals = formatInventoryFormValues(event.target);
 		if (vals?.nutrients && Object.entries(vals?.nutrients).length) {
 			validated = true;
-			$inventory = vals;
+			await inventory.add(vals);
 			event.target.reset();
 			submitCallback();
 		} else {

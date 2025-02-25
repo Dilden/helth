@@ -5,7 +5,8 @@
 	import AddItem from '$lib/inventory/AddItem.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import Search from '$lib/misc/Search.svelte';
-	import { inventory, filteredInventory, searchTerm } from '$stores/stores';
+	import { filteredInventory, searchTerm } from '$stores/stores';
+	import { inventory } from '$stores/stores.svelte';
 	import { successToast } from '$utils/toast.js';
 
 	let editing = $state(undefined);
@@ -16,9 +17,9 @@
 		editing = item;
 	};
 
-	const duplicateItem = (item) => {
+	const duplicateItem = async (item) => {
 		const { id, barcode, created, ...rest } = item;
-		$inventory = rest;
+		await inventory.add(rest);
 		successToast(`Duplicated ${rest.name}!`);
 	};
 
@@ -54,7 +55,7 @@
 		{#await inventory.init()}
 			<Spinner />
 		{:then}
-			{#if $inventory.length}
+			{#if inventory.get().length}
 				{#each $filteredInventory.slice().reverse() as item}
 					<li id="listitem-item-{item.id}" class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4">
 						{#if editing?.id === item.id}
