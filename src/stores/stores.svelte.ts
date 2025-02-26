@@ -50,3 +50,4 @@ const invS: SearchResults<InventoryItem> = $derived.by(() => {
 	};
 });
 export const inventorySearchResults = () => invS;
+export const recipesInventoryFilter: Search = $state({ query: '' });

@@ -1,8 +1,7 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 	import { blur } from 'svelte/transition';
-	import { inventoryFilter } from '$stores/stores';
-	import { recipes } from '$stores/stores.svelte';
+	import { recipes, recipesInventoryFilter } from '$stores/stores.svelte';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
@@ -74,11 +73,11 @@
 		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 md:col-start-2 md:col-end-8"
 	>
 		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
-			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
+			<!-- recipesInventoryFilter.query is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
 				scrollTo={false}
-				bind:searchStoreVal={$inventoryFilter}
+				bind:searchStoreVal={recipesInventoryFilter.query}
 			/>
 		</div>
 		{#if reactiveItems?.length}
@@ -91,11 +90,11 @@
 				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each reactiveItems as item}
-					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
+					<!-- hide items here based on inventorySearch.query value as removing them entirely breaks the form -->
 					<div
 						class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-[var(--back-color)] lg:w-auto lg:flex-col lg:justify-start {item.name
 							.toLowerCase()
-							.includes($inventoryFilter.toLowerCase())
+							.includes(recipesInventoryFilter.query.toLowerCase())
 							? 'block'
 							: 'hidden'}"
 					>
