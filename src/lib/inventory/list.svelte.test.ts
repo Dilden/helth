@@ -1,3 +1,4 @@
+import 'fake-indexeddb/auto';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import List from './List.svelte';
@@ -74,7 +75,7 @@ vi.mock('$stores/stores.svelte', async () => {
 			]
 		}
 	];
-	const { writable, derived } = await import('svelte/store');
+	let s = $state({ query: '' });
 	return {
 		inventory: {
 			add: vi.fn(),
@@ -83,14 +84,14 @@ vi.mock('$stores/stores.svelte', async () => {
 			update: vi.fn(),
 			get: vi.fn(() => defaultInventory)
 		},
-		filteredInventory: {
-			...derived(writable(''), () => defaultInventory, defaultInventory)
-		},
-		searchTerm: {
-			...writable(''),
-			set: vi.fn(),
-			init: vi.fn()
-		},
+		inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
+		inventorySearch: s
+	};
+});
+
+vi.mock('$stores/stores', async () => {
+	const { writable } = await import('svelte/store');
+	return {
 		today: {
 			...writable(0),
 			set: vi.fn(),

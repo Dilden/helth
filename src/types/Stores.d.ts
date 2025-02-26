@@ -12,7 +12,9 @@ interface RecipeStore extends ListStore {
 	get(): Array<Recipe>;
 }
 
-interface Search<T> {
+interface Search {
 	query: string;
+}
+interface SearchResults<T> {
 	results: Array<T>;
 }

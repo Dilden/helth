@@ -5,8 +5,7 @@
 	import AddItem from '$lib/inventory/AddItem.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import Search from '$lib/misc/Search.svelte';
-	import { filteredInventory, searchTerm } from '$stores/stores';
-	import { inventory } from '$stores/stores.svelte';
+	import { inventory, inventorySearchResults, inventorySearch } from '$stores/stores.svelte';
 	import { successToast } from '$utils/toast.js';
 
 	let editing = $state(undefined);
@@ -49,14 +48,14 @@
 <div class="grid grid-cols-1 grid-rows-[1fr_auto] md:grid-cols-2">
 	<h3 class="col-start-1 col-end-3 md:col-end-2">Saved Items</h3>
 	<div class="relative col-start-1 col-end-2 m-2 mt-0 md:col-start-2 md:col-end-3">
-		<Search bind:searchStoreVal={$searchTerm} />
+		<Search bind:searchStoreVal={inventorySearch.query} />
 	</div>
 	<ul aria-label="inventory-list" class="col-start-1 col-end-2 mb-8 list-none p-0 md:col-end-3">
 		{#await inventory.init()}
 			<Spinner />
 		{:then}
 			{#if inventory.get().length}
-				{#each $filteredInventory.slice().reverse() as item}
+				{#each inventorySearchResults().results.slice().reverse() as item}
 					<li id="listitem-item-{item.id}" class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4">
 						{#if editing?.id === item.id}
 							<AddItem {item} submitCallback={() => closeEdit(`listitem-item-${item.id}`)} />
@@ -70,10 +69,7 @@
 							<!-- cancel -->
 						{:else}
 							<Item {item} />
-							<button
-								title="Edit Item"
-								onclick={preventDefault(() => editItem(item))}
-								class="m-1 sm:m-2">✏️</button
+							<button title="Edit Item" onclick={() => editItem(item)} class="m-1 sm:m-2">✏️</button
 							>
 							<!-- edit  -->
 							<button

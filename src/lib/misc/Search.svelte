@@ -2,7 +2,7 @@
 	import { preventDefault } from 'svelte/legacy';
 
 	/** @type {{searchStoreVal?: any, searchTitle?: string, scrollTo?: boolean}} */
-	let { searchStoreVal = $bindable({}), searchTitle = 'Search', scrollTo = true } = $props();
+	let { searchStoreVal = $bindable(), searchTitle = 'Search', scrollTo = true } = $props();
 
 	const scrollIt = () => {
 		const top = document.getElementById('searching-' + searchTitle);

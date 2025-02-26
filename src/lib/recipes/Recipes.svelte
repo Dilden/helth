@@ -1,8 +1,8 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 
-	import { formattedRecipes, recipeSearch, inventory } from '$stores/stores';
-	import { recipes } from '$stores/stores.svelte';
+	import { formattedRecipes, recipeSearch } from '$stores/stores';
+	import { recipes, inventory } from '$stores/stores.svelte';
 	import RecipeForm from './RecipeForm.svelte';
 	import RecipeItem from './RecipeItem.svelte';
 	import Search from '$lib/misc/Search.svelte';
@@ -61,9 +61,9 @@
 					{#if editing?.id === recipe.id}
 						<RecipeForm
 							{recipe}
-							inventoryItems={$inventory.sort((a, b) =>
-								a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-							)}
+							inventoryItems={inventory
+								.get()
+								.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))}
 							submitCallback={() => closeEdit(`listitem-recipe-${recipe.id}`)}
 						/>
 						<!-- rerender is preventing smooth scroll here -->
