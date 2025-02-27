@@ -1,4 +1,5 @@
 import * as dbfun from '$stores/db';
+import { lookupItems } from '$utils/recipe';
 
 function createListStore(tableName: 'inventory'): InventoryStore;
 function createListStore(tableName: 'recipes'): RecipeStore;
@@ -50,4 +51,33 @@ const invS: SearchResults<InventoryItem> = $derived.by(() => {
 	};
 });
 export const inventorySearchResults = () => invS;
+
 export const recipesInventoryFilter: Search = $state({ query: '' });
+
+export const recipeSearch: Search = $state({ query: '' });
+const recS: SearchResults<Promise<Recipe>> = $derived.by(() => {
+	let searched = recipes
+		.get()
+		.filter(
+			(recipe) =>
+				recipe.name.toLowerCase().includes(recipeSearch.query.toLowerCase()) ||
+				recipe.description.toLowerCase().includes(recipeSearch.query.toLowerCase())
+		);
+
+	return {
+		results: searched.map(async (recipe: Recipe) => {
+			const _items = lookupItems(recipe);
+			const lookedUpItems = await Promise.all(_items);
+
+			const items = lookedUpItems.map((item) => {
+				let found = recipe.items.find((x) => x.id === item.id);
+
+				// default servings to 1 if not set
+				return { servings: 1, ...found, ...item };
+			});
+
+			return { ...recipe, items };
+		})
+	};
+});
+export const recipeSearchResults = () => recS;
