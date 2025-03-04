@@ -10,7 +10,6 @@
 
 	let showAddForm = $state(false);
 	let editing = $state(undefined);
-	$inspect(editing);
 
 	let sortedInventory = $derived(
 		inventory.get().toSorted(
