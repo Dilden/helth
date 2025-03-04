@@ -11,24 +11,27 @@
 	let validated = $state(true);
 
 	// inventoryItems isn't reactive when it comes in but we can make it reactive...
-	let reactiveItems = $state(
-		inventoryItems.map((item) => {
-			// need to set whether an item should be checked in the list
-			if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
-				item.checked = true;
-			} else {
-				item.checked = false;
-			}
-			return item;
-		})
-	);
+	let reactiveItems = inventoryItems.map((item) => {
+		// need to set whether an item should be checked in the list
+		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+			item.checked = true;
+		} else {
+			item.checked = false;
+		}
+		return item;
+	});
 
 	const handleSubmit = async (event) => {
 		const vals = formatRecipeFormValues(event.target);
 		if (vals?.items?.length) {
-			await recipes.add(vals);
-			event.target.reset();
 			validated = true;
+			if (vals.id) {
+				await recipes.update(vals.id, vals);
+			} else {
+				await recipes.add(vals);
+			}
+
+			event.target.reset();
 			submitCallback();
 		} else {
 			validated = false;
