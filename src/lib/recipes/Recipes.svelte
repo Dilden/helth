@@ -1,15 +1,27 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 
-	import { formattedRecipes, recipeSearch } from '$stores/stores';
-	import { recipes, inventory } from '$stores/stores.svelte';
+	import { recipes, recipeSearch, recipeSearchResults, inventory } from '$stores/stores.svelte';
 	import RecipeForm from './RecipeForm.svelte';
 	import RecipeItem from './RecipeItem.svelte';
 	import Search from '$lib/misc/Search.svelte';
 	import { successToast } from '$utils/toast.js';
+	import { onMount } from 'svelte';
 
 	let showAddForm = $state(false);
 	let editing = $state(undefined);
+	$inspect(editing);
+
+	let sortedInventory = $derived(
+		inventory.get().toSorted(
+			(a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()) // sort inventory alphabetically
+		)
+	);
+
+	onMount(async () => {
+		await recipes.init();
+		await inventory.init();
+	});
 
 	const editItem = (recipe) => {
 		showAddForm = false;
@@ -37,33 +49,27 @@
 >
 
 {#if showAddForm}
-	{#await inventory.init() then filtered}
-		<RecipeForm
-			inventoryItems={filtered.sort(
-				(a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()) // sort inventory alphabetically
-			)}
-			submitCallback={() => {
-				showAddForm = false;
-			}}
-		/>
-	{/await}
+	<RecipeForm
+		inventoryItems={sortedInventory}
+		submitCallback={() => {
+			showAddForm = false;
+		}}
+	/>
 {/if}
 
 <div class="grid grid-cols-1 grid-rows-[1fr_auto] md:grid-cols-2">
 	<h3 class="col-start-1 col-end-3 md:col-end-2">Recipes</h3>
 	<div class="relative col-start-1 col-end-2 m-2 mt-0 md:col-start-2 md:col-end-3">
-		<Search bind:searchStoreVal={$recipeSearch} searchTitle="Search Recipes" />
+		<Search bind:searchStoreVal={recipeSearch.query} searchTitle="Search Recipes" />
 	</div>
 	<ul class="col-start-1 col-end-2 mb-8 list-none p-0 md:col-end-3">
-		{#await Promise.all($formattedRecipes) then formatted}
-			{#each formatted.slice().reverse() as recipe}
+		{#await Promise.all(recipeSearchResults().results) then formatted}
+			{#each formatted.slice().reverse() as recipe, index}
 				<li class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4" id="listitem-recipe-{recipe.id}">
 					{#if editing?.id === recipe.id}
 						<RecipeForm
 							{recipe}
-							inventoryItems={inventory
-								.get()
-								.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))}
+							inventoryItems={sortedInventory}
 							submitCallback={() => closeEdit(`listitem-recipe-${recipe.id}`)}
 						/>
 						<!-- rerender is preventing smooth scroll here -->
