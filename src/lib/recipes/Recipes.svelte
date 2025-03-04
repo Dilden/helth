@@ -33,8 +33,9 @@
 		successToast(`Duplicated ${rest.name}!`);
 	};
 
-	const closeEdit = (id) => {
-		const top = document.getElementById(id);
+	const closeEdit = async (id) => {
+		await Promise.all(recipeSearchResults().results);
+		let top = document.getElementById(id);
 		top.scrollIntoView({ behavior: 'smooth' });
 		editing = undefined;
 	};
