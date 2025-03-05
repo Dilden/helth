@@ -50,8 +50,7 @@ describe('recipe list items', () => {
 	});
 });
 
-vi.mock('$stores/stores', async () => {
-	const { writable, derived } = await import('svelte/store');
+vi.mock('$stores/stores.svelte', async () => {
 	const defaultRecipes = [
 		Promise.resolve({
 			name: 'Crackers and Cheese',
@@ -194,37 +193,55 @@ vi.mock('$stores/stores', async () => {
 		}
 	];
 
+	let recipeSearch = $state({ query: '' });
+	let recipesInventoryFilter = $state({ query: '' });
 	return {
-		// formattedRecipes: {
-		// 	...derived(writable(''), () => defaultRecipes, defaultRecipes)
-		// },
-		// recipeSearch: {
-		// 	...writable(0),
-		// 	set: vi.fn(),
-		// 	init: vi.fn()
-		// },
-		// recipes: {
-		// 	...writable(0),
-		// 	set: vi.fn(),
-		// 	init: vi.fn(),
-		// 	delete: vi.fn()
-		// },
-		// inventory: {
-		// 	...writable(defaultInventory),
-		// 	set: vi.fn(),
-		// 	init: vi.fn(async () => Promise.resolve(defaultInventory)),
-		// 	delete: vi.fn()
-		// },
-		// inventoryFilter: {
-		// 	...writable(''),
-		// 	set: vi.fn(),
-		// 	init: vi.fn()
-		// },
-		today: {
-			...writable(''),
-			set: vi.fn(),
+		recipes: {
 			init: vi.fn(),
-			setDate: vi.fn()
+			get: vi.fn(() => defaultRecipes)
+		},
+		recipeSearch,
+		recipeSearchResults: vi.fn(() => ({
+			results: defaultRecipes
+		})),
+		recipesInventoryFilter,
+		inventory: {
+			get: vi.fn(() => defaultInventory),
+			init: vi.fn()
 		}
 	};
+	// return {
+
+	// formattedRecipes: {
+	// 	...derived(writable(''), () => defaultRecipes, defaultRecipes)
+	// },
+	// recipeSearch: {
+	// 	...writable(0),
+	// 	set: vi.fn(),
+	// 	init: vi.fn()
+	// },
+	// recipes: {
+	// 	...writable(0),
+	// 	set: vi.fn(),
+	// 	init: vi.fn(),
+	// 	delete: vi.fn()
+	// },
+	// inventory: {
+	// 	...writable(defaultInventory),
+	// 	set: vi.fn(),
+	// 	init: vi.fn(async () => Promise.resolve(defaultInventory)),
+	// 	delete: vi.fn()
+	// },
+	// inventoryFilter: {
+	// 	...writable(''),
+	// 	set: vi.fn(),
+	// 	init: vi.fn()
+	// },
+	// today: {
+	// 	...writable(''),
+	// 	set: vi.fn(),
+	// 	init: vi.fn(),
+	// 	setDate: vi.fn()
+	// }
+	// };
 });
