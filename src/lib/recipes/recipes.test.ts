@@ -195,31 +195,31 @@ vi.mock('$stores/stores', async () => {
 	];
 
 	return {
-		formattedRecipes: {
-			...derived(writable(''), () => defaultRecipes, defaultRecipes)
-		},
-		recipeSearch: {
-			...writable(0),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		recipes: {
-			...writable(0),
-			set: vi.fn(),
-			init: vi.fn(),
-			delete: vi.fn()
-		},
-		inventory: {
-			...writable(defaultInventory),
-			set: vi.fn(),
-			init: vi.fn(async () => Promise.resolve(defaultInventory)),
-			delete: vi.fn()
-		},
-		inventoryFilter: {
-			...writable(''),
-			set: vi.fn(),
-			init: vi.fn()
-		},
+		// formattedRecipes: {
+		// 	...derived(writable(''), () => defaultRecipes, defaultRecipes)
+		// },
+		// recipeSearch: {
+		// 	...writable(0),
+		// 	set: vi.fn(),
+		// 	init: vi.fn()
+		// },
+		// recipes: {
+		// 	...writable(0),
+		// 	set: vi.fn(),
+		// 	init: vi.fn(),
+		// 	delete: vi.fn()
+		// },
+		// inventory: {
+		// 	...writable(defaultInventory),
+		// 	set: vi.fn(),
+		// 	init: vi.fn(async () => Promise.resolve(defaultInventory)),
+		// 	delete: vi.fn()
+		// },
+		// inventoryFilter: {
+		// 	...writable(''),
+		// 	set: vi.fn(),
+		// 	init: vi.fn()
+		// },
 		today: {
 			...writable(''),
 			set: vi.fn(),
