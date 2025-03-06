@@ -3,9 +3,6 @@ import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import Recipes from './Recipes.svelte';
-// import { recipeMock } from '$vitest/mockStores';
-
-// recipeMock();
 
 afterEach(() => {
 	vi.restoreAllMocks();
@@ -210,38 +207,4 @@ vi.mock('$stores/stores.svelte', async () => {
 			init: vi.fn()
 		}
 	};
-	// return {
-
-	// formattedRecipes: {
-	// 	...derived(writable(''), () => defaultRecipes, defaultRecipes)
-	// },
-	// recipeSearch: {
-	// 	...writable(0),
-	// 	set: vi.fn(),
-	// 	init: vi.fn()
-	// },
-	// recipes: {
-	// 	...writable(0),
-	// 	set: vi.fn(),
-	// 	init: vi.fn(),
-	// 	delete: vi.fn()
-	// },
-	// inventory: {
-	// 	...writable(defaultInventory),
-	// 	set: vi.fn(),
-	// 	init: vi.fn(async () => Promise.resolve(defaultInventory)),
-	// 	delete: vi.fn()
-	// },
-	// inventoryFilter: {
-	// 	...writable(''),
-	// 	set: vi.fn(),
-	// 	init: vi.fn()
-	// },
-	// today: {
-	// 	...writable(''),
-	// 	set: vi.fn(),
-	// 	init: vi.fn(),
-	// 	setDate: vi.fn()
-	// }
-	// };
 });
