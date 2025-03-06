@@ -62,7 +62,7 @@ export const getJournal = async () => {
  */
 
 // specify table name to put name/value pair there
-async function addItem(
+export async function addItem(
 	tableName: string,
 	name: string,
 	value: Limit['value'] | Goal['value'] | Setting['value']

@@ -148,6 +148,12 @@ it('removes a linked item from a recipe when an item is deleted', async () => {
 	);
 });
 
+describe.sequential('name value stores', () => {
+	it('can add a setting', () => {});
+	it.skip('can delete a setting', () => {});
+	it.skip('can update a setting', () => {});
+});
+
 const testItem: InventoryItem = {
 	name: 'test item',
 	description: 'desc goes here',

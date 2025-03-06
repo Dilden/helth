@@ -35,8 +35,45 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 	return { get, init, add, remove, update };
 }
 
+function createNameValueStore(tableName: string): Store {
+	let data = $state([]);
+
+	function get() {
+		return data;
+	}
+
+	async function init() {
+		data = await dbfun.getItems(tableName);
+	}
+	async function add(item: NameValueStore) {
+		await dbfun.addItem(
+			tableName,
+			Object.keys(item).map((key) => {
+				return { name: key, value: item[key].value };
+			})
+		);
+		await init();
+	}
+	// async function remove(tableName) {}
+	async function update(item: NameValueStore) {
+		await dbfun.updateItems(
+			tableName,
+			Object.keys(item).map((key) => {
+				return { name: key, value: item[key].value };
+			})
+		);
+		await init();
+	}
+
+	return { get, init, add, remove, update };
+}
+
 export const inventory = createListStore('inventory');
 export const recipes = createListStore('recipes');
+
+export const settings = createNameValueStore('settings');
+export const goals = createNameValueStore('goals');
+export const limits = createNameValueStore('limits');
 
 export const inventorySearch: Search = $state({ query: '' });
 const invS: SearchResults<InventoryItem> = $derived.by(() => {
