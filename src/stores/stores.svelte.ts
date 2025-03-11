@@ -35,7 +35,10 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 	return { get, init, add, remove, update };
 }
 
-function createNameValueStore(tableName: string): Store {
+function createNameValueStore(tableName: 'settings'): SettingStore;
+function createNameValueStore(tableName: 'goals'): GoalStore;
+function createNameValueStore(tableName: 'limits'): LimitStore;
+function createNameValueStore(tableName: string) {
 	let data = $state([]);
 
 	function get() {
@@ -45,17 +48,19 @@ function createNameValueStore(tableName: string): Store {
 	async function init() {
 		data = await dbfun.getItems(tableName);
 	}
-	async function add(item: NameValueStore) {
+	async function add(key: string, item: NameValueStore) {
 		await dbfun.addItem(
 			tableName,
-			Object.keys(item).map((key) => {
-				return { name: key, value: item[key].value };
-			})
+			key,
+			item
+			// Object.keys(item).map((key) => {
+			// 	return { name: key, value: item[key].value };
+			// })
 		);
 		await init();
 	}
-	// async function remove(tableName) {}
-	async function update(item: NameValueStore) {
+	async function remove() {}
+	async function update(id: string, item: NameValueStore) {
 		await dbfun.updateItems(
 			tableName,
 			Object.keys(item).map((key) => {
