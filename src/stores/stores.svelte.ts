@@ -1,8 +1,8 @@
 import * as dbfun from '$stores/db';
 import { lookupItems } from '$utils/recipe';
 
-function createListStore(tableName: 'inventory'): InventoryStore;
-function createListStore(tableName: 'recipes'): RecipeStore;
+// function createListStore(tableName: 'inventory'): Store<InventoryItem>;
+// function createListStore(tableName: 'recipes'): Store<Recipe>;
 function createListStore(tableName: 'inventory' | 'recipes') {
 	let data: InventoryItem[] | Recipe[] = $state([]);
 
@@ -35,11 +35,17 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 	return { get, init, add, remove, update };
 }
 
-function createNameValueStore(tableName: 'settings'): SettingStore;
-function createNameValueStore(tableName: 'goals'): GoalStore;
-function createNameValueStore(tableName: 'limits'): LimitStore;
+export const inventory = createListStore('inventory');
+export const recipes = createListStore('recipes');
+
+// function createNameValueStore(tableName: 'goals'): GoalStore;
+// function createNameValueStore(tableName: 'limits'): LimitStore;
+// function createNameValueStore(tableName: 'settings'): SettingStore;
+// function createNameValueStore(tableName: 'goals'): Store<Goal>;
+// function createNameValueStore(tableName: 'limits'): Store<Limit>;
+// function createNameValueStore(tableName: 'settings'): Store<Setting>;
 function createNameValueStore(tableName: string) {
-	let data = $state([]);
+	let data: Array<Goal> | Array<Limit> | Array<Setting> = $state([]);
 
 	function get() {
 		return data;
@@ -48,37 +54,25 @@ function createNameValueStore(tableName: string) {
 	async function init() {
 		data = await dbfun.getItems(tableName);
 	}
-	async function add(key: string, item: NameValueStore) {
-		await dbfun.addItem(
-			tableName,
-			key,
-			item
-			// Object.keys(item).map((key) => {
-			// 	return { name: key, value: item[key].value };
-			// })
-		);
+	async function add(item: Goal | Limit | Setting) {
+		await dbfun.addItem(tableName, item.name, item.value);
 		await init();
 	}
-	async function remove() {}
-	async function update(id: string, item: NameValueStore) {
-		await dbfun.updateItems(
-			tableName,
-			Object.keys(item).map((key) => {
-				return { name: key, value: item[key].value };
-			})
-		);
+	async function update(key: string, item: Goal | Limit | Setting) {
+		await dbfun.updateItem(tableName, key, item);
+		await init();
+	}
+	async function remove(key: string) {
+		await dbfun.deleteFromList(tableName, key);
 		await init();
 	}
 
-	return { get, init, add, remove, update };
+	return { get, init, add, update, remove };
 }
 
-export const inventory = createListStore('inventory');
-export const recipes = createListStore('recipes');
-
-export const settings = createNameValueStore('settings');
 export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
+export const settings = createNameValueStore('settings');
 
 export const inventorySearch: Search = $state({ query: '' });
 const invS: SearchResults<InventoryItem> = $derived.by(() => {

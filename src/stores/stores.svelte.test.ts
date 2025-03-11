@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
-import { inventory, recipes } from '$stores/stores.svelte';
+import { inventory, recipes, goals } from '$stores/stores.svelte';
 
 describe.sequential('inventory', () => {
 	it('can add an item', async () => {
@@ -149,11 +149,25 @@ it('removes a linked item from a recipe when an item is deleted', async () => {
 });
 
 describe.sequential('name value stores', () => {
-	it('can add a setting', () => {});
-	it.skip('can delete a setting', () => {});
-	it.skip('can update a setting', () => {});
+	it('can add a goal', async () => {
+		await goals.add(testGoal1);
+		expect(goals.get()).toContainEqual(testGoal1);
+	});
+	it('can update a goal', async () => {
+		await goals.update('ayylmfao', { name: 'roflmao', value: 420 });
+		expect(goals.get()).toContainEqual({ name: 'roflmao', value: 420 });
+		expect(goals.get()).not.toContain({ name: 'ayylmfao', value: 69 });
+	});
+	it('can delete a goal', async () => {
+		await goals.remove('roflmao');
+		expect(goals.get()).not.toContainEqual({ name: 'roflmao', value: 420 });
+	});
 });
 
+const testGoal1: Goal = {
+	name: 'ayylmfao',
+	value: 69
+};
 const testItem: InventoryItem = {
 	name: 'test item',
 	description: 'desc goes here',
