@@ -1,9 +1,9 @@
 import * as dbfun from '$stores/db';
 import { lookupItems } from '$utils/recipe';
 
-// function createListStore(tableName: 'inventory'): Store<InventoryItem>;
-// function createListStore(tableName: 'recipes'): Store<Recipe>;
-function createListStore(tableName: 'inventory' | 'recipes') {
+function createListStore(tableName: 'inventory'): Store<InventoryItem>;
+function createListStore(tableName: 'recipes'): Store<Recipe>;
+function createListStore(tableName: 'inventory' | 'recipes'): Store<InventoryItem | Recipe> {
 	let data: InventoryItem[] | Recipe[] = $state([]);
 
 	function get() {
@@ -38,13 +38,10 @@ function createListStore(tableName: 'inventory' | 'recipes') {
 export const inventory = createListStore('inventory');
 export const recipes = createListStore('recipes');
 
-// function createNameValueStore(tableName: 'goals'): GoalStore;
-// function createNameValueStore(tableName: 'limits'): LimitStore;
-// function createNameValueStore(tableName: 'settings'): SettingStore;
-// function createNameValueStore(tableName: 'goals'): Store<Goal>;
-// function createNameValueStore(tableName: 'limits'): Store<Limit>;
-// function createNameValueStore(tableName: 'settings'): Store<Setting>;
-function createNameValueStore(tableName: string) {
+function createNameValueStore(tableName: 'goals'): Store<Goal>;
+function createNameValueStore(tableName: 'limits'): Store<Limit>;
+function createNameValueStore(tableName: 'settings'): Store<Setting>;
+function createNameValueStore(tableName: string): Store<Goal | Limit | Setting> {
 	let data: Array<Goal> | Array<Limit> | Array<Setting> = $state([]);
 
 	function get() {

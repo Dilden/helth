@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
-import { inventory, recipes, goals } from '$stores/stores.svelte';
+import { inventory, recipes, goals, settings } from '$stores/stores.svelte';
 
 describe.sequential('inventory', () => {
 	it('can add an item', async () => {
@@ -163,6 +163,22 @@ describe.sequential('name value stores', () => {
 		expect(goals.get()).not.toContainEqual({ name: 'roflmao', value: 420 });
 	});
 });
+
+describe.sequential('setting store', () => {
+	it('can add a setting', async () => {
+		await settings.add(testSetting);
+		expect(settings.get()).toContainEqual(testSetting);
+	});
+});
+
+const testSetting: Setting = {
+	name: 'derp',
+	value: {
+		interval: 69,
+		enabled: true,
+		position: 0
+	}
+};
 
 const testGoal1: Goal = {
 	name: 'ayylmfao',
