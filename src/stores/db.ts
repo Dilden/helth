@@ -86,11 +86,13 @@ export const updateItems = async (tableName: string, items: readonly any[]) => {
 	return db.table(tableName).bulkPut(items);
 };
 
-export const getItems = async (tableName: string): Promise<Goal[] | Limit[] | Setting[]> => {
+export const getItems = async (tableName: string): Promise<NameValueStore> => {
 	// spread all of the settings onto one object
 	// so app doesn't need a store for each setting
-	return db.table(tableName).toArray();
-	// .then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
+	return db
+		.table(tableName)
+		.toArray()
+		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
 };
 
 /*

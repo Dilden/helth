@@ -35,45 +35,6 @@ vi.mock('$stores/stores', async () => {
 			...writable([]),
 			set: vi.fn(),
 			init: vi.fn()
-		},
-		limits: {
-			...writable({
-				value: 0
-			}),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		goals: {
-			...writable({
-				value: 0
-			}),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		searchTerm: {
-			...writable(''),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		filteredInventory: {
-			...writable([]),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		inventoryFilter: {
-			...writable(''),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		inventory: {
-			...writable([]),
-			set: vi.fn(),
-			init: vi.fn()
-		},
-		recipes: {
-			...writable([]),
-			set: vi.fn(),
-			init: vi.fn()
 		}
 	};
 });

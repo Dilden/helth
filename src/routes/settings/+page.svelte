@@ -1,6 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { settings, limits, goals } from '$stores/stores';
+	import { limits, goals } from '$stores/stores.svelte';
+	import { settings } from '$stores/stores';
 	import { onMount } from 'svelte';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
@@ -17,6 +18,21 @@
 					return item;
 				})
 				.sort((a, b) => a.position - b.position);
+		}
+	});
+
+	let _goals = $state(goals.get());
+	let _limits = $state(limits.get());
+	$inspect(_goals);
+
+	$effect(() => {
+		if (_goals !== undefined) {
+			goals.updateAll(_goals);
+		}
+	});
+	$effect(() => {
+		if (_limits !== undefined) {
+			limits.updateAll(_limits);
 		}
 	});
 
@@ -57,7 +73,7 @@
 							<input
 								class="w-full"
 								id="goals_{nutrient.key}"
-								bind:value={$goals[nutrient.key].value}
+								bind:value={_goals[nutrient.key].value}
 								type="number"
 								min="0"
 							/>
@@ -67,7 +83,7 @@
 							<input
 								class="w-full"
 								id="limit_{nutrient.key}"
-								bind:value={$limits[nutrient.key].value}
+								bind:value={_limits[nutrient.key].value}
 								type="number"
 								min="0"
 							/>

@@ -1,6 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { history, goals, limits, settings } from '$stores/stores';
+	import { goals, limits } from '$stores/stores.svelte';
+	import { history, settings } from '$stores/stores';
 	import { onMount } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
@@ -50,8 +51,10 @@
 							})
 							.slice(Number(-range))}
 						unit={trackableItem.unit}
-						goal={$goals[trackableItem.key]?.value ? $goals[trackableItem.key]?.value : 0}
-						limit={$limits[trackableItem.key]?.value ? $limits[trackableItem.key]?.value : 0}
+						goal={goals.get()[trackableItem.key]?.value ? goals.get()[trackableItem.key]?.value : 0}
+						limit={limits.get()[trackableItem.key]?.value
+							? limits.get()[trackableItem.key]?.value
+							: 0}
 						color={colors[index % 4]}
 					/>
 				{/key}

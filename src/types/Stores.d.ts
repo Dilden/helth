@@ -7,10 +7,20 @@ interface SearchResults<T> {
 
 interface Store<T> {
 	init(): Promise<void>;
-	get(): Array<T>;
 	add(item: T): Promise<void>;
 	update(id: string, item: T): Promise<void>;
 	remove(id: string): Promise<void>;
+}
+
+interface ListStore<T> extends Store<T> {
+	get(): Array<T>;
+}
+
+interface NameValStore<T> extends Store<T> {
+	get(): {
+		[key: string]: T;
+	};
+	updateAll(item: NameValueStore): Promise<void>;
 }
 
 interface Goal {

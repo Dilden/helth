@@ -1,9 +1,9 @@
 import * as dbfun from '$stores/db';
 import { lookupItems } from '$utils/recipe';
 
-function createListStore(tableName: 'inventory'): Store<InventoryItem>;
-function createListStore(tableName: 'recipes'): Store<Recipe>;
-function createListStore(tableName: 'inventory' | 'recipes'): Store<InventoryItem | Recipe> {
+function createListStore(tableName: 'inventory'): ListStore<InventoryItem>;
+function createListStore(tableName: 'recipes'): ListStore<Recipe>;
+function createListStore(tableName: 'inventory' | 'recipes'): ListStore<InventoryItem | Recipe> {
 	let data: InventoryItem[] | Recipe[] = $state([]);
 
 	function get() {
@@ -38,11 +38,11 @@ function createListStore(tableName: 'inventory' | 'recipes'): Store<InventoryIte
 export const inventory = createListStore('inventory');
 export const recipes = createListStore('recipes');
 
-function createNameValueStore(tableName: 'goals'): Store<Goal>;
-function createNameValueStore(tableName: 'limits'): Store<Limit>;
-function createNameValueStore(tableName: 'settings'): Store<Setting>;
-function createNameValueStore(tableName: string): Store<Goal | Limit | Setting> {
-	let data: Array<Goal> | Array<Limit> | Array<Setting> = $state([]);
+function createNameValueStore(tableName: 'goals'): NameValStore<Goal>;
+function createNameValueStore(tableName: 'limits'): NameValStore<Limit>;
+function createNameValueStore(tableName: 'settings'): NameValStore<Setting>;
+function createNameValueStore(tableName: string): NameValStore<Goal | Limit | Setting> {
+	let data: NameValueStore = $state({});
 
 	function get() {
 		return data;
@@ -59,12 +59,21 @@ function createNameValueStore(tableName: string): Store<Goal | Limit | Setting> 
 		await dbfun.updateItem(tableName, key, item);
 		await init();
 	}
+	async function updateAll(item: NameValueStore) {
+		await dbfun.updateItems(
+			tableName,
+			Object.keys(item).map((key) => {
+				return { name: key, value: item[key].value };
+			})
+		);
+		await init();
+	}
 	async function remove(key: string) {
 		await dbfun.deleteFromList(tableName, key);
 		await init();
 	}
 
-	return { get, init, add, update, remove };
+	return { get, init, add, update, updateAll, remove };
 }
 
 export const goals = createNameValueStore('goals');

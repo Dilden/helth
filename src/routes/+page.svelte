@@ -1,6 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { today, settings, limits, goals } from '$stores/stores';
+	import { goals, limits } from '$stores/stores.svelte';
+	import { today, settings } from '$stores/stores';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import Counter from '$lib/counts/Counter.svelte';
@@ -54,8 +55,8 @@
 						item={nutrient}
 						bind:count={$today[nutrient.key]}
 						bind:interval={$settings[nutrient.key].value.interval}
-						limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
-						goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
+						limit={limits.get()[nutrient.key]?.value ? limits.get()[nutrient.key].value : null}
+						goal={goals.get()[nutrient.key]?.value ? goals.get()[nutrient.key].value : null}
 						moveUpCallback={() =>
 							moveCallback(
 								$settings[nutrient.key].value.position,
