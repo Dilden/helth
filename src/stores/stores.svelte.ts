@@ -59,21 +59,12 @@ function createNameValueStore(tableName: string): NameValStore<Goal | Limit | Se
 		await dbfun.updateItem(tableName, key, item);
 		await init();
 	}
-	async function updateAll(item: NameValueStore) {
-		await dbfun.updateItems(
-			tableName,
-			Object.keys(item).map((key) => {
-				return { name: key, value: item[key].value };
-			})
-		);
-		await init();
-	}
 	async function remove(key: string) {
 		await dbfun.deleteFromList(tableName, key);
 		await init();
 	}
 
-	return { get, init, add, update, updateAll, remove };
+	return { get, init, add, update, remove };
 }
 
 export const goals = createNameValueStore('goals');

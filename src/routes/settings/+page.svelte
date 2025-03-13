@@ -21,21 +21,6 @@
 		}
 	});
 
-	let _goals = $state(goals.get());
-	let _limits = $state(limits.get());
-	$inspect(_goals);
-
-	$effect(() => {
-		if (_goals !== undefined) {
-			goals.updateAll(_goals);
-		}
-	});
-	$effect(() => {
-		if (_limits !== undefined) {
-			limits.updateAll(_limits);
-		}
-	});
-
 	const moveCallback = (positionA, positionB) => {
 		const x = Object.values($settings).find(({ value }) => value.position === positionA);
 		const y = Object.values($settings).find(({ value }) => value.position === positionB);
@@ -73,7 +58,10 @@
 							<input
 								class="w-full"
 								id="goals_{nutrient.key}"
-								bind:value={_goals[nutrient.key].value}
+								bind:value={
+									() => goals.get()[nutrient.key].value,
+									(v) => goals.update(nutrient.key, { name: nutrient.key, value: v })
+								}
 								type="number"
 								min="0"
 							/>
@@ -83,7 +71,10 @@
 							<input
 								class="w-full"
 								id="limit_{nutrient.key}"
-								bind:value={_limits[nutrient.key].value}
+								bind:value={
+									() => limits.get()[nutrient.key].value,
+									(v) => limits.update(nutrient.key, { name: nutrient.key, value: v })
+								}
 								type="number"
 								min="0"
 							/>

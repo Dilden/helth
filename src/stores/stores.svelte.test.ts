@@ -151,23 +151,23 @@ it('removes a linked item from a recipe when an item is deleted', async () => {
 describe.sequential('name value stores', () => {
 	it('can add a goal', async () => {
 		await goals.add(testGoal1);
-		expect(goals.get()).toContainEqual(testGoal1);
+		expect(goals.get()).toHaveProperty('ayylmfao', testGoal1);
 	});
 	it('can update a goal', async () => {
 		await goals.update('ayylmfao', { name: 'roflmao', value: 420 });
-		expect(goals.get()).toContainEqual({ name: 'roflmao', value: 420 });
-		expect(goals.get()).not.toContain({ name: 'ayylmfao', value: 69 });
+		expect(goals.get()).toHaveProperty('roflmao', { name: 'roflmao', value: 420 });
+		expect(goals.get()).not.toHaveProperty('ayylmfao', { name: 'ayylmfao', value: 69 });
 	});
 	it('can delete a goal', async () => {
 		await goals.remove('roflmao');
-		expect(goals.get()).not.toContainEqual({ name: 'roflmao', value: 420 });
+		expect(goals.get()).not.toHaveProperty('rolfmao', { name: 'roflmao', value: 420 });
 	});
 });
 
 describe.sequential('setting store', () => {
 	it('can add a setting', async () => {
 		await settings.add(testSetting);
-		expect(settings.get()).toContainEqual(testSetting);
+		expect(settings.get()).toHaveProperty('derp', testSetting);
 	});
 });
 

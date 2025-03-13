@@ -1,7 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { goals, limits } from '$stores/stores.svelte';
-	import { today, settings } from '$stores/stores';
+	import { goals, limits, settings } from '$stores/stores.svelte';
+	import { today } from '$stores/stores';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import Counter from '$lib/counts/Counter.svelte';
@@ -10,11 +10,11 @@
 	import Spinner from '$lib/Spinner.svelte';
 
 	let enabled = $derived.by(() => {
-		if ($settings !== undefined) {
+		if (settings !== undefined) {
 			return list
 				.filter((item) => {
-					if ($settings[item.key]?.value?.enabled) {
-						item.position = $settings[item.key]?.value?.position;
+					if (settings.get()[item.key]?.value?.enabled) {
+						item.position = settings.get()[item.key]?.value?.position;
 						return item;
 					}
 				})
@@ -24,12 +24,13 @@
 	});
 
 	const moveCallback = (positionA, positionB) => {
-		const x = Object.values($settings).find(({ value }) => value.position === positionA);
-		const y = Object.values($settings).find(({ value }) => value.position === positionB);
+		const x = Object.values(settings.get()).find(({ value }) => value.position === positionA);
+		const y = Object.values(settings.get()).find(({ value }) => value.position === positionB);
 
 		if (x && y) {
-			$settings[x.name].value.position = positionB;
-			$settings[y.name].value.position = positionA;
+			// TODO needs to contain all settings values
+			settings.update(x.name, { name: x.name, value: { position: positionB } });
+			settings.update(y.name, { name: y.name, value: { position: positionA } });
 		}
 	};
 </script>
@@ -54,18 +55,18 @@
 					<Counter
 						item={nutrient}
 						bind:count={$today[nutrient.key]}
-						bind:interval={$settings[nutrient.key].value.interval}
+						bind:interval={() => settings.get()[nutrient.key].value.interval, (v) => console.log(v)}
 						limit={limits.get()[nutrient.key]?.value ? limits.get()[nutrient.key].value : null}
 						goal={goals.get()[nutrient.key]?.value ? goals.get()[nutrient.key].value : null}
 						moveUpCallback={() =>
 							moveCallback(
-								$settings[nutrient.key].value.position,
-								$settings[nutrient.key].value.position - 1
+								settings.get()[nutrient.key].value.position,
+								settings.get()[nutrient.key].value.position - 1
 							)}
 						moveDownCallback={() =>
 							moveCallback(
-								$settings[nutrient.key].value.position,
-								$settings[nutrient.key].value.position + 1
+								settings.get()[nutrient.key].value.position,
+								settings.get()[nutrient.key].value.position + 1
 							)}
 					/>
 				</div>

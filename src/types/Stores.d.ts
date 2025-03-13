@@ -20,7 +20,6 @@ interface NameValStore<T> extends Store<T> {
 	get(): {
 		[key: string]: T;
 	};
-	updateAll(item: NameValueStore): Promise<void>;
 }
 
 interface Goal {

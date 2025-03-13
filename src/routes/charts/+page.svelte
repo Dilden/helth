@@ -1,7 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { goals, limits } from '$stores/stores.svelte';
-	import { history, settings } from '$stores/stores';
+	import { goals, limits, settings } from '$stores/stores.svelte';
+	import { history } from '$stores/stores';
 	import { onMount } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
@@ -11,11 +11,11 @@
 	const colors = ['#fce417', '#ffffff', '#fc173e', '#2417fc'];
 
 	let enabled = $derived.by(() => {
-		if ($settings !== undefined) {
+		if (settings.get() !== undefined) {
 			return list
 				.filter((item) => {
-					if ($settings[item.key]?.value?.enabled) {
-						item.position = $settings[item.key]?.value?.position;
+					if (settings.get()[item.key]?.value?.enabled) {
+						item.position = settings.get()[item.key]?.value?.position;
 						return item;
 					}
 				})
@@ -39,7 +39,7 @@
 		<Spinner />
 	{:then}
 		{#each enabled as trackableItem, index}
-			{#if $settings[trackableItem.key].value.enabled}
+			{#if settings.get()[trackableItem.key].value.enabled}
 				<h3>{trackableItem.name}</h3>
 				{#key range}
 					<Chart
