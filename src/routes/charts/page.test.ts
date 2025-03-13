@@ -25,10 +25,6 @@ afterEach(() => {
 	vi.restoreAllMocks();
 });
 
-const testGoal1: Goal = {
-	name: 'ayylmfao',
-	value: 69
-};
 vi.mock('$stores/stores.svelte', async () => {
 	return {
 		settings: {
