@@ -1,5 +1,5 @@
 <script>
-	import { settings } from '$stores/stores';
+	import { settings } from '$stores/stores.svelte';
 
 	/** @type {{key?: string, interval?: number, max?: number, moveUpCallback?: any, moveDownCallback?: any}} */
 	let {
@@ -34,6 +34,17 @@
 <input
 	type="checkbox"
 	id="enabled_{key}"
-	bind:checked={$settings[key].value.enabled}
+	bind:checked={
+		() => settings.get()[key].value.enabled,
+		(v) =>
+			settings.update(key, {
+				// bit verbose but must pass the entire object
+				name: key,
+				value: {
+					...settings.get()[key].value,
+					enabled: v
+				}
+			})
+	}
 	class="m-1 mb-3 p-2"
 />

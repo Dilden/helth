@@ -28,9 +28,21 @@
 		const y = Object.values(settings.get()).find(({ value }) => value.position === positionB);
 
 		if (x && y) {
-			// TODO needs to contain all settings values
-			settings.update(x.name, { name: x.name, value: { position: positionB } });
-			settings.update(y.name, { name: y.name, value: { position: positionA } });
+			// bit verbose but MUST PASS THE ENTIRE OBJECT
+			settings.update(x.name, {
+				name: x.name,
+				value: {
+					...settings.get()[x.name].value,
+					position: positionB
+				}
+			});
+			settings.update(y.name, {
+				name: y.name,
+				value: {
+					...settings.get()[y.name].value,
+					position: positionA
+				}
+			});
 		}
 	};
 </script>
@@ -55,7 +67,17 @@
 					<Counter
 						item={nutrient}
 						bind:count={$today[nutrient.key]}
-						bind:interval={() => settings.get()[nutrient.key].value.interval, (v) => console.log(v)}
+						bind:interval={
+							() => settings.get()[nutrient.key].value.interval,
+							(v) =>
+								settings.update(nutrient.key, {
+									name: nutrient.key,
+									value: {
+										...settings.get()[nutrient.key].value,
+										interval: v
+									}
+								})
+						}
 						limit={limits.get()[nutrient.key]?.value ? limits.get()[nutrient.key].value : null}
 						goal={goals.get()[nutrient.key]?.value ? goals.get()[nutrient.key].value : null}
 						moveUpCallback={() =>

@@ -1,8 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { limits, goals } from '$stores/stores.svelte';
-	import { settings } from '$stores/stores';
-	import { onMount } from 'svelte';
+	import { limits, goals, settings } from '$stores/stores.svelte';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import CounterOptions from '$lib/counts/CounterOptions.svelte';
@@ -11,10 +9,10 @@
 	import Spinner from '$lib/Spinner.svelte';
 
 	let enabled = $derived.by(() => {
-		if ($settings !== undefined) {
+		if (settings.get() !== undefined) {
 			return list
 				.map((item) => {
-					item.position = $settings[item.key]?.value?.position;
+					item.position = settings.get()[item.key]?.value?.position;
 					return item;
 				})
 				.sort((a, b) => a.position - b.position);
@@ -22,12 +20,25 @@
 	});
 
 	const moveCallback = (positionA, positionB) => {
-		const x = Object.values($settings).find(({ value }) => value.position === positionA);
-		const y = Object.values($settings).find(({ value }) => value.position === positionB);
+		const x = Object.values(settings.get()).find(({ value }) => value.position === positionA);
+		const y = Object.values(settings.get()).find(({ value }) => value.position === positionB);
 
 		if (x && y) {
-			$settings[x.name].value.position = positionB;
-			$settings[y.name].value.position = positionA;
+			// bit verbose but MUST PASS THE ENTIRE OBJECT
+			settings.update(x.name, {
+				name: x.name,
+				value: {
+					...settings.get()[x.name].value,
+					position: positionB
+				}
+			});
+			settings.update(y.name, {
+				name: y.name,
+				value: {
+					...settings.get()[y.name].value,
+					position: positionA
+				}
+			});
 		}
 	};
 </script>
@@ -83,16 +94,26 @@
 							<CounterOptions
 								max={nutrient?.countMax}
 								key={nutrient.key}
-								bind:interval={$settings[nutrient.key].value.interval}
+								bind:interval={
+									() => settings.get()[nutrient.key].value.interval,
+									(v) =>
+										settings.update(nutrient.key, {
+											name: nutrient.key,
+											value: {
+												...settings.get()[nutrient.key].value,
+												interval: v
+											}
+										})
+								}
 								moveUpCallback={() =>
 									moveCallback(
-										$settings[nutrient.key].value.position,
-										$settings[nutrient.key].value.position - 1
+										settings.get()[nutrient.key].value.position,
+										settings.get()[nutrient.key].value.position - 1
 									)}
 								moveDownCallback={() =>
 									moveCallback(
-										$settings[nutrient.key].value.position,
-										$settings[nutrient.key].value.position + 1
+										settings.get()[nutrient.key].value.position,
+										settings.get()[nutrient.key].value.position + 1
 									)}
 							/>
 						</div>
