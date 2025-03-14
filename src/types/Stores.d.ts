@@ -22,6 +22,13 @@ interface NameValStore<T> extends Store<T> {
 	};
 }
 
+interface TodayStore<JournalEntry> extends Store<JournalEntry> {
+	get(): JournalEntry;
+	setDate(date: number): void;
+	update(val: JournalEntry);
+	remove(): void;
+}
+
 interface Goal {
 	name: string;
 	value: number;

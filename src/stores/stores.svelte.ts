@@ -1,6 +1,7 @@
 import * as dbfun from '$stores/db';
 import { lookupItems } from '$utils/recipe';
 
+// inventory + recipes
 function createListStore(tableName: 'inventory'): ListStore<InventoryItem>;
 function createListStore(tableName: 'recipes'): ListStore<Recipe>;
 function createListStore(tableName: 'inventory' | 'recipes'): ListStore<InventoryItem | Recipe> {
@@ -38,6 +39,7 @@ function createListStore(tableName: 'inventory' | 'recipes'): ListStore<Inventor
 export const inventory = createListStore('inventory');
 export const recipes = createListStore('recipes');
 
+// goals, limits, settings
 function createNameValueStore(tableName: 'goals'): NameValStore<Goal>;
 function createNameValueStore(tableName: 'limits'): NameValStore<Limit>;
 function createNameValueStore(tableName: 'settings'): NameValStore<Setting>;
@@ -71,6 +73,7 @@ export const goals = createNameValueStore('goals');
 export const limits = createNameValueStore('limits');
 export const settings = createNameValueStore('settings');
 
+// inventory search
 export const inventorySearch: Search = $state({ query: '' });
 const invS: SearchResults<InventoryItem> = $derived.by(() => {
 	return {
@@ -85,8 +88,8 @@ const invS: SearchResults<InventoryItem> = $derived.by(() => {
 });
 export const inventorySearchResults = () => invS;
 
+// recipe search
 export const recipesInventoryFilter: Search = $state({ query: '' });
-
 export const recipeSearch: Search = $state({ query: '' });
 const recS: SearchResults<Promise<Recipe>> = $derived.by(() => {
 	let searched = recipes
@@ -114,3 +117,35 @@ const recS: SearchResults<Promise<Recipe>> = $derived.by(() => {
 	};
 });
 export const recipeSearchResults = () => recS;
+
+function createTodayStore(): TodayStore<JournalEntry> {
+	let workingDate = $state(new Date().setHours(0, 0, 0, 0));
+	let workingDay: JournalEntry = $state({ date: workingDate });
+
+	function get() {
+		return workingDay;
+	}
+	async function init() {
+		workingDay = await dbfun.getDay(workingDate).then(async (day) => {
+			if (day) {
+				return day;
+			} else {
+				await dbfun.addDay({ ...dbfun.defaultDay, date: workingDate });
+				return { ...dbfun.defaultDay, date: workingDate };
+			}
+		});
+	}
+	async function update(newVal: JournalEntry) {
+		dbfun.updateDay(newVal.date, newVal);
+		init();
+	}
+	async function setDate(date: number) {
+		workingDate = date;
+		await init();
+	}
+	function remove() {}
+	async function add() {}
+
+	return { init, add, update, get, setDate, remove };
+}
+export const today = createTodayStore();
