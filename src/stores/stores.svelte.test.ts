@@ -1,6 +1,7 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
-import { inventory, recipes, goals, settings } from '$stores/stores.svelte';
+import { inventory, recipes, goals, settings, today } from '$stores/stores.svelte';
+import { defaultTodayStoreValues } from '../vitest/defaultTodayStore';
 
 describe.sequential('inventory', () => {
 	it('can add an item', async () => {
@@ -168,6 +169,18 @@ describe.sequential('setting store', () => {
 	it('can add a setting', async () => {
 		await settings.add(testSetting);
 		expect(settings.get()).toHaveProperty('derp', testSetting);
+	});
+});
+
+describe.sequential('today store', () => {
+	it('can init as a day', async () => {
+		await today.setDate(defaultTodayStoreValues.date);
+		expect(today.get()).toHaveProperty('calories', 0);
+	});
+	it('can update a value', async () => {
+		await today.update({ ...defaultTodayStoreValues, calories: 555 });
+		expect(today.get()).not.toHaveProperty('calories', 0);
+		expect(today.get()).toHaveProperty('calories', 555);
 	});
 });
 

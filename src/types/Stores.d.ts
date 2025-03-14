@@ -24,7 +24,7 @@ interface NameValStore<T> extends Store<T> {
 
 interface TodayStore<JournalEntry> extends Store<JournalEntry> {
 	get(): JournalEntry;
-	setDate(date: number): void;
+	setDate(date: number): Promise<void>;
 	update(val: JournalEntry);
 	remove(): void;
 }
