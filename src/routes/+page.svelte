@@ -1,7 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { goals, limits, settings } from '$stores/stores.svelte';
-	import { today } from '$stores/stores';
+	import { today, goals, limits, settings } from '$stores/stores.svelte';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import Counter from '$lib/counts/Counter.svelte';
@@ -66,7 +65,14 @@
 				>
 					<Counter
 						item={nutrient}
-						bind:count={$today[nutrient.key]}
+						bind:count={
+							() => today.get()[nutrient.key],
+							(v) =>
+								today.update({
+									...today.get(),
+									[nutrient.key]: v
+								})
+						}
 						bind:interval={
 							() => settings.get()[nutrient.key].value.interval,
 							(v) =>
