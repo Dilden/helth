@@ -1,7 +1,7 @@
 <script>
 	import { BrowserMultiFormatReader } from '@zxing/library';
 	import { getInventory, addInventory } from '$stores/db';
-	import { today } from '$stores/stores';
+	import { today } from '$stores/stores.svelte';
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
 	import { error } from '@sveltejs/kit';
 	import { getFoodFacts } from '$utils/sources';
@@ -42,8 +42,9 @@
 
 	const addToToday = (data) => {
 		try {
-			data.map(({ key, quantity }) => {
-				$today[key] += Number(quantity);
+			today.update({
+				...today.get(),
+				...data.reduce((init, next) => Object.assign(init, { [next.key]: next.quantity }), {})
 			});
 			successToast('Added item to daily total!');
 		} catch (e) {

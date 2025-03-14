@@ -136,7 +136,7 @@ function createTodayStore(): TodayStore<JournalEntry> {
 		});
 	}
 	async function update(newVal: JournalEntry) {
-		await dbfun.updateDay(newVal.date, newVal);
+		await dbfun.updateDay(newVal.date, $state.snapshot(newVal));
 		await init();
 	}
 	async function setDate(date: number) {

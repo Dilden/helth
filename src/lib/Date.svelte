@@ -1,12 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
-	import { today, history } from '$stores/stores';
+	import { history } from '$stores/stores';
+	import { today } from '$stores/stores.svelte';
 	import { thePast, addTimezoneOffset, dateToPicker, utcToHuman, toUtc } from '$utils/dates';
 	import { errorToast } from '$utils/toast';
 	import Spinner from '$lib/Spinner.svelte';
 	import DatePicker from '$lib/misc/DatePicker.svelte';
 
-	let dateObj = $derived(new Date($today.date));
+	let dateObj = $derived(new Date(today.get().date));
 	let format = $derived(
 		dateObj.getMonth() + 1 + '/' + dateObj.getDate() + '/' + dateObj.getFullYear()
 	);
