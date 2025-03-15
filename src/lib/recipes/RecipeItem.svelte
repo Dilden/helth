@@ -2,12 +2,12 @@
 	import { nutrientSumsFromList, applyServings } from '$utils/item';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
-	import { today } from '$stores/stores';
-	import { recipes } from '$stores/stores.svelte';
+	import { recipes, today } from '$stores/stores.svelte';
 
 	/** @type {{recipe?: any}} */
 	let { recipe = {} } = $props();
 
+	let servings = $state(1);
 	let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
 
 	const confirmDelete = () => {
@@ -15,13 +15,19 @@
 	};
 
 	const addToToday = () => {
+		console.log(servings);
 		try {
-			const servings = document.getElementById(`recipeServing-${recipe.id}`).value;
-			itemNutrientSums.map((index) => {
-				const amount = toTwoDecimals(index.quantity * Number(servings));
-				$today[index.key] = $today[index.key] || 0;
-				$today[index.key] = $today[index.key] + amount;
-			});
+			// const servings = document.getElementById(`recipeServing-${recipe.id}`).value;
+			const sums = itemNutrientSums.reduce((init, next) => {
+				Object.assign(init, { [next.key]: toTwoDecimals(next.quantity * Number(servings)) });
+				// $today[index.key] = $today[index.key] || 0;
+				// $today[index.key] = $today[index.key] + amount;
+			}, {});
+			console.log(sums);
+			// today.update({
+			//   ...today.get(),
+
+			// })
 			successToast(`Added ${servings} servings of ${recipe.name} to daily total!`);
 		} catch (err) {
 			errorToast('Error adding to total!');
@@ -67,7 +73,7 @@
 		class="peer block w-14 appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-2 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
 		placeholder="1"
 		required
-		value="1"
+		bind:value={servings}
 		step="any"
 		title="Number of servings to add to daily total"
 	/>
