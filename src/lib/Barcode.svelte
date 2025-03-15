@@ -5,6 +5,7 @@
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
 	import { error } from '@sveltejs/kit';
 	import { getFoodFacts } from '$utils/sources';
+	import { toTwoDecimals } from '$utils/numbers';
 
 	// scanner
 	let selected = $state();
@@ -42,12 +43,21 @@
 
 	const addToToday = (data) => {
 		try {
+			const sums = data.reduce((obj, item) => {
+				// add that to existing total in today
+				let newTotal = {
+					[item.key]: toTwoDecimals(item.quantity + today.get()[item.key])
+				};
+				return Object.assign(obj, newTotal);
+			}, {});
+
 			today.update({
 				...today.get(),
-				...data.reduce((init, next) => Object.assign(init, { [next.key]: next.quantity }), {})
+				...sums
 			});
-			successToast('Added item to daily total!');
+			successToast('Added 1 serving of scanned item to daily total!');
 		} catch (e) {
+			console.log(e);
 			errorToast('Error adding item to daily total');
 		}
 	};

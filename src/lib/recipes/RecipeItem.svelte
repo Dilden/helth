@@ -15,19 +15,23 @@
 	};
 
 	const addToToday = () => {
-		console.log(servings);
 		try {
-			// const servings = document.getElementById(`recipeServing-${recipe.id}`).value;
-			const sums = itemNutrientSums.reduce((init, next) => {
-				Object.assign(init, { [next.key]: toTwoDecimals(next.quantity * Number(servings)) });
-				// $today[index.key] = $today[index.key] || 0;
-				// $today[index.key] = $today[index.key] + amount;
-			}, {});
-			console.log(sums);
-			// today.update({
-			//   ...today.get(),
+			const sums = itemNutrientSums.reduce((obj, item) => {
+				// total of new nutrients * servings
+				let toAdd = toTwoDecimals(item.quantity * Number(servings));
 
-			// })
+				// add that to existing total in today
+				let newTotal = {
+					[item.key]: toAdd + today.get()[item.key]
+				};
+				// console.log(newTotal);
+				return Object.assign(obj, newTotal);
+			}, {});
+
+			today.update({
+				...today.get(),
+				...sums
+			});
 			successToast(`Added ${servings} servings of ${recipe.name} to daily total!`);
 		} catch (err) {
 			errorToast('Error adding to total!');
