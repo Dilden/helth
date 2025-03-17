@@ -17,7 +17,6 @@
 				let newTotal = {
 					[item.key]: toAdd + today.get()[item.key]
 				};
-				// console.log(newTotal);
 				return Object.assign(obj, newTotal);
 			}, {});
 
