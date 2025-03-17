@@ -1,22 +1,33 @@
 <script>
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
-	import { today } from '$stores/stores';
-	import { inventory, recipes } from '$stores/stores.svelte';
+	import { today, inventory, recipes } from '$stores/stores.svelte';
 	import { toTwoDecimals } from '$utils/numbers';
 
 	/** @type {{item: any}} */
 	let { item } = $props();
+	let servings = $state(1);
 
 	const addToToday = () => {
 		try {
-			const servings = document.getElementById(`inventoryItemServing-${item.id}`).value;
-			item.nutrients.map((index) => {
-				const amount = toTwoDecimals(index.quantity * Number(servings));
-				$today[index.key] = $today[index.key] || 0;
-				$today[index.key] = $today[index.key] + amount;
+			const sums = item.nutrients.reduce((obj, item) => {
+				// total of new nutrients * servings
+				let toAdd = toTwoDecimals(item.quantity * Number(servings));
+
+				// add that to existing total in today
+				let newTotal = {
+					[item.key]: toAdd + today.get()[item.key]
+				};
+				// console.log(newTotal);
+				return Object.assign(obj, newTotal);
+			}, {});
+
+			today.update({
+				...today.get(),
+				...sums
 			});
-			successToast(`Added ${servings} servings to daily total!`);
+			successToast(`Added ${servings} servings of ${item.name} to daily total!`);
 		} catch (err) {
+			console.log(err);
 			errorToast('Error adding to total!');
 		}
 	};
@@ -67,7 +78,7 @@
 		class="peer block w-14 appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-2 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
 		placeholder="1"
 		required
-		value="1"
+		bind:value={servings}
 		step="any"
 		title="Number of servings to add to daily total"
 	/>
