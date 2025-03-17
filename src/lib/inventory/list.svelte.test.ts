@@ -39,17 +39,7 @@ vi.mock('$stores/stores.svelte', async () => {
 			get: vi.fn(() => defaultInventory)
 		},
 		inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
-		inventorySearch: s
-	};
-});
-
-vi.mock('$stores/stores', async () => {
-	const { writable } = await import('svelte/store');
-	return {
-		today: {
-			...writable(0),
-			set: vi.fn(),
-			init: vi.fn()
-		}
+		inventorySearch: s,
+		today: {}
 	};
 });

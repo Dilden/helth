@@ -1,5 +1,5 @@
 <script>
-	import { settings } from '$stores/stores';
+	import { settings } from '$stores/stores.svelte';
 	import { list } from '$utils/nutrients';
 	import Spinner from '$lib/Spinner.svelte';
 
@@ -23,7 +23,7 @@
 			{#each list as nutrient}
 				<!-- only hiding values so they any new items scanned will have all possible data -->
 				<span
-					class="nutrient p-1 {nutrient.key} {$settings[nutrient.key]?.value?.enabled
+					class="nutrient p-1 {nutrient.key} {settings.get()[nutrient.key]?.value?.enabled
 						? 'inline-block'
 						: 'hidden'}"
 				>

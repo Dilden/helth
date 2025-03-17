@@ -7,13 +7,14 @@ afterEach(() => {
 	vi.restoreAllMocks();
 });
 
-vi.mock('$stores/stores', async () => {
-	const { writable } = await import('svelte/store');
+vi.mock('$stores/stores.svelte', async () => {
 	return {
 		settings: {
-			...writable(defaultSettingsStoreValues),
-			set: vi.fn(),
-			init: vi.fn()
+			get: vi.fn(() => defaultSettingsStoreValues),
+			add: vi.fn(),
+			update: vi.fn(),
+			remove: vi.fn(),
+			init: vi.fn(() => Promise.resolve())
 		}
 	};
 });
