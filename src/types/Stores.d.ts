@@ -29,6 +29,13 @@ interface TodayStore<JournalEntry> extends Store<JournalEntry> {
 	remove(): void;
 }
 
+interface HistoryStore extends Store<JournalEntry> {
+	get(): JournalEntry[];
+	update(id: string, val: JournalEntry): Promise<void>;
+	remove(id: string): Promise<void>;
+	add(val: JournalEntry): Promise<void>;
+}
+
 interface Goal {
 	name: string;
 	value: number;
