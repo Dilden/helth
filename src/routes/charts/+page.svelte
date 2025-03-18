@@ -1,7 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { goals, limits, settings } from '$stores/stores.svelte';
-	import { history } from '$stores/stores';
+	import { history, goals, limits, settings } from '$stores/stores.svelte';
 	import { onMount } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
 	import Spinner from '$lib/Spinner.svelte';
@@ -43,8 +42,12 @@
 				<h3>{trackableItem.name}</h3>
 				{#key range}
 					<Chart
-						storeData={$history.map((el) => el[trackableItem.key]).slice(Number(-range))}
-						labels={$history
+						storeData={history
+							.get()
+							.map((el) => el[trackableItem.key])
+							.slice(Number(-range))}
+						labels={history
+							.get()
 							.map((el) => {
 								let date = new Date(el.date);
 								return date.toLocaleDateString();

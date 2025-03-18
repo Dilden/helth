@@ -25,7 +25,7 @@ afterEach(() => {
 	vi.restoreAllMocks();
 });
 
-vi.mock('$stores/stores.svelte', async () => {
+vi.mock('$stores/stores.svelte', () => {
 	return {
 		settings: {
 			set: vi.fn(),
@@ -47,16 +47,14 @@ vi.mock('$stores/stores.svelte', async () => {
 			remove: vi.fn(),
 			update: vi.fn(),
 			get: vi.fn(() => defaultLimitStore)
-		}
-	};
-});
-vi.mock('$stores/stores', async () => {
-	const { writable } = await import('svelte/store');
-	return {
+		},
 		history: {
-			...writable([]),
 			set: vi.fn(),
-			init: vi.fn()
+			init: vi.fn(async () => Promise.resolve()),
+			remove: vi.fn(),
+			update: vi.fn(),
+			add: vi.fn(),
+			get: vi.fn(() => [])
 		}
 	};
 });
