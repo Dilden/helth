@@ -118,6 +118,7 @@ const recS: SearchResults<Promise<Recipe>> = $derived.by(() => {
 });
 export const recipeSearchResults = () => recS;
 
+// today
 function createTodayStore(): TodayStore<JournalEntry> {
 	let workingDate = $state(new Date().setHours(0, 0, 0, 0));
 	let workingDay: JournalEntry = $state({ date: workingDate });
@@ -149,3 +150,31 @@ function createTodayStore(): TodayStore<JournalEntry> {
 	return { init, add, update, get, setDate, remove };
 }
 export const today = createTodayStore();
+
+// history
+function createHistoryStore(): HistoryStore {
+	let history: JournalEntry[] = $state([]);
+
+	function get() {
+		return history;
+	}
+
+	async function init() {
+		history = await dbfun.getJournal();
+	}
+	async function add(val: JournalEntry) {
+		await dbfun.addDay(val);
+		init();
+	}
+	async function update(id: string, newVal: JournalEntry) {
+		await dbfun.updateItemInList('journal', id, $state.snapshot(newVal));
+		init();
+	}
+	async function remove(id: string) {
+		await dbfun.deleteFromList('journal', id);
+		await init();
+	}
+
+	return { init, add, update, remove, get };
+}
+export const history = createHistoryStore();

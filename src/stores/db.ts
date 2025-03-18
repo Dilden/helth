@@ -115,7 +115,7 @@ export const addToList = async <T>(tableName: string, data: T) => {
 export const updateItemInList = async (
 	tableName: string,
 	id: string,
-	data: InventoryItem | Recipe
+	data: InventoryItem | Recipe | JournalEntry
 ) => {
 	return await db.table(tableName).update(id, data);
 };
