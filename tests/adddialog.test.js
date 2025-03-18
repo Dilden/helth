@@ -62,7 +62,9 @@ test.describe('add items dialog', () => {
 					.click();
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
-				await expect(page.getByText('Added 2 servings to daily total!')).toBeVisible();
+				await expect(
+					page.getByText('Added 2 servings of Sample Item X to daily total!')
+				).toBeVisible();
 				await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).toHaveValue('200');
 				await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).toHaveValue('40');
 			});

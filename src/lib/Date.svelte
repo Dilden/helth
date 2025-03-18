@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { history } from '$stores/stores';
-	import { today } from '$stores/stores.svelte';
+	import { today, history } from '$stores/stores.svelte';
 	import { thePast, addTimezoneOffset, dateToPicker, utcToHuman, toUtc } from '$utils/dates';
 	import { errorToast } from '$utils/toast';
 	import Spinner from '$lib/Spinner.svelte';

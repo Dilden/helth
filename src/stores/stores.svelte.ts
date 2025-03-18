@@ -121,7 +121,7 @@ export const recipeSearchResults = () => recS;
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
 	let workingDate = $state(new Date().setHours(0, 0, 0, 0));
-	let workingDay: JournalEntry = $state({ date: workingDate });
+	let workingDay: JournalEntry = $state({ date: new Date().setHours(0, 0, 0, 0) });
 
 	function get() {
 		return workingDay;

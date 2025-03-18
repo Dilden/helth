@@ -20,20 +20,17 @@ it('shows counters for all nutrients', async () => {
 	expect(await screen.findByText('☕ Caffeine (mg)')).toBeVisible();
 });
 
-// vi.mock('$stores/stores', async () => {
-// 	const { writable } = await import('svelte/store');
-// 	return {
-// 		history: {
-// 			...writable([]),
-// 			set: vi.fn(),
-// 			init: vi.fn()
-// 		}
-// 	};
-// });
-
 vi.mock('$stores/stores.svelte', async () => {
 	let s = $state({ query: '' });
 	return {
+		history: {
+			set: vi.fn(),
+			init: vi.fn(async () => Promise.resolve()),
+			remove: vi.fn(),
+			update: vi.fn(),
+			add: vi.fn(),
+			get: vi.fn(() => [])
+		},
 		goals: {
 			init: vi.fn(() => Promise.resolve()),
 			add: vi.fn(),
