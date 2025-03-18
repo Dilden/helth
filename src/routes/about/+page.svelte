@@ -15,7 +15,7 @@
 	<details>
 		<summary>What is helth app?</summary>
 		<p>
-			Helth app is a <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
+			helth.app is a <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
 				>Progressive Web App</a
 			> (PWA) that allows users to track calories, nutrients, and water in-take. Essentially, it's a
 			website that can be installed on a device without having to be downloaded from an app store. The
@@ -27,7 +27,7 @@
 	<details>
 		<summary>Why the misspelled name?</summary>
 		<p>
-			Because helth app (or helth.app) started as a joke. I thought <a
+			Because helth app (or helth.app) started as a joke and I thought <a
 				href="https://en.wikipedia.org/wiki/Meme_Man">meme man</a
 			> was funny. When I started the app, I liked to joke about how unhealthy some of my eating habits
 			were. I started working on this app to change those habits.
@@ -47,23 +47,26 @@
 		</p>
 	</details>
 	<details>
-		<summary>How do I use helth app?</summary>
+		<summary>How do I use helth.app?</summary>
 		<p>
 			The app is intended to track daily intake of water, calories, and nutrients. Just input your
 			data to the daily counters on the home page by using the "+" or "-" buttons. Each counter has
-			an button to customize its settings (...). Move the slider to increase or decrease the amount
+			a button to customize its settings (...). Move the slider to increase or decrease the amount
 			you want to add or subtract with each button press from your daily total. You can also set the
 			count for each item directly in the text box.
 		</p>
 		<p>
-			By clicking the <span style="background-color: var(--secondary-back-color)">➕</span> button in
-			the bottom right corner, you'll be presented with a pop-up which has the tabs "Inventory", "Recipes",
-			and "Scan". Navigating to the "Scan" tab will allow you to scan the barcode (after you grant the
-			app permission to use your camera) of a food's packaging. Once scanned, that item will be automatically
-			added to your Inventory. From the Inventory, any values of the scanned items can be modified, added
-			to the daily total, or added to a Recipe. Recipes are convenient for adding multiple items to the
-			daily total at once. Recipes do not currently support servings per Item but that is a feature planned
-			for a future release!
+			By clicking the <span style="background-color: var(--secondary-back-color)">➕</span> button
+			in the bottom right corner, you'll be presented with a pop-up which has the tabs "Inventory",
+			"Recipes", and "Scan". Navigating to the "Scan" tab will allow you to scan the barcode (after
+			you grant the app permission to use your camera) of a food's packaging. Once scanned, that
+			item <i>should</i> be automatically added to your Inventory. From the Inventory, any values of
+			the scanned items can be modified, added to the daily total, or added to a Recipe. Recipes are
+			convenient for adding multiple items to the daily total at once.
+			<strike
+				>Recipes do not currently support servings per Item but that is a feature planned for a
+				future release!</strike
+			> You can totally customize the servings per item in a Recipe now.
 		</p>
 		<p>
 			Its recommended to install helth.app on your device for the most consistent experience. For
@@ -78,7 +81,7 @@
 	<details>
 		<summary>What is this prompt about "persistent storage?"</summary>
 		<p>
-			Helth app uses a technology called <a
+			helth.app uses a technology called <a
 				href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a
 			>, which is a type of database that exists in modern browsers. When a browser thinks its
 			storage has reached its limits, the browser may automatically wipe out data from various
@@ -227,6 +230,20 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.4.0</summary>
+		<ul>
+			<li>Migrated application to Svelte 5</li>
+			<li>Moved custom stores to rune-based objects for improved performance</li>
+			<li>More bug fixes than I was able to count</li>
+			<li>
+				I mean honestly, just check out <a
+					href="https://github.com/Dilden/helth/pull/210/files"
+					target="_blank">this chunky boi</a
+				>
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.3.4</summary>
 		<ul>
 			<li>
@@ -323,38 +340,6 @@
 			</li>
 			<li>A lot of work went into revamping the structure of IndexedDB.</li>
 			<li>Not that you care but I also fixed some issues with flaky and brittle tests.</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.12</summary>
-		<ul>
-			<li>
-				⭐ New feature ⭐ <br /> Charts can now show fine-grained history. This is helpful for looking
-				back on your past week, 2 weeks, month, or year!
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.11</summary>
-		<ul>
-			<li>Addressed some rounding errors from previous update</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.10</summary>
-		<ul>
-			<li>
-				⭐ New feature ⭐ <br /> Specify how many servings of an item or recipe to add to the daily total
-			</li>
-			<li>Misc. formatting of files</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.1.9</summary>
-		<ul>
-			<li>⭐ New feature ⭐ Set number servings for each item included in a recipe!</li>
-			<li>Fixed styling of inventory items under recipe</li>
-			<li>Misc. formatting of files</li>
 		</ul>
 	</details>
 	<details>
