@@ -2,10 +2,12 @@
 	import { nutrientSumsFromList, applyServings } from '$utils/item';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
-	import { recipes, today } from '$stores/stores';
+	import { recipes, today } from '$stores/stores.svelte';
 
-	export let recipe = {};
+	/** @type {{recipe?: any}} */
+	let { recipe = {} } = $props();
 
+	let servings = $state(1);
 	let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
 
 	const confirmDelete = () => {
@@ -14,20 +16,30 @@
 
 	const addToToday = () => {
 		try {
-			const servings = document.getElementById(`recipeServing-${recipe.id}`).value;
-			itemNutrientSums.map((index) => {
-				const amount = toTwoDecimals(index.quantity * Number(servings));
-				$today[index.key] = $today[index.key] || 0;
-				$today[index.key] = $today[index.key] + amount;
+			const sums = itemNutrientSums.reduce((obj, item) => {
+				// total of new nutrients * servings
+				let toAdd = toTwoDecimals(item.quantity * Number(servings));
+
+				// add that to existing total in today
+				let newTotal = {
+					[item.key]: toAdd + today.get()[item.key]
+				};
+				// console.log(newTotal);
+				return Object.assign(obj, newTotal);
+			}, {});
+
+			today.update({
+				...today.get(),
+				...sums
 			});
 			successToast(`Added ${servings} servings of ${recipe.name} to daily total!`);
 		} catch (err) {
 			errorToast('Error adding to total!');
 		}
 	};
-	const deleteRecipe = () => {
-		recipes
-			.delete(recipe.id)
+	const deleteRecipe = async () => {
+		await recipes
+			.remove(recipe.id)
 			.then(() => successToast('Removed recipe!'))
 			.catch(() => errorToast('Error deleting recipe!'));
 	};
@@ -65,7 +77,7 @@
 		class="peer block w-14 appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-2 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
 		placeholder="1"
 		required
-		value="1"
+		bind:value={servings}
 		step="any"
 		title="Number of servings to add to daily total"
 	/>
@@ -73,8 +85,8 @@
 <!--add to daily total -->
 <button
 	class="mx-1 my-0 sm:mx-2"
-	on:click={addToToday}
+	onclick={addToToday}
 	title="Add Recipe nutients (multiplied by specified servings) to Daily Total">➕</button
 >
 <!-- remove from db -->
-<button class="float-right m-1 sm:m-2" on:click={confirmDelete} title="Delete Recipe">🗑️</button>
+<button class="float-right m-1 sm:m-2" onclick={confirmDelete} title="Delete Recipe">🗑️</button>

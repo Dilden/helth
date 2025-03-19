@@ -1,28 +1,39 @@
 <script>
-	import { recipes, inventoryFilter } from '$stores/stores';
+	import { preventDefault } from 'svelte/legacy';
+	import { blur } from 'svelte/transition';
+	import { recipes, recipesInventoryFilter } from '$stores/stores.svelte';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
-	export let recipe = {};
-	export let inventoryItems = [];
-	export let submitCallback = () => false;
+	/** @type {{recipe?: any, inventoryItems?: any, submitCallback?: any}} */
+	let { recipe = {}, inventoryItems = [], submitCallback = () => false } = $props();
 
-	let validated = true;
+	let validated = $state(true);
 
-	inventoryItems.map((item) => {
-		if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
-			item.checked = true;
-		} else {
-			item.checked = false;
-		}
-	});
+	// inventoryItems isn't reactive when it comes in but we can make it reactive...
+	let reactiveItems = $state(
+		inventoryItems.map((item) => {
+			// need to set whether an item should be checked in the list
+			if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+				item.checked = true;
+			} else {
+				item.checked = false;
+			}
+			return item;
+		})
+	);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		const vals = formatRecipeFormValues(event.target);
 		if (vals?.items?.length) {
-			$recipes = vals;
-			event.target.reset();
 			validated = true;
+			if (vals.id) {
+				await recipes.update(vals.id, vals);
+			} else {
+				await recipes.add(vals);
+			}
+
+			event.target.reset();
 			submitCallback();
 		} else {
 			validated = false;
@@ -33,7 +44,7 @@
 <form
 	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-8"
 	name="AddRecipe"
-	on:submit|preventDefault={handleSubmit}
+	onsubmit={preventDefault(handleSubmit)}
 >
 	{#if recipe.id}
 		<input type="hidden" id="id" name="id" value={recipe.id} />
@@ -64,47 +75,51 @@
 	</span>
 
 	<div
-		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 overflow-scroll md:col-start-2 md:col-end-8"
+		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 md:col-start-2 md:col-end-8"
 	>
 		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
-			<!-- $inventoryFilter is used later on to hide items so users can filter large inventories quickly -->
+			<!-- recipesInventoryFilter.query is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
 				scrollTo={false}
-				bind:searchStoreVal={$inventoryFilter}
+				bind:searchStoreVal={recipesInventoryFilter.query}
 			/>
 		</div>
-		{#if inventoryItems?.length}
+		{#if reactiveItems?.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
 					At least one item must be selected!
 				</div>
 			{/if}
 			<div
-				class="col-span-full grid grid-cols-1 content-center items-center justify-evenly gap-2 lg:grid-cols-4 xl:grid-cols-6"
+				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
-				{#each inventoryItems as item}
-					<!-- hide items here based on $inventoryFilter value as removing them entirely breaks the form -->
-					<span
-						class="grid auto-rows-min grid-cols-5 content-stretch items-center justify-evenly gap-y-1 justify-self-auto {item.name
+				{#each reactiveItems as item}
+					<!-- hide items here based on inventorySearch.query value as removing them entirely breaks the form -->
+					<div
+						class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-[var(--back-color)] lg:w-auto lg:flex-col lg:justify-start {item.name
 							.toLowerCase()
-							.includes($inventoryFilter.toLowerCase())
+							.includes(recipesInventoryFilter.query.toLowerCase())
 							? 'block'
 							: 'hidden'}"
 					>
-						<input
-							id="inventoryItem-{item.id}"
-							type="checkbox"
-							class="col-span-1 m-0 p-4"
-							value={item.id}
-							name={item.name}
-							bind:checked={item.checked}
-						/>
-						<label class="col-span-3 m-0 ml-2" for="inventoryItem-{item.id}">
-							{item.name}
-						</label>
+						<span
+							class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2"
+						>
+							<input
+								id="inventoryItem-{item.id}"
+								type="checkbox"
+								class="m-0 scale-125 md:scale-150"
+								value={item.id}
+								name={item.name}
+								bind:checked={item.checked}
+							/>
+							<label class="m-0 ml-2 w-full lg:w-auto" for="inventoryItem-{item.id}">
+								{item.name}
+							</label>
+						</span>
 						{#if item.checked}
-							<div class="relative col-span-1 lg:col-span-3 lg:col-start-2">
+							<span class="relative w-auto max-w-20" transition:blur>
 								<label
 									class="absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-200 peer-focus:dark:text-blue-500"
 									for="inventoryItemServing-{item.id}"
@@ -122,9 +137,9 @@
 										: 1}
 									step="any"
 								/>
-							</div>
+							</span>
 						{/if}
-					</span>
+					</div>
 				{/each}
 			</div>
 		{:else}

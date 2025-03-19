@@ -1,9 +1,11 @@
 <script>
-	export let searchStoreVal = {};
-	export let searchTitle = 'Search';
-	export let scrollTo = true;
+	import { preventDefault } from 'svelte/legacy';
+
+	/** @type {{searchStoreVal?: any, searchTitle?: string, scrollTo?: boolean}} */
+	let { searchStoreVal = $bindable(), searchTitle = 'Search', scrollTo = true } = $props();
 
 	const scrollIt = () => {
+		console.log('scrolling...');
 		const top = document.getElementById('searching-' + searchTitle);
 		top.scrollIntoView({ behavior: 'smooth' });
 	};
@@ -19,11 +21,11 @@
 		bind:value={searchStoreVal}
 		type="text"
 		placeholder="Begin typing..."
-		on:focus={scrollTo ? scrollIt : false}
+		onfocus={scrollTo ? scrollIt : false}
 	/>
 	<button
 		class="border-none"
 		aria-label="Clear search"
-		on:click|preventDefault={() => (searchStoreVal = '')}>❌</button
+		onclick={preventDefault(() => (searchStoreVal = ''))}>❌</button
 	>
 </span>

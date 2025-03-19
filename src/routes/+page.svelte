@@ -1,45 +1,47 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { today, settings, limits, goals } from '$stores/stores';
+	import { today, goals, limits, settings } from '$stores/stores.svelte';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { onMount, afterUpdate } from 'svelte';
 	import Counter from '$lib/counts/Counter.svelte';
 	import Date from '$lib/Date.svelte';
 	import Add from '$lib/Add.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	$: enabled = list;
-	onMount(async () => {
-		await settings.init();
-		setEnabledItems();
-	});
-	afterUpdate(() => {
-		setEnabledItems();
-	});
-
-	const setEnabledItems = () => {
-		if ($settings !== undefined) {
-			enabled = list
+	let enabled = $derived.by(() => {
+		if (settings !== undefined) {
+			return list
 				.filter((item) => {
-					if ($settings[item.key]?.value?.enabled) {
-						item.position = $settings[item.key]?.value?.position;
+					if (settings.get()[item.key]?.value?.enabled) {
+						item.position = settings.get()[item.key]?.value?.position;
 						return item;
 					}
 				})
 				.filter((val) => val !== undefined)
 				.sort((a, b) => a.position - b.position);
 		}
-	};
+	});
 
 	const moveCallback = (positionA, positionB) => {
-		const x = Object.values($settings).find(({ value }) => value.position === positionA);
-		const y = Object.values($settings).find(({ value }) => value.position === positionB);
+		const x = Object.values(settings.get()).find(({ value }) => value.position === positionA);
+		const y = Object.values(settings.get()).find(({ value }) => value.position === positionB);
 
 		if (x && y) {
-			$settings[x.name].value.position = positionB;
-			$settings[y.name].value.position = positionA;
-			setEnabledItems();
+			// bit verbose but MUST PASS THE ENTIRE OBJECT
+			settings.update(x.name, {
+				name: x.name,
+				value: {
+					...settings.get()[x.name].value,
+					position: positionB
+				}
+			});
+			settings.update(y.name, {
+				name: y.name,
+				value: {
+					...settings.get()[y.name].value,
+					position: positionA
+				}
+			});
 		}
 	};
 </script>
@@ -63,19 +65,36 @@
 				>
 					<Counter
 						item={nutrient}
-						bind:count={$today[nutrient.key]}
-						bind:interval={$settings[nutrient.key].value.interval}
-						limit={$limits[nutrient.key]?.value ? $limits[nutrient.key].value : null}
-						goal={$goals[nutrient.key]?.value ? $goals[nutrient.key].value : null}
+						bind:count={
+							() => today.get()[nutrient.key],
+							(v) =>
+								today.update({
+									...today.get(),
+									[nutrient.key]: v
+								})
+						}
+						bind:interval={
+							() => settings.get()[nutrient.key].value.interval,
+							(v) =>
+								settings.update(nutrient.key, {
+									name: nutrient.key,
+									value: {
+										...settings.get()[nutrient.key].value,
+										interval: v
+									}
+								})
+						}
+						limit={limits.get()[nutrient.key]?.value ? limits.get()[nutrient.key].value : null}
+						goal={goals.get()[nutrient.key]?.value ? goals.get()[nutrient.key].value : null}
 						moveUpCallback={() =>
 							moveCallback(
-								$settings[nutrient.key].value.position,
-								$settings[nutrient.key].value.position - 1
+								settings.get()[nutrient.key].value.position,
+								settings.get()[nutrient.key].value.position - 1
 							)}
 						moveDownCallback={() =>
 							moveCallback(
-								$settings[nutrient.key].value.position,
-								$settings[nutrient.key].value.position + 1
+								settings.get()[nutrient.key].value.position,
+								settings.get()[nutrient.key].value.position + 1
 							)}
 					/>
 				</div>

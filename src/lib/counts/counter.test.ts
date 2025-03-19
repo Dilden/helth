@@ -1,8 +1,9 @@
 import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { settings } from '$stores/stores';
+import { settings } from '$stores/stores.svelte';
 import { get } from 'svelte/store';
 import { render, screen } from '@testing-library/svelte';
+import '@testing-library/jest-dom/vitest';
 import { list } from '$utils/nutrients';
 import userEvent from '@testing-library/user-event';
 import Counter from './Counter.svelte';
@@ -68,36 +69,37 @@ describe('options', () => {
 		setTimeout(() => expect(screen.queryByLabelText('Adjust -/+ interval')).toBeNull(), 120);
 	});
 
-	it.skip('changes store value when checkbox is unchecked', async () => {
-		const user = userEvent.setup();
-		render(Counter, {
-			count: 10,
-			item: { ...list[2], ...{ countMax: 150 } },
-			interval: 4
-		});
+	// it.skip('changes store value when checkbox is unchecked', async () => {
+	// 	const user = userEvent.setup();
+	// 	render(Counter, {
+	// 		count: 10,
+	// 		item: { ...list[2], ...{ countMax: 150 } },
+	// 		interval: 4
+	// 	});
 
-		await user.click(screen.getByRole('button', { name: '...' }));
-		// setTimeout(async () => await user.click(screen.getByRole('button', { name: '...' })), 120);
+	// 	await user.click(screen.getByRole('button', { name: '...' }));
+	// 	// setTimeout(async () => await user.click(screen.getByRole('button', { name: '...' })), 120);
 
-		const box = screen.getByRole('checkbox', { name: 'Show this counter?' });
-		expect(box).toBeChecked();
-		const store1: any = get(settings);
-		expect(store1.calories.value.enabled).toBe(true);
+	// 	const box = screen.getByRole('checkbox', { name: 'Show this counter?' });
+	// 	expect(box).toBeChecked();
+	// 	const store1: any = get(settings);
+	// 	expect(store1.calories.value.enabled).toBe(true);
 
-		// TODO: For some reason, this click causes an error
-		await user.click(box);
-		const store2: any = get(settings);
-		expect(store2.calories.value.enabled).toBe(false);
-	});
+	// 	// TODO: For some reason, this click causes an error
+	// 	await user.click(box);
+	// 	const store2: any = get(settings);
+	// 	expect(store2.calories.value.enabled).toBe(false);
+	// });
 });
 
-vi.mock('$stores/stores', async () => {
-	const { writable } = await import('svelte/store');
+vi.mock('$stores/stores.svelte', async () => {
 	return {
 		settings: {
-			...writable(defaultSettingsStoreValues),
 			set: vi.fn(),
-			init: vi.fn()
+			init: vi.fn(async () => Promise.resolve()),
+			remove: vi.fn(),
+			update: vi.fn(),
+			get: vi.fn(() => defaultSettingsStoreValues)
 		}
 	};
 });

@@ -62,7 +62,7 @@ export const getJournal = async () => {
  */
 
 // specify table name to put name/value pair there
-async function addItem(
+export async function addItem(
 	tableName: string,
 	name: string,
 	value: Limit['value'] | Goal['value'] | Setting['value']
@@ -78,12 +78,15 @@ async function addItem(
 		}
 	}
 }
+export const updateItem = async (tableName: string, key: string, item: Setting | Goal | Limit) => {
+	return db.table(tableName).update(key, item);
+};
 
 export const updateItems = async (tableName: string, items: readonly any[]) => {
 	return db.table(tableName).bulkPut(items);
 };
 
-export const getItems = async (tableName: string) => {
+export const getItems = async (tableName: string): Promise<NameValueStore> => {
 	// spread all of the settings onto one object
 	// so app doesn't need a store for each setting
 	return db
@@ -112,7 +115,7 @@ export const addToList = async <T>(tableName: string, data: T) => {
 export const updateItemInList = async (
 	tableName: string,
 	id: string,
-	data: InventoryItem | Recipe
+	data: InventoryItem | Recipe | JournalEntry
 ) => {
 	return await db.table(tableName).update(id, data);
 };

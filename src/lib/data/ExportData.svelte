@@ -3,7 +3,7 @@
 	import { exportDB } from 'dexie-export-import';
 	import Spinner from '$lib/Spinner.svelte';
 
-	let blobUrl = '';
+	let blobUrl = $state('');
 	const exportData = async () => {
 		const blob = await exportDB(db, { prettyJson: true });
 		blobUrl = URL.createObjectURL(blob);

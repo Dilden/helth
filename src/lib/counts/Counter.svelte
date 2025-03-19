@@ -2,17 +2,27 @@
 	import { clickOutside } from '$utils/clickOutside';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { fade } from 'svelte/transition';
-	import { onMount, afterUpdate } from 'svelte';
 	import CounterOptions from './CounterOptions.svelte';
 
-	export let item: Nutrient;
-	export let count: number = 0;
-	export let interval: number = 1;
-	export let limit = 0;
-	export let goal = 0;
+	interface Props {
+		item: Nutrient;
+		count?: number;
+		interval?: number;
+		limit?: number;
+		goal?: number;
+		moveUpCallback?: any;
+		moveDownCallback?: any;
+	}
 
-	export let moveUpCallback = () => {};
-	export let moveDownCallback = () => {};
+	let {
+		item,
+		count = $bindable(0),
+		interval = $bindable(1),
+		limit = 0,
+		goal = 0,
+		moveUpCallback = () => {},
+		moveDownCallback = () => {}
+	}: Props = $props();
 
 	const increment = (): number => {
 		return (count = count + interval);
@@ -25,38 +35,32 @@
 		return count;
 	};
 
-	let showOptions = false;
-	$: goalString = '';
-	$: limitString = '';
+	let showOptions = $state(false);
 
-	const diffMsg = () => {
+	let goalString = $derived.by(() => {
 		if (goal) {
 			let diff = 0;
 			diff = toTwoDecimals(goal - count);
 			if (diff) {
-				goalString =
-					diff >= 0 ? `${diff} to 🥅` : `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
+				return diff >= 0
+					? `${diff} to 🥅`
+					: `<span class="text-teal-600">${-diff} over goal! 🥳</span>`;
 			}
 		}
+		return '';
+	});
+
+	let limitString = $derived.by(() => {
 		if (limit) {
 			let diff = 0;
 			diff = toTwoDecimals(limit - count);
 			if (diff) {
-				limitString =
-					diff >= 0
-						? `${diff} to limit`
-						: `<span class="text-red-600">${-diff} over limit 😢</span>`;
+				return diff >= 0
+					? `${diff} to limit`
+					: `<span class="text-red-600">${-diff} over limit 😢</span>`;
 			}
 		}
-	};
-
-	onMount(() => {
-		diffMsg();
-		count ||= 0; // count may be null
-	});
-	afterUpdate(() => {
-		diffMsg();
-		count ||= 0;
+		return '';
 	});
 </script>
 
@@ -79,7 +83,7 @@
 	<div class="m-auto flex w-[90vw] content-center items-center gap-0 md:w-auto">
 		<button
 			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-xl rounded-r-none border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-xl hover:rounded-r-none hover:bg-neutral-300"
-			on:click={decrement}
+			onclick={decrement}
 		>
 			-{interval}
 		</button>
@@ -94,7 +98,7 @@
 
 		<button
 			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-none rounded-r-xl border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-none hover:rounded-r-xl hover:bg-neutral-300"
-			on:click={increment}
+			onclick={increment}
 		>
 			+{interval}
 		</button>
@@ -103,9 +107,9 @@
 	<!-- Options -->
 	<button
 		class="absolute right-0 top-0 bg-transparent p-1 text-2xl text-[--fore-color] transition duration-200 hover:bg-transparent hover:text-neutral-200"
-		on:click={() => (showOptions = !showOptions)}
+		onclick={() => (showOptions = !showOptions)}
 		use:clickOutside={'#' + item.key + '_options'}
-		on:click_outside={() => (showOptions = false)}
+		onclick_outside={() => (showOptions = false)}
 	>
 		...
 	</button>

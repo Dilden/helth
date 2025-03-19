@@ -1,13 +1,14 @@
 <script>
 	import { BrowserMultiFormatReader } from '@zxing/library';
 	import { getInventory, addInventory } from '$stores/db';
-	import { today } from '$stores/stores';
+	import { today } from '$stores/stores.svelte';
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
 	import { error } from '@sveltejs/kit';
 	import { getFoodFacts } from '$utils/sources';
+	import { toTwoDecimals } from '$utils/numbers';
 
 	// scanner
-	let selected;
+	let selected = $state();
 
 	const codeReader = new BrowserMultiFormatReader();
 
@@ -42,11 +43,21 @@
 
 	const addToToday = (data) => {
 		try {
-			data.map(({ key, quantity }) => {
-				$today[key] += Number(quantity);
+			const sums = data.reduce((obj, item) => {
+				// add that to existing total in today
+				let newTotal = {
+					[item.key]: toTwoDecimals(item.quantity + today.get()[item.key])
+				};
+				return Object.assign(obj, newTotal);
+			}, {});
+
+			today.update({
+				...today.get(),
+				...sums
 			});
-			successToast('Added item to daily total!');
+			successToast('Added 1 serving of scanned item to daily total!');
 		} catch (e) {
+			console.log(e);
 			errorToast('Error adding item to daily total');
 		}
 	};
@@ -69,15 +80,15 @@
 				name="inputs"
 				class="col-start-2 col-end-6 row-start-2 row-end-2 border border-solid border-gray-500"
 				bind:value={selected}
-				on:change={() => scan()}
+				onchange={() => scan()}
 			>
 				{#each inputs as input}
 					<option value={input}>{input.label}</option>
 				{/each}
 			</select>
 			<div class="col-start-2 col-end-6 grid grid-cols-2 grid-rows-1 gap-x-5">
-				<button class="col-start-1 col-end-2" on:click={cancel}>❌ STOP</button>
-				<button class="col-start-2 col-end-3" on:click={scan}>📷 SCAN</button>
+				<button class="col-start-1 col-end-2" onclick={cancel}>❌ STOP</button>
+				<button class="col-start-2 col-end-3" onclick={scan}>📷 SCAN</button>
 			</div>
 		</div>
 	{:catch error}

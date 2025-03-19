@@ -1,20 +1,32 @@
 <script>
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
-	import { today, inventory, recipes } from '$stores/stores';
+	import { today, inventory, recipes } from '$stores/stores.svelte';
 	import { toTwoDecimals } from '$utils/numbers';
 
-	export let item;
+	/** @type {{item: any}} */
+	let { item } = $props();
+	let servings = $state(1);
 
 	const addToToday = () => {
 		try {
-			const servings = document.getElementById(`inventoryItemServing-${item.id}`).value;
-			item.nutrients.map((index) => {
-				const amount = toTwoDecimals(index.quantity * Number(servings));
-				$today[index.key] = $today[index.key] || 0;
-				$today[index.key] = $today[index.key] + amount;
+			const sums = item.nutrients.reduce((obj, item) => {
+				// total of new nutrients * servings
+				let toAdd = toTwoDecimals(item.quantity * Number(servings));
+
+				// add that to existing total in today
+				let newTotal = {
+					[item.key]: toAdd + today.get()[item.key]
+				};
+				return Object.assign(obj, newTotal);
+			}, {});
+
+			today.update({
+				...today.get(),
+				...sums
 			});
-			successToast(`Added ${servings} servings to daily total!`);
+			successToast(`Added ${servings} servings of ${item.name} to daily total!`);
 		} catch (err) {
+			console.log(err);
 			errorToast('Error adding to total!');
 		}
 	};
@@ -29,10 +41,10 @@
 
 	const deleteItem = async () => {
 		await inventory
-			.delete(item.id)
+			.remove(item.id)
 			.then(() => successToast('Removed item!'))
 			.catch(() => errorToast('Error deleting item!'));
-		await recipes.init();
+		await recipes.init(); // recipes store must be re-initialized as its state will remain stale otherwise
 	};
 </script>
 
@@ -65,7 +77,7 @@
 		class="peer block w-14 appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pb-2 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
 		placeholder="1"
 		required
-		value="1"
+		bind:value={servings}
 		step="any"
 		title="Number of servings to add to daily total"
 	/>
@@ -73,11 +85,11 @@
 <!--add to daily total -->
 <button
 	class="mx-1 my-0"
-	on:click={addToToday}
+	onclick={addToToday}
 	title="Add Item nutients (times specified servings) to Daily Total">➕</button
 >
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <!-- remove from db -->
-<button class="float-right m-1 sm:m-2" on:click={confirmDelete} title="Delete Item from Inventory">
+<button class="float-right m-1 sm:m-2" onclick={confirmDelete} title="Delete Item from Inventory">
 	🗑️
 </button>

@@ -20,7 +20,7 @@ it('runs callback fn on confirm', async () => {
 
 	expect(props.callbackConfirm).not.toHaveBeenCalled();
 
-	await userEvent.click(screen.getByRole('button', { name: 'Yes' }));
+	await user.click(screen.getByRole('button', { name: 'Yes' }));
 
 	expect(props.callbackConfirm).toHaveBeenCalled();
 });

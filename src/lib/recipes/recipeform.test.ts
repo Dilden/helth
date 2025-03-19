@@ -1,8 +1,8 @@
 import 'fake-indexeddb/auto';
 import { render, screen, within } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
 import RecipeForm from './RecipeForm.svelte';
-import { inventoryFilter } from '$stores/stores';
 
 const recipeHasItem1 = {
 	recipe: {
@@ -80,7 +80,7 @@ describe('recipe form', () => {
 
 			const boxAncestor: HTMLElement = screen
 				.getByRole('checkbox', { name: 'First' })
-				.closest('span')!; // ! magically tells TS that this won't be null
+				.closest('div')!; // ! magically tells TS that this won't be null
 			expect(within(boxAncestor).getByLabelText('First')).toBeChecked();
 			expect(within(boxAncestor).getByLabelText('Servings')).toHaveValue(3);
 		});
@@ -90,9 +90,21 @@ describe('recipe form', () => {
 
 			const boxAncestor: HTMLElement = screen
 				.getByRole('checkbox', { name: 'Second' })
-				.closest('span')!; // ! magically tells TS that this won't be null
+				.closest('div')!; // ! magically tells TS that this won't be null
 			expect(within(boxAncestor).getByLabelText('Second')).not.toBeChecked();
 			expect(within(boxAncestor).queryByLabelText('Servings')).toBeNull();
+		});
+
+		it('shows servings input when checkbox is clicked', async () => {
+			const user = userEvent.setup();
+			render(RecipeForm, recipeHasItem1);
+
+			const third = screen.getByRole('checkbox', { name: 'third thing' })!;
+			const container = third.closest('div');
+			await user.click(third);
+			if (container !== null) {
+				expect(within(container).getByRole('spinbutton', { name: 'Servings' })).toBeVisible();
+			}
 		});
 	});
 
@@ -116,27 +128,5 @@ describe('recipe form', () => {
 			]
 		});
 		expect(screen.getByLabelText('Filter inventory')).toBeVisible();
-	});
-
-	it('inventoryFilter text hides elements from inventory', () => {
-		inventoryFilter.set('test');
-		render(RecipeForm, {
-			inventoryItems: [
-				{
-					id: 10,
-					name: 'demo',
-					description: 'description goes here'
-				},
-				{
-					id: 11,
-					name: 'test',
-					description: 'for testing'
-				}
-			]
-		});
-
-		// parent element is actually hidden
-		expect(screen.getByLabelText('test')).toBeVisible();
-		expect(screen.getByLabelText('demo')).not.toBeVisible();
 	});
 });

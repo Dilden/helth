@@ -1,6 +1,8 @@
 <script>
 	import { getContext } from 'svelte';
 	import { TABS } from './Tabs.svelte';
+	/** @type {{children?: import('svelte').Snippet}} */
+	let { children } = $props();
 
 	const tab = {};
 	const { registerTab, selectTab, selectedTab } = getContext(TABS);
@@ -8,8 +10,8 @@
 	registerTab(tab);
 </script>
 
-<button class:selected="{$selectedTab === tab}" on:click="{() => selectTab(tab)}">
-	<slot></slot>
+<button class:selected="{$selectedTab === tab}" onclick={() => selectTab(tab)}>
+	{@render children?.()}
 </button>
 <style>
 	button {

@@ -21,7 +21,7 @@ describe.sequential('list tables', () => {
 	});
 
 	it('cannot add an item with the same ID', async () => {
-		expect(
+		await expect(
 			async () =>
 				await addToList('recipes', { id: '1', name: 'should fail', description: 'plz fail' })
 		).rejects.toThrowError();

@@ -6,9 +6,11 @@
 	import { persist, isStoragePersisted, dbopen } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
-	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import SvelteToast from '$lib/toast/SvelteToast.svelte';
 	import { confirmDialog } from '$utils/toast.js';
 	import { updated } from '$app/stores';
+	/** @type {{children?: import('svelte').Snippet}} */
+	let { children } = $props();
 
 	onMount(async () => {
 		const status = await isStoragePersisted();
@@ -22,7 +24,7 @@
 		}
 	});
 
-	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+	let webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 </script>
 
 <svelte:head>
@@ -35,7 +37,7 @@
 		{#await dbopen}
 			<Spinner />
 		{:then}
-			<slot />
+			{@render children?.()}
 		{/await}
 	</div>
 	<div class="shrink-0">

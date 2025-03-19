@@ -1,9 +1,9 @@
 <script>
 	import { dateToPicker } from '$utils/dates';
-	export let callback = () => {};
 	const dateObj = new Date();
-	export let value = dateToPicker(dateObj);
+	/** @type {{callback?: any, value?: any}} */
+	let { callback = () => {}, value = dateToPicker(dateObj) } = $props();
 </script>
 
 <label for="entry-date">Select date</label>
-<input name="entry-date" id="entry-date" type="date" on:change={callback} {value} max={value} />
+<input name="entry-date" id="entry-date" type="date" onchange={callback} {value} max={value} />

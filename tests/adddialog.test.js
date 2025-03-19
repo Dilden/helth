@@ -32,6 +32,11 @@ test.describe('add items dialog', () => {
 				page = await browser.newPage();
 				await page.goto('/');
 				await page.getByRole('status').getByRole('button', { name: 'Yes' }).click();
+				await page
+					.getByRole('alert')
+					.filter({ hasText: 'App ready to work offline' })
+					.getByRole('button', { name: 'Close' })
+					.click();
 				await page.getByRole('button', { name: 'Open Add Dialog' }).click();
 			});
 
@@ -57,7 +62,9 @@ test.describe('add items dialog', () => {
 					.click();
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
-				await expect(page.getByText('Added 2 servings to daily total!')).toBeVisible();
+				await expect(
+					page.getByText('Added 2 servings of Sample Item X to daily total!')
+				).toBeVisible();
 				await expect(page.getByLabel('⚡ Calories (kcal)', { exact: true })).toHaveValue('200');
 				await expect(page.getByLabel('🧂 Sodium (mg)', { exact: true })).toHaveValue('40');
 			});
@@ -117,6 +124,11 @@ test.describe('add items dialog', () => {
 				.locator('li')
 				.filter({ hasText: "Don't lose your data! Make storage persistent now? Yes No" })
 				.getByTitle('Yes')
+				.click();
+			await page
+				.getByRole('alert')
+				.filter({ hasText: 'App ready to work offline' })
+				.getByRole('button', { name: 'Close' })
 				.click();
 			await page.getByRole('button', { name: 'Open Add Dialog' }).click();
 

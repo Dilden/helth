@@ -3,9 +3,6 @@ import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import Recipes from './Recipes.svelte';
-// import { recipeMock } from '$vitest/mockStores';
-
-// recipeMock();
 
 afterEach(() => {
 	vi.restoreAllMocks();
@@ -50,8 +47,7 @@ describe('recipe list items', () => {
 	});
 });
 
-vi.mock('$stores/stores', async () => {
-	const { writable, derived } = await import('svelte/store');
+vi.mock('$stores/stores.svelte', async () => {
 	const defaultRecipes = [
 		Promise.resolve({
 			name: 'Crackers and Cheese',
@@ -194,37 +190,21 @@ vi.mock('$stores/stores', async () => {
 		}
 	];
 
+	let recipeSearch = $state({ query: '' });
+	let recipesInventoryFilter = $state({ query: '' });
 	return {
-		formattedRecipes: {
-			...derived(writable(''), () => defaultRecipes, defaultRecipes)
-		},
-		recipeSearch: {
-			...writable(0),
-			set: vi.fn(),
-			init: vi.fn()
-		},
 		recipes: {
-			...writable(0),
-			set: vi.fn(),
 			init: vi.fn(),
-			delete: vi.fn()
+			get: vi.fn(() => defaultRecipes)
 		},
+		recipeSearch,
+		recipeSearchResults: vi.fn(() => ({
+			results: defaultRecipes
+		})),
+		recipesInventoryFilter,
 		inventory: {
-			...writable(defaultInventory),
-			set: vi.fn(),
-			init: vi.fn(async () => Promise.resolve(defaultInventory)),
-			delete: vi.fn()
-		},
-		inventoryFilter: {
-			...writable(''),
-			set: vi.fn(),
+			get: vi.fn(() => defaultInventory),
 			init: vi.fn()
-		},
-		today: {
-			...writable(''),
-			set: vi.fn(),
-			init: vi.fn(),
-			setDate: vi.fn()
 		}
 	};
 });

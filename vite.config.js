@@ -2,6 +2,7 @@ import path from 'path';
 import { sveltekit } from '@sveltejs/kit/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import { svelteTesting } from '@testing-library/svelte/vite';
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -16,13 +17,14 @@ const config = {
 		},
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		reporter: 'verbose',
-		setupFiles: ['./src/vitest/cleanupDom']
+		setupFiles: ['./src/vitest/cleanupDom', './vitest-setup-client.ts']
 	},
 	define: {
 		APP_VERSION: JSON.stringify(process.env.npm_package_version)
 	},
 	plugins: [
 		sveltekit(),
+		svelteTesting(),
 		// // enabling basicSsl plugin breaks tests
 		// (process.env.NODE_ENV === 'development' || 'preview' ? basicSsl() : [] ),
 		process.env.NODE_ENV === 'development' ? basicSsl() : [],

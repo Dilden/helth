@@ -1,17 +1,23 @@
 <script>
-	import { inventory } from '$stores/stores';
+	import { preventDefault } from 'svelte/legacy';
+
+	import { inventory } from '$stores/stores.svelte';
 	import { formatInventoryFormValues } from '$utils/formValues';
 	import AddNutrientInputs from './AddNutrientInputs.svelte';
 
-	export let item = {};
-	export let submitCallback = () => false;
-	let validated = true;
+	/** @type {{item?: any, submitCallback?: any}} */
+	let { item = {}, submitCallback = () => false } = $props();
+	let validated = $state(true);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		const vals = formatInventoryFormValues(event.target);
 		if (vals?.nutrients && Object.entries(vals?.nutrients).length) {
 			validated = true;
-			$inventory = vals;
+			if (vals.id) {
+				await inventory.update(vals.id, vals);
+			} else {
+				await inventory.add(vals);
+			}
 			event.target.reset();
 			submitCallback();
 		} else {
@@ -22,7 +28,7 @@
 
 <form
 	name="AddItem"
-	on:submit|preventDefault={handleSubmit}
+	onsubmit={preventDefault(handleSubmit)}
 	class="grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-3"
 >
 	{#if item?.id}
