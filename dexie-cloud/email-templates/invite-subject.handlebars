@@ -1,0 +1,38 @@
+{{!--
+    Subject template for invite email
+    =================================
+
+    Available params:
+
+      {{{recepient.name}}}: The full name of the receiving user.
+
+      {{{recepient.firstName}}}: The first name of the receiving user.
+
+      {{{recepient.lastName}}}: The last name of the receiving user.
+
+      {{{invitor.name}}}: The full name of the inviting user.
+
+      {{{invitor.firstName}}}: The first name of the inviting user.
+
+      {{{invitor.lastName}}}: The last name of the inviting user.
+
+      {{{realm.represents}}}: The entity type that the realm represents (e.g. "Todo list" or "Chat group").
+
+      {{{realm.name}}}: The name of the realm.
+
+      {{{realm.realmId}}}: The realmId being invited to.
+
+      {{{realm.<arbritrary realm property>}}}: Any property from the realm being invited to.
+
+      {{{acceptUrl}}}: The URL to navigate to in order to accept the invite.
+
+      {{{rejectUrl}}}: The URL to navigate to in order to reject the invite.
+
+      {{{app.name}}}: The name of the app.
+
+      {{{app.url}}}: The URL of the app.
+
+      {{{app.isWebPage}}}: True if the app is a web page, false if it's an app.
+
+--}}
+{{{invitor.name}}} wants to share "{{{realm.name}}}" with you
