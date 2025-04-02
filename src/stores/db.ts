@@ -2,11 +2,11 @@ import Dexie, { type EntityTable } from 'dexie';
 import { thePast } from '$utils/dates';
 import { list } from '$utils/nutrients';
 import { migrate } from './dbmigrations';
-// import { PUBLIC_DB_URL } from '$env/static/public';
-// import { dexieCloud } from 'dexie-cloud-addon';
+import { dexieCloud } from 'dexie-cloud-addon';
+import { PUBLIC_DB_URL } from '$env/static/public';
 
 // export const db = new Dexie('helthdb', { addons: [dexieCloud] });
-export const db = new Dexie('helthdb') as Dexie & {
+export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	inventory: EntityTable<InventoryItem, 'id'>;
 	recipes: EntityTable<Recipe, 'id'>;
 	settings: EntityTable<Setting, 'name'>;
@@ -19,12 +19,11 @@ migrate(db);
 
 db.on('populate', async () => await addDefaults());
 
-// db.cloud.configure({
-// 	databaseUrl: PUBLIC_DB_URL,
-// 	// requireAuth: true
-// 	requireAuth: false,
-// 	disableWebSocket: true
-// });
+db.cloud.configure({
+	databaseUrl: PUBLIC_DB_URL,
+	requireAuth: true
+	// disableWebSocket: true
+});
 
 export const dbopen = db.open().then(async () => {
 	await addDefaults();
