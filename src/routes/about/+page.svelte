@@ -230,6 +230,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v0.4.1</summary>
+		<ul>
+			<li>Added custom headers based for Cloudflare</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.4.0</summary>
 		<ul>
 			<li>Migrated application to Svelte 5</li>
