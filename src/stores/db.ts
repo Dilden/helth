@@ -19,11 +19,12 @@ migrate(db);
 
 db.on('populate', async () => await addDefaults());
 
-db.cloud.configure({
-	databaseUrl: PUBLIC_DB_URL,
-	requireAuth: true
-	// disableWebSocket: true
-});
+// db.cloud.configure({
+// 	databaseUrl: PUBLIC_DB_URL,
+// 	requireAuth: false
+// 	// disableWebSocket: true
+// });
+// db.cloud.login();
 
 export const dbopen = db.open().then(async () => {
 	await addDefaults();
