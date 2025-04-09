@@ -1,6 +1,6 @@
 <script>
 	import { db, addDefaults } from '$stores/db';
-	import { initStores } from '$stores/stores';
+	import { initStores } from '$stores/stores.svelte';
 	import { importDB, peakImportFile } from 'dexie-export-import';
 	import { errorToast, confirmDialog } from '$utils/toast.js';
 

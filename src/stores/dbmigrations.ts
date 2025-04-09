@@ -153,4 +153,41 @@ export function migrate(db: Dexie): void {
 					delete record.uid;
 				});
 		});
+	db.version(10)
+		.stores({
+			settings: null,
+			settingsTemp: '@id, name',
+			goals: null,
+			goalsTemp: '@id, name',
+			limits: null,
+			limitsTemp: '@id, name'
+		})
+		.upgrade(async (tx) => {
+			const settings = await tx.table('settings').toArray();
+			const goals = await tx.table('goals').toArray();
+			const limits = await tx.table('limits').toArray();
+
+			await tx.table('settingsTemp').bulkAdd(settings);
+			await tx.table('goalsTemp').bulkAdd(goals);
+			await tx.table('limitsTemp').bulkAdd(limits);
+		});
+
+	db.version(11)
+		.stores({
+			settingsTemp: null,
+			settings: '@id, name',
+			goalsTemp: null,
+			goals: '@id, name',
+			limitsTemp: null,
+			limits: '@id, name'
+		})
+		.upgrade(async (tx) => {
+			const settings = await tx.table('settingsTemp').toArray();
+			const goals = await tx.table('goalsTemp').toArray();
+			const limits = await tx.table('limitsTemp').toArray();
+
+			await tx.table('settings').bulkAdd(settings);
+			await tx.table('goals').bulkAdd(goals);
+			await tx.table('limits').bulkAdd(limits);
+		});
 }
