@@ -37,16 +37,19 @@ interface HistoryStore extends Store<JournalEntry> {
 }
 
 interface Goal {
+	id?: string;
 	name: string;
 	value: number;
 }
 
 interface Limit {
+	id?: string;
 	name: string;
 	value: number;
 }
 
 interface Setting {
+	id?: string;
 	name: string;
 	value: {
 		interval: number;

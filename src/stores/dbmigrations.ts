@@ -163,6 +163,7 @@ export function migrate(db: Dexie): void {
 			limitsTemp: '@id, name'
 		})
 		.upgrade(async (tx) => {
+			console.log('anything');
 			const settings = await tx.table('settings').toArray();
 			const goals = await tx.table('goals').toArray();
 			const limits = await tx.table('limits').toArray();

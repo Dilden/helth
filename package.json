@@ -30,7 +30,6 @@
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "autoprefixer": "^10.4.16",
     "canvas": "^3.1.0",
-    "dexie-cloud": "^2.0.1",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-svelte": "^3.5.0",
@@ -53,9 +52,9 @@
     "@zxing/library": "^0.21.3",
     "chart.js": "^4.3.3",
     "chartjs-plugin-annotation": "^3.0.1",
-    "dexie": "^4.0.11",
-    "dexie-cloud-addon": "^4.0.8",
-    "dexie-export-import": "^4.0.7"
+    "dexie": "^4.1.0-beta.46",
+    "dexie-cloud-addon": "^4.1.0-beta.46",
+    "dexie-export-import": "^4.1.4"
   },
   "jest": {
     "setupFilesAfterEnv": [
