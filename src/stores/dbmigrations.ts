@@ -191,4 +191,25 @@ export function migrate(db: Dexie): void {
 			await tx.table('goals').bulkAdd(goals);
 			await tx.table('limits').bulkAdd(limits);
 		});
+
+	db.version(12)
+		.stores({
+			journal: null,
+			journalTemp: '@id, date'
+		})
+		.upgrade(async (tx) => {
+			const j = await tx.table('journal').toArray();
+
+			await tx.table('journalTemp').bulkAdd(j);
+		});
+	db.version(13)
+		.stores({
+			journalTemp: null,
+			journal: '@id, date'
+		})
+		.upgrade(async (tx) => {
+			const j = await tx.table('journalTemp').toArray();
+
+			await tx.table('journal').bulkAdd(j);
+		});
 }
