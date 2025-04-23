@@ -205,7 +205,7 @@ export function migrate(db: Dexie): void {
 	db.version(13)
 		.stores({
 			journalTemp: null,
-			journal: '@id, date'
+			journal: '@id, &date' // should only contain one entry per date
 		})
 		.upgrade(async (tx) => {
 			const j = await tx.table('journalTemp').toArray();
