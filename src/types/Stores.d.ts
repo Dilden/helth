@@ -65,6 +65,7 @@ interface NameValueStore {
 }
 
 interface JournalEntry {
+	id?: string;
 	date: number;
-	[key: string]: number;
+	[key: string]: number | string;
 }
