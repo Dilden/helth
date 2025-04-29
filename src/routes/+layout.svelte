@@ -33,7 +33,7 @@
 
 <div class="flex h-full flex-col" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
-	<div class="flex-auto px-4">
+	<div class="mt-3 flex-auto px-4">
 		{#await dbopen}
 			<Spinner />
 		{:then}
