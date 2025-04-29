@@ -26,7 +26,10 @@ const config = {
 				log.includes('Sync rate limit') ||
 				log.includes('Sync ratelimit delay') ||
 				log.includes('Sync response') ||
+				log.includes('Sync request') ||
 				log.includes('Done sync') ||
+				log.includes('Done initial sync') ||
+				log.includes('SYNC DONE') ||
 				log.includes('Starting LocalSyncWorker') ||
 				log.includes('dexie-cloud') ||
 				log.includes('New WebSocket Connection') ||
