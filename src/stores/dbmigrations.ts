@@ -176,11 +176,11 @@ export function migrate(db: Dexie): void {
 	db.version(11)
 		.stores({
 			settingsTemp: null,
-			settings: '@id, name',
+			settings: '@id, &name',
 			goalsTemp: null,
-			goals: '@id, name',
+			goals: '@id, &name',
 			limitsTemp: null,
-			limits: '@id, name'
+			limits: '@id, &name'
 		})
 		.upgrade(async (tx) => {
 			const settings = await tx.table('settingsTemp').toArray();
