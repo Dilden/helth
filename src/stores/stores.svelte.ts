@@ -54,11 +54,12 @@ function createNameValueStore(tableName: string): NameValStore<Goal | Limit | Se
 		data = await dbfun.getItems(tableName);
 	}
 	async function add(item: Goal | Limit | Setting) {
-		await dbfun.addItem(tableName, item.name, item.value);
+		await dbfun.addItem(tableName, item.name, item.value).catch((err) => console.log(err));
 		await init();
 	}
 	async function update(key: string, item: Goal | Limit | Setting) {
-		await dbfun.updateItem(tableName, key, item);
+		let value = await dbfun.findByName(key, tableName);
+		await dbfun.updateItem(tableName, value.id, { ...value, ...item });
 		await init();
 	}
 	async function remove(key: string) {
@@ -131,8 +132,9 @@ function createTodayStore(): TodayStore<JournalEntry> {
 			if (day) {
 				return day;
 			} else {
-				await dbfun.addDay({ ...dbfun.defaultDay, date: workingDate });
-				return { ...dbfun.defaultDay, date: workingDate };
+				const { id, ...rest } = { ...dbfun.defaultDay, date: workingDate };
+				await dbfun.addDay(rest);
+				return rest;
 			}
 		});
 	}
@@ -178,3 +180,13 @@ function createHistoryStore(): HistoryStore {
 	return { init, add, update, remove, get };
 }
 export const history = createHistoryStore();
+
+export const initStores = async () => {
+	await today.init();
+	await history.init();
+	await settings.init();
+	await goals.init();
+	await limits.init();
+	await inventory.init();
+	await recipes.init();
+};

@@ -1,5 +1,5 @@
 import 'fake-indexeddb/auto';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { inventory, recipes, goals, settings, today } from '$stores/stores.svelte';
 import { defaultTodayStoreValues } from '../vitest/defaultTodayStore';
 
@@ -152,12 +152,18 @@ it('removes a linked item from a recipe when an item is deleted', async () => {
 describe.sequential('name value stores', () => {
 	it('can add a goal', async () => {
 		await goals.add(testGoal1);
-		expect(goals.get()).toHaveProperty('ayylmfao', testGoal1);
+		expect(goals.get()).toHaveProperty('ayylmfao', expect.objectContaining(testGoal1));
 	});
 	it('can update a goal', async () => {
 		await goals.update('ayylmfao', { name: 'roflmao', value: 420 });
-		expect(goals.get()).toHaveProperty('roflmao', { name: 'roflmao', value: 420 });
-		expect(goals.get()).not.toHaveProperty('ayylmfao', { name: 'ayylmfao', value: 69 });
+		expect(goals.get()).toHaveProperty(
+			'roflmao',
+			expect.objectContaining({ name: 'roflmao', value: 420 })
+		);
+		expect(goals.get()).not.toHaveProperty(
+			'ayylmfao',
+			expect.objectContaining({ name: 'ayylmfao', value: 69 })
+		);
 	});
 	it('can delete a goal', async () => {
 		await goals.remove('roflmao');
@@ -168,19 +174,21 @@ describe.sequential('name value stores', () => {
 describe.sequential('setting store', () => {
 	it('can add a setting', async () => {
 		await settings.add(testSetting);
-		expect(settings.get()).toHaveProperty('derp', testSetting);
+		expect(settings.get()).toHaveProperty('derp', expect.objectContaining(testSetting));
 	});
 });
 
 describe.sequential('today store', () => {
-	it('can init as a day', async () => {
+	beforeAll(async () => {
 		await today.setDate(defaultTodayStoreValues.date);
+	});
+	it('can init as a day', async () => {
 		expect(today.get()).toHaveProperty('calories', 0);
 	});
 	it('can update a value', async () => {
 		await today.update({ ...defaultTodayStoreValues, calories: 555 });
-		expect(today.get()).not.toHaveProperty('calories', 0);
 		expect(today.get()).toHaveProperty('calories', 555);
+		expect(today.get()).not.toHaveProperty('calories', 0);
 	});
 });
 

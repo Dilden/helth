@@ -1,0 +1,7 @@
+{
+  "originName": "myapp.company.com",
+  "otp": "ABCD1234",
+  "otpId": "1234567890",
+  "isApp": false,
+  "email": "foo@bar.com"
+}

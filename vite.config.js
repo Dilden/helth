@@ -17,7 +17,25 @@ const config = {
 		},
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		reporter: 'verbose',
-		setupFiles: ['./src/vitest/cleanupDom', './vitest-setup-client.ts']
+		setupFiles: ['./src/vitest/cleanupDom', './vitest-setup-client.ts'],
+		onConsoleLog: (log) => {
+			return !(
+				log.includes('BroadcastedAndLocalEvent') ||
+				log.includes('Performing initial sync') ||
+				log.includes('Applying server changes') ||
+				log.includes('Sync rate limit') ||
+				log.includes('Sync ratelimit delay') ||
+				log.includes('Sync response') ||
+				log.includes('Sync request') ||
+				log.includes('Done sync') ||
+				log.includes('Done initial sync') ||
+				log.includes('SYNC DONE') ||
+				log.includes('Starting LocalSyncWorker') ||
+				log.includes('dexie-cloud') ||
+				log.includes('New WebSocket Connection') ||
+				log.includes('SYNC STARTED')
+			);
+		}
 	},
 	define: {
 		APP_VERSION: JSON.stringify(process.env.npm_package_version)

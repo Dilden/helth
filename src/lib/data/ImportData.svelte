@@ -1,7 +1,7 @@
 <script>
 	import { db, addDefaults } from '$stores/db';
-	import { initStores } from '$stores/stores';
-	import { importDB, peakImportFile } from 'dexie-export-import';
+	import { initStores } from '$stores/stores.svelte';
+	import { importInto, peakImportFile } from 'dexie-export-import';
 	import { errorToast, confirmDialog } from '$utils/toast.js';
 
 	let progress = $state(0);
@@ -31,8 +31,15 @@
 	};
 
 	const proceed = async (file) => {
-		await db.delete();
-		await importDB(file, { progressCallback: updateProgress });
+		// await db.delete();
+		await importInto(db, file, {
+			progressCallback: updateProgress,
+			acceptChangedPrimaryKey: true,
+			acceptNameDiff: true,
+			acceptVersionDiff: true,
+			overwriteValues: true,
+			clearTablesBeforeImport: true
+		}).catch((err) => console.error(err.message));
 		await db.open().then(() => addDefaults());
 		await initStores();
 	};

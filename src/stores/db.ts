@@ -2,29 +2,28 @@ import Dexie, { type EntityTable } from 'dexie';
 import { thePast } from '$utils/dates';
 import { list } from '$utils/nutrients';
 import { migrate } from './dbmigrations';
-// import { PUBLIC_DB_URL } from '$env/static/public';
-// import { dexieCloud } from 'dexie-cloud-addon';
+import { dexieCloud } from 'dexie-cloud-addon';
+import { PUBLIC_DB_URL } from '$env/static/public';
 
 // export const db = new Dexie('helthdb', { addons: [dexieCloud] });
-export const db = new Dexie('helthdb') as Dexie & {
+export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	inventory: EntityTable<InventoryItem, 'id'>;
 	recipes: EntityTable<Recipe, 'id'>;
-	settings: EntityTable<Setting, 'name'>;
-	goals: EntityTable<Goal, 'name'>;
-	limits: EntityTable<Limit, 'name'>;
-	journal: EntityTable<JournalEntry, 'date'>;
+	settings: EntityTable<Setting, 'id'>;
+	goals: EntityTable<Goal, 'id'>;
+	limits: EntityTable<Limit, 'id'>;
+	journal: EntityTable<JournalEntry, 'id'>;
 };
 
 migrate(db);
 
-db.on('populate', async () => await addDefaults());
+// db.on('populate', async () => await addDefaults());
 
-// db.cloud.configure({
-// 	databaseUrl: PUBLIC_DB_URL,
-// 	// requireAuth: true
-// 	requireAuth: false,
-// 	disableWebSocket: true
-// });
+db.cloud.configure({
+	databaseUrl: PUBLIC_DB_URL,
+	requireAuth: false
+	// nameSuffix: false
+});
 
 export const dbopen = db.open().then(async () => {
 	await addDefaults();
@@ -33,20 +32,25 @@ export const dbopen = db.open().then(async () => {
 /*
  * Today
  */
-export async function addDay(newDay = defaultDay) {
-	try {
-		await db.journal.add(newDay);
-	} catch (error) {
-		console.log('error adding day');
-	}
+export async function addDay(newDay: JournalEntry = defaultDay) {
+	return await db.journal.add(newDay).catch((err) => console.log('error adding day'));
 }
 
 export const updateDay = async (date: number, changes: Omit<JournalEntry, 'date'>) => {
-	return await db.journal.update(date, changes);
+	const day = await getDay(date);
+	let result: number = 0;
+	if (day && day?.id) {
+		result = await db.journal.update(day.id, { ...day, ...changes });
+	}
+	return result;
 };
 
-export const getDay = async (date: number) => {
-	return await db.journal.get(date);
+export const getDay = async (date: number | undefined) => {
+	if (date) {
+		return await db.journal.where('date').equals(date).first();
+	} else {
+		return false;
+	}
 };
 
 export const getLatestDay = async () => {
@@ -62,21 +66,25 @@ export const getJournal = async () => {
  */
 
 // specify table name to put name/value pair there
+export async function findByName(name: string, tableName: string) {
+	return await db.table(tableName).where('name').equals(name).first();
+}
 export async function addItem(
 	tableName: string,
 	name: string,
 	value: Limit['value'] | Goal['value'] | Setting['value']
 ) {
-	try {
-		await db.table(tableName).add({
+	await db
+		.table(tableName)
+		.add({
 			name: name,
 			value: value
+		})
+		.then()
+		.catch('ConstraintError', (err) => {
+			// console.log(`error adding item to ${tableName}: ${err.message}`);
+			console.log(`Constraint Error: adding ${name}:${value} to ${tableName} violates constraints`);
 		});
-	} catch (error: unknown) {
-		if (error instanceof Error) {
-			console.log(`error adding item to ${tableName}: ${error.message}`);
-		}
-	}
 }
 export const updateItem = async (tableName: string, key: string, item: Setting | Goal | Limit) => {
 	return db.table(tableName).update(key, item);
@@ -197,6 +205,8 @@ export const addDefaults = async () => {
 		.then(async (record) => {
 			if (!record || thePast(new Date(record.date))) {
 				await addDay();
+				// .then(() => console.log('default day added'))
+				// .catch(() => console.log('error adding default day'));
 			}
 		});
 

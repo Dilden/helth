@@ -1,6 +1,7 @@
 <script>
 	import { list } from '$utils/nutrients';
 	import { limits, goals, settings } from '$stores/stores.svelte';
+	import { enhance } from '$app/forms';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import CounterOptions from '$lib/counts/CounterOptions.svelte';
@@ -128,5 +129,18 @@
 			<div class="mx-auto my-6 flex-auto"><ExportData /></div>
 			<div class="mx-auto my-6 flex-auto"><ImportData /></div>
 		</div>
+	</details>
+	<details class="my-2">
+		<summary class="text-left text-2xl">☁️ sync</summary>
+		<form class="mx-auto flex w-3/6 flex-col" method="POST" use:enhance name="Email-Sync">
+			<label class="px-3 py-2" for="email">Email</label>
+			<input type="email" required class="text-slate-800" id="email" name="email" />
+			<button
+				type="submit"
+				data-text="Submit"
+				class="relative my-4 px-3 py-2 transition duration-200 hover:bg-[var(--secondary-back-color)] hover:text-[var(--link-hover-color)]"
+				>Submit</button
+			>
+		</form>
 	</details>
 </div>

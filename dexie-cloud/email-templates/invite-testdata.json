@@ -1,0 +1,24 @@
+{
+  "recepient": {
+    "name": "John Doe",
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "invitor": {
+    "name": "Jane Doe",
+    "firstName": "Jane",
+    "lastName": "Doe"
+  },
+  "realm": {
+    "realmId": "rlm-abc123",
+    "represents": "Todo list",
+    "name": "My Todo List"
+  },
+  "app": {
+    "name": "My App",
+    "url": "https://example.com",
+    "isWebPage": true
+  },
+  "acceptUrl": "https://example.com/accept",
+  "rejectUrl": "https://example.com/reject"
+}
