@@ -125,7 +125,7 @@
 	{/await}
 	<details class="my-2">
 		<summary class="text-left text-2xl">💾 data</summary>
-		<div class="flex justify-center">
+		<div class="flex flex-col justify-center">
 			<div class="mx-auto my-6 flex-auto"><ExportData /></div>
 			<div class="mx-auto my-6 flex-auto"><ImportData /></div>
 		</div>

@@ -26,7 +26,7 @@
 				() => errorToast('Import cancelled')
 			);
 		} catch (err) {
-			console.log('Contant developer with the following error: ' + { err });
+			console.log('Contact developer with the following error: ' + { err });
 		}
 	};
 

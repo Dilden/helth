@@ -3,7 +3,8 @@ import { thePast } from '$utils/dates';
 import { list } from '$utils/nutrients';
 import { migrate } from './dbmigrations';
 import { dexieCloud } from 'dexie-cloud-addon';
-import DB_DATA from '../../dexie-cloud.json';
+import { PUBLIC_DB_URL } from '$env/static/public';
+import { cloudMigrate } from '$stores/cloudmigrate';
 
 // export const db = new Dexie('helthdb', { addons: [dexieCloud] });
 export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
@@ -20,8 +21,9 @@ migrate(db);
 // db.on('populate', async () => await addDefaults());
 
 db.cloud.configure({
-	databaseUrl: DB_DATA.dbUrl,
-	requireAuth: false
+	databaseUrl: PUBLIC_DB_URL,
+	requireAuth: false,
+	disableWebSocket: true
 	// nameSuffix: false
 });
 
@@ -198,6 +200,7 @@ list.forEach(({ key }, index) => {
 });
 
 export const addDefaults = async () => {
+	await cloudMigrate(db);
 	db.journal
 		.orderBy('date')
 		.reverse()
