@@ -18,17 +18,16 @@ export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 
 migrate(db);
 
-// db.on('populate', async () => await addDefaults());
+db.on('ready', async () => await addDefaults());
 
 db.cloud.configure({
 	databaseUrl: PUBLIC_DB_URL,
 	requireAuth: false,
 	disableWebSocket: true
-	// nameSuffix: false
 });
 
 export const dbopen = db.open().then(async () => {
-	await addDefaults();
+	await addDefaults().then((val) => console.log(val));
 });
 
 /*

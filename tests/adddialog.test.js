@@ -5,6 +5,9 @@ test.describe('add items dialog', () => {
 		test.beforeEach(async ({ page }) => {
 			await page.goto('/');
 			await page.getByRole('button', { name: 'Open Add Dialog' }).click();
+			if (await page.isVisible('.pwa-toast')) {
+				await page.locator('.pwa-toast').getByRole('button', { name: 'Close' }).click();
+			}
 		});
 
 		test('inventory is shown by default', async ({ page }) => {
