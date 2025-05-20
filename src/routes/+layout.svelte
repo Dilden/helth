@@ -3,7 +3,7 @@
 	import Navigation from '$lib/nav/Navigation.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import Footer from '$lib/nav/Footer.svelte';
-	import { persist, isStoragePersisted, dbopen } from '$stores/db';
+	import { persist, isStoragePersisted } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import SvelteToast from '$lib/toast/SvelteToast.svelte';
@@ -34,11 +34,7 @@
 <div class="flex h-full flex-col" data-sveltekit-reload={$updated ? '' : 'off'}>
 	<Navigation />
 	<div class="mt-3 flex-auto px-4">
-		{#await dbopen}
-			<Spinner />
-		{:then}
-			{@render children?.()}
-		{/await}
+		{@render children?.()}
 	</div>
 	<div class="shrink-0">
 		<Footer />
