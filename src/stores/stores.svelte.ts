@@ -182,11 +182,13 @@ function createHistoryStore(): HistoryStore {
 export const history = createHistoryStore();
 
 export const initStores = async () => {
-	await today.init();
-	await history.init();
-	await settings.init();
-	await goals.init();
-	await limits.init();
-	await inventory.init();
-	await recipes.init();
+	return await Promise.all([
+		today.init(),
+		history.init(),
+		settings.init(),
+		goals.init(),
+		limits.init(),
+		inventory.init(),
+		recipes.init()
+	]);
 };
