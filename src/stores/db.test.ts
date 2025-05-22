@@ -1,8 +1,7 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, afterAll } from 'vitest';
 import {
-	dbopen,
 	getListItems,
 	addToList,
 	getItemByIdFromTable,
@@ -14,7 +13,6 @@ import {
 	updateDay
 } from '$stores/db';
 
-beforeAll(async () => await dbopen);
 afterAll(() => {
 	indexedDB = new IDBFactory();
 });
