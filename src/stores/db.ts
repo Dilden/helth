@@ -5,6 +5,7 @@ import { migrate } from './dbmigrations';
 import { dexieCloud } from 'dexie-cloud-addon';
 import { PUBLIC_DB_URL } from '$env/static/public';
 import { cloudMigrate } from '$stores/cloudmigrate';
+import { initStores } from '$stores/stores.svelte';
 
 // export const db = new Dexie('helthdb', { addons: [dexieCloud] });
 export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
@@ -18,7 +19,11 @@ export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 
 migrate(db);
 
-db.on('ready', async () => await addDefaults());
+db.on('populate', async () => {
+	db.on('ready', async () => {
+		await initStores().then(async () => await addDefaults());
+	});
+});
 
 db.cloud.configure({
 	databaseUrl: PUBLIC_DB_URL,
@@ -26,15 +31,11 @@ db.cloud.configure({
 	disableWebSocket: true
 });
 
-export const dbopen = db.open().then(async () => {
-	await addDefaults().then((val) => console.log(val));
-});
-
 /*
  * Today
  */
 export async function addDay(newDay: JournalEntry = defaultDay) {
-	return await db.journal.add(newDay).catch((err) => console.log('error adding day'));
+	return await db.journal.add(newDay);
 }
 
 export const updateDay = async (date: number, changes: Omit<JournalEntry, 'date'>) => {
@@ -75,16 +76,14 @@ export async function addItem(
 	name: string,
 	value: Limit['value'] | Goal['value'] | Setting['value']
 ) {
-	await db
+	return db
 		.table(tableName)
 		.add({
 			name: name,
 			value: value
 		})
-		.then()
 		.catch('ConstraintError', (err) => {
-			// console.log(`error adding item to ${tableName}: ${err.message}`);
-			console.log(`Constraint Error: adding ${name}:${value} to ${tableName} violates constraints`);
+			console.log(`error adding item to ${tableName}: ${err.message}`);
 		});
 }
 export const updateItem = async (tableName: string, key: string, item: Setting | Goal | Limit) => {
@@ -200,21 +199,19 @@ list.forEach(({ key }, index) => {
 
 export const addDefaults = async () => {
 	await cloudMigrate(db);
-	db.journal
+	await db.journal
 		.orderBy('date')
 		.reverse()
 		.first()
 		.then(async (record) => {
 			if (!record || thePast(new Date(record.date))) {
 				await addDay();
-				// .then(() => console.log('default day added'))
-				// .catch(() => console.log('error adding default day'));
 			}
 		});
 
 	// settings, goals, limits defaults
-	list.forEach(({ key }) => {
-		db.settings
+	for (const { key } of list) {
+		await db.settings
 			.where('name')
 			.equals(key)
 			.first()
@@ -224,7 +221,7 @@ export const addDefaults = async () => {
 					: interval;
 			});
 
-		db.goals
+		await db.goals
 			.where('name')
 			.equals(key)
 			.first()
@@ -232,12 +229,12 @@ export const addDefaults = async () => {
 				!goal ? await addItem('goals', key, goals[key].value) : goal;
 			});
 
-		db.limits
+		await db.limits
 			.where('name')
 			.equals(key)
 			.first()
 			.then(async (limit) => {
 				!limit ? await addItem('limits', key, limits[key].value) : limit;
 			});
-	});
+	}
 };
