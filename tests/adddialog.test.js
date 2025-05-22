@@ -5,7 +5,7 @@ test.describe('add items dialog', () => {
 	test.beforeAll(async ({ browser }) => {
 		page = await browser.newPage();
 		await page.goto('/');
-		await page.waitForTimeout(2000);
+
 		// persistent storage prompt
 		if (
 			await page
