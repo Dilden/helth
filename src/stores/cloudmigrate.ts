@@ -6,7 +6,7 @@ export const cloudMigrate = async (db: Dexie) => {
 	const recordsCount = await db.table('journal').count();
 	const names = await Dexie.getDatabaseNames();
 
-	if (recordsCount == 0 && names.includes('helthdb')) {
+	if (recordsCount <= 1 && names.includes('helthdb')) {
 		confirmDialog(
 			'helth.app has updated! This update required changes to how data was stored on your device. Would you like to migrate your old data to the new database now? All data will remain on your device either way.',
 			() =>
