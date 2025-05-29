@@ -22,10 +22,6 @@
 			text: '⚙️  settings'
 		},
 		{
-			href: '/sync',
-			text: '☁️  sync'
-		},
-		{
 			href: '/about',
 			text: '❓ about'
 		}
