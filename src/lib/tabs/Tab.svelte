@@ -10,9 +10,10 @@
 	registerTab(tab);
 </script>
 
-<button class:selected="{$selectedTab === tab}" onclick={() => selectTab(tab)}>
+<button class:selected={$selectedTab === tab} onclick={() => selectTab(tab)}>
 	{@render children?.()}
 </button>
+
 <style>
 	button {
 		background: none;
@@ -20,10 +21,10 @@
 		border-bottom: 2px solid var(--border-color);
 		border-radius: 0;
 		margin: 0 var(--universal-margin);
-    padding: var(--universal-padding);
+		padding: var(--universal-padding);
 		color: var(--secondary-border-color);
 	}
-	
+
 	.selected {
 		border-bottom: 2px solid var(--secondary-border-color);
 		color: var(--fore-color);
