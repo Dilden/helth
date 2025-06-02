@@ -4,12 +4,22 @@
 	import { enhance } from '$app/forms';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { onMount } from 'svelte';
 	import { Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
 	import CounterOptions from '$lib/counts/CounterOptions.svelte';
 	import ExportData from '$lib/data/ExportData.svelte';
 	import ImportData from '$lib/data/ImportData.svelte';
 	import SyncForm from '$lib/data/SyncForm.svelte';
 	import Spinner from '$lib/Spinner.svelte';
+
+	// used to override issue found in dexie-cloud-addon since it needs to conver
+	// see https://github.com/dexie/Dexie.js/issues/2167 for more info
+	// TODO: remove this code once the issue has been resolved
+	onMount(() => {
+		ArrayBuffer.prototype.toBase64 = function (x) {
+			return new Uint8Array(x).toBase64();
+		};
+	});
 
 	let enabled = $derived.by(() => {
 		if (settings.get() !== undefined) {
