@@ -54,7 +54,7 @@
     "chartjs-plugin-annotation": "^3.0.1",
     "dexie": "^4.1.0-beta.43",
     "dexie-cloud": "^2.0.1",
-    "dexie-cloud-addon": "^4.1.0-beta.44",
+    "dexie-cloud-addon": "^4.1.0-beta.47",
     "dexie-export-import": "^4.1.4"
   },
   "jest": {
