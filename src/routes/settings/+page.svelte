@@ -19,6 +19,8 @@
 		ArrayBuffer.prototype.toBase64 = function (x) {
 			return new Uint8Array(x).toBase64();
 		};
+
+		return () => (ArrayBuffer.prototype.toBase64 = undefined);
 	});
 
 	let enabled = $derived.by(() => {
