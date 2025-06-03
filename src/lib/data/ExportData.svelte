@@ -14,13 +14,6 @@
 </script>
 
 <div class="flex flex-col gap-1">
-	{#await blobUrl}
-		<Spinner />
-	{:then blob}
-		<a href={blob} class="button" download="helth-app-export-{Date.now()}.json"
-			>Export Data from {selectedDB}</a
-		>
-	{/await}
 	{#await Dexie.getDatabaseNames()}
 		<Spinner />
 	{:then names}
@@ -33,5 +26,12 @@
 				{/if}
 			{/each}
 		</select>
+	{/await}
+	{#await blobUrl}
+		<Spinner />
+	{:then blob}
+		<a href={blob} class="button" download="helth-app-export-{Date.now()}.json"
+			>Export Data from {selectedDB}</a
+		>
 	{/await}
 </div>
