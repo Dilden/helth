@@ -12,17 +12,6 @@
 	import SyncForm from '$lib/data/SyncForm.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 
-	// used to override issue found in dexie-cloud-addon since it needs to conver
-	// see https://github.com/dexie/Dexie.js/issues/2167 for more info
-	// TODO: remove this code once the issue has been resolved
-	onMount(() => {
-		ArrayBuffer.prototype.toBase64 = function (x) {
-			return new Uint8Array(x).toBase64();
-		};
-
-		return () => (ArrayBuffer.prototype.toBase64 = undefined);
-	});
-
 	let enabled = $derived.by(() => {
 		if (settings.get() !== undefined) {
 			return list
