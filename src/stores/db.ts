@@ -27,8 +27,7 @@ db.on('populate', async () => {
 
 db.cloud.configure({
 	databaseUrl: PUBLIC_DB_URL,
-	requireAuth: false,
-	disableWebSocket: true
+	requireAuth: false
 });
 
 /*
