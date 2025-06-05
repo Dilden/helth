@@ -133,7 +133,7 @@ function createTodayStore(): TodayStore<JournalEntry> {
 				return day;
 			} else {
 				const { id, ...rest } = { ...dbfun.defaultDay, date: workingDate };
-				await dbfun.addDay(rest);
+				await dbfun.addDay(rest).catch((error) => console.log(error.message));
 				return rest;
 			}
 		});
