@@ -17,20 +17,24 @@ describe('date utilities', () => {
 		vi.useRealTimers();
 	});
 
-	it('returns true if provided date is in the past', () => {
+	it('returns true if provided date (string/Date/num) is in the past', () => {
 		const date: Date = new Date(2000, 1, 1, 1);
 		vi.setSystemTime(date);
 
 		const past: Date = new Date(1999, 1, 1, 1);
 		expect(thePast(past)).toBe(true);
+		expect(thePast(past.getTime())).toBe(true);
+		expect(thePast(past.toString())).toBe(true);
 	});
 
-	it('returns false if provided date is in the future', () => {
+	it('returns false if provided date (string/Date/num) is in the future', () => {
 		const date: Date = new Date(2000, 1, 1, 1);
 		vi.setSystemTime(date);
 
 		const future: Date = new Date(2000, 1, 1, 2);
 		expect(thePast(future)).toBe(false);
+		expect(thePast(future.getTime())).toBe(false);
+		expect(thePast(future.toString())).toBe(false);
 	});
 
 	it('returns a timestamp', () => {
