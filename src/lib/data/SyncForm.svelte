@@ -2,13 +2,34 @@
 	import { db } from '$stores/db';
 
 	let user = db.cloud.currentUser;
+	let syncState = db.cloud.syncState;
 </script>
 
-<div class="flex flex-col gap-2 p-7 md:flex-row">
+<div class="flex flex-col gap-2 p-7">
+	{#if $syncState}
+		<pre>{JSON.stringify($syncState)}</pre>
+	{/if}
 	{#if $user.userId !== 'unauthorized'}
-		<p>Logged in as: {$user.name}</p>
+		<div class="flex flex-col">
+			<p>Logged in as: {$user.name}</p>
+			{#if $user.license?.type === 'eval'}
+				<p class="bg-emerald-950 p-2">Trial has {$user.license.evalDaysLeft} days remaining</p>
+			{/if}
+		</div>
 		<button onclick={async () => db.table('$logins').clear()}>Logout</button>
 	{:else}
-		<button onclick={async () => db.cloud.login()}>Login</button>
+		<p>Not logged in</p>
+		<button onclick={async () => await db.cloud.login()}>Login</button>
+		<!-- <button -->
+		<!-- 	onclick={async () => -->
+		<!-- 		await db.cloud.login().then(async () => { -->
+		<!--         db.cloud.sync() -->
+		<!-- 			// if ($syncState.phase === 'initial') { -->
+		<!-- 			// 	await db.cloud.sync({ wait: true, purpose: 'pull' }); -->
+		<!-- 			// } else { -->
+		<!-- 			// 	await db.cloud.sync(); -->
+		<!-- 			// } -->
+		<!-- 		})}>Login</button -->
+		<!-- > -->
 	{/if}
 </div>
