@@ -21,7 +21,12 @@ migrate(db);
 
 db.on('populate', async () => {
 	db.on('ready', async () => {
-		await initStores().then(async () => await addDefaults());
+		await initStores().then(
+			async () =>
+				await addDefaults()
+					.then(() => console.log('adding defaults'))
+					.catch(() => console.log('error adding defaults'))
+		);
 	});
 });
 
@@ -34,7 +39,7 @@ db.cloud.configure({
  * Today
  */
 export async function addDay(newDay: JournalEntry = defaultDay) {
-	return await db.journal.add(newDay);
+	return await db.journal.add(newDay).catch(() => console.log('unable to add day'));
 }
 
 export const updateDay = async (date: number, changes: Omit<JournalEntry, 'date'>) => {
@@ -90,7 +95,10 @@ export const updateItem = async (tableName: string, key: string, item: Setting |
 };
 
 export const updateItems = async (tableName: string, items: readonly any[]) => {
-	return db.table(tableName).bulkPut(items);
+	return db
+		.table(tableName)
+		.bulkPut(items)
+		.catch((error) => console.log(error));
 };
 
 export const getItems = async (tableName: string): Promise<NameValueStore> => {
@@ -203,37 +211,42 @@ export const addDefaults = async () => {
 		.reverse()
 		.first()
 		.then(async (record) => {
-			if (!record || thePast(new Date(record.date))) {
+			if (!record || thePast(record.date)) {
 				await addDay();
 			}
 		});
 
-	// settings, goals, limits defaults
-	for (const { key } of list) {
-		await db.settings
-			.where('name')
-			.equals(key)
-			.first()
-			.then(async (interval) => {
-				!interval
-					? await addItem('settings', key, settings[key]) // not found, add default setting
-					: interval;
-			});
+	const setCount = await db.settings.toArray();
+	const limitCount = await db.limits.toArray();
+	if (setCount.length < 33 && limitCount.length < 33) {
+		// settings, goals, limits defaults
+		for (const { key } of list) {
+			await db.settings
+				.where('name')
+				.equals(key)
+				.first()
+				.then(async (interval) => {
+					!interval
+						? await addItem('settings', key, settings[key]) // not found, add default setting
+						: interval;
+				})
+				.catch((error) => console.log('error adding all the settings'));
 
-		await db.goals
-			.where('name')
-			.equals(key)
-			.first()
-			.then(async (goal) => {
-				!goal ? await addItem('goals', key, goals[key].value) : goal;
-			});
+			await db.goals
+				.where('name')
+				.equals(key)
+				.first()
+				.then(async (goal) => {
+					!goal ? await addItem('goals', key, goals[key].value) : goal;
+				});
 
-		await db.limits
-			.where('name')
-			.equals(key)
-			.first()
-			.then(async (limit) => {
-				!limit ? await addItem('limits', key, limits[key].value) : limit;
-			});
+			await db.limits
+				.where('name')
+				.equals(key)
+				.first()
+				.then(async (limit) => {
+					!limit ? await addItem('limits', key, limits[key].value) : limit;
+				});
+		}
 	}
 };
