@@ -20,16 +20,5 @@
 	{:else}
 		<p>Not logged in</p>
 		<button onclick={async () => await db.cloud.login()}>Login</button>
-		<!-- <button -->
-		<!-- 	onclick={async () => -->
-		<!-- 		await db.cloud.login().then(async () => { -->
-		<!--         db.cloud.sync() -->
-		<!-- 			// if ($syncState.phase === 'initial') { -->
-		<!-- 			// 	await db.cloud.sync({ wait: true, purpose: 'pull' }); -->
-		<!-- 			// } else { -->
-		<!-- 			// 	await db.cloud.sync(); -->
-		<!-- 			// } -->
-		<!-- 		})}>Login</button -->
-		<!-- > -->
 	{/if}
 </div>
