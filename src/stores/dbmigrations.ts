@@ -155,61 +155,123 @@ export function migrate(db: Dexie): void {
 		});
 	db.version(10)
 		.stores({
-			settings: null,
-			settingsTemp: '@id, name',
-			goals: null,
-			goalsTemp: '@id, name',
-			limits: null,
-			limitsTemp: '@id, name'
-		})
-		.upgrade(async (tx) => {
-			console.log('anything');
-			const settings = await tx.table('settings').toArray();
-			const goals = await tx.table('goals').toArray();
-			const limits = await tx.table('limits').toArray();
-
-			await tx.table('settingsTemp').bulkAdd(settings);
-			await tx.table('goalsTemp').bulkAdd(goals);
-			await tx.table('limitsTemp').bulkAdd(limits);
-		});
-
-	db.version(11)
-		.stores({
-			settingsTemp: null,
-			settings: '@id, &name',
-			goalsTemp: null,
-			goals: '@id, &name',
-			limitsTemp: null,
-			limits: '@id, &name'
-		})
-		.upgrade(async (tx) => {
-			const settings = await tx.table('settingsTemp').toArray();
-			const goals = await tx.table('goalsTemp').toArray();
-			const limits = await tx.table('limitsTemp').toArray();
-
-			await tx.table('settings').bulkAdd(settings);
-			await tx.table('goals').bulkAdd(goals);
-			await tx.table('limits').bulkAdd(limits);
-		});
-
-	db.version(12)
-		.stores({
+			settings: 'name',
+			goals: 'name',
+			limits: 'name',
 			journal: null,
-			journalTemp: '@id, date'
+			journalTemp: 'date'
 		})
 		.upgrade(async (tx) => {
+			await tx
+				.table('settings')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.name = '#' + record.name;
+					return newRec;
+				});
+			await tx
+				.table('limits')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.name = '#' + record.name;
+					return newRec;
+				});
+			await tx
+				.table('goals')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.name = '#' + record.name;
+					return newRec;
+				});
+
 			const j = await tx.table('journal').toArray();
 
 			await tx.table('journalTemp').bulkAdd(j);
 		});
-	db.version(13)
+	db.version(11)
 		.stores({
-			journalTemp: null,
-			journal: '@id, &date' // should only contain one entry per date
+			journal: 'date',
+			journalTemp: null
 		})
 		.upgrade(async (tx) => {
 			const j = await tx.table('journalTemp').toArray();
 
 			await tx.table('journal').bulkAdd(j);
 		});
+	db.version(13)
+		.stores({
+			journal: 'date'
+		})
+		.upgrade(async (tx) => {
+			await tx
+				.table('journal')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.date = '#' + record.date;
+					return newRec;
+				});
+		});
+
+	// db.version(10)
+	// 	.stores({
+	// 		settings: null,
+	// 		settingsTemp: '@id, name',
+	// 		goals: null,
+	// 		goalsTemp: '@id, name',
+	// 		limits: null,
+	// 		limitsTemp: '@id, name'
+	// 	})
+	// 	.upgrade(async (tx) => {
+	// 		const settings = await tx.table('settings').toArray();
+	// 		const goals = await tx.table('goals').toArray();
+	// 		const limits = await tx.table('limits').toArray();
+
+	// 		await tx.table('settingsTemp').bulkAdd(settings);
+	// 		await tx.table('goalsTemp').bulkAdd(goals);
+	// 		await tx.table('limitsTemp').bulkAdd(limits);
+	// 	});
+
+	// db.version(11)
+	// 	.stores({
+	// 		settingsTemp: null,
+	// 		settings: '@id, &name',
+	// 		goalsTemp: null,
+	// 		goals: '@id, &name',
+	// 		limitsTemp: null,
+	// 		limits: '@id, &name'
+	// 	})
+	// 	.upgrade(async (tx) => {
+	// 		const settings = await tx.table('settingsTemp').toArray();
+	// 		const goals = await tx.table('goalsTemp').toArray();
+	// 		const limits = await tx.table('limitsTemp').toArray();
+
+	// 		await tx.table('settings').bulkAdd(settings);
+	// 		await tx.table('goals').bulkAdd(goals);
+	// 		await tx.table('limits').bulkAdd(limits);
+	// 	});
+
+	// db.version(12)
+	// 	.stores({
+	// 		journal: null,
+	// 		journalTemp: '@id, date'
+	// 	})
+	// 	.upgrade(async (tx) => {
+	// 		const j = await tx.table('journal').toArray();
+
+	// 		await tx.table('journalTemp').bulkAdd(j);
+	// 	});
+	// db.version(13)
+	// 	.stores({
+	// 		journalTemp: null,
+	// 		journal: '@id, &date' // should only contain one entry per date
+	// 	})
+	// 	.upgrade(async (tx) => {
+	// 		const j = await tx.table('journalTemp').toArray();
+
+	// 		await tx.table('journal').bulkAdd(j);
+	// 	});
 }

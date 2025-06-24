@@ -115,14 +115,14 @@ describe.sequential('journal', () => {
 	});
 	it('can get a day by date', async () => {
 		const x = await getLatestDay();
-		expect(getDay(x?.date)).toBeTruthy();
+		expect(getDay(x?.date as string)).toBeTruthy();
 	});
 	it('can update a day', async () => {
 		const x = await getLatestDay();
-		expect(await updateDay(x?.date as number, { ...x, calories: 500 })).toEqual(1);
+		expect(await updateDay(x?.date as string, { ...x, calories: 500 })).toEqual(1);
 		expect(await getLatestDay()).toHaveProperty('calories', 500);
 	});
 	it('returns a 0 if there is no date to update', async () => {
-		expect(await updateDay(12, { calories: 500 })).toEqual(0);
+		expect(await updateDay('12', { calories: 500 })).toEqual(0);
 	});
 });

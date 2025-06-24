@@ -59,7 +59,7 @@ function createNameValueStore(tableName: string): NameValStore<Goal | Limit | Se
 	}
 	async function update(key: string, item: Goal | Limit | Setting) {
 		let value = await dbfun.findByName(key, tableName);
-		await dbfun.updateItem(tableName, value.id, { ...value, ...item });
+		await dbfun.updateItem(tableName, value.name, { ...value, ...item });
 		await init();
 	}
 	async function remove(key: string) {
@@ -121,28 +121,33 @@ export const recipeSearchResults = () => recS;
 
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
-	let workingDate = $state(new Date().setHours(0, 0, 0, 0));
+	let workingDate = $state(new Date().setHours(0, 0, 0, 0).toString());
 	let workingDay: JournalEntry = $state({ date: new Date().setHours(0, 0, 0, 0) });
 
 	function get() {
-		return workingDay;
+		return { ...workingDay, date: Number(workingDay.date.toString().substring(1)) };
 	}
 	async function init() {
 		workingDay = await dbfun.getDay(workingDate).then(async (day) => {
 			if (day) {
 				return day;
 			} else {
-				const { id, ...rest } = { ...dbfun.defaultDay, date: workingDate };
-				await dbfun.addDay(rest).catch((error) => console.log(error.message));
-				return rest;
+				// const { id, ...rest } = { ...dbfun.defaultDay, date: workingDate };
+				await dbfun
+					.addDay({ ...dbfun.defaultDay, date: workingDate })
+					.catch((error) => console.log(error.message));
+				return { ...dbfun.defaultDay, date: workingDate };
 			}
 		});
 	}
 	async function update(newVal: JournalEntry) {
-		await dbfun.updateDay(newVal.date, $state.snapshot(newVal));
+		await dbfun.updateDay(newVal.date.toString(), {
+			...$state.snapshot(newVal),
+			date: newVal.date.toString()
+		});
 		await init();
 	}
-	async function setDate(date: number) {
+	async function setDate(date: string) {
 		workingDate = date;
 		await init();
 	}
@@ -154,6 +159,7 @@ function createTodayStore(): TodayStore<JournalEntry> {
 export const today = createTodayStore();
 
 // history
+// TODO: update with private singleton logic. ie adding '#' in front of shit
 function createHistoryStore(): HistoryStore {
 	let history: JournalEntry[] = $state([]);
 

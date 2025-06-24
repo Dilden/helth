@@ -10,5 +10,5 @@ node_modules
 yarn-error.log
 vite.config.js.timestamp*.mjs
 /test-results
-dexie-cloud.key
-dexie-cloud.json
+dexie-cloud*
+

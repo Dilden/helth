@@ -19,6 +19,12 @@
 		<button onclick={async () => db.table('$logins').clear()}>Logout</button>
 	{:else}
 		<p>Not logged in</p>
-		<button onclick={async () => await db.cloud.login()}>Login</button>
+		<button
+			onclick={async () =>
+				await db.cloud.login().then(async () => {
+					console.log('going to sync...');
+					return await db.cloud.sync({ wait: true, purpose: 'pull' });
+				})}>Login</button
+		>
 	{/if}
 </div>

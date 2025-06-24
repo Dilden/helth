@@ -38,7 +38,39 @@
 			acceptNameDiff: true,
 			acceptVersionDiff: true,
 			overwriteValues: true,
-			clearTablesBeforeImport: true
+			clearTablesBeforeImport: true,
+			transform: (table, value, key) => {
+				let val = {};
+				let key1 = key ? key : '';
+
+				switch (table) {
+					case 'journal':
+						const { id, ...rest } = { ...value };
+						val = { ...rest };
+						if (!val.date.toString().startsWith('#')) {
+							val.date = '#' + val.date.toString();
+						}
+						key1 = 'date';
+						break;
+					case 'settings':
+					case 'goals':
+					case 'limits':
+						val = { ...value };
+						if (val.value === null) {
+							val.value = 0;
+						}
+						if (!val.name.toString().startsWith('#')) {
+							val.name = '#' + val.name;
+						}
+						key1 = 'name';
+						break;
+					default:
+						val = value;
+						key1 = 'id';
+						break;
+				}
+				return { value: val, key: key1 };
+			}
 		}).catch((err) => console.error(err.message));
 		await db.open().then(() => addDefaults());
 		await initStores();

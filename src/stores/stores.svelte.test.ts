@@ -180,7 +180,7 @@ describe.sequential('setting store', () => {
 
 describe.sequential('today store', () => {
 	beforeAll(async () => {
-		await today.setDate(defaultTodayStoreValues.date);
+		await today.setDate(defaultTodayStoreValues.date.toString());
 	});
 	it('can init as a day', async () => {
 		expect(today.get()).toHaveProperty('calories', 0);

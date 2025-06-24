@@ -11,10 +11,10 @@ import { initStores } from '$stores/stores.svelte';
 export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	inventory: EntityTable<InventoryItem, 'id'>;
 	recipes: EntityTable<Recipe, 'id'>;
-	settings: EntityTable<Setting, 'id'>;
-	goals: EntityTable<Goal, 'id'>;
-	limits: EntityTable<Limit, 'id'>;
-	journal: EntityTable<JournalEntry, 'id'>;
+	settings: EntityTable<Setting, 'name'>;
+	goals: EntityTable<Goal, 'name'>;
+	limits: EntityTable<Limit, 'name'>;
+	journal: EntityTable<JournalEntry, 'date'>;
 };
 
 migrate(db);
@@ -39,21 +39,27 @@ db.cloud.configure({
  * Today
  */
 export async function addDay(newDay: JournalEntry = defaultDay) {
-	return await db.journal.add(newDay).catch(() => console.log('unable to add day'));
+	const aNewDay = { ...newDay, date: '#' + newDay.date };
+	return await db.journal.add(aNewDay).catch(() => console.log('unable to add day'));
 }
 
-export const updateDay = async (date: number, changes: Omit<JournalEntry, 'date'>) => {
+export const updateDay = async (date: string, changes: Omit<JournalEntry, 'date'>) => {
 	const day = await getDay(date);
 	let result: number = 0;
-	if (day && day?.id) {
-		result = await db.journal.update(day.id, { ...day, ...changes });
+	if (day) {
+		// Need to override date prop so it contains '#' as first character.
+		// changes obj does not have '#' as first char
+		result = await db.journal.update(day.date, { ...day, ...changes, date: day.date });
 	}
 	return result;
 };
 
-export const getDay = async (date: number | undefined) => {
-	if (date) {
-		return await db.journal.where('date').equals(date).first();
+export const getDay = async (date: string | undefined) => {
+	if (date && date.length > 0) {
+		return await db.journal
+			.where('date')
+			.equals(date.startsWith('#') ? date : '#' + date)
+			.first();
 	} else {
 		return false;
 	}
@@ -73,7 +79,11 @@ export const getJournal = async () => {
 
 // specify table name to put name/value pair there
 export async function findByName(name: string, tableName: string) {
-	return await db.table(tableName).where('name').equals(name).first();
+	return await db
+		.table(tableName)
+		.where('name')
+		.equals('#' + name)
+		.first();
 }
 export async function addItem(
 	tableName: string,
@@ -83,7 +93,7 @@ export async function addItem(
 	return db
 		.table(tableName)
 		.add({
-			name: name,
+			name: '#' + name,
 			value: value
 		})
 		.catch('ConstraintError', (err) => {
@@ -91,13 +101,13 @@ export async function addItem(
 		});
 }
 export const updateItem = async (tableName: string, key: string, item: Setting | Goal | Limit) => {
-	return db.table(tableName).update(key, item);
+	return db.table(tableName).update('#' + key, { ...item, name: '#' + item.name });
 };
 
 export const updateItems = async (tableName: string, items: readonly any[]) => {
 	return db
 		.table(tableName)
-		.bulkPut(items)
+		.bulkPut(items.map((item) => ({ ...item, name: '#' + item.name })))
 		.catch((error) => console.log(error));
 };
 
@@ -107,7 +117,7 @@ export const getItems = async (tableName: string): Promise<NameValueStore> => {
 	return db
 		.table(tableName)
 		.toArray()
-		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
+		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name.substring(1)]: curr }), []));
 };
 
 /*
@@ -174,7 +184,7 @@ export const isStoragePersisted = async () => {
 
 // default values
 export const defaultDay: JournalEntry = {
-	date: new Date().setHours(0, 0, 0, 0)
+	date: '#' + new Date().setHours(0, 0, 0, 0).toString()
 };
 
 // create default settings + defaultDay values
