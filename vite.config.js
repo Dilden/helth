@@ -35,6 +35,9 @@ const config = {
 				log.includes('New WebSocket Connection') ||
 				log.includes('SYNC STARTED')
 			);
+		},
+		define: {
+			ENV: 'TEST'
 		}
 	},
 	define: {

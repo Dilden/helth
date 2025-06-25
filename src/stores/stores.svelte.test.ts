@@ -155,14 +155,11 @@ describe.sequential('name value stores', () => {
 		expect(goals.get()).toHaveProperty('ayylmfao', expect.objectContaining(testGoal1));
 	});
 	it('can update a goal', async () => {
-		await goals.update('ayylmfao', { name: 'roflmao', value: 420 });
+		// cannot change PK anymore since these rely on private singleton pattern in Dexie Cloud
+		await goals.update('ayylmfao', { name: 'ayylmfao', value: 420 });
 		expect(goals.get()).toHaveProperty(
-			'roflmao',
-			expect.objectContaining({ name: 'roflmao', value: 420 })
-		);
-		expect(goals.get()).not.toHaveProperty(
 			'ayylmfao',
-			expect.objectContaining({ name: 'ayylmfao', value: 69 })
+			expect.objectContaining({ name: 'ayylmfao', value: 420 })
 		);
 	});
 	it('can delete a goal', async () => {

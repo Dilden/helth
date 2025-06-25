@@ -32,7 +32,8 @@ db.on('populate', async () => {
 
 db.cloud.configure({
 	databaseUrl: PUBLIC_DB_URL,
-	requireAuth: false
+	requireAuth: false,
+	disableWebSocket: import.meta.env.ENV === 'TEST' ? true : false
 });
 
 /*
@@ -82,7 +83,7 @@ export async function findByName(name: string, tableName: string) {
 	return await db
 		.table(tableName)
 		.where('name')
-		.equals('#' + name)
+		.equals(name.startsWith('#') ? name : '#' + name)
 		.first();
 }
 export async function addItem(
@@ -93,7 +94,7 @@ export async function addItem(
 	return db
 		.table(tableName)
 		.add({
-			name: '#' + name,
+			name: name.startsWith('#') ? name : '#' + name,
 			value: value
 		})
 		.catch('ConstraintError', (err) => {
@@ -101,7 +102,10 @@ export async function addItem(
 		});
 }
 export const updateItem = async (tableName: string, key: string, item: Setting | Goal | Limit) => {
-	return db.table(tableName).update('#' + key, { ...item, name: '#' + item.name });
+	return db.table(tableName).update(key.startsWith('#') ? key : '#' + key, {
+		...item,
+		name: item.name.startsWith('#') ? item.name : '#' + item.name
+	});
 };
 
 export const updateItems = async (tableName: string, items: readonly any[]) => {
@@ -117,7 +121,12 @@ export const getItems = async (tableName: string): Promise<NameValueStore> => {
 	return db
 		.table(tableName)
 		.toArray()
-		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name.substring(1)]: curr }), []));
+		.then((data) =>
+			data.reduce((prev, curr) => {
+				const { name, ...value } = curr;
+				return { ...prev, [name.substring(1)]: { name: name.substring(1), ...value } };
+			}, [])
+		);
 };
 
 /*

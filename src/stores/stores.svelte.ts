@@ -59,7 +59,7 @@ function createNameValueStore(tableName: string): NameValStore<Goal | Limit | Se
 	}
 	async function update(key: string, item: Goal | Limit | Setting) {
 		let value = await dbfun.findByName(key, tableName);
-		await dbfun.updateItem(tableName, value.name, { ...value, ...item });
+		await dbfun.updateItem(tableName, value.name, { ...value, ...item, name: value.name });
 		await init();
 	}
 	async function remove(key: string) {

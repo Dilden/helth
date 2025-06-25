@@ -1,5 +1,5 @@
 export const defaultTodayStoreValues = {
-	date: '#1739944800000',
+	date: '1739944800000',
 	added_sugars: 0,
 	calcium: 0,
 	calories: 0,

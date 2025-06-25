@@ -64,7 +64,7 @@
 				>
 					{#each enabled as nutrient, index (nutrient.key)}
 						<div
-							class="m-auto flex-[2_1_auto] bg-gray-200 px-1 pb-4 pt-2 text-black sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+							class="m-auto flex-[2_1_auto] flex-col bg-gray-200 px-1 pb-4 pt-2 text-center text-black sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
 							transition:blur
 							animate:flip={{ duration: 900 }}
 						>
@@ -76,7 +76,7 @@
 							<div class="text-m inline-block w-1/3">
 								<label class="w-full" for="goals_{nutrient.key}">Goal</label>
 								<input
-									class="w-full"
+									class="w-full touch-manipulation appearance-none"
 									id="goals_{nutrient.key}"
 									bind:value={
 										() => goals.get()[nutrient.key].value,
@@ -89,7 +89,7 @@
 							<div class="text-m inline-block w-1/3">
 								<label class="w-full" for="limit_{nutrient.key}">Limit</label>
 								<input
-									class="w-full"
+									class="w-full touch-manipulation appearance-none"
 									id="limit_{nutrient.key}"
 									bind:value={
 										() => limits.get()[nutrient.key].value,
@@ -142,3 +142,9 @@
 		</TabPanel>
 	</Tabs>
 </div>
+
+<style>
+	input[type='number'] {
+		appearance: textfield;
+	}
+</style>
