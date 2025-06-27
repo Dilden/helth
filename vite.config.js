@@ -17,7 +17,7 @@ const config = {
 		},
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		reporter: 'verbose',
-		setupFiles: ['./src/vitest/cleanupDom', './vitest-setup-client.ts'],
+		setupFiles: ['./src/vitest/cleanupDom', './src/vitest/vitest-setup-client.ts'],
 		onConsoleLog: (log) => {
 			return !(
 				log.includes('BroadcastedAndLocalEvent') ||
@@ -35,9 +35,6 @@ const config = {
 				log.includes('New WebSocket Connection') ||
 				log.includes('SYNC STARTED')
 			);
-		},
-		define: {
-			ENV: 'TEST'
 		}
 	},
 	define: {

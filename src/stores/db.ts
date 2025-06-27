@@ -33,7 +33,7 @@ db.on('populate', async () => {
 db.cloud.configure({
 	databaseUrl: PUBLIC_DB_URL,
 	requireAuth: false,
-	disableWebSocket: import.meta.env.ENV === 'TEST' ? true : false
+	disableWebSocket: import.meta.env.VITEST == 'true' ? true : false
 });
 
 /*
