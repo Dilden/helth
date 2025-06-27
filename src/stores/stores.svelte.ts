@@ -121,16 +121,16 @@ export const recipeSearchResults = () => recS;
 
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
-	let workingDate = $state(new Date().setHours(0, 0, 0, 0).toString());
+	let workingDate: string = $state(new Date().setHours(0, 0, 0, 0).toString());
 	let workingDay: JournalEntry = $state({ date: new Date().setHours(0, 0, 0, 0) });
 
 	function get() {
-		return { ...workingDay, date: Number(workingDay.date.toString().substring(1)) };
+		return { ...workingDay, date: Number(workingDay.date) };
 	}
 	async function init() {
 		workingDay = await dbfun.getDay(workingDate).then(async (day) => {
 			if (day) {
-				return day;
+				return { ...day, date: day.date.toString().substring(1) };
 			} else {
 				// const { id, ...rest } = { ...dbfun.defaultDay, date: workingDate };
 				await dbfun
@@ -141,10 +141,7 @@ function createTodayStore(): TodayStore<JournalEntry> {
 		});
 	}
 	async function update(newVal: JournalEntry) {
-		await dbfun.updateDay(newVal.date.toString(), {
-			...$state.snapshot(newVal),
-			date: newVal.date.toString()
-		});
+		await dbfun.updateDay(newVal.date.toString(), { ...$state.snapshot(newVal) });
 		await init();
 	}
 	async function setDate(date: string) {

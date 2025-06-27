@@ -40,7 +40,10 @@ db.cloud.configure({
  * Today
  */
 export async function addDay(newDay: JournalEntry = defaultDay) {
-	const aNewDay = { ...newDay, date: '#' + newDay.date };
+	const aNewDay = {
+		...newDay,
+		date: newDay.date.toString().startsWith('#') ? newDay.date : '#' + newDay.date
+	};
 	return await db.journal.add(aNewDay).catch(() => console.log('unable to add day'));
 }
 
@@ -55,6 +58,8 @@ export const updateDay = async (date: string, changes: Omit<JournalEntry, 'date'
 	return result;
 };
 
+// return the JournalEntry for a given date
+// the date prop will be prefixed by a '#' char due to dexie cloud sync requirements
 export const getDay = async (date: string | undefined) => {
 	if (date && date.length > 0) {
 		return await db.journal
