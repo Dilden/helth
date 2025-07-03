@@ -15,7 +15,8 @@ vi.mock('$stores/db', async () => {
 					...readable({
 						name: 'Bob',
 						license: {
-							type: 'expired'
+							type: 'eval',
+							evalDaysLeft: 0
 						}
 					})
 				},
@@ -35,7 +36,7 @@ describe('sign in form (logged in premium)', () => {
 				'Trial period expired! Please purchase a subscription to use cloud sync features.'
 			)
 		).toBeVisible();
-		expect(screen.getByRole('link', { name: '$1 per month' })).toBeVisible();
-		expect(screen.getByRole('button', { name: '$10 per year' })).toBeVisible();
+		expect(screen.getByRole('link', { name: '$1 monthly' })).toBeVisible();
+		expect(screen.getByRole('link', { name: '$10 annually' })).toBeVisible();
 	});
 });

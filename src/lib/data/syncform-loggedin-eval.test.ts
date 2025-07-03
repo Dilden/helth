@@ -32,8 +32,8 @@ describe('sign in form (logged in trial)', () => {
 	it('shows logout button', () => {
 		render(SyncForm);
 		expect(screen.getByRole('button', { name: 'Logout' })).toBeVisible();
-		expect(screen.getByText('14 days left of trial')).toBeVisible();
+		expect(screen.getByText('Trial has 14 days remaining')).toBeVisible();
 		expect(screen.getByRole('link', { name: '$1 monthly' })).toBeVisible();
-		expect(screen.getByRole('button', { name: '$10 annually' })).toBeVisible();
+		expect(screen.getByRole('link', { name: '$10 annually' })).toBeVisible();
 	});
 });
