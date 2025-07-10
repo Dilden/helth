@@ -9,17 +9,13 @@ export const actions = {
 	subscribe: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const priceId = formData.get('subscription') as string;
-    const session = await StripeService.subscribe(priceId);
+		const session = await StripeService.subscribe(priceId);
 
-    if(session?.client_secret) {
-      cookies.set("client_secret", session.client_secret, {
-        path: "/settings",
-        httpOnly: true,
-        secure: true
-      })
-    }
+		if (session?.url) {
+			redirect(303, session.url);
+		}
 
-		redirect(302, '/settings');
+		redirect(302, '/sync?error=true');
 	},
 	cancel: async ({ request, cookies }) => {
 		const formData = await request.formData();
@@ -27,8 +23,25 @@ export const actions = {
 	}
 } satisfies Actions;
 
-// export const load: PageServerLoad = ({ params }) => {
-// 	return {
-// 		tab: 'sync'
-// 	};
-// };
+export const load: PageServerLoad = ({ url }) => {
+	if (url.searchParams.has('success')) {
+		return {
+			payment: {
+				status: 'success'
+			}
+		};
+	} else if (url.searchParams.has('cancelled')) {
+		return {
+			payment: {
+				status: 'cancelled'
+			}
+		};
+	} else if (url.searchParams.has('error')) {
+		return {
+			payment: {
+				status: 'error'
+			}
+		};
+	}
+	return {};
+};

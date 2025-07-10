@@ -69,7 +69,6 @@ const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | und
 	if (stripe) {
 		try {
 			return await stripe.checkout.sessions.create({
-				ui_mode: 'embedded',
 				line_items: [
 					{
 						price: priceId,
@@ -77,7 +76,8 @@ const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | und
 					}
 				],
 				mode: 'subscription',
-				return_url: `${PUBLIC_DOMAIN}/shopping/subscribed?session_id={CHECKOUT_SESSION_ID}`
+				success_url: `${PUBLIC_DOMAIN}/sync?success=true`,
+				cancel_url: `${PUBLIC_DOMAIN}/sync?cancel=true`
 			});
 		} catch (error: any) {
 			console.error(error);
