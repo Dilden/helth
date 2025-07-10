@@ -53,7 +53,6 @@
 		<TabList>
 			<Tab>🏅goals + limits</Tab>
 			<Tab>💾 data</Tab>
-			<Tab>☁️ sync</Tab>
 		</TabList>
 		<TabPanel>
 			{#await Promise.all([settings.init(), limits.init(), goals.init()])}
@@ -136,9 +135,6 @@
 				<div class="mx-auto my-6 flex-auto"><ExportData /></div>
 				<div class="mx-auto my-6 flex-auto"><ImportData /></div>
 			</div>
-		</TabPanel>
-		<TabPanel>
-			<SyncForm />
 		</TabPanel>
 	</Tabs>
 </div>
