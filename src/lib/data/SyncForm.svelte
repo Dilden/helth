@@ -13,7 +13,7 @@
 			>.
 		</p>
 	{/if}
-	{#if $user.userId !== 'unauthorized'}
+	{#if $user.userId != 'unauthorized'}
 		<div class="flex flex-col">
 			<h3 class="text-xl">Account</h3>
 			<div class="flex flex-row justify-between">

@@ -68,7 +68,7 @@ const getSubscription = async (
 const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | undefined> => {
 	if (stripe) {
 		try {
-			return await stripe.checkout.sessions.create({
+			const sesh = await stripe.checkout.sessions.create({
 				line_items: [
 					{
 						price: priceId,
@@ -76,9 +76,12 @@ const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | und
 					}
 				],
 				mode: 'subscription',
-				success_url: `${PUBLIC_DOMAIN}/sync?success=true`,
+				success_url: `${PUBLIC_DOMAIN}/sync?success=true&session_id={CHECKOUT_SESSION_ID}`,
 				cancel_url: `${PUBLIC_DOMAIN}/sync?cancel=true`
 			});
+
+			console.log(sesh);
+			return sesh;
 		} catch (error: any) {
 			console.error(error);
 		}
