@@ -10,21 +10,45 @@ export const getToken = async () => {
 		},
 		body: JSON.stringify({
 			grant_type: 'client_credentials',
-			scopes: ['GLOBAL_READ', 'ACCESS_DB'],
+			scopes: ['GLOBAL_READ', 'GLOBAL_WRITE', 'ACCESS_DB'],
 			client_id: PRIVATE_ID,
 			client_secret: PRIVATE_SECRET
 		})
-	}).then((r) => r.json());
+	});
 };
 
-export const getCloudUserById = async (id: string) => {
-	const token = await getToken();
-	return await fetch(PUBLIC_DB_URL + `/users/${id}`, {
-		method: 'GET',
+export const getCloudUserById = async (id: string, token: string) => {
+	try {
+		return await fetch(PUBLIC_DB_URL + `/users/${id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			}
+		});
+	} catch (e: any) {
+		if (e == typeof Error) {
+			console.log(e.message);
+		}
+	}
+};
+
+export const activateUser = async (id: string, token: string) => {
+	return await fetch(PUBLIC_DB_URL + '/users', {
+		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			'Accept': 'application/json',
-			'Authorization': token.accessToken
-		}
-	}).then((r) => r.json());
+			'Authorization': 'Bearer ' + token
+		},
+		body: JSON.stringify([
+			{
+				userId: id,
+				type: 'prod',
+				data: {
+					email: id
+				}
+			}
+		])
+	});
 };
+// export const updateUser = async (id: string, token: string) => {};

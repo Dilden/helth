@@ -80,7 +80,6 @@ const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | und
 				cancel_url: `${PUBLIC_DOMAIN}/sync?cancel=true`
 			});
 
-			console.log(sesh);
 			return sesh;
 		} catch (error: any) {
 			console.error(error);
