@@ -45,7 +45,8 @@ export const activateUser = async (id: string, token: string) => {
 				userId: id,
 				type: 'prod',
 				data: {
-					email: id
+					email: id,
+					name: id
 				}
 			}
 		])

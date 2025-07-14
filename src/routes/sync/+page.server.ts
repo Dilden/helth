@@ -71,7 +71,6 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 		// 4) create or update existing account to prod
 		const res = await activateUser(email, accessToken);
 		if (!res.ok) {
-			console.log(await res.text());
 			return {
 				...error,
 				message:

@@ -17,7 +17,7 @@
 		<div class="flex flex-col">
 			<h3 class="text-xl">Account</h3>
 			<div class="flex flex-row justify-between">
-				<p>Logged in as: {$user.name}</p>
+				<p>Logged in as: {$user.name ? $user.name : $user.email}</p>
 				<button onclick={async () => db.table('$logins').clear()}>Logout</button>
 			</div>
 			{#if $user.license?.type === 'eval'}
@@ -61,9 +61,7 @@
 				<p class="bg-emerald-950 p-2">Thanks for supporting helth.app!</p>
 				<form method="POST" action="?/cancel" class="flex flex-col gap-4">
 					<fieldset class="flex w-auto flex-row justify-center gap-4">
-						<button class="w-auto grow-0 bg-rose-600 p-5 text-slate-100 hover:bg-rose-400"
-							>Cancel Subscription</button
-						>
+						<button class="w-auto grow-0 p-2">Cancel Subscription</button>
 					</fieldset>
 				</form>
 			{/if}
