@@ -1,15 +1,20 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
 	import SyncForm from '$lib/data/SyncForm.svelte';
 	import { successToast, infoToast, errorToast } from '$utils/toast';
 
-	let { data }: PageProps = $props();
-	if (data?.status === 'success') {
+	interface Props {
+		status: string;
+		subscription?: Subscription;
+		message?: string;
+	}
+
+	let { status, subscription, message }: Props = $props();
+	if (status === 'success') {
 		successToast('Payment successful!');
-	} else if (data?.status === 'cancelled') {
+	} else if (status === 'cancelled') {
 		infoToast('Subscription cancelled 😢');
-	} else if (data?.status === 'error') {
-		errorToast(data?.message);
+	} else if (status === 'error') {
+		errorToast(message);
 	}
 </script>
 

@@ -15,6 +15,7 @@ export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	goals: EntityTable<Goal, 'name'>;
 	limits: EntityTable<Limit, 'name'>;
 	journal: EntityTable<JournalEntry, 'date'>;
+	subscription: EntityTable<Subscription, 'id'>;
 };
 
 migrate(db);

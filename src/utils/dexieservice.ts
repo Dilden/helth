@@ -33,23 +33,13 @@ export const getCloudUserById = async (id: string, token: string) => {
 	}
 };
 
-export const activateUser = async (id: string, token: string) => {
+export const activateUser = async (User: CloudUser, token: string) => {
 	return await fetch(PUBLIC_DB_URL + '/users', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': 'Bearer ' + token
 		},
-		body: JSON.stringify([
-			{
-				userId: id,
-				type: 'prod',
-				data: {
-					email: id,
-					name: id
-				}
-			}
-		])
+		body: JSON.stringify([User])
 	});
 };
-// export const updateUser = async (id: string, token: string) => {};

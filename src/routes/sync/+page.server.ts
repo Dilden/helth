@@ -2,7 +2,7 @@ import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
-import { getCloudUserById, getToken, activateUser } from '$utils/dexieservice';
+import { getToken, activateUser } from '$utils/dexieservice';
 
 export const prerender = false;
 
@@ -20,7 +20,8 @@ export const actions = {
 	},
 	cancel: async ({ request }) => {
 		const formData = await request.formData();
-		console.log(formData);
+
+		await StripeService.cancel((await formData.get('subscriptionId')) as string);
 		redirect(302, '/sync?cancelled=true');
 	}
 } satisfies Actions;
@@ -61,15 +62,20 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 			return { ...error, message: 'Payment failed. Unable to activate your account.' };
 		}
 
-		// const cloudUser = await getCloudUserById(email, accessToken);
+		// activate account with provided email
+		const res = await activateUser(
+			{
+				userId: email,
+				type: 'prod',
+				data: {
+					email: email,
+					name: email
+				}
+			},
+			accessToken
+		);
 
-		// if (cloudUser?.status === 404) {
-		//     return { ...error, message: 'User'}
-		// }
-
-		// 3) check if user had eval account
-		// 4) create or update existing account to prod
-		const res = await activateUser(email, accessToken);
+		// TODO: insert subscription info into cloud DB for user
 		if (!res.ok) {
 			return {
 				...error,
@@ -94,7 +100,14 @@ const error = {
 		'Whoops! Something went wrong processing your payment. If this issue persists, please contact support@helth.app'
 };
 const success = {
-	status: 'success'
+	status: 'success',
+	subscription: {
+		id: null,
+		customderId: null,
+		subscriptionId: null,
+		subscriptionStatus: 'active',
+		subscriptionStartDate: 0
+	}
 };
 const cancelled = {
 	status: 'cancelled'
