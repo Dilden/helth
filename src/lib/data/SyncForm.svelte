@@ -1,8 +1,17 @@
 <script lang="ts">
 	import { db } from '$stores/db';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		const logins = await db.table('$logins').toArray();
+		if (logins.length > 0) {
+			await db.cloud.login();
+		}
+	});
 
 	let user = db.cloud.currentUser;
 	let syncState = db.cloud.syncState;
+	$inspect($user);
 </script>
 
 <div class="flex flex-col gap-2 p-7">
