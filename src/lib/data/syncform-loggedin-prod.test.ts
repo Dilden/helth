@@ -25,7 +25,8 @@ vi.mock('$stores/db', async () => {
 			},
 			table: vi.fn(() => {
 				return {
-					clear: vi.fn()
+					clear: vi.fn(),
+					toArray: vi.fn(async () => Promise.resolve(['one']))
 				};
 			})
 		}

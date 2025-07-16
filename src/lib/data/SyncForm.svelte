@@ -11,7 +11,6 @@
 
 	let user = db.cloud.currentUser;
 	let syncState = db.cloud.syncState;
-	$inspect($user);
 </script>
 
 <div class="flex flex-col gap-2 p-7">

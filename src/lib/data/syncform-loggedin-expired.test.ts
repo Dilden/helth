@@ -23,7 +23,12 @@ vi.mock('$stores/db', async () => {
 				syncState: { ...readable({}) },
 				login: vi.fn(async () => Promise.resolve()),
 				sync: vi.fn(async () => Promise.resolve())
-			}
+			},
+			table: vi.fn(() => {
+				return {
+					toArray: vi.fn(() => ['one'])
+				};
+			})
 		}
 	};
 });
