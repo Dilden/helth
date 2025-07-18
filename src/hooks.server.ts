@@ -9,10 +9,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	response.headers.set('Strict-Transport-Security', 'text/html; charset=UTF-8');
 	response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
-	response.headers.set(
-		'Content-Security-Policy',
-		"default-src 'self'; script-src 'self' static.cloudflareinsights.com"
-	);
+	// response.headers.set(
+	// 	'Content-Security-Policy',
+	// 	"default-src 'self'; script-src 'self' static.cloudflareinsights.com;"
+	// );
 
 	return response;
 };
