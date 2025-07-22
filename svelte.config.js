@@ -14,10 +14,6 @@ const config = {
 		alias: {
 			$utils: 'src/utils/',
 			$stores: 'src/stores/'
-		},
-		csp: {
-			mode: 'auto',
-			directives: { 'script-src': ['self', 'static.cloudflareinsights.com'] }
 		}
 	},
 	preprocess: vitePreprocess()
