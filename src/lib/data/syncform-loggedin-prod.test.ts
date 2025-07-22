@@ -35,8 +35,18 @@ vi.mock('$stores/db', async () => {
 
 describe('sign in form (logged in premium)', () => {
 	it('shows logout button', () => {
-		render(SyncForm);
+		render(SyncForm, {
+			subscriptionId: '4566789'
+		});
+		expect(screen.getByDisplayValue('4566789')).toBeInTheDocument();
 		expect(screen.getByText('Thanks for supporting helth.app!')).toBeVisible();
 		expect(screen.getByRole('button', { name: 'Logout' })).toBeVisible();
+	});
+
+	it('shows an error if no subscriptionId is provided', () => {
+		render(SyncForm);
+		expect(
+			screen.getByText("Whoops! Your subscription wasn't found.", { exact: false })
+		).toBeVisible();
 	});
 });

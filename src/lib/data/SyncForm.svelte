@@ -2,6 +2,8 @@
 	import { db } from '$stores/db';
 	import { onMount } from 'svelte';
 
+	let { subscriptionId }: Subscription = $props();
+
 	onMount(async () => {
 		const logins = await db.table('$logins').toArray();
 		if (logins.length > 0) {
@@ -67,12 +69,19 @@
 				</div>
 			{:else if $user.license?.type === 'prod'}
 				<p class="bg-emerald-950 p-2">Thanks for supporting helth.app!</p>
-				<form method="POST" action="?/cancel" class="flex flex-col gap-4">
-					<fieldset class="flex w-auto flex-row justify-center gap-4">
-						<input type="hidden" name="subscriptionId" value="GET_SUBSCRIPTION_ID_FROM_DB" />
-						<button class="w-auto grow-0 p-2">Cancel Subscription</button>
-					</fieldset>
-				</form>
+				{#if subscriptionId}
+					<form method="POST" action="?/cancel" class="flex flex-col gap-4">
+						<fieldset class="flex w-auto flex-row justify-center gap-4">
+							<input type="hidden" name="subscriptionId" value={subscriptionId} />
+							<button class="w-auto grow-0 p-2">Cancel Subscription</button>
+						</fieldset>
+					</form>
+				{:else}
+					<p>
+						Whoops! Your subscription wasn't found. Please contact support@helth.app if you would
+						like to cancel your subscription.
+					</p>
+				{/if}
 			{/if}
 		</div>
 	{:else}
