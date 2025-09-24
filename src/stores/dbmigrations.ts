@@ -215,4 +215,7 @@ export function migrate(db: Dexie): void {
 					return newRec;
 				});
 		});
+	db.version(14).stores({
+		subscription: 'subscriptionId'
+	});
 }
