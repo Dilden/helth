@@ -9,10 +9,9 @@ interface CloudUser {
 }
 
 interface Subscription {
-	id: string;
-	email: string;
-	customerId: string;
-	subscriptionStatus: string;
 	subscriptionId: string;
-	subscriptionStartDate: number;
+	customerId: string;
+	email: string;
+	subscriptionStatus?: string;
+	subscriptionStartDate?: number;
 }
