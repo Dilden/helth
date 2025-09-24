@@ -7,7 +7,6 @@ import { PUBLIC_DB_URL } from '$env/static/public';
 import { cloudMigrate } from '$stores/cloudmigrate';
 import { initStores } from '$stores/stores.svelte';
 
-// export const db = new Dexie('helthdb', { addons: [dexieCloud] });
 export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	inventory: EntityTable<InventoryItem, 'id'>;
 	recipes: EntityTable<Recipe, 'id'>;
@@ -15,7 +14,7 @@ export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	goals: EntityTable<Goal, 'name'>;
 	limits: EntityTable<Limit, 'name'>;
 	journal: EntityTable<JournalEntry, 'date'>;
-	subscription: EntityTable<Subscription, 'id'>;
+	subscription: EntityTable<Subscription, 'subscriptionId'>;
 };
 
 migrate(db);
@@ -200,6 +199,16 @@ export const isStoragePersisted = async () => {
 // default values
 export const defaultDay: JournalEntry = {
 	date: '#' + new Date().setHours(0, 0, 0, 0).toString()
+};
+
+export const saveSubscription = async (subscription: Subscription) => {
+	return await db.subscription.put({
+		...subscription
+		// subscriptionId: '#' + subscription.subscriptionId
+	});
+};
+export const getSubscription = async () => {
+	return await db.subscription.toArray().then();
 };
 
 // create default settings + defaultDay values
