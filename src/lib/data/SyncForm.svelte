@@ -2,7 +2,11 @@
 	import { db } from '$stores/db';
 	import { onMount } from 'svelte';
 
-	let { subscriptionId }: Subscription = $props();
+	interface Props {
+		subscriptionId?: string;
+	}
+
+	let { subscriptionId }: Props = $props();
 
 	onMount(async () => {
 		const logins = await db.table('$logins').toArray();
