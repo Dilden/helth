@@ -1,23 +1,36 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import SyncForm from '$lib/data/SyncForm.svelte';
 	import { successToast, infoToast, errorToast } from '$utils/toast';
+	import { getSubscription, saveSubscription } from '$stores/db';
+	import { db } from '$stores/db';
+	import type { PageProps } from './$types';
 
-	interface Props {
-		status: string;
-		subscription?: Subscription;
-		message?: string;
-	}
+	let { data }: PageProps = $props();
+	let { subscription, status, message } = { ...data };
 
-	let { status, subscription, message }: Props = $props();
+	let sub = $state([subscription]);
+
+	onMount(async () => {
+		sub = await getSubscription();
+		if (sub.length <= 0 && subscription) {
+			await saveSubscription(subscription).then((re) => console.log(re));
+		}
+
+		if (status === 'success') {
+			await db.cloud.sync({ wait: true, purpose: 'pull' });
+		}
+	});
+
 	if (status === 'success') {
-		successToast('Payment successful!');
+		successToast(message);
 	} else if (status === 'cancelled') {
-		infoToast('Subscription cancelled 😢');
+		infoToast(message);
 	} else if (status === 'error') {
 		errorToast(message);
 	}
 </script>
 
 <div class="p-7">
-	<SyncForm />
+	<SyncForm subscriptionId={sub[0]?.subscriptionId} />
 </div>

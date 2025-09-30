@@ -2,7 +2,7 @@ import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
-import { getToken, activateUser } from '$utils/dexieservice';
+import { getToken, activateUser, addSubscription } from '$utils/dexieservice';
 
 export const prerender = false;
 
@@ -21,12 +21,16 @@ export const actions = {
 	cancel: async ({ request }) => {
 		const formData = await request.formData();
 
-		await StripeService.cancel((await formData.get('subscriptionId')) as string);
+		// TODO: confirm Stripe subscription is cancelled
+		await StripeService.cancel(formData.get('subscriptionId') as string);
+
+		// TODO: confirm Dexie Cloud is cancelled?
+
 		redirect(302, '/sync?cancelled=true');
 	}
 } satisfies Actions;
 
-export const load: PageServerLoad = async ({ url, fetch }) => {
+export const load: PageServerLoad = async ({ url }) => {
 	if (url.searchParams.has('success') && url.searchParams.has('session_id')) {
 		// check request has session_id
 		const session_id = url.searchParams.get('session_id');
@@ -37,7 +41,7 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 		// check if session is valid
 		const session = await StripeService.getSession(session_id);
 		if (session == null) {
-			return { ...error, message: 'Invalid payment session' };
+			return { ...error, message: 'Invalid or expired payment session' };
 		}
 
 		// get Dexie Cloud token
@@ -75,7 +79,6 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 			accessToken
 		);
 
-		// TODO: insert subscription info into cloud DB for user
 		if (!res.ok) {
 			return {
 				...error,
@@ -83,7 +86,28 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 					'Something went wrong activating your account. Please contact support@helth.app for assistance.'
 			};
 		}
-		return success;
+
+		// Check returned types before saving subscription
+		if (typeof session.subscription !== 'string' || !session.subscription) {
+			return {
+				...error,
+				message: 'Subscription not found. Please contact support@helth.app for assistance.'
+			};
+		}
+		if (typeof session.customer !== 'string' || !session.customer) {
+			return {
+				...error,
+				message: 'Customer ID not found. Please contact support@helth.app for assistance.'
+			};
+		}
+
+		const subscription: Subscription = {
+			subscriptionId: session.subscription,
+			customerId: session.customer,
+			email: email
+		};
+
+		return { success, subscription };
 	} else if (url.searchParams.has('cancelled')) {
 		return cancelled;
 	} else if (url.searchParams.has('error')) {
@@ -93,22 +117,16 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 		status: null
 	};
 };
-
+const success = {
+	status: 'success',
+	message: 'Payment successful!'
+};
 const error = {
 	status: 'error',
 	message:
 		'Whoops! Something went wrong processing your payment. If this issue persists, please contact support@helth.app'
 };
-const success = {
-	status: 'success',
-	subscription: {
-		id: null,
-		customderId: null,
-		subscriptionId: null,
-		subscriptionStatus: 'active',
-		subscriptionStartDate: 0
-	}
-};
 const cancelled = {
-	status: 'cancelled'
+	status: 'cancelled',
+	message: 'Subscription cancelled 😢'
 };
