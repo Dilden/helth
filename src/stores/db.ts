@@ -203,12 +203,12 @@ export const defaultDay: JournalEntry = {
 
 export const saveSubscription = async (subscription: Subscription) => {
 	return await db.subscription.put({
-		...subscription
-		// subscriptionId: '#' + subscription.subscriptionId
+		...subscription,
+		subscriptionId: '#' + subscription.subscriptionId
 	});
 };
 export const getSubscription = async () => {
-	return await db.subscription.toArray().then();
+	return await db.subscription.toArray();
 };
 
 // create default settings + defaultDay values
