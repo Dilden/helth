@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { db } from '$stores/db';
 	import { onMount } from 'svelte';
+	import { utcToHuman } from '$utils/dates';
 
 	interface Props {
 		subscriptionId?: string;
+		renewalDate?: number;
 	}
 
-	let { subscriptionId }: Props = $props();
+	let { subscriptionId, renewalDate }: Props = $props();
 
 	onMount(async () => {
 		const logins = await db.table('$logins').toArray();
@@ -72,7 +74,13 @@
 					</form>
 				</div>
 			{:else if $user.license?.type === 'prod'}
-				<p class="bg-emerald-950 p-2">Thanks for supporting helth.app!</p>
+				<p class="bg-emerald-950 p-2">
+					Your cloud sync subscription is active.
+					{#if renewalDate}
+						It will renew on {utcToHuman(renewalDate)}.
+					{/if}
+					Thanks for supporting helth.app!
+				</p>
 				{#if subscriptionId}
 					<form method="POST" action="?/cancel" class="flex flex-col gap-4">
 						<fieldset class="flex w-auto flex-row justify-center gap-4">

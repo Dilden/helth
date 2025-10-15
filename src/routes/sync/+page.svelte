@@ -32,5 +32,5 @@
 </script>
 
 <div class="p-7">
-	<SyncForm subscriptionId={sub[0]?.subscriptionId} />
+	<SyncForm subscriptionId={sub[0]?.subscriptionId} renewalDate={sub[0]?.renewalDate} />
 </div>
