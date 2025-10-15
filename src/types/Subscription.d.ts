@@ -6,6 +6,7 @@ interface CloudUser {
 		email: string;
 		name: string;
 	};
+	validUntil: string;
 }
 
 interface Subscription {
@@ -14,6 +15,6 @@ interface Subscription {
 	email: string;
 	renewalDate?: number; // Stripe - payment renewal
 	validUntilDate?: number; // Dexie Cloud valid limit
-	subscriptionStatus?: string;
-	subscriptionStartDate?: number;
+	status?: 'prod' | 'eval' | 'cancelled';
+	startDate?: number;
 }

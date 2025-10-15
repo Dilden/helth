@@ -2,7 +2,9 @@ import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
-import { getToken, activateUser, addSubscription } from '$utils/dexieservice';
+import { getToken, activateUser } from '$utils/dexieservice';
+import { toUtc } from '$utils/dates';
+// import { getSubscription } from '$stores/db';
 
 export const prerender = false;
 
@@ -66,11 +68,45 @@ export const load: PageServerLoad = async ({ url }) => {
 			return { ...error, message: 'Payment failed. Unable to activate your account.' };
 		}
 
-		// activate account with provided email
+		// Check returned types before saving subscription
+		if (typeof session.subscription !== 'string' || !session.subscription) {
+			return {
+				...error,
+				message: 'Subscription not found. Please contact support@helth.app for assistance.'
+			};
+		}
+		if (typeof session.customer !== 'string' || !session.customer) {
+			return {
+				...error,
+				message: 'Customer ID not found. Please contact support@helth.app for assistance.'
+			};
+		}
+
+		// TODO:
+		// what if it was only monthly?
+
+		const stripeSubscription = await StripeService.getSubscription(session.subscription);
+
+		if (!stripeSubscription) {
+			return {
+				...error,
+				message: 'Error retrieving subscription. Please contact support@helth.app for assistance.'
+			};
+		}
+		let renew = 0;
+		if (stripeSubscription.items.data[0].plan.interval === 'year') {
+			renew = toUtc(new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
+		} else if (stripeSubscription.items.data[0].plan.interval === 'month') {
+			// rewew after 1 month
+			renew = toUtc(new Date(new Date().setMonth(new Date().getMonth() + 1)));
+		}
+
+		// activate account in Dexie Cloud with provided email
 		const res = await activateUser(
 			{
 				userId: email,
 				type: 'prod',
+				validUntil: new Date(renew).toISOString(),
 				data: {
 					email: email,
 					name: email
@@ -86,25 +122,16 @@ export const load: PageServerLoad = async ({ url }) => {
 					'Something went wrong activating your account. Please contact support@helth.app for assistance.'
 			};
 		}
-
-		// Check returned types before saving subscription
-		if (typeof session.subscription !== 'string' || !session.subscription) {
-			return {
-				...error,
-				message: 'Subscription not found. Please contact support@helth.app for assistance.'
-			};
-		}
-		if (typeof session.customer !== 'string' || !session.customer) {
-			return {
-				...error,
-				message: 'Customer ID not found. Please contact support@helth.app for assistance.'
-			};
-		}
+		console.log(stripeSubscription);
+		console.log(renew);
 
 		const subscription: Subscription = {
 			subscriptionId: session.subscription,
 			customerId: session.customer,
-			email: email
+			email: email,
+			status: 'prod',
+			validUntilDate: renew,
+			renewalDate: renew
 		};
 
 		return { success, subscription };
@@ -128,5 +155,6 @@ const error = {
 };
 const cancelled = {
 	status: 'cancelled',
-	message: 'Subscription cancelled 😢'
+	message:
+		'Subscription cancelled. Your data will stop syncing at the end of the current billing cycle.'
 };
