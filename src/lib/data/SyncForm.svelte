@@ -6,9 +6,10 @@
 	interface Props {
 		subscriptionId?: string;
 		renewalDate?: number;
+		status?: string;
 	}
 
-	let { subscriptionId, renewalDate }: Props = $props();
+	let { subscriptionId, renewalDate, status }: Props = $props();
 
 	onMount(async () => {
 		const logins = await db.table('$logins').toArray();
@@ -54,7 +55,7 @@
 									id="monthly"
 									name="subscription"
 									required
-									value="price_1RW2BTFNoixNaYid2ndxiKDM"
+									value="price_1RjPaSFMCuO7ieQRwVIt9aWt"
 								/>
 								<label for="monthly" class="p-2 text-xl">$1/month</label>
 							</div>
@@ -75,16 +76,22 @@
 				</div>
 			{:else if $user.license?.type === 'prod'}
 				<p class="bg-emerald-950 p-2">
-					Your cloud sync subscription is active.
-					{#if renewalDate}
-						It will renew on {utcToHuman(renewalDate)}.
+					Your cloud sync subscription
+					{#if status === 'prod'}
+						is active
+					{:else if status === 'cancelled'}
+						has been cancelled
+					{:else if status === 'eval'}
+						is in trial mode
 					{/if}
-					Thanks for supporting helth.app!
+					{#if renewalDate}
+						and valid until {utcToHuman(renewalDate)}
+					{/if}. Thanks for supporting helth.app!
 				</p>
 				{#if subscriptionId}
 					<form method="POST" action="?/cancel" class="flex flex-col gap-4">
 						<fieldset class="flex w-auto flex-row justify-center gap-4">
-							<input type="hidden" name="subscriptionId" value={subscriptionId} />
+							<input type="hidden" name="subscriptionId" value={subscriptionId.substring(1)} />
 							<button class="w-auto grow-0 p-2">Cancel Subscription</button>
 						</fieldset>
 					</form>

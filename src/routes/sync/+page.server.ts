@@ -1,5 +1,6 @@
 import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
+import { Stripe } from 'stripe';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
 import { getToken, activateUser } from '$utils/dexieservice';
@@ -23,12 +24,13 @@ export const actions = {
 	cancel: async ({ request }) => {
 		const formData = await request.formData();
 
-		// TODO: confirm Stripe subscription is cancelled
-		await StripeService.cancel(formData.get('subscriptionId') as string);
+		const subscriptionId = formData.get('subscriptionId') as string;
+		const res = await StripeService.cancel(subscriptionId);
+		if (!res?.cancel_at_period_end) {
+			// cancelling fail, contact support@helt.app to cancel your subscription
+		}
 
-		// TODO: confirm Dexie Cloud is cancelled?
-
-		redirect(302, '/sync?cancelled=true');
+		redirect(302, `/sync?cancelled=true&subscriptionId=${subscriptionId}`);
 	}
 } satisfies Actions;
 
@@ -82,9 +84,6 @@ export const load: PageServerLoad = async ({ url }) => {
 			};
 		}
 
-		// TODO:
-		// what if it was only monthly?
-
 		const stripeSubscription = await StripeService.getSubscription(session.subscription);
 
 		if (!stripeSubscription) {
@@ -122,9 +121,6 @@ export const load: PageServerLoad = async ({ url }) => {
 					'Something went wrong activating your account. Please contact support@helth.app for assistance.'
 			};
 		}
-		console.log(stripeSubscription);
-		console.log(renew);
-
 		const subscription: Subscription = {
 			subscriptionId: session.subscription,
 			customerId: session.customer,
@@ -136,7 +132,31 @@ export const load: PageServerLoad = async ({ url }) => {
 
 		return { success, subscription };
 	} else if (url.searchParams.has('cancelled')) {
-		return cancelled;
+		if (!url.searchParams.has('subscriptionId')) {
+			return { ...error, message: 'Invalid or missing subscriptionId.' };
+		}
+		const stripeSubscription = await StripeService.getSubscription(
+			url.searchParams.get('subscriptionId') as string
+		);
+
+		if (!stripeSubscription) {
+			return {
+				...error,
+				message: 'Error retrieving subscription. Please contact support@helth.app for assistance.'
+			};
+		}
+
+		const customer = await StripeService.getCustomer(stripeSubscription.customer as string);
+
+		const subscription: Subscription = {
+			subscriptionId: stripeSubscription.items.data[0].id,
+			customerId: customer?.email ? customer.email : '',
+			email: customer?.email ? customer.email : '',
+			status: 'cancelled',
+			renewalDate: 0
+		};
+
+		return { ...cancelled, subscription };
 	} else if (url.searchParams.has('error')) {
 		return error;
 	}
@@ -144,6 +164,7 @@ export const load: PageServerLoad = async ({ url }) => {
 		status: null
 	};
 };
+
 const success = {
 	status: 'success',
 	message: 'Payment successful!'

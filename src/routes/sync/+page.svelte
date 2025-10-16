@@ -10,6 +10,7 @@
 	let { subscription, status, message } = { ...data };
 
 	let sub = $state([subscription]);
+	$inspect(sub);
 
 	onMount(async () => {
 		sub = await getSubscription();
@@ -32,5 +33,9 @@
 </script>
 
 <div class="p-7">
-	<SyncForm subscriptionId={sub[0]?.subscriptionId} renewalDate={sub[0]?.renewalDate} />
+	<SyncForm
+		subscriptionId={sub[0]?.subscriptionId}
+		renewalDate={sub[0]?.renewalDate}
+		status={sub[0]?.status}
+	/>
 </div>
