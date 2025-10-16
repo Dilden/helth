@@ -59,6 +59,23 @@ const getSubscription = async (
 };
 
 /**
+ * Get Stripe customer
+ *
+ *
+ */
+const getCustomer = async (
+	customerId: string
+): Promise<Stripe.Customer | Stripe.DeletedCustomer | undefined> => {
+	if (stripe) {
+		try {
+			return await stripe.customers.retrieve(customerId);
+		} catch (error: any) {
+			console.error(error);
+		}
+	}
+};
+
+/**
  * Stripe embedded subscribe
  *
  * This is returns an embedded subscription mode for a item of *priceId*. This could, alternatively
