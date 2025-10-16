@@ -1,4 +1,4 @@
-import { Stripe } from 'stripe';
+import Stripe from 'stripe';
 import { PUBLIC_DOMAIN, PUBLIC_STRIPE } from '$env/static/public';
 import { PRIVATE_STRIPE } from '$env/static/private';
 
@@ -63,12 +63,14 @@ const getSubscription = async (
  *
  *
  */
-const getCustomer = async (
-	customerId: string
-): Promise<Stripe.Customer | Stripe.DeletedCustomer | undefined> => {
+const getCustomer = async (customerId: string): Promise<Stripe.Customer | undefined> => {
 	if (stripe) {
 		try {
-			return await stripe.customers.retrieve(customerId);
+			const cust = await stripe.customers.retrieve(customerId);
+			if (cust.deleted) {
+				return undefined;
+			}
+			return cust;
 		} catch (error: any) {
 			console.error(error);
 		}
@@ -132,5 +134,6 @@ export const StripeService = {
 	cancel,
 	getSession,
 	getSubscription,
-	subscribe
+	subscribe,
+	getCustomer
 };
