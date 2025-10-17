@@ -14,10 +14,18 @@
 
 	onMount(async () => {
 		sub = await getSubscription();
-		if (sub.length <= 0 && subscription) {
-			await saveSubscription(subscription).then((re) => console.log(re));
+		if (subscription) {
+			if (sub.length <= 0) {
+				await saveSubscription(subscription).then((re) => console.log(re));
+			} else if (sub.length === 1) {
+				// TODO: update subscription with new info
+				// subscription ID doesn't match yet and so won't overwrite
+				sub[0] = { ...subscription };
+				await saveSubscription(sub[0]).then((re) => console.log(re));
+			}
 		}
 
+		// force sync
 		if (status === 'success') {
 			await db.cloud.sync({ wait: true, purpose: 'pull' });
 		}

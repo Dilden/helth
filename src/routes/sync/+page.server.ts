@@ -1,6 +1,5 @@
 import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
-import { Stripe } from 'stripe';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
 import { getToken, activateUser } from '$utils/dexieservice';
@@ -145,11 +144,12 @@ export const load: PageServerLoad = async ({ url }) => {
 				message: 'Error retrieving subscription. Please contact support@helth.app for assistance.'
 			};
 		}
+		console.log(stripeSubscription);
 
 		const customer = await StripeService.getCustomer(stripeSubscription.customer as string);
 
 		const subscription: Subscription = {
-			subscriptionId: stripeSubscription.items.data[0].id,
+			subscriptionId: stripeSubscription.id,
 			customerId: customer?.email ? customer.email : '',
 			email: customer?.email ? customer.email : '',
 			status: 'cancelled',
