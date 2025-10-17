@@ -36,10 +36,15 @@ vi.mock('$stores/db', async () => {
 describe('sign in form (logged in premium)', () => {
 	it('shows logout button', () => {
 		render(SyncForm, {
-			subscriptionId: '4566789'
+			subscriptionId: '4566789',
+			status: 'prod'
 		});
 		expect(screen.getByDisplayValue('4566789')).toBeInTheDocument();
-		expect(screen.getByText('Thanks for supporting helth.app!')).toBeVisible();
+		expect(
+			screen.getByText(
+				'Your cloud sync subscription is active and supporting the development of helth.app! Thanks! 🥰'
+			)
+		).toBeVisible();
 		expect(screen.getByRole('button', { name: 'Logout' })).toBeVisible();
 	});
 
