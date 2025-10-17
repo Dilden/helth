@@ -78,17 +78,15 @@
 				<p class="bg-emerald-950 p-2">
 					Your cloud sync subscription
 					{#if status === 'prod'}
-						is active
+						is active and supporting the development of helth.app! Thanks! 🥰
 					{:else if status === 'cancelled'}
-						has been cancelled
-					{:else if status === 'eval'}
-						is in trial mode
+						has been cancelled. 😢
 					{/if}
 					{#if renewalDate}
-						and valid until {utcToHuman(renewalDate)}
-					{/if}. Thanks for supporting helth.app!
+						Your subscription will renew on {utcToHuman(renewalDate)}.
+					{/if}
 				</p>
-				{#if subscriptionId}
+				{#if subscriptionId && status !== 'cancelled'}
 					<form method="POST" action="?/cancel" class="flex flex-col gap-4">
 						<fieldset class="flex w-auto flex-row justify-center gap-4">
 							<input
