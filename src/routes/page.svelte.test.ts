@@ -65,6 +65,9 @@ vi.mock('$stores/stores.svelte', async () => {
 			get: vi.fn(() => defaultInventory)
 		},
 		inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
-		inventorySearch: s
+		inventorySearch: s,
+		subscription: {
+			init: vi.fn(() => Promise.resolve())
+		}
 	};
 });

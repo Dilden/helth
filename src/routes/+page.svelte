@@ -1,6 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
-	import { today, goals, limits, settings } from '$stores/stores.svelte';
+	import { today, goals, limits, settings, subscription } from '$stores/stores.svelte';
 	import { blur } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import Counter from '$lib/counts/Counter.svelte';
@@ -52,7 +52,7 @@
 <div
 	class="flex-start flex flex-row flex-wrap justify-center gap-4 gap-y-7 transition-all md:justify-start md:gap-y-3"
 >
-	{#await Promise.all([settings.init(), today.init(), limits.init(), goals.init()])}
+	{#await Promise.all( [settings.init(), today.init(), limits.init(), goals.init(), subscription.init()] )}
 		<Spinner />
 	{:then}
 		{#if enabled.length !== 0}
