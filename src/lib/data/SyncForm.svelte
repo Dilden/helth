@@ -2,14 +2,14 @@
 	import { db } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { utcToHuman } from '$utils/dates';
+	import SubscribeForm from './SubscribeForm.svelte';
+	import CancelForm from './CancelForm.svelte';
 
 	interface Props {
-		subscriptionId?: string;
-		renewalDate?: number;
-		status?: string;
+		subscription: Subscription;
 	}
 
-	let { subscriptionId, renewalDate, status }: Props = $props();
+	let { subscription }: Props = $props();
 
 	onMount(async () => {
 		const logins = await db.table('$logins').toArray();
@@ -20,6 +20,7 @@
 
 	let user = db.cloud.currentUser;
 	let syncState = db.cloud.syncState;
+	$inspect($user);
 </script>
 
 <div class="flex flex-col gap-2 p-7">
@@ -47,63 +48,39 @@
 							Trial period expired! Please purchase a subscription to use cloud sync features.
 						</p>
 					{/if}
-					<form method="POST" action="?/subscribe" class="flex flex-col gap-4">
-						<fieldset class="flex w-auto flex-row justify-center gap-4">
-							<div>
-								<input
-									type="radio"
-									id="monthly"
-									name="subscription"
-									required
-									value="price_1RjPaSFMCuO7ieQRwVIt9aWt"
-								/>
-								<label for="monthly" class="p-2 text-xl">$1/month</label>
-							</div>
-							<div>
-								<input
-									type="radio"
-									id="annually"
-									checked
-									name="subscription"
-									required
-									value="price_1RjPaSFMCuO7ieQRf3E5RX02"
-								/>
-								<label for="annually" class="text-xl">$10/year</label>
-							</div>
-						</fieldset>
-						<button class="w-auto grow-0 p-5">Subscribe</button>
-					</form>
+					<SubscribeForm />
 				</div>
 			{:else if $user.license?.type === 'prod'}
-				<p class="bg-emerald-950 p-2">
-					Your cloud sync subscription
-					{#if status === 'prod'}
-						is active and supporting the development of helth.app! Thanks! 🥰
-					{:else if status === 'cancelled'}
-						has been cancelled. 😢
-					{/if}
-					{#if renewalDate}
-						Your subscription will renew on {utcToHuman(renewalDate)}.
-					{/if}
-				</p>
-				{#if subscriptionId && status !== 'cancelled'}
-					<form method="POST" action="?/cancel" class="flex flex-col gap-4">
-						<fieldset class="flex w-auto flex-row justify-center gap-4">
-							<input
-								type="hidden"
-								name="subscriptionId"
-								value={subscriptionId.startsWith('#') // Dexie Cloud sync requires saving the ID with a # prefix
-									? subscriptionId.substring(1)
-									: subscriptionId}
-							/>
-							<button class="w-auto grow-0 p-2">Cancel Subscription</button>
-						</fieldset>
-					</form>
+				<div class="flex flex-col gap-2">
+					<h3 class="text-xl">Subscription</h3>
+					<div class="flex flex-row justify-between odd:bg-emerald-950">
+						<p>Status</p>
+						<p>
+							{#if subscription?.status === 'prod'}
+								Active 🥰
+							{:else if subscription?.status === 'cancelled'}
+								Cancelled 😢
+							{/if}
+						</p>
+					</div>
+					<div class="flex flex-row justify-between odd:bg-emerald-950">
+						{#if $user.license.validUntil}
+							<p>Cloud Sync Until</p>
+							<p>{utcToHuman($user.license.validUntil.getTime())}</p>
+						{/if}
+					</div>
+					<div class="flex flex-row justify-between odd:bg-emerald-950">
+						{#if subscription.renewalDate}
+							<p>Billing Renewal Date</p>
+							<p>{utcToHuman(subscription.renewalDate)}</p>
+						{/if}
+					</div>
+				</div>
+				{#if subscription?.subscriptionId && subscription?.status !== 'cancelled'}
+					<!-- Cancel Form -->
+					<CancelForm subscriptionId={subscription?.subscriptionId} />
 				{:else}
-					<p>
-						Whoops! Your subscription wasn't found. Please contact support@helth.app if you would
-						like to cancel your subscription.
-					</p>
+					<SubscribeForm />
 				{/if}
 			{/if}
 		</div>
