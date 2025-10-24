@@ -70,3 +70,7 @@ interface JournalEntry {
 	date: number | string;
 	[key: string]: number | string;
 }
+
+interface SubscriptionStore extends Store<Subscription> {
+	get(): Subscription;
+}

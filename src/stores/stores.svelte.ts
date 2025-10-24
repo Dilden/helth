@@ -156,7 +156,6 @@ function createTodayStore(): TodayStore<JournalEntry> {
 export const today = createTodayStore();
 
 // history
-// TODO: update with private singleton logic. ie adding '#' in front of shit
 function createHistoryStore(): HistoryStore {
 	let history: JournalEntry[] = $state([]);
 
@@ -184,6 +183,37 @@ function createHistoryStore(): HistoryStore {
 }
 export const history = createHistoryStore();
 
+function createSubscriptionStore(): SubscriptionStore {
+	let sub: Subscription = $state({
+		subscriptionId: '',
+		email: '',
+		customerId: ''
+	});
+
+	function get() {
+		return sub;
+	}
+
+	async function init() {
+		sub = await dbfun.getSubscription();
+	}
+	async function add() {
+		// 	await dbfun.saveSubscription(item);
+		// 	await init();
+	}
+	async function update(id: string, item: Subscription) {
+		await dbfun.saveSubscription({ ...item, subscriptionId: id });
+		await init();
+	}
+	async function remove(id: string) {
+		await dbfun.removeSubscription(id);
+		await init();
+	}
+
+	return { init, add, update, remove, get };
+}
+export const subscription = createSubscriptionStore();
+
 export const initStores = async () => {
 	return await Promise.all([
 		today.init(),
@@ -192,6 +222,7 @@ export const initStores = async () => {
 		goals.init(),
 		limits.init(),
 		inventory.init(),
-		recipes.init()
+		recipes.init(),
+		subscription.init()
 	]);
 };

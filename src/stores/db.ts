@@ -201,6 +201,7 @@ export const defaultDay: JournalEntry = {
 	date: '#' + new Date().setHours(0, 0, 0, 0).toString()
 };
 
+// subscription logic
 export const saveSubscription = async (subscription: Subscription) => {
 	return await db.subscription.put({
 		...subscription,
@@ -208,7 +209,10 @@ export const saveSubscription = async (subscription: Subscription) => {
 	});
 };
 export const getSubscription = async () => {
-	return await db.subscription.toArray();
+	return await db.subscription.toArray().then((all) => all[0]); // only return one
+};
+export const removeSubscription = async (id: string) => {
+	return await db.subscription.delete(id);
 };
 
 // create default settings + defaultDay values

@@ -120,7 +120,7 @@ export const load: PageServerLoad = async ({ url }) => {
 					'Something went wrong activating your account. Please contact support@helth.app for assistance.'
 			};
 		}
-		const subscription: Subscription = {
+		const subscriptionData: Subscription = {
 			subscriptionId: session.subscription,
 			customerId: session.customer,
 			email: email,
@@ -129,7 +129,7 @@ export const load: PageServerLoad = async ({ url }) => {
 			renewalDate: renew
 		};
 
-		return { success, subscription };
+		return { success, subscriptionData };
 	} else if (url.searchParams.has('cancelled')) {
 		if (!url.searchParams.has('subscriptionId')) {
 			return { ...error, message: 'Invalid or missing subscriptionId.' };
@@ -144,11 +144,10 @@ export const load: PageServerLoad = async ({ url }) => {
 				message: 'Error retrieving subscription. Please contact support@helth.app for assistance.'
 			};
 		}
-		console.log(stripeSubscription);
 
 		const customer = await StripeService.getCustomer(stripeSubscription.customer as string);
 
-		const subscription: Subscription = {
+		const subscriptionData: Subscription = {
 			subscriptionId: stripeSubscription.id,
 			customerId: customer?.email ? customer.email : '',
 			email: customer?.email ? customer.email : '',
@@ -156,7 +155,8 @@ export const load: PageServerLoad = async ({ url }) => {
 			renewalDate: 0
 		};
 
-		return { ...cancelled, subscription };
+		console.log(subscriptionData);
+		return { ...cancelled, subscriptionData };
 	} else if (url.searchParams.has('error')) {
 		return error;
 	}
