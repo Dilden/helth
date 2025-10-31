@@ -10,18 +10,10 @@
 	let { data }: PageProps = $props();
 	let { subscriptionData, status, message } = { ...data };
 
-	// sub needs to be updated whenever the value of getSubscription changes
-	// let sub = $state([subscription]);
-	$inspect(subscription.get());
-
 	onMount(async () => {
 		await subscription.init();
-		if (subscriptionData) {
-			// no existing subscription, add one
-			// 	subscription.add(subscriptionData);
-			// } else if (subscriptionData && subscription.get()) {
-			// existing subscription found, but new one recieved, update it
-			subscription.update(subscriptionData.subscriptionId, subscriptionData);
+		if (subscriptionData && subscriptionData != subscription.get()) {
+			await subscription.update(subscriptionData.subscriptionId, subscriptionData);
 		}
 
 		// force sync
