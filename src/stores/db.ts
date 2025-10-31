@@ -203,6 +203,9 @@ export const defaultDay: JournalEntry = {
 
 // subscription logic
 export const saveSubscription = async (subscription: Subscription) => {
+	if ((await db.subscription.count()) >= 1) {
+		await db.subscription.clear();
+	}
 	return await db.subscription.put({
 		...subscription,
 		subscriptionId: '#' + subscription.subscriptionId
