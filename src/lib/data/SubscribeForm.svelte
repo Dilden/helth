@@ -14,7 +14,7 @@
 			/>
 		</div>
 		<div>
-			<label for="annually" class="w-full text-xl">$10/year</label>
+			<label for="annually" class="w-full p-2 text-xl">$10/year</label>
 			<input
 				type="radio"
 				id="annually"
