@@ -129,8 +129,9 @@ export const load: PageServerLoad = async ({ url }) => {
 			renewalDate: renew
 		};
 
-		return { success, subscriptionData };
+		return { ...success, subscriptionData };
 	} else if (url.searchParams.has('cancelled')) {
+		// cancelling subscription
 		if (!url.searchParams.has('subscriptionId')) {
 			return { ...error, message: 'Invalid or missing subscriptionId.' };
 		}
@@ -155,10 +156,9 @@ export const load: PageServerLoad = async ({ url }) => {
 			renewalDate: 0
 		};
 
-		console.log(subscriptionData);
 		return { ...cancelled, subscriptionData };
 	} else if (url.searchParams.has('error')) {
-		return error;
+		return { ...error };
 	}
 	return {
 		status: null
