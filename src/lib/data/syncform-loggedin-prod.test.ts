@@ -36,22 +36,20 @@ vi.mock('$stores/db', async () => {
 describe('sign in form (logged in premium)', () => {
 	it('shows logout button', () => {
 		render(SyncForm, {
-			subscriptionId: '4566789',
-			status: 'prod'
+			subscription: {
+				subscriptionId: '4566789',
+				status: 'prod',
+				validUntilDate: 1793422800000,
+				renewalDate: 1793422800000
+			}
 		});
 		expect(screen.getByDisplayValue('4566789')).toBeInTheDocument();
-		expect(
-			screen.getByText(
-				'Your cloud sync subscription is active and supporting the development of helth.app! Thanks! 🥰'
-			)
-		).toBeVisible();
+		expect(screen.getByText('Active 🥰')).toBeVisible();
 		expect(screen.getByRole('button', { name: 'Logout' })).toBeVisible();
 	});
 
 	it('shows an error if no subscriptionId is provided', () => {
 		render(SyncForm);
-		expect(
-			screen.getByText("Whoops! Your subscription wasn't found.", { exact: false })
-		).toBeVisible();
+		expect(screen.getByText('Subscribe', { exact: false })).toBeVisible();
 	});
 });
