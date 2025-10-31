@@ -63,25 +63,33 @@
 							{/if}
 						</p>
 					</div>
-					<div class="flex flex-row justify-between odd:bg-emerald-950">
-						{#if $user.license.validUntil}
+					{#if subscription?.validUntilDate && subscription?.validUntilDate !== subscription?.renewalDate}
+						<div class="flex flex-row justify-between odd:bg-emerald-950">
 							<p>Cloud Sync Until</p>
-							<p>{utcToHuman($user.license.validUntil.getTime())}</p>
-						{/if}
-					</div>
-					<div class="flex flex-row justify-between odd:bg-emerald-950">
-						{#if subscription.renewalDate}
+							<p>{utcToHuman(subscription.validUntilDate)}</p>
+						</div>
+					{/if}
+					<!-- 	{#if $user.license.validUntil} -->
+					<!-- <div class="flex flex-row justify-between odd:bg-emerald-950"> -->
+					<!-- 		<p>Cloud Sync Until</p> -->
+					<!-- 		<p>{utcToHuman($user.license.validUntil.getTime())}</p> -->
+					<!-- </div> -->
+					<!-- 	{/if} -->
+					{#if subscription?.renewalDate}
+						<div class="flex flex-row justify-between odd:bg-emerald-950">
 							<p>Billing Renewal Date</p>
 							<p>{utcToHuman(subscription.renewalDate)}</p>
-						{/if}
-					</div>
+						</div>
+					{/if}
 				</div>
-				{#if subscription?.subscriptionId && subscription?.status !== 'cancelled'}
-					<!-- Cancel Form -->
-					<CancelForm subscriptionId={subscription?.subscriptionId} />
-				{:else}
-					<SubscribeForm />
-				{/if}
+				<div class="mx-auto my-3 w-auto">
+					{#if subscription?.subscriptionId && subscription?.status !== 'cancelled'}
+						<!-- Cancel Form -->
+						<CancelForm subscriptionId={subscription?.subscriptionId} />
+					{:else}
+						<SubscribeForm />
+					{/if}
+				</div>
 			{/if}
 		</div>
 	{:else}
