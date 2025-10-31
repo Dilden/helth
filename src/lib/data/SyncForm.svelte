@@ -20,7 +20,6 @@
 
 	let user = db.cloud.currentUser;
 	let syncState = db.cloud.syncState;
-	$inspect($user);
 </script>
 
 <div class="flex flex-col gap-2 p-7">
@@ -69,12 +68,6 @@
 							<p>{utcToHuman(subscription.validUntilDate)}</p>
 						</div>
 					{/if}
-					<!-- 	{#if $user.license.validUntil} -->
-					<!-- <div class="flex flex-row justify-between odd:bg-emerald-950"> -->
-					<!-- 		<p>Cloud Sync Until</p> -->
-					<!-- 		<p>{utcToHuman($user.license.validUntil.getTime())}</p> -->
-					<!-- </div> -->
-					<!-- 	{/if} -->
 					{#if subscription?.renewalDate}
 						<div class="flex flex-row justify-between odd:bg-emerald-950">
 							<p>Billing Renewal Date</p>
