@@ -2,14 +2,9 @@
 	import { db } from '$stores/db';
 	import { onMount } from 'svelte';
 	import { utcToHuman } from '$utils/dates';
+	import { subscription } from '$stores/stores.svelte';
 	import SubscribeForm from './SubscribeForm.svelte';
 	import CancelForm from './CancelForm.svelte';
-
-	interface Props {
-		subscription: Subscription;
-	}
-
-	let { subscription }: Props = $props();
 
 	onMount(async () => {
 		const logins = await db.table('$logins').toArray();
@@ -41,7 +36,9 @@
 				<h3 class="text-xl">Subscription</h3>
 				<div class="flex flex-row items-center justify-between">
 					{#if $user.license.evalDaysLeft && $user.license?.evalDaysLeft > 0}
-						<p class="bg-emerald-950 p-2">Trial has {$user.license.evalDaysLeft} days remaining</p>
+						<p class="bg-emerald-950 p-2">
+							Trial has {$user.license.evalDaysLeft} days remaining
+						</p>
 					{:else}
 						<p class="bg-emerald-950 p-2">
 							Trial period expired! Please purchase a subscription to use cloud sync features.
@@ -55,30 +52,32 @@
 					<div class="flex flex-row justify-between odd:bg-emerald-950">
 						<p>Status</p>
 						<p>
-							{#if subscription?.status === 'prod'}
+							{#if subscription.get()?.status === 'prod'}
 								Active 🥰
-							{:else if subscription?.status === 'cancelled'}
+							{:else if subscription.get()?.status === 'cancelled'}
 								Cancelled 😢
 							{/if}
 						</p>
 					</div>
-					{#if subscription?.validUntilDate && subscription?.validUntilDate !== subscription?.renewalDate}
+					{#if subscription.get()?.validUntilDate && subscription.get()?.validUntilDate !== subscription.get()?.renewalDate}
 						<div class="flex flex-row justify-between odd:bg-emerald-950">
 							<p>Cloud Sync Until</p>
-							<p>{utcToHuman(subscription.validUntilDate)}</p>
+							<p>
+								{utcToHuman(subscription.get()?.validUntilDate ?? 0)}
+							</p>
 						</div>
 					{/if}
-					{#if subscription?.renewalDate}
+					{#if subscription.get()?.renewalDate}
 						<div class="flex flex-row justify-between odd:bg-emerald-950">
 							<p>Billing Renewal Date</p>
-							<p>{utcToHuman(subscription.renewalDate)}</p>
+							<p>{utcToHuman(subscription.get()?.renewalDate ?? 0)}</p>
 						</div>
 					{/if}
 				</div>
 				<div class="mx-auto my-3 w-auto">
-					{#if subscription?.subscriptionId && subscription?.status !== 'cancelled'}
+					{#if subscription.get()?.subscriptionId && subscription.get()?.status !== 'cancelled'}
 						<!-- Cancel Form -->
-						<CancelForm subscriptionId={subscription?.subscriptionId} />
+						<CancelForm subscriptionId={subscription.get()?.subscriptionId} />
 					{:else}
 						<SubscribeForm />
 					{/if}
@@ -86,12 +85,18 @@
 			{/if}
 		</div>
 	{:else}
-		<p>Not logged in</p>
-		<button
-			onclick={async () =>
-				await db.cloud.login().then(async () => {
-					return await db.cloud.sync({ wait: true, purpose: 'pull' });
-				})}>Login</button
-		>
+		<div class="flex flex-row justify-around">
+			<div></div>
+			<div class="text-center">
+				<p>Log in to begin syncing data</p>
+				<button
+					onclick={async () =>
+						await db.cloud.login().then(async () => {
+							return await db.cloud.sync({ wait: true, purpose: 'pull' });
+						})}>Login</button
+				>
+			</div>
+			<div></div>
+		</div>
 	{/if}
 </div>
