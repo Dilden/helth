@@ -2,16 +2,15 @@
 	import { onMount } from 'svelte';
 	import SyncForm from '$lib/data/SyncForm.svelte';
 	import { successToast, infoToast, errorToast } from '$utils/toast';
-	// import { getSubscription, saveSubscription } from '$stores/db';
 	import { subscription } from '$stores/stores.svelte';
 	import { db } from '$stores/db';
 	import type { PageProps } from './$types';
+	import Spinner from '$lib/Spinner.svelte';
 
 	let { data }: PageProps = $props();
 	let { subscriptionData, status, message } = { ...data };
 
 	onMount(async () => {
-		await subscription.init();
 		if (subscriptionData && subscriptionData != subscription.get()) {
 			await subscription.update(subscriptionData.subscriptionId, subscriptionData);
 		}
@@ -32,5 +31,9 @@
 </script>
 
 <div class="p-7">
-	<SyncForm subscription={subscription.get()} />
+	{#await subscription.init()}
+		<Spinner />
+	{:then}
+		<SyncForm />
+	{/await}
 </div>
