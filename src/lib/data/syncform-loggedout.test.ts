@@ -34,6 +34,7 @@ vi.mock('$stores/db', async () => {
 describe('sign in form (logged out)', () => {
 	it('shows login button', () => {
 		render(SyncForm);
+		expect(screen.getByText('Sign in with a valid email to begin syncing data')).toBeVisible();
 		expect(screen.getByRole('button', { name: 'Login' })).toBeVisible();
 	});
 });
