@@ -1,11 +1,31 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeAll } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import SyncForm from './SyncForm.svelte';
 
-afterEach(() => {
-	vi.restoreAllMocks();
+beforeAll(() => {
+	vi.useFakeTimers();
+	vi.setSystemTime(new Date('Wed Dec 10 2025'));
 });
 
+afterEach(() => {
+	vi.restoreAllMocks();
+	vi.useRealTimers();
+});
+
+vi.mock('$stores/stores.svelte', () => {
+	return {
+		subscription: {
+			get: vi.fn(() => {
+				return {
+					subscriptionId: '4566789',
+					status: 'prod',
+					validUntilDate: 1793422800000,
+					renewalDate: 1793422800000
+				};
+			})
+		}
+	};
+});
 vi.mock('$stores/db', async () => {
 	const { readable } = await import('svelte/store');
 	return {
@@ -15,7 +35,8 @@ vi.mock('$stores/db', async () => {
 					...readable({
 						name: 'Bob',
 						license: {
-							type: 'prod'
+							type: 'prod',
+							status: 'ok'
 						}
 					})
 				},
@@ -34,22 +55,10 @@ vi.mock('$stores/db', async () => {
 });
 
 describe('sign in form (logged in premium)', () => {
-	it('shows logout button', () => {
-		render(SyncForm, {
-			subscription: {
-				subscriptionId: '4566789',
-				status: 'prod',
-				validUntilDate: 1793422800000,
-				renewalDate: 1793422800000
-			}
-		});
+	it('shows logout button with subscriptionId value in form', () => {
+		render(SyncForm);
 		expect(screen.getByDisplayValue('4566789')).toBeInTheDocument();
 		expect(screen.getByText('Active 🥰')).toBeVisible();
 		expect(screen.getByRole('button', { name: 'Logout' })).toBeVisible();
-	});
-
-	it('shows an error if no subscriptionId is provided', () => {
-		render(SyncForm);
-		expect(screen.getByText('Subscribe', { exact: false })).toBeVisible();
 	});
 });

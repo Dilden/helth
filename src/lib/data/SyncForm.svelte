@@ -18,7 +18,7 @@
 </script>
 
 <div class="flex flex-col gap-2 p-7">
-	{#if $syncState.error}
+	{#if $syncState?.error}
 		<p>
 			An error syncing your data has been encountered. Please contact <a
 				href="mailto:support@helth.app">support</a
@@ -52,10 +52,10 @@
 					<div class="flex flex-row justify-between odd:bg-emerald-950">
 						<p>Status</p>
 						<p>
-							{#if subscription.get()?.status === 'prod'}
+							{#if $user.license.status === 'ok'}
 								Active 🥰
-							{:else if subscription.get()?.status === 'cancelled'}
-								Cancelled 😢
+							{:else}
+								Subcription expired or deactivated 😢
 							{/if}
 						</p>
 					</div>
@@ -88,7 +88,7 @@
 		<div class="flex flex-row justify-around">
 			<div></div>
 			<div class="text-center">
-				<p>Log in to begin syncing data</p>
+				<p>Sign in with a valid email to begin syncing data</p>
 				<button
 					onclick={async () =>
 						await db.cloud.login().then(async () => {
