@@ -9,19 +9,8 @@
 
 	let { data }: PageProps = $props();
 	let { subscriptionData, status, message } = { ...data };
-	// let { status, message } = { ...data };
-
-	// $effect(() => {
-	//   if(subscriptionData) {
-	// 	await subscription.update(subscriptionData.subscriptionId, subscriptionData);
-	//   }
-	// })
 
 	onMount(async () => {
-		// if (subscriptionData && subscriptionData != subscription.get()) {
-		// 	await subscription.update(subscriptionData.subscriptionId, subscriptionData);
-		// }
-
 		// force sync
 		if (status === 'success') {
 			await db.cloud.sync({ wait: true, purpose: 'pull' });
