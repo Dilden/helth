@@ -9,11 +9,18 @@
 
 	let { data }: PageProps = $props();
 	let { subscriptionData, status, message } = { ...data };
+	// let { status, message } = { ...data };
+
+	// $effect(() => {
+	//   if(subscriptionData) {
+	// 	await subscription.update(subscriptionData.subscriptionId, subscriptionData);
+	//   }
+	// })
 
 	onMount(async () => {
-		if (subscriptionData && subscriptionData != subscription.get()) {
-			await subscription.update(subscriptionData.subscriptionId, subscriptionData);
-		}
+		// if (subscriptionData && subscriptionData != subscription.get()) {
+		// 	await subscription.update(subscriptionData.subscriptionId, subscriptionData);
+		// }
 
 		// force sync
 		if (status === 'success') {
@@ -34,6 +41,10 @@
 	{#await subscription.init()}
 		<Spinner />
 	{:then}
-		<SyncForm />
+		{#if subscriptionData && subscriptionData != subscription.get()}
+			{#await subscription.update(subscriptionData.subscriptionId, subscriptionData)}
+				<SyncForm />
+			{/await}
+		{/if}
 	{/await}
 </div>
