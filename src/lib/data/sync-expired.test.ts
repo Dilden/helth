@@ -1,11 +1,30 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeAll } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import SyncForm from './SyncForm.svelte';
+
+beforeAll(() => {
+	vi.useFakeTimers();
+	vi.setSystemTime(new Date('Wed Dec 10 2024'));
+});
 
 afterEach(() => {
 	vi.restoreAllMocks();
 });
 
+vi.mock('$stores/stores.svelte', () => {
+	return {
+		subscription: {
+			get: vi.fn(() => {
+				return {
+					subscriptionId: '4566789',
+					status: 'prod',
+					validUntilDate: 1793422800000, // Oct 31, 2026
+					renewalDate: 1793422800000
+				};
+			})
+		}
+	};
+});
 vi.mock('$stores/db', async () => {
 	const { readable } = await import('svelte/store');
 	return {
@@ -34,7 +53,7 @@ vi.mock('$stores/db', async () => {
 });
 
 describe('sign in form (logged in premium)', () => {
-	it('shows logout button', () => {
+	it('informs user trial has expired and providese payment options', () => {
 		render(SyncForm);
 		expect(
 			screen.getByText(
