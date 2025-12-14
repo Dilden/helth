@@ -11,6 +11,9 @@
 	let { subscriptionData, status, message } = { ...data };
 
 	onMount(async () => {
+		if (subscriptionData && subscriptionData != subscription.get()) {
+			await subscription.update(subscriptionData.subscriptionId, subscriptionData);
+		}
 		// force sync
 		if (status === 'success') {
 			await db.cloud.sync({ wait: true, purpose: 'pull' });
@@ -28,12 +31,9 @@
 
 <div class="p-7">
 	{#await subscription.init()}
+		derp
 		<Spinner />
 	{:then}
-		{#if subscriptionData && subscriptionData != subscription.get()}
-			{#await subscription.update(subscriptionData.subscriptionId, subscriptionData)}
-				<SyncForm />
-			{/await}
-		{/if}
+		<SyncForm />
 	{/await}
 </div>
