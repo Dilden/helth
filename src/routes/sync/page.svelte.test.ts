@@ -1,16 +1,17 @@
 import 'fake-indexeddb/auto';
 import Page from './+page.svelte';
-import { it, expect, vi, afterEach, describe } from 'vitest';
+import { successToast, infoToast, errorToast } from '$utils/toast';
+import { it, expect, vi, afterAll, describe } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 
-afterEach(() => {
+afterAll(() => {
 	vi.resetAllMocks();
 });
 
 vi.mock('$stores/stores.svelte', () => {
 	return {
 		subscription: {
-			init: vi.fn(async () => Promise.resolve(console.log('subscription init')))
+			init: vi.fn(async () => Promise.resolve())
 		},
 		initStores: vi.fn(async () => Promise.resolve())
 	};
@@ -26,23 +27,26 @@ vi.mock('$stores/db/', () => {
 	};
 });
 
+vi.mock('$utils/toast', { spy: true });
+
 it('renders the sync form on the page', async () => {
 	render(Page);
 	expect(await screen.findByText('Cloud Sync')).toBeVisible();
 	expect(await screen.findByRole('button')).toBeVisible();
 });
 
-describe('status alerts via toasts', () => {
-	it('shows success toast', async () => {
-		render(Page, { status: 'success', message: 'It worked!' });
-		expect(await screen.findByText('It worked!')).toBeVisible();
+describe('receives status alerts for toasts', () => {
+	it('shows success toast', () => {
+		render(Page, { data: { status: 'success', message: 'It worked!' } });
+		expect(successToast).toHaveBeenCalledOnce();
+		expect(successToast).toHaveBeenCalledWith('It worked!');
 	});
 	it('shows cancelled alert', async () => {
-		render(Page, { status: 'cancelled', message: 'Cancelled it!' });
-		expect(await screen.findByText('Cancelled it!')).toBeVisible();
+		render(Page, { data: { status: 'cancelled', message: 'Cancelled it!' } });
+		expect(infoToast).toHaveBeenCalledWith('Cancelled it!');
 	});
 	it('shows error alert', async () => {
-		render(Page, { status: 'error', message: 'It failed!' });
-		expect(await screen.findByText('It failed!')).toBeVisible();
+		render(Page, { data: { status: 'error', message: 'It failed!' } });
+		expect(errorToast).toHaveBeenCalledWith('It failed!');
 	});
 });

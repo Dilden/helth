@@ -31,7 +31,6 @@
 
 <div class="p-7">
 	{#await subscription.init()}
-		derp
 		<Spinner />
 	{:then}
 		<SyncForm />
