@@ -34,7 +34,6 @@
 				<button onclick={async () => db.table('$logins').clear()}>Logout</button>
 			</div>
 			{#if $user.license?.type === 'eval'}
-				<!-- TODO: Can't have 2 h3 tags -->
 				<h3 class="text-xl">Subscription</h3>
 				<div class="flex flex-row items-center justify-between">
 					{#if $user.license.evalDaysLeft && $user.license?.evalDaysLeft > 0}
