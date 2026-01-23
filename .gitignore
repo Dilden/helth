@@ -12,3 +12,8 @@ vite.config.js.timestamp*.mjs
 /test-results
 dexie-cloud*
 
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
