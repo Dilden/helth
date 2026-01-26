@@ -4,7 +4,6 @@ import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
 import { getToken, activateUser } from '$utils/dexieservice';
 import { toUtc } from '$utils/dates';
-// import { getSubscription } from '$stores/db';
 
 export const prerender = false;
 
