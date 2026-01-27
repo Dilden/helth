@@ -20,33 +20,39 @@ test.describe('fails non-POST HTTP methods', () => {
 });
 
 test.describe('error handling', () => {
-	test('accepts a POST request w/JSON', async ({ request }) => {
+	test('fails a POST request w/form-data', async ({ request }) => {
 		const response = await request.post('/sync', {
-			headers: { 'content-type': 'application/json' }
+			headers: { 'content-type': 'multipart/form-data;' }
 		});
-		expect(response.status()).toBe(401); // Unauthorized
+		expect(response.status()).toBe(403); // Not allowed
 	});
 	test('requires a stripe signature', async ({ request }) => {
 		const response = await request.post('/sync', {
-			headers: { 'content-type': 'application/json', 'stripe-signature': 'hasValue' }
+			headers: { 'content-type': 'application/json; charset=utf-8' }
 		});
-		expect(response.status()).toBe(200); // OK
+		expect(response.status()).toBe(401); // No signature, no authorization
 	});
 	// TODO
-	test.skip('webhook exempt from CSRF', async ({ request }) => {
-		// https://svelte.dev/docs/kit/configuration#csrf
-		//
-		// set trustedOrigins in config to allow Stripe to make POST request
-		// May not be necessary as SvelteKit docs only specify content-type of:
-		// application/x-www-form-urlencoded, multipart/form-data, and text/plain
-		//
-		// but Stripe only sends application/json so maybe not necessary?
-	});
-	test.skip('verifies request came from Stripe', async ({ request }) => {});
+	// Need to use Stripe CLI to test the rest of these scenarios
+	// since Playwright doesn't support mocking an imported module
 	test.skip('handles duplicate events', async ({ request }) => {});
 	test.skip('listens for subscription renewal', async ({ request }) => {});
 	test.skip('listens for subscription cancel', async ({ request }) => {});
 	test.skip('listens for payment failure', async ({ request }) => {});
 	test.skip('rejects old requests', async ({ request }) => {});
 	test.skip('responds with 200 OK', async ({ request }) => {});
+	// test.skip('webhook exempt from CSRF', async ({ request }) => {
+	// not needed as SvelteKit doesn't apply CSRF to application/json requests
+	// https://svelte.dev/docs/kit/configuration#csrf
+	//
+	// set trustedOrigins in config to allow Stripe to make POST request
+	// May not be necessary as SvelteKit docs only specify content-type of:
+	// application/x-www-form-urlencoded, multipart/form-data, and text/plain
+	//
+	// but Stripe only sends application/json so maybe not necessary?
+	// });
+
+	// test('verifies request came from Stripe', async ({ request }) => {
+	//
+	// });
 });
