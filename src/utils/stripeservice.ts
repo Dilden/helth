@@ -1,8 +1,27 @@
 import Stripe from 'stripe';
 import { PUBLIC_DOMAIN, PUBLIC_STRIPE } from '$env/static/public';
-import { PRIVATE_STRIPE } from '$env/static/private';
+import { PRIVATE_STRIPE, PRIVATE_WEBHOOK_SIGNING_KEY } from '$env/static/private';
 
 let stripe: Stripe | undefined;
+
+/**
+ * Verify request came from Stripe
+ */
+
+const verify = (
+	reqBody: string | Buffer<ArrayBufferLike>,
+	reqSig: string | Buffer<ArrayBufferLike>
+) => {
+	if (stripe) {
+		try {
+			const ev = stripe.webhooks.constructEvent(reqBody, reqSig, PRIVATE_WEBHOOK_SIGNING_KEY);
+			console.log(ev);
+			return ev;
+		} catch (error: any) {
+			console.error(error);
+		}
+	}
+};
 
 /**
  * Stripe cancel subscription
@@ -135,5 +154,6 @@ export const StripeService = {
 	getSession,
 	getSubscription,
 	subscribe,
-	getCustomer
+	getCustomer,
+	verify
 };
