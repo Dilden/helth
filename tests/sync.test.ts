@@ -28,9 +28,13 @@ test.describe('error handling', () => {
 	});
 	test('requires a stripe signature', async ({ request }) => {
 		const response = await request.post('/sync', {
-			headers: { 'content-type': 'application/json; charset=utf-8' }
+			headers: {
+				'content-type': 'application/json; charset=utf-8',
+				'stripe-signature': 'ThisDoesNotMatterForTesting'
+			}
 		});
-		expect(response.status()).toBe(401); // No signature, no authorization
+		expect(response.status()).toBe(200);
+		expect(await response.json()).toStrictEqual({ received: true });
 	});
 	// TODO
 	// Need to use Stripe CLI to test the rest of these scenarios

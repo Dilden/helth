@@ -15,7 +15,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		request.headers.get('stripe-signature') || ''
 	);
 
-	return json({ recieved: true });
+	return json({ received: true });
 	// return new Response();
 };
 

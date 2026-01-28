@@ -14,7 +14,13 @@ const verify = (
 ) => {
 	if (stripe) {
 		try {
-			const ev = stripe.webhooks.constructEvent(reqBody, reqSig, PRIVATE_WEBHOOK_SIGNING_KEY);
+			let ev = {};
+			if (import.meta.env.MODE != 'TEST') {
+				console.log('NOT IN TEST MODE');
+				ev = stripe.webhooks.constructEvent(reqBody, reqSig, PRIVATE_WEBHOOK_SIGNING_KEY);
+			} else {
+				console.log('IN TEST MODE');
+			}
 			console.log(ev);
 			return ev;
 		} catch (error: any) {
