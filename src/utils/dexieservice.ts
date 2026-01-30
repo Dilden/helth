@@ -33,7 +33,7 @@ export const getCloudUserById = async (id: string, token: string) => {
 	}
 };
 
-export const activateUser = async (User: CloudUser, token: string) => {
+export const updateUser = async (User: CloudUser, token: string) => {
 	return await fetch(PUBLIC_DB_URL + '/users', {
 		method: 'POST',
 		headers: {
