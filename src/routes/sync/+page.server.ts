@@ -2,7 +2,7 @@ import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
-import { getToken, activateUser } from '$utils/dexieservice';
+import { getToken, updateUser } from '$utils/dexieservice';
 import { toUtc } from '$utils/dates';
 
 export const prerender = false;
@@ -99,7 +99,7 @@ export const load: PageServerLoad = async ({ url }) => {
 		}
 
 		// activate account in Dexie Cloud with provided email
-		const res = await activateUser(
+		const res = await updateUser(
 			{
 				userId: email,
 				type: 'prod',
