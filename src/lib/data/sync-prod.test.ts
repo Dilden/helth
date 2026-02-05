@@ -60,5 +60,6 @@ describe('sign in form (logged in premium)', () => {
 		expect(screen.getByDisplayValue('4566789')).toBeInTheDocument();
 		expect(screen.getByText('Active 🥰')).toBeVisible();
 		expect(screen.getByRole('button', { name: 'Logout' })).toBeVisible();
+		expect(screen.queryByRole('button', { name: 'Subcribe' })).toBeNull();
 	});
 });
