@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { dragStart, dragOver, dragEnter, dragLeave } from './dnd';
 
 afterEach(() => {
-	vi.restoreAllMocks();
+	vi.clearAllMocks();
 });
 
 const dropZoneEvent = {
@@ -46,7 +46,7 @@ const fakeEvent = {
 		},
 		isSameNode: vi.fn(() => false)
 	},
-	preventDefault: vi.fn()
+	preventDefault: vi.fn(() => false)
 };
 
 const fakeEvent2 = {
