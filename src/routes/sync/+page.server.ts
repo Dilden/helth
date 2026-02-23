@@ -2,7 +2,7 @@ import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { StripeService } from '$utils/stripeservice';
-import { getToken, updateUser } from '$utils/dexieservice';
+import { getToken, updateUser, updateCloudSubscription } from '$utils/dexieservice';
 import { toUtc } from '$utils/dates';
 
 export const prerender = false;
@@ -112,6 +112,7 @@ export const load: PageServerLoad = async ({ url }) => {
 			accessToken
 		);
 
+
 		if (!res.ok) {
 			return {
 				...error,
@@ -119,6 +120,7 @@ export const load: PageServerLoad = async ({ url }) => {
 					'Something went wrong activating your account. Please contact support@helth.app for assistance.'
 			};
 		}
+
 		const subscriptionData: Subscription = {
 			subscriptionId: session.subscription,
 			customerId: session.customer,
@@ -128,9 +130,19 @@ export const load: PageServerLoad = async ({ url }) => {
 			renewalDate: renew
 		};
 
-		return { ...success, subscriptionData };
-	} else if (url.searchParams.has('cancelled')) {
-		// cancelling subscription
+		const res2 = await updateCloudSubscription(subscriptionData, accessToken, email);
+		if (!res2.ok) {
+			console.log(await res2.text())
+			return {
+				...error,
+				message:
+					'Something went wrong activating your account. Please contact support@helth.app for assistance.'
+			};
+		}
+
+
+		return { ...success };
+	} else if (url.searchParams.has('cancelled')) { // cancelling subscription
 		if (!url.searchParams.has('subscriptionId')) {
 			return { ...error, message: 'Invalid or missing subscriptionId.' };
 		}

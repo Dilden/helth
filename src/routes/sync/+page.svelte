@@ -11,9 +11,6 @@
 	let { subscriptionData, status, message } = { ...data };
 
 	onMount(async () => {
-		if (subscriptionData && subscriptionData != subscription.get()) {
-			await subscription.update(subscriptionData.subscriptionId, subscriptionData);
-		}
 		// force sync
 		if (status === 'success') {
 			await db.cloud.sync({ wait: true, purpose: 'pull' });
