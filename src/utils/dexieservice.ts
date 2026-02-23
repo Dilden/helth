@@ -43,3 +43,18 @@ export const updateUser = async (User: CloudUser, token: string) => {
 		body: JSON.stringify([User])
 	});
 };
+
+export const updateCloudSubscription = async (subscription: Subscription, token: string, realmId: string) => {
+	const data = {
+		...subscription,
+		realmId: realmId
+	}
+	return await fetch(PUBLIC_DB_URL + '/all/subscription', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token
+		},
+		body: JSON.stringify([data])
+	});
+}
