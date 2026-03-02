@@ -167,7 +167,7 @@ export const load: PageServerLoad = async ({ url }) => {
 			renewalDate: 0
 		};
 
-		return { ...cancelled, subscriptionData };
+		return { ...cancelled };
 	} else if (url.searchParams.has('error')) {
 		return { ...error };
 	}
@@ -178,7 +178,7 @@ export const load: PageServerLoad = async ({ url }) => {
 
 const success = {
 	status: 'success',
-	message: 'Payment successful!'
+	message: 'Payment successful! Page will reload briefly...'
 };
 const error = {
 	status: 'error',

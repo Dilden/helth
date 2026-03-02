@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import SyncForm from '$lib/data/SyncForm.svelte';
 	import { successToast, infoToast, errorToast } from '$utils/toast';
 	import { subscription } from '$stores/stores.svelte';
@@ -8,7 +9,7 @@
 	import Spinner from '$lib/Spinner.svelte';
 
 	let { data }: PageProps = $props();
-	let { subscriptionData, status, message } = { ...data };
+	let { status, message } = { ...data };
 
 	onMount(async () => {
 		// force sync
@@ -19,8 +20,10 @@
 
 	if (status === 'success') {
 		successToast(message);
+		setTimeout(() => goto('/sync'), 5000);
 	} else if (status === 'cancelled') {
 		infoToast(message);
+		setTimeout(() => goto('/sync'), 5000);
 	} else if (status === 'error') {
 		errorToast(message);
 	}
