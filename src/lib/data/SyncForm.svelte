@@ -13,6 +13,10 @@
 		}
 	});
 
+	$inspect(subscription.get()?.validUntilDate);
+	$inspect(subscription.get()?.renewalDate);
+	$inspect(subscription.get()?.status);
+
 	let user = db.cloud.currentUser;
 	let syncState = db.cloud.syncState;
 </script>
@@ -53,35 +57,40 @@
 					<div class="flex flex-row justify-between odd:bg-emerald-950">
 						<p>Status</p>
 						<p>
-							{#if $user.license.status === 'ok'}
+							{#if $user.license.status === 'ok' && subscription.get()?.status === 'prod'}
 								Active 🥰
 							{:else}
 								Subcription expired or deactivated 😢
 							{/if}
 						</p>
 					</div>
-					{#if subscription.get()?.validUntilDate && subscription.get()?.validUntilDate !== subscription.get()?.renewalDate}
-						<div class="flex flex-row justify-between odd:bg-emerald-950">
-							<p>Cloud Sync Until</p>
-							<p>
-								{utcToHuman(subscription.get()?.validUntilDate ?? 0)}
-							</p>
-						</div>
-					{/if}
-					{#if subscription.get()?.renewalDate}
-						<div class="flex flex-row justify-between odd:bg-emerald-950">
-							<p>Billing Renewal Date</p>
-							<p>{utcToHuman(subscription.get()?.renewalDate ?? 0)}</p>
-						</div>
-					{/if}
+					{#key subscription.get()?.validUntilDate}
+						{#if subscription.get()?.validUntilDate}
+							<div class="flex flex-row justify-between odd:bg-emerald-950">
+								<p>Cloud Sync Active Until</p>
+								<p>
+									{utcToHuman(subscription.get()?.validUntilDate ?? 0)}
+								</p>
+							</div>
+						{/if}
+					{/key}
+					{#key subscription.get()?.renewalDate}
+						{#if subscription.get()?.renewalDate && subscription.get()?.status != 'cancelled'}
+							<div class="flex flex-row justify-between odd:bg-emerald-950">
+								<p>Billing Renewal Date</p>
+								<p>{utcToHuman(subscription.get()?.renewalDate ?? 0)}</p>
+							</div>
+						{/if}
+					{/key}
 				</div>
 				<div class="mx-auto my-3 w-auto">
-					{#if subscription.get()?.subscriptionId && subscription.get()?.status !== 'cancelled'}
-						<!-- Cancel Form -->
-						<CancelForm subscriptionId={subscription.get()?.subscriptionId} />
-					{:else}
-						<SubscribeForm />
-					{/if}
+					{#key subscription.get()?.status}
+						{#if subscription.get()?.subscriptionId && subscription.get()?.status !== 'cancelled'}
+							<CancelForm subscriptionId={subscription.get()?.subscriptionId} />
+						{:else}
+							<SubscribeForm />
+						{/if}
+					{/key}
 				</div>
 			{/if}
 		</div>

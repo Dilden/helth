@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from '../sync/$types';
 import { StripeService } from '$utils/stripeservice';
 import { Stripe } from 'stripe';
-import { getToken, updateUser } from '$utils/dexieservice';
+import { getToken, updateUser, updateCloudSubscription, getCloudUserById, getCloudSubscription } from '$utils/dexieservice';
 
 export const POST: RequestHandler = async ({ request }) => {
 	if (request.headers.get('content-type') !== 'application/json; charset=utf-8') {
@@ -13,65 +13,61 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	// ensure request came from Stripe
+	// fail if it did not
 	const event = StripeService.verify(
 		await request.text(),
 		request.headers.get('stripe-signature') || ''
 	);
-
-	// fail if it did not
-	if (!event) {
+	if (!event || !(event.type ?? '')) {
 		return json({ received: false });
 	}
 
-	if (event.type !== ('customer.subscription.deleted' || 'invoice.payment_failed')) {
+	// we only care about events related to subscription change or deletion for now
+	if (
+		!['customer.subscription.deleted',
+			'customer.subscription.updated',
+		].includes(event.type)) {
 		console.log('ignore these events for now');
 		return json({ received: true });
 	}
+	console.log(event);
 
+	// get the customer
+	// fail if no customer is found for this subscription
+	if (event.data.object.object != 'subscription') {
+		console.log('wrong event type');
+		return json({ received: true });
+	}
+
+	const subscription = event.data.object;
 	let customer: Stripe.Customer | undefined = await StripeService.getCustomer(
 		event.data.object?.customer as string
 	);
-	let cloudAction: CloudUser = {
-		userId: '',
-		type: 'prod'
-	};
-
-	if (!customer) {
+	if (!customer || !customer?.email) {
 		console.log('customer not found');
 		return json({ received: false });
 	}
 
-	// set email
-	cloudAction.userId = customer.email || '';
+	const cloudAction: CloudUser = {
+		userId: customer.email,
+		type: 'prod',
+		evalDaysLeft: null,
+	};
 
-	// action to take in Cloud
-	switch (event?.type) {
-		// events to cancel Cloud Sync
-		case 'customer.subscription.deleted':
-			cloudAction.deactivated = true;
-			break;
-		// add Cloud Sync
-		// case 'customer.subscription.updated':
-		// case 'customer.subscription.resumed':
-		// 	customer = await StripeService.getCustomer(event.data.object?.customer as string);
-		// cloudUserEdit = {
-		// 	userId: customer?.email || '',
-		// 	type: 'prod',
-		// 	validUntil: new Date(event.data.object.plan[0]).toISOString(),
-		// 	data: {
-		// 		email: customer?.email || '',
-		// 		name: customer?.email || ''
-		// 	}
-		// }
-		// break;
-		// alert user to upcoming payment
-		// case 'invoice.upcoming':
-		// 	break;
-		// // send user link to invoice/customer portal?
-		// case 'invoice.created':
-		// 	break;
-		default:
-			break;
+
+	const subscriptionData: Subscription = {
+		subscriptionId: subscription.id,
+		customerId: customer.email,
+		email: customer.email
+	}
+
+	if (subscription.status == 'canceled' || (subscription.status == 'active' && subscription?.cancel_at_period_end === true)) {
+		// multiply Stripe's dates by 1000
+		// for more info see https://stackoverflow.com/questions/71443757/how-to-get-stripe-subscription-current-period-end-as-date 
+		cloudAction.validUntil = subscription.cancel_at ? new Date(subscription.cancel_at * 1000).toISOString() : null;
+		subscriptionData.status = 'cancelled';
+		subscriptionData.renewalDate = undefined;
+		subscriptionData.validUntilDate = subscription.cancel_at ? subscription.cancel_at * 1000 : null;
 	}
 
 	// get Dexie Cloud token
@@ -81,12 +77,19 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 	const { accessToken } = await token.json();
 
-	console.log(cloudAction);
+	// update user status
 	const res = await updateUser(cloudAction, accessToken);
-	console.log(res.status);
-
 	if (!res.ok) {
-		console.log('Something went wrong with updating the cloud record');
+		console.log(await res.text());
+		console.log('updateUser fail')
+		return json({ received: true });
+	}
+
+	// update subscription data for user as well
+	const res2 = await updateCloudSubscription(subscriptionData, accessToken, customer.email);
+	if (!res2.ok) {
+		console.log(await res2.text())
+		console.log('update subscription data fail')
 		return json({ received: true });
 	}
 

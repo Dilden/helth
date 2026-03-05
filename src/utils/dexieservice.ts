@@ -18,19 +18,13 @@ export const getToken = async () => {
 };
 
 export const getCloudUserById = async (id: string, token: string) => {
-	try {
-		return await fetch(PUBLIC_DB_URL + `/users/${id}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
-			}
-		});
-	} catch (e: any) {
-		if (e == typeof Error) {
-			console.log(e.message);
+	return await fetch(PUBLIC_DB_URL + `/users/${id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token
 		}
-	}
+	});
 };
 
 export const updateUser = async (User: CloudUser, token: string) => {
@@ -56,5 +50,15 @@ export const updateCloudSubscription = async (subscription: Subscription, token:
 			'Authorization': 'Bearer ' + token
 		},
 		body: JSON.stringify([data])
+	});
+}
+
+export const getCloudSubscription = async (userId: string, token: string) => {
+	return await fetch(PUBLIC_DB_URL + `/all/subscription?realmId=${userId}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token
+		}
 	});
 }
