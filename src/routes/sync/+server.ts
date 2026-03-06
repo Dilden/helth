@@ -2,7 +2,13 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from '../sync/$types';
 import { StripeService } from '$utils/stripeservice';
 import { Stripe } from 'stripe';
-import { getToken, updateUser, updateCloudSubscription, getCloudUserById, getCloudSubscription } from '$utils/dexieservice';
+import {
+	getToken,
+	updateUser,
+	updateCloudSubscription,
+	getCloudUserById,
+	getCloudSubscription
+} from '$utils/dexieservice';
 
 export const POST: RequestHandler = async ({ request }) => {
 	if (request.headers.get('content-type') !== 'application/json; charset=utf-8') {
@@ -23,10 +29,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	// we only care about events related to subscription change or deletion for now
-	if (
-		!['customer.subscription.deleted',
-			'customer.subscription.updated',
-		].includes(event.type)) {
+	if (!['customer.subscription.deleted', 'customer.subscription.updated'].includes(event.type)) {
 		console.log('ignore these events for now');
 		return json({ received: true });
 	}
@@ -51,20 +54,25 @@ export const POST: RequestHandler = async ({ request }) => {
 	const cloudAction: CloudUser = {
 		userId: customer.email,
 		type: 'prod',
-		evalDaysLeft: null,
+		evalDaysLeft: null
 	};
-
 
 	const subscriptionData: Subscription = {
 		subscriptionId: subscription.id,
 		customerId: customer.email,
 		email: customer.email
-	}
+	};
 
-	if (subscription.status == 'canceled' || (subscription.status == 'active' && subscription?.cancel_at_period_end === true)) {
+	// manually cancelled or expired
+	if (
+		subscription.status == 'canceled' ||
+		(subscription.status == 'active' && subscription?.cancel_at_period_end === true)
+	) {
 		// multiply Stripe's dates by 1000
-		// for more info see https://stackoverflow.com/questions/71443757/how-to-get-stripe-subscription-current-period-end-as-date 
-		cloudAction.validUntil = subscription.cancel_at ? new Date(subscription.cancel_at * 1000).toISOString() : null;
+		// for more info see https://stackoverflow.com/questions/71443757/how-to-get-stripe-subscription-current-period-end-as-date
+		cloudAction.validUntil = subscription.cancel_at
+			? new Date(subscription.cancel_at * 1000).toISOString()
+			: null;
 		subscriptionData.status = 'cancelled';
 		subscriptionData.renewalDate = undefined;
 		subscriptionData.validUntilDate = subscription.cancel_at ? subscription.cancel_at * 1000 : null;
@@ -77,19 +85,39 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 	const { accessToken } = await token.json();
 
-	// update user status
+	// special precautions to take when deleting a sub
+	if (event.type == 'customer.subscription.deleted') {
+		// get existing user license
+		const res0 = await getCloudUserById(customer.email, accessToken);
+		if (!res0.ok) {
+			return json({ received: true });
+		}
+		const existingUser = (await res0.json()) as CloudUser;
+		console.log(existingUser);
+		cloudAction.validUntil = existingUser.validUntil ?? cloudAction.validUntil;
+		subscriptionData.validUntilDate = new Date(cloudAction.validUntil as string).getTime();
+
+		// const resX = await getCloudSubscription(customer.email, accessToken);
+		// if (!res0.ok) {
+		// 	return json({ received: true });
+		// }
+		// const existingSub = (await resX.json()) as Subscription;
+		// subscriptionData.validUntilDate = existingSub.validUntilDate ?? subscriptionData.validUntilDate;
+	}
+
+	// update user license
 	const res = await updateUser(cloudAction, accessToken);
 	if (!res.ok) {
 		console.log(await res.text());
-		console.log('updateUser fail')
+		console.log('updateUser fail');
 		return json({ received: true });
 	}
 
 	// update subscription data for user as well
 	const res2 = await updateCloudSubscription(subscriptionData, accessToken, customer.email);
 	if (!res2.ok) {
-		console.log(await res2.text())
-		console.log('update subscription data fail')
+		console.log(await res2.text());
+		console.log('update subscription data fail');
 		return json({ received: true });
 	}
 
