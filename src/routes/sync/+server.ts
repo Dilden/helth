@@ -43,6 +43,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	const subscription = event.data.object;
+	console.log(subscription);
 	let customer: Stripe.Customer | undefined = await StripeService.getCustomer(
 		event.data.object?.customer as string
 	);
@@ -63,11 +64,11 @@ export const POST: RequestHandler = async ({ request }) => {
 		email: customer.email
 	};
 
-	// manually cancelled or expired
 	if (
-		subscription.status == 'canceled' ||
-		(subscription.status == 'active' && subscription?.cancel_at_period_end === true)
+		subscription.status === 'canceled' ||
+		(subscription.status === 'active' && subscription?.cancel_at_period_end === true)
 	) {
+		// manually cancelled or expired
 		// multiply Stripe's dates by 1000
 		// for more info see https://stackoverflow.com/questions/71443757/how-to-get-stripe-subscription-current-period-end-as-date
 		cloudAction.validUntil = subscription.cancel_at
@@ -76,6 +77,14 @@ export const POST: RequestHandler = async ({ request }) => {
 		subscriptionData.status = 'cancelled';
 		subscriptionData.renewalDate = undefined;
 		subscriptionData.validUntilDate = subscription.cancel_at ? subscription.cancel_at * 1000 : null;
+	} else if (subscription.status === 'active' && subscription.cancel_at_period_end === false) {
+		// renew the subscription
+		const subData = subscription.items.data[0];
+		const nextRenew = subData.current_period_end * 1000;
+		cloudAction.validUntil = new Date(nextRenew).toISOString();
+		subscriptionData.status = 'prod';
+		subscriptionData.renewalDate = nextRenew;
+		subscriptionData.validUntilDate = nextRenew;
 	}
 
 	// get Dexie Cloud token
@@ -96,13 +105,6 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.log(existingUser);
 		cloudAction.validUntil = existingUser.validUntil ?? cloudAction.validUntil;
 		subscriptionData.validUntilDate = new Date(cloudAction.validUntil as string).getTime();
-
-		// const resX = await getCloudSubscription(customer.email, accessToken);
-		// if (!res0.ok) {
-		// 	return json({ received: true });
-		// }
-		// const existingSub = (await resX.json()) as Subscription;
-		// subscriptionData.validUntilDate = existingSub.validUntilDate ?? subscriptionData.validUntilDate;
 	}
 
 	// update user license
