@@ -129,11 +129,25 @@
 	<details>
 		<summary>I don't want to lose my data! What do I do?</summary>
 		<p>
-			In the future, helth.app will offer a subscription sync service for a monthly fee. Purchasing
-			this subscription will ensure your data can be easily retrieved, even if you lose your device
-			while having the added benefit of supporting development of the project. In the meantime, go
-			to the <a href="/data">settings page</a> and be sure to export your data regularly. To restore
-			your data, you can simply use the import button and select your previously exported data.
+			If losing your device and data is a concern, consider purchasing a subscription to helth.app.
+			Not only does your money contribute to making the app better, but your data will be stored in
+			a cloud service provider. That way, if you lose your device or completely wipe your data,
+			you'll be able to sync it from another device and recover your data. Neat, huh? If that's too
+			much for you, consider exporting your data regularly. Your data will be downloaded from your
+			device in an easy-to-read (for computers) file that can then be imported into helth.app on
+			another device. Export or import your data in the <a href="/data">settings page</a>.
+		</p>
+	</details>
+	<details>
+		<summary>Who has acccess to my cloud data?</summary>
+		<p>
+			We, the development team at helth.app do you have access to any data you have synced with the
+			cloud service. Likewise, our cloud service provider <a href="https://dexie.org/cloud/"
+				>Dexie Cloud</a
+			> also has access to your data. Currently, data is not encrypted as that would make development
+			hard. We're aware that storing your data in some weird cloud service where the devs can see everything
+			you log is not ideal. If that's the case, we'd suggest avoiding using the cloud sync service for
+			now.
 		</p>
 	</details>
 

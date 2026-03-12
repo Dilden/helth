@@ -24,7 +24,7 @@ interface NameValStore<T> extends Store<T> {
 
 interface TodayStore<JournalEntry> extends Store<JournalEntry> {
 	get(): JournalEntry;
-	setDate(date: number): Promise<void>;
+	setDate(date: string): Promise<void>;
 	update(val: JournalEntry);
 	remove(): void;
 }
@@ -37,16 +37,19 @@ interface HistoryStore extends Store<JournalEntry> {
 }
 
 interface Goal {
+	id?: string;
 	name: string;
 	value: number;
 }
 
 interface Limit {
+	id?: string;
 	name: string;
 	value: number;
 }
 
 interface Setting {
+	id?: string;
 	name: string;
 	value: {
 		interval: number;
@@ -62,6 +65,12 @@ interface NameValueStore {
 }
 
 interface JournalEntry {
-	date: number;
-	[key: string]: number;
+	// id?: string;
+	// date: number;
+	date: number | string;
+	[key: string]: number | string;
+}
+
+interface SubscriptionStore extends Store<Subscription> {
+	get(): Subscription;
 }

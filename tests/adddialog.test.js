@@ -1,6 +1,29 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('add items dialog', () => {
+	let page;
+	test.beforeAll(async ({ browser }) => {
+		page = await browser.newPage();
+		await page.goto('/');
+
+		// persistent storage prompt
+		if (
+			await page
+				.locator('li')
+				.filter({ hasText: "Don't lose your data! Make storage persistent now? Yes No" })
+				.isVisible()
+		) {
+			await page
+				.locator('li')
+				.filter({ hasText: "Don't lose your data! Make storage persistent now? Yes No" })
+				.getByTitle('Yes')
+				.click();
+		}
+		// offline ready prompt
+		if (await page.locator('.pwa-toast').isVisible()) {
+			await page.locator('.pwa-toast').getByRole('button', { name: 'Close' }).click();
+		}
+	});
 	test.describe('inventory', () => {
 		test.beforeEach(async ({ page }) => {
 			await page.goto('/');

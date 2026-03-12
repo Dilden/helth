@@ -1,0 +1,25 @@
+{{!--
+    HTML template for One-Time-Password email
+    =========================================
+
+    Available params:
+
+      {{originName}}: The name of the origin (e.g. "myapp.company.com")
+
+      {{otp}}: The OTP code
+
+      {{otpId}}: The OTP ID. Can be used to generate magic links to your app. App can use db.cloud.login({email, otpId, otp}), reading these params from query.
+
+      {{isApp}}: True if the OTP is to be entered in an app, false if it's to be entered on a web site.
+
+      {{email}}: The email address of the receiving user.
+
+--}}
+Your OTP for {{originName}}: <strong>{{otp}}</strong><br /><br />
+<b><u>WARNING</u></b><br/>
+{{#if isApp}}
+  This OTP must only be entered on <b><u>{{originName}}</u></b> and never on a web site.
+{{else}}
+  This OTP must only be entered on <b><u>{{originName}}</u></b> and never on any other site. Check the address bar before entering it.
+{{/if}}
+<br /><br />

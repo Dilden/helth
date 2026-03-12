@@ -153,4 +153,69 @@ export function migrate(db: Dexie): void {
 					delete record.uid;
 				});
 		});
+	db.version(10)
+		.stores({
+			settings: 'name',
+			goals: 'name',
+			limits: 'name',
+			journal: null,
+			journalTemp: 'date'
+		})
+		.upgrade(async (tx) => {
+			await tx
+				.table('settings')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.name = '#' + record.name;
+					return newRec;
+				});
+			await tx
+				.table('limits')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.name = '#' + record.name;
+					return newRec;
+				});
+			await tx
+				.table('goals')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.name = '#' + record.name;
+					return newRec;
+				});
+
+			const j = await tx.table('journal').toArray();
+
+			await tx.table('journalTemp').bulkAdd(j);
+		});
+	db.version(11)
+		.stores({
+			journal: 'date',
+			journalTemp: null
+		})
+		.upgrade(async (tx) => {
+			const j = await tx.table('journalTemp').toArray();
+
+			await tx.table('journal').bulkAdd(j);
+		});
+	db.version(13)
+		.stores({
+			journal: 'date'
+		})
+		.upgrade(async (tx) => {
+			await tx
+				.table('journal')
+				.toCollection()
+				.modify((record) => {
+					const newRec = { ...record };
+					newRec.date = '#' + record.date;
+					return newRec;
+				});
+		});
+	db.version(14).stores({
+		subscription: 'subscriptionId'
+	});
 }

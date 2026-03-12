@@ -1,7 +1,7 @@
 <script>
 	import { db, addDefaults } from '$stores/db';
-	import { initStores } from '$stores/stores';
-	import { importDB, peakImportFile } from 'dexie-export-import';
+	import { initStores } from '$stores/stores.svelte';
+	import { importInto, peakImportFile } from 'dexie-export-import';
 	import { errorToast, confirmDialog } from '$utils/toast.js';
 
 	let progress = $state(0);
@@ -26,13 +26,52 @@
 				() => errorToast('Import cancelled')
 			);
 		} catch (err) {
-			console.log('Contant developer with the following error: ' + { err });
+			console.log('Contact developer with the following error: ' + { err });
 		}
 	};
 
 	const proceed = async (file) => {
-		await db.delete();
-		await importDB(file, { progressCallback: updateProgress });
+		// await db.delete();
+		await importInto(db, file, {
+			progressCallback: updateProgress,
+			acceptChangedPrimaryKey: true,
+			acceptNameDiff: true,
+			acceptVersionDiff: true,
+			overwriteValues: true,
+			clearTablesBeforeImport: true,
+			transform: (table, value, key) => {
+				let val = {};
+				let key1 = key ? key : '';
+
+				switch (table) {
+					case 'journal':
+						const { id, ...rest } = { ...value };
+						val = { ...rest };
+						if (!val.date.toString().startsWith('#')) {
+							val.date = '#' + val.date.toString();
+						}
+						key1 = 'date';
+						break;
+					case 'settings':
+					case 'goals':
+					case 'limits':
+						val = { ...value };
+						if (val.value === null) {
+							val.value = 0;
+						}
+						if (!val.name.toString().startsWith('#')) {
+							val.name = '#' + val.name;
+						}
+						key1 = 'name';
+						break;
+					default:
+						val = value;
+						key1 = 'id';
+						break;
+				}
+				return { value: val, key: key1 };
+			}
+		}).catch((err) => console.error(err.message));
 		await db.open().then(() => addDefaults());
 		await initStores();
 	};
