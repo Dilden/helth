@@ -64,24 +64,20 @@
 							{/if}
 						</p>
 					</div>
-					{#key subscription.get()?.validUntilDate}
-						{#if subscription.get()?.validUntilDate}
-							<div class="flex flex-row justify-between odd:bg-emerald-950">
-								<p>Cloud Sync Active Until</p>
-								<p>
-									{utcToHuman(subscription.get()?.validUntilDate ?? 0)}
-								</p>
-							</div>
-						{/if}
-					{/key}
-					{#key subscription.get()?.renewalDate}
-						{#if subscription.get()?.renewalDate && subscription.get()?.status != 'cancelled'}
-							<div class="flex flex-row justify-between odd:bg-emerald-950">
-								<p>Billing Renewal Date</p>
-								<p>{utcToHuman(subscription.get()?.renewalDate ?? 0)}</p>
-							</div>
-						{/if}
-					{/key}
+					{#if subscription.get()?.validUntilDate}
+						<div class="flex flex-row justify-between odd:bg-emerald-950">
+							<p>Cloud Sync Active Until</p>
+							<p>
+								{utcToHuman(subscription.get()?.validUntilDate ?? 0)}
+							</p>
+						</div>
+					{/if}
+					{#if subscription.get()?.renewalDate && subscription.get()?.status != 'cancelled'}
+						<div class="flex flex-row justify-between odd:bg-emerald-950">
+							<p>Billing Renewal Date</p>
+							<p>{utcToHuman(subscription.get()?.renewalDate ?? 0)}</p>
+						</div>
+					{/if}
 				</div>
 				<div class="mx-auto my-3 w-auto">
 					{#key subscription.get()?.status}

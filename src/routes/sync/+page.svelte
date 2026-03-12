@@ -17,6 +17,7 @@
 			await db.cloud.sync({ wait: true, purpose: 'pull' });
 		}
 	});
+	let user = db.cloud.currentUser;
 
 	if (status === 'success') {
 		successToast(message);
@@ -33,6 +34,8 @@
 	{#await subscription.init()}
 		<Spinner />
 	{:then}
-		<SyncForm />
+		{#key $user?.license?.type || $user?.license?.status || subscription.get()?.status}
+			<SyncForm />
+		{/key}
 	{/await}
 </div>
