@@ -30,20 +30,17 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	// we only care about events related to subscription change or deletion for now
 	if (!['customer.subscription.deleted', 'customer.subscription.updated'].includes(event.type)) {
-		console.log('ignore these events for now');
+		console.log('unrelated event: ' + event.type);
 		return json({ received: true });
 	}
-	console.log(event);
 
 	// get the customer
 	// fail if no customer is found for this subscription
 	if (event.data.object.object != 'subscription') {
-		console.log('wrong event type');
 		return json({ received: true });
 	}
 
 	const subscription = event.data.object;
-	console.log(subscription);
 	let customer: Stripe.Customer | undefined = await StripeService.getCustomer(
 		event.data.object?.customer as string
 	);
@@ -102,7 +99,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json({ received: true });
 		}
 		const existingUser = (await res0.json()) as CloudUser;
-		console.log(existingUser);
 		cloudAction.validUntil = existingUser.validUntil ?? cloudAction.validUntil;
 		subscriptionData.validUntilDate = new Date(cloudAction.validUntil as string).getTime();
 	}
@@ -110,8 +106,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	// update user license
 	const res = await updateUser(cloudAction, accessToken);
 	if (!res.ok) {
-		console.log(await res.text());
-		console.log('updateUser fail');
+		console.log('updating user failed');
 		return json({ received: true });
 	}
 
@@ -119,11 +114,10 @@ export const POST: RequestHandler = async ({ request }) => {
 	const res2 = await updateCloudSubscription(subscriptionData, accessToken, customer.email);
 	if (!res2.ok) {
 		console.log(await res2.text());
-		console.log('update subscription data fail');
+		console.log('updating user subscription failed');
 		return json({ received: true });
 	}
 
-	console.log('Dexie cloud record updated!');
 	return json({ received: true });
 };
 
