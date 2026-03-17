@@ -33,13 +33,16 @@
 	{#if $user.userId != 'unauthorized'}
 		<div class="flex flex-col">
 			<h3 class="text-xl">Account</h3>
-			<div class="flex flex-row justify-between">
+			<div class="flex flex-col justify-between md:flex-row">
 				<p>Logged in as: {$user.name ? $user.name : $user.email}</p>
-				<button onclick={async () => db.table('$logins').clear()}>Logout</button>
+				<button
+					class="mx-auto w-[80%] text-center md:w-full"
+					onclick={async () => db.table('$logins').clear()}>Logout</button
+				>
 			</div>
 			{#if $user.license?.type === 'eval'}
 				<h3 class="text-xl">Subscription</h3>
-				<div class="flex flex-row items-center justify-between">
+				<div class="flex flex-col items-center justify-between md:flex-row">
 					{#if $user.license.evalDaysLeft && $user.license?.evalDaysLeft > 0}
 						<p class="bg-emerald-950 p-2">
 							Trial has {$user.license.evalDaysLeft} days remaining
