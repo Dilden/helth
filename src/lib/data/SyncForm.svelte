@@ -36,7 +36,7 @@
 			<div class="flex flex-col justify-between md:flex-row">
 				<p>Logged in as: {$user.name ? $user.name : $user.email}</p>
 				<button
-					class="mx-auto w-[80%] text-center md:w-full"
+					class="mx-auto w-[80%] md:mx-0 md:w-auto"
 					onclick={async () => db.table('$logins').clear()}>Logout</button
 				>
 			</div>
