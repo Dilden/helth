@@ -37,6 +37,7 @@
     "eslint-plugin-svelte": "^3.5.0",
     "fake-indexeddb": "^6.0.0",
     "jsdom": "^26.0.0",
+    "picomatch": "^4.0.3",
     "postcss": "^8.4.32",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.6",
@@ -64,5 +65,8 @@
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect"
     ]
+  },
+  "overrides": {
+    "picomatch": "^4.0.3"
   }
 }
