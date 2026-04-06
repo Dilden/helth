@@ -1,3 +1,6 @@
+<script lang="typescript">
+	import {PUBLIC_MONTHLY_PROD_ID, PUBLIC_ANNUAL_PROD_ID } from '$env/static/public';
+</script>
 <!-- Subscribe Form -->
 <form method="POST" action="?/subscribe" class="flex flex-col gap-4">
 	<fieldset class="flex w-auto flex-row justify-center gap-4">
@@ -9,7 +12,7 @@
 				id="monthly"
 				name="subscription"
 				required
-				value="price_1RjPaSFMCuO7ieQRwVIt9aWt"
+				value={PUBLIC_MONTHLY_PROD_ID}
 				class="h-4 w-full border-none"
 			/>
 		</div>
@@ -21,7 +24,7 @@
 				checked
 				name="subscription"
 				required
-				value="price_1RjPaSFMCuO7ieQRf3E5RX02"
+				value={PUBLIC_ANNUAL_PROD_ID}
 				class="h-4 w-full border-none"
 			/>
 		</div>
