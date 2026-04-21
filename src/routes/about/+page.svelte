@@ -13,7 +13,7 @@
 	<h2>FAQ</h2>
 	<h3>the app</h3>
 	<details>
-		<summary>What is helth app?</summary>
+		<summary>What is "helth app"?</summary>
 		<p>
 			helth.app is a <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
 				>Progressive Web App</a
@@ -135,7 +135,7 @@
 			you'll be able to sync it from another device and recover your data. Neat, huh? If that's too
 			much for you, consider exporting your data regularly. Your data will be downloaded from your
 			device in an easy-to-read (for computers) file that can then be imported into helth.app on
-			another device. Export or import your data in the <a href="/data">settings page</a>.
+			another device. Export/import your data at the <a href="/data">settings page</a>.
 		</p>
 	</details>
 	<details>
@@ -149,6 +149,7 @@
 			you log is not ideal. If that's the case, we'd suggest avoiding using the cloud sync service for
 			now.
 		</p>
+		<p>If you aren't using the cloud sync feature, then you and you alone have access to your data!</p>
 	</details>
 
 	<h3>misc</h3>
@@ -243,6 +244,17 @@
 	</details>
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
+	<details>
+		<summary>v1.0.0</summary>
+		<ul>
+			<li>Cloud Sync! Never lose your helth.app data again!</li>
+			<li>helth.app cloud sync cost $1 per month or $10 per year.</li>
+			<li>Cloud Sync is supported for paid subscriptions via <a href="https://dexie.org/cloud" target="_blank">Dexie Cloud</a>!</li>
+			<li>Support the development of helth.app </li>
+			<li>You probably spend more on coffee in a week than what a whole year of helth.app premium cost</li>
+			<li>For an actual changelog, you're going to have to view the <a href="https://github.com/Dilden/helth/pull/242" target="_blank">PR on GitHub</a> b/c so many things changed.</li>
+		</ul>
+	</details>
 	<details>
 		<summary>v0.4.1</summary>
 		<ul>
