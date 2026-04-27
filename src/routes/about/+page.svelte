@@ -245,13 +245,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
-		<summary>v1.0.0</summary>
-		<ul>
-			<li>Cloud Sync! Never lose your helth.app data again!</li>
-			<li>helth.app cloud sync cost $1 per month or $10 per year.</li>
-			<li>Cloud Sync is supported for paid subscriptions via <a href="https://dexie.org/cloud" target="_blank">Dexie Cloud</a>!</li>
-			<li>Support the development of helth.app </li>
-			<li>You probably spend more on coffee in a week than what a whole year of helth.app premium cost</li>
+		<summary>v1.0.0!</summary>
+		<ul class="list-disc">
+			<li>Introducing Cloud Sync! Never lose your helth.app data again!</li>
+			<li>Only cost $1 per month or $10 per year</li>
+			<li>Your subscription supports the development of helth.app</li>
+			<li>Cloud Sync is powered by <a href="https://dexie.org/cloud" target="_blank">Dexie Cloud</a></li>
 			<li>For an actual changelog, you're going to have to view the <a href="https://github.com/Dilden/helth/pull/242" target="_blank">PR on GitHub</a> b/c so many things changed.</li>
 		</ul>
 	</details>
@@ -332,46 +331,6 @@
 				0.
 			</li>
 			<li>Added button to cancel or go to today's date under date picker.</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.3</summary>
-		<ul>
-			<li>
-				Fixed an issue where nutrient counters were unmovable as they were all given the same
-				position. Only affected existing databases.
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.2</summary>
-		<ul>
-			<li>Move nutrients around in stack by clicking/tapping Move Up or Move Down</li>
-			<li>
-				All options for a nutrient can now be set on the <a href="/settings">settings</a> page.
-			</li>
-			<li>Charts appear in same order as nutrient/counters are shown on home page</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.1</summary>
-		<ul>
-			<li>Added caffeine to possible nutrients!</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.0</summary>
-		<ul>
-			<li>More nutrients! Counter trackers are now generated for every nutrient.</li>
-			<li>Hide any nutrient from the counter options menu (the '...' on each counter)</li>
-			<li>Nutrients can be reenabled on the <a href="/settings">/settings</a> page.</li>
-			<li>Set a goal & limit on each nutrient in your settings!</li>
-			<li>
-				Hiding a nutrient hides it in Inventory item entry form. The values are still saved from
-				scanned items.
-			</li>
-			<li>A lot of work went into revamping the structure of IndexedDB.</li>
-			<li>Not that you care but I also fixed some issues with flaky and brittle tests.</li>
 		</ul>
 	</details>
 	<details>
