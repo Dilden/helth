@@ -130,7 +130,7 @@ test.describe('add items dialog', () => {
 
 				await page.getByRole('button', { name: 'Yes' }).click();
 
-				await expect(page.getByText('New Sample Item')).not.toBeVisible();
+				await expect(page.getByText('This item represents a sample item')).not.toBeVisible();
 			});
 		});
 	});
