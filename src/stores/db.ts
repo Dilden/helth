@@ -21,12 +21,9 @@ migrate(db);
 
 db.on('populate', async () => {
 	db.on('ready', async () => {
-		await initStores().then(
-			async () =>
-				await addDefaults()
-					.then(() => console.log('adding defaults'))
-					.catch(() => console.log('error adding defaults'))
-		);
+		await addDefaults()
+			.then(() => console.log('adding defaults'))
+			.catch(() => console.log('error adding defaults'));
 	});
 });
 

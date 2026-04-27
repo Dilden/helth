@@ -11,7 +11,8 @@ afterAll(() => {
 vi.mock('$stores/stores.svelte', () => {
 	return {
 		subscription: {
-			init: vi.fn(async () => Promise.resolve())
+			init: vi.fn(async () => Promise.resolve()),
+			get: vi.fn(async () => Promise.resolve({ status: true }))
 		},
 		initStores: vi.fn(async () => Promise.resolve())
 	};
