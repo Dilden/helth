@@ -5,7 +5,6 @@ import { migrate } from './dbmigrations';
 import { dexieCloud } from 'dexie-cloud-addon';
 import { PUBLIC_DB_URL } from '$env/static/public';
 import { cloudMigrate } from '$stores/cloudmigrate';
-import { initStores } from '$stores/stores.svelte';
 
 export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	inventory: EntityTable<InventoryItem, 'id'>;
