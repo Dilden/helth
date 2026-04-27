@@ -113,7 +113,8 @@ const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | und
 				],
 				mode: 'subscription',
 				success_url: `${PUBLIC_DOMAIN}/sync?success=true&session_id={CHECKOUT_SESSION_ID}`,
-				cancel_url: `${PUBLIC_DOMAIN}/sync?cancel=true`
+				cancel_url: `${PUBLIC_DOMAIN}/sync?cancel=true`,
+				allow_promotion_codes: true
 			});
 
 			return sesh;
