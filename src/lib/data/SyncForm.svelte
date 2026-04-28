@@ -21,8 +21,8 @@
 	let syncState = db.cloud.syncState;
 </script>
 
-<div class="flex flex-col gap-2 p-7">
-	<h2>Cloud Sync</h2>
+<div class="flex flex-col gap-2 p-4 md:p-7">
+	<h2 class="text-center md:text-left">Cloud Sync</h2>
 	{#if $syncState?.error}
 		<p>
 			An error syncing your data has been encountered. Please contact <a
@@ -31,16 +31,19 @@
 		</p>
 	{/if}
 	{#if $user.userId != 'unauthorized'}
-		<div class="flex flex-col">
-			<h3 class="text-xl">Account</h3>
-			<div class="flex flex-col justify-between md:flex-row">
-				<p>Logged in as: {$user.name ? $user.name : $user.email}</p>
-				<button
-					class="mx-auto w-[80%] md:mx-0 md:w-auto"
-					onclick={async () => db.table('$logins').clear()}>Logout</button
-				>
+		<div class="flex flex-col gap-y-5 md:gap-y-0">
+			<div>
+				<h3 class="text-xl">Account</h3>
+				<div class="flex flex-col justify-between md:flex-row">
+					<p>Logged in as: {$user.name ? $user.name : $user.email}</p>
+					<button
+						class="mx-auto w-[80%] md:mx-0 md:w-auto"
+						onclick={async () => db.table('$logins').clear()}>Logout</button
+					>
+				</div>
 			</div>
 			{#if $user.license?.type === 'eval'}
+				<!-- Trial -->
 				<h3 class="text-xl">Subscription</h3>
 				<div class="flex flex-col items-center justify-between md:flex-row">
 					{#if $user.license.evalDaysLeft && $user.license?.evalDaysLeft > 0}
@@ -55,6 +58,7 @@
 					<SubscribeForm />
 				</div>
 			{:else if $user.license?.type === 'prod'}
+				<!-- Existing Acct -->
 				<div class="flex flex-col gap-2">
 					<h3 class="text-xl">Subscription</h3>
 					<div class="flex flex-row justify-between odd:bg-emerald-950">

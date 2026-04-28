@@ -245,7 +245,7 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
-		<summary>v1.0.0!</summary>
+		<summary>v1.0.0</summary>
 		<ul class="list-disc">
 			<li>Introducing Cloud Sync! Never lose your helth.app data again!</li>
 			<li>Only cost $1 per month or $10 per year</li>
