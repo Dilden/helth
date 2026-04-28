@@ -72,7 +72,7 @@
     position: fixed;
   }
 
-  body > div {
+  body > div:first-of-type {
     height: 100%;
   }
 

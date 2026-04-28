@@ -10,4 +10,10 @@ node_modules
 yarn-error.log
 vite.config.js.timestamp*.mjs
 /test-results
-dexie*
+dexie-cloud*
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

@@ -54,11 +54,12 @@ function createNameValueStore(tableName: string): NameValStore<Goal | Limit | Se
 		data = await dbfun.getItems(tableName);
 	}
 	async function add(item: Goal | Limit | Setting) {
-		await dbfun.addItem(tableName, item.name, item.value);
+		await dbfun.addItem(tableName, item.name, item.value).catch((err) => console.log(err));
 		await init();
 	}
 	async function update(key: string, item: Goal | Limit | Setting) {
-		await dbfun.updateItem(tableName, key, item);
+		let value = await dbfun.findByName(key, tableName);
+		await dbfun.updateItem(tableName, value.name, { ...value, ...item, name: value.name });
 		await init();
 	}
 	async function remove(key: string) {
@@ -120,27 +121,30 @@ export const recipeSearchResults = () => recS;
 
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
-	let workingDate = $state(new Date().setHours(0, 0, 0, 0));
+	let workingDate: string = $state(new Date().setHours(0, 0, 0, 0).toString());
 	let workingDay: JournalEntry = $state({ date: new Date().setHours(0, 0, 0, 0) });
 
 	function get() {
-		return workingDay;
+		return { ...workingDay, date: Number(workingDay.date) };
 	}
 	async function init() {
 		workingDay = await dbfun.getDay(workingDate).then(async (day) => {
 			if (day) {
-				return day;
+				return { ...day, date: day.date.toString().substring(1) };
 			} else {
-				await dbfun.addDay({ ...dbfun.defaultDay, date: workingDate });
+				// const { id, ...rest } = { ...dbfun.defaultDay, date: workingDate };
+				await dbfun
+					.addDay({ ...dbfun.defaultDay, date: workingDate })
+					.catch((error) => console.log(error.message));
 				return { ...dbfun.defaultDay, date: workingDate };
 			}
 		});
 	}
 	async function update(newVal: JournalEntry) {
-		await dbfun.updateDay(newVal.date, $state.snapshot(newVal));
+		await dbfun.updateDay(newVal.date.toString(), { ...$state.snapshot(newVal) });
 		await init();
 	}
-	async function setDate(date: number) {
+	async function setDate(date: string) {
 		workingDate = date;
 		await init();
 	}
@@ -178,3 +182,47 @@ function createHistoryStore(): HistoryStore {
 	return { init, add, update, remove, get };
 }
 export const history = createHistoryStore();
+
+function createSubscriptionStore(): SubscriptionStore {
+	let sub: Subscription = $state({
+		subscriptionId: '',
+		email: '',
+		customerId: ''
+	});
+
+	function get() {
+		return sub;
+	}
+
+	async function init() {
+		sub = await dbfun.getSubscription();
+	}
+	async function add() {
+		// 	await dbfun.saveSubscription(item);
+		// 	await init();
+	}
+	async function update(id: string, item: Subscription) {
+		await dbfun.saveSubscription({ ...item, subscriptionId: id });
+		await init();
+	}
+	async function remove(id: string) {
+		await dbfun.removeSubscription(id);
+		await init();
+	}
+
+	return { init, add, update, remove, get };
+}
+export const subscription = createSubscriptionStore();
+
+export const initStores = async () => {
+	return await Promise.all([
+		today.init(),
+		history.init(),
+		settings.init(),
+		goals.init(),
+		limits.init(),
+		inventory.init(),
+		recipes.init(),
+		subscription.init()
+	]);
+};

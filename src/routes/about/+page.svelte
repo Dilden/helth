@@ -13,7 +13,7 @@
 	<h2>FAQ</h2>
 	<h3>the app</h3>
 	<details>
-		<summary>What is helth app?</summary>
+		<summary>What is "helth app"?</summary>
 		<p>
 			helth.app is a <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
 				>Progressive Web App</a
@@ -129,12 +129,27 @@
 	<details>
 		<summary>I don't want to lose my data! What do I do?</summary>
 		<p>
-			In the future, helth.app will offer a subscription sync service for a monthly fee. Purchasing
-			this subscription will ensure your data can be easily retrieved, even if you lose your device
-			while having the added benefit of supporting development of the project. In the meantime, go
-			to the <a href="/data">settings page</a> and be sure to export your data regularly. To restore
-			your data, you can simply use the import button and select your previously exported data.
+			If losing your device and data is a concern, consider purchasing a subscription to helth.app.
+			Not only does your money contribute to making the app better, but your data will be stored in
+			a cloud service provider. That way, if you lose your device or completely wipe your data,
+			you'll be able to sync it from another device and recover your data. Neat, huh? If that's too
+			much for you, consider exporting your data regularly. Your data will be downloaded from your
+			device in an easy-to-read (for computers) file that can then be imported into helth.app on
+			another device. Export/import your data at the <a href="/data">settings page</a>.
 		</p>
+	</details>
+	<details>
+		<summary>Who has acccess to my cloud data?</summary>
+		<p>
+			We, the development team at helth.app do you have access to any data you have synced with the
+			cloud service. Likewise, our cloud service provider <a href="https://dexie.org/cloud/"
+				>Dexie Cloud</a
+			> also has access to your data. Currently, data is not encrypted as that would make development
+			hard. We're aware that storing your data in some weird cloud service where the devs can see everything
+			you log is not ideal. If that's the case, we'd suggest avoiding using the cloud sync service for
+			now.
+		</p>
+		<p>If you aren't using the cloud sync feature, then you and you alone have access to your data!</p>
 	</details>
 
 	<h3>misc</h3>
@@ -230,6 +245,16 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.0</summary>
+		<ul class="list-disc">
+			<li>Introducing Cloud Sync! Never lose your helth.app data again!</li>
+			<li>Only cost $1 per month or $10 per year</li>
+			<li>Your subscription supports the development of helth.app</li>
+			<li>Cloud Sync is powered by <a href="https://dexie.org/cloud" target="_blank">Dexie Cloud</a></li>
+			<li>For an actual changelog, you're going to have to view the <a href="https://github.com/Dilden/helth/pull/242" target="_blank">PR on GitHub</a> b/c so many things changed.</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v0.4.1</summary>
 		<ul>
 			<li>Added custom headers based for Cloudflare</li>
@@ -306,46 +331,6 @@
 				0.
 			</li>
 			<li>Added button to cancel or go to today's date under date picker.</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.3</summary>
-		<ul>
-			<li>
-				Fixed an issue where nutrient counters were unmovable as they were all given the same
-				position. Only affected existing databases.
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.2</summary>
-		<ul>
-			<li>Move nutrients around in stack by clicking/tapping Move Up or Move Down</li>
-			<li>
-				All options for a nutrient can now be set on the <a href="/settings">settings</a> page.
-			</li>
-			<li>Charts appear in same order as nutrient/counters are shown on home page</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.1</summary>
-		<ul>
-			<li>Added caffeine to possible nutrients!</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.2.0</summary>
-		<ul>
-			<li>More nutrients! Counter trackers are now generated for every nutrient.</li>
-			<li>Hide any nutrient from the counter options menu (the '...' on each counter)</li>
-			<li>Nutrients can be reenabled on the <a href="/settings">/settings</a> page.</li>
-			<li>Set a goal & limit on each nutrient in your settings!</li>
-			<li>
-				Hiding a nutrient hides it in Inventory item entry form. The values are still saved from
-				scanned items.
-			</li>
-			<li>A lot of work went into revamping the structure of IndexedDB.</li>
-			<li>Not that you care but I also fixed some issues with flaky and brittle tests.</li>
 		</ul>
 	</details>
 	<details>

@@ -2,51 +2,69 @@ import Dexie, { type EntityTable } from 'dexie';
 import { thePast } from '$utils/dates';
 import { list } from '$utils/nutrients';
 import { migrate } from './dbmigrations';
-// import { PUBLIC_DB_URL } from '$env/static/public';
-// import { dexieCloud } from 'dexie-cloud-addon';
+import { dexieCloud } from 'dexie-cloud-addon';
+import { PUBLIC_DB_URL } from '$env/static/public';
+import { cloudMigrate } from '$stores/cloudmigrate';
 
-// export const db = new Dexie('helthdb', { addons: [dexieCloud] });
-export const db = new Dexie('helthdb') as Dexie & {
+export const db = new Dexie('helthdb', { addons: [dexieCloud] }) as Dexie & {
 	inventory: EntityTable<InventoryItem, 'id'>;
 	recipes: EntityTable<Recipe, 'id'>;
 	settings: EntityTable<Setting, 'name'>;
 	goals: EntityTable<Goal, 'name'>;
 	limits: EntityTable<Limit, 'name'>;
 	journal: EntityTable<JournalEntry, 'date'>;
+	subscription: EntityTable<Subscription, 'subscriptionId'>;
 };
 
 migrate(db);
 
-db.on('populate', async () => await addDefaults());
+db.on('populate', async () => {
+	db.on('ready', async () => {
+		await addDefaults()
+			.then(() => console.log('adding defaults'))
+			.catch(() => console.log('error adding defaults'));
+	});
+});
 
-// db.cloud.configure({
-// 	databaseUrl: PUBLIC_DB_URL,
-// 	// requireAuth: true
-// 	requireAuth: false,
-// 	disableWebSocket: true
-// });
-
-export const dbopen = db.open().then(async () => {
-	await addDefaults();
+db.cloud.configure({
+	databaseUrl: PUBLIC_DB_URL,
+	requireAuth: false,
+	disableWebSocket: import.meta.env.VITEST == 'true' ? true : false
 });
 
 /*
  * Today
  */
-export async function addDay(newDay = defaultDay) {
-	try {
-		await db.journal.add(newDay);
-	} catch (error) {
-		console.log('error adding day');
-	}
+export async function addDay(newDay: JournalEntry = defaultDay) {
+	const aNewDay = {
+		...newDay,
+		date: newDay.date.toString().startsWith('#') ? newDay.date : '#' + newDay.date
+	};
+	return await db.journal.add(aNewDay).catch(() => console.log('unable to add day'));
 }
 
-export const updateDay = async (date: number, changes: Omit<JournalEntry, 'date'>) => {
-	return await db.journal.update(date, changes);
+export const updateDay = async (date: string, changes: Omit<JournalEntry, 'date'>) => {
+	const day = await getDay(date);
+	let result: number = 0;
+	if (day) {
+		// Need to override date prop so it contains '#' as first character.
+		// changes obj does not have '#' as first char
+		result = await db.journal.update(day.date, { ...day, ...changes, date: day.date });
+	}
+	return result;
 };
 
-export const getDay = async (date: number) => {
-	return await db.journal.get(date);
+// return the JournalEntry for a given date
+// the date prop will be prefixed by a '#' char due to dexie cloud sync requirements
+export const getDay = async (date: string | undefined) => {
+	if (date && date.length > 0) {
+		return await db.journal
+			.where('date')
+			.equals(date.startsWith('#') ? date : '#' + date)
+			.first();
+	} else {
+		return false;
+	}
 };
 
 export const getLatestDay = async () => {
@@ -62,28 +80,40 @@ export const getJournal = async () => {
  */
 
 // specify table name to put name/value pair there
+export async function findByName(name: string, tableName: string) {
+	return await db
+		.table(tableName)
+		.where('name')
+		.equals(name.startsWith('#') ? name : '#' + name)
+		.first();
+}
 export async function addItem(
 	tableName: string,
 	name: string,
 	value: Limit['value'] | Goal['value'] | Setting['value']
 ) {
-	try {
-		await db.table(tableName).add({
-			name: name,
+	return db
+		.table(tableName)
+		.add({
+			name: name.startsWith('#') ? name : '#' + name,
 			value: value
+		})
+		.catch('ConstraintError', (err) => {
+			console.log(`error adding item to ${tableName}: ${err.message}`);
 		});
-	} catch (error: unknown) {
-		if (error instanceof Error) {
-			console.log(`error adding item to ${tableName}: ${error.message}`);
-		}
-	}
 }
 export const updateItem = async (tableName: string, key: string, item: Setting | Goal | Limit) => {
-	return db.table(tableName).update(key, item);
+	return db.table(tableName).update(key.startsWith('#') ? key : '#' + key, {
+		...item,
+		name: item.name.startsWith('#') ? item.name : '#' + item.name
+	});
 };
 
 export const updateItems = async (tableName: string, items: readonly any[]) => {
-	return db.table(tableName).bulkPut(items);
+	return db
+		.table(tableName)
+		.bulkPut(items.map((item) => ({ ...item, name: '#' + item.name })))
+		.catch((error) => console.log(error));
 };
 
 export const getItems = async (tableName: string): Promise<NameValueStore> => {
@@ -92,7 +122,12 @@ export const getItems = async (tableName: string): Promise<NameValueStore> => {
 	return db
 		.table(tableName)
 		.toArray()
-		.then((data) => data.reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), []));
+		.then((data) =>
+			data.reduce((prev, curr) => {
+				const { name, ...value } = curr;
+				return { ...prev, [name.substring(1)]: { name: name.substring(1), ...value } };
+			}, [])
+		);
 };
 
 /*
@@ -159,7 +194,24 @@ export const isStoragePersisted = async () => {
 
 // default values
 export const defaultDay: JournalEntry = {
-	date: new Date().setHours(0, 0, 0, 0)
+	date: '#' + new Date().setHours(0, 0, 0, 0).toString()
+};
+
+// subscription logic
+export const saveSubscription = async (subscription: Subscription) => {
+	if ((await db.subscription.count()) >= 1) {
+		await db.subscription.clear();
+	}
+	return await db.subscription.put({
+		...subscription,
+		subscriptionId: '#' + subscription.subscriptionId
+	});
+};
+export const getSubscription = async () => {
+	return await db.subscription.toArray().then((all) => all[0]); // only return one
+};
+export const removeSubscription = async (id: string) => {
+	return await db.subscription.delete(id);
 };
 
 // create default settings + defaultDay values
@@ -190,42 +242,48 @@ list.forEach(({ key }, index) => {
 });
 
 export const addDefaults = async () => {
-	db.journal
+	await cloudMigrate(db);
+	await db.journal
 		.orderBy('date')
 		.reverse()
 		.first()
 		.then(async (record) => {
-			if (!record || thePast(new Date(record.date))) {
+			if (!record || thePast(record.date)) {
 				await addDay();
 			}
 		});
 
-	// settings, goals, limits defaults
-	list.forEach(({ key }) => {
-		db.settings
-			.where('name')
-			.equals(key)
-			.first()
-			.then(async (interval) => {
-				!interval
-					? await addItem('settings', key, settings[key]) // not found, add default setting
-					: interval;
-			});
+	const setCount = await db.settings.toArray();
+	const limitCount = await db.limits.toArray();
+	if (setCount.length < 33 && limitCount.length < 33) {
+		// settings, goals, limits defaults
+		for (const { key } of list) {
+			await db.settings
+				.where('name')
+				.equals(key)
+				.first()
+				.then(async (interval) => {
+					!interval
+						? await addItem('settings', key, settings[key]) // not found, add default setting
+						: interval;
+				})
+				.catch((error) => console.log('error adding all the settings'));
 
-		db.goals
-			.where('name')
-			.equals(key)
-			.first()
-			.then(async (goal) => {
-				!goal ? await addItem('goals', key, goals[key].value) : goal;
-			});
+			await db.goals
+				.where('name')
+				.equals(key)
+				.first()
+				.then(async (goal) => {
+					!goal ? await addItem('goals', key, goals[key].value) : goal;
+				});
 
-		db.limits
-			.where('name')
-			.equals(key)
-			.first()
-			.then(async (limit) => {
-				!limit ? await addItem('limits', key, limits[key].value) : limit;
-			});
-	});
+			await db.limits
+				.where('name')
+				.equals(key)
+				.first()
+				.then(async (limit) => {
+					!limit ? await addItem('limits', key, limits[key].value) : limit;
+				});
+		}
+	}
 };

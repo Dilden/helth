@@ -1,0 +1,135 @@
+{{!--
+    HTML template for invite email
+    ==============================
+
+    Available params:
+
+      {{recepient.name}}: The full name of the receiving user.
+
+      {{recepient.firstName}}: The first name of the receiving user.
+
+      {{recepient.lastName}}: The last name of the receiving user.
+
+      {{invitor.name}}: The full name of the inviting user.
+
+      {{invitor.firstName}}: The first name of the inviting user.
+
+      {{invitor.lastName}}: The last name of the inviting user.
+
+      {{realm.represents}}: The entity type that the realm represents (e.g. "Todo list" or "Chat group").
+
+      {{realm.name}}: The name of the realm.
+
+      {{realm.realmId}}: The realmId being invited to.
+
+      {{realm.<arbritrary realm property>}}: Any property from the realm being invited to.
+
+      {{acceptUrl}}: The URL to navigate to in order to accept the invite.
+
+      {{rejectUrl}}: The URL to navigate to in order to reject the invite.
+
+      {{app.name}}: The name of the app.
+
+      {{app.url}}: The URL of the app.
+
+      {{app.isWebPage}}: True if the app is a web page, false if it's an app.
+
+--}}
+<p>Hi {{recepient.firstName}},</p>
+<p>
+  {{invitor.firstName}} invited you to {{realm.represents}} called
+  {{realm.name}}.
+</p>
+<br />
+<div style="display: inline-block">
+  <!--[if mso]>
+    <v:roundrect
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      href="{{acceptUrl}}"
+      style="height: 40px; v-text-anchor: middle; width: 150px"
+      arcsize="10%"
+      strokecolor="#5c9a18"
+      fillcolor="#6cbb68"
+    >
+      <w:anchorlock />
+      <center
+        style="
+          color: #ffffff;
+          font-family: sans-serif;
+          font-size: 13px;
+          font-weight: bold;
+        "
+      >
+        Accept
+      </center>
+    </v:roundrect> <!
+  [endif]--><a
+    href="{{acceptUrl}}"
+    style="
+      background-color: #6cbb68;
+      border: 1px solid #5c9a18;
+      border-radius: 4px;
+      color: #ffffff;
+      display: inline-block;
+      font-family: sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 40px;
+      text-align: center;
+      text-decoration: none;
+      width: 150px;
+      -webkit-text-size-adjust: none;
+      mso-hide: all;
+    "
+    >Accept</a
+  >
+</div>
+
+<div style="display: inline-block">
+  <!--[if mso]>
+    <v:roundrect
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      href="{{rejectUrl}}"
+      style="height: 40px; v-text-anchor: middle; width: 150px"
+      arcsize="10%"
+      strokecolor="#9a2a18"
+      fillcolor="#c15768"
+    >
+      <w:anchorlock />
+      <center
+        style="
+          color: #ffffff;
+          font-family: sans-serif;
+          font-size: 13px;
+          font-weight: bold;
+        "
+      >
+        Reject
+      </center>
+    </v:roundrect> <!
+  [endif]--><a
+    href="{{rejectUrl}}"
+    style="
+      background-color: #c15768;
+      border: 1px solid #9a2a18;
+      border-radius: 4px;
+      color: #ffffff;
+      display: inline-block;
+      font-family: sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 40px;
+      text-align: center;
+      text-decoration: none;
+      width: 150px;
+      -webkit-text-size-adjust: none;
+      mso-hide: all;
+    "
+    >Reject</a
+  >
+</div>
+
+<br />
+<br />

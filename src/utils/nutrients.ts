@@ -1,3 +1,7 @@
+// TODO:
+// create a fn that exports all key props as an array of strings
+// to be used in type definition of JournalEntry
+
 export const list: Nutrient[] = [
 	{
 		key: 'added_sugars',
