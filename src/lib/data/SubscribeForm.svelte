@@ -4,7 +4,7 @@
 <!-- Subscribe Form -->
 <form method="POST" action="?/subscribe" class="flex flex-col gap-4">
 	<fieldset class="flex w-auto flex-row justify-center gap-4">
-		<div>
+		<div class="text-center">
 			<!-- Change Product Prices here -->
 			<label for="monthly" class="text-md w-full p-2 md:text-xl">$1/month</label>
 			<input
@@ -16,7 +16,7 @@
 				class="h-4 w-full border-none"
 			/>
 		</div>
-		<div>
+		<div class="text-center">
 			<label for="annually" class="text-md w-full p-2 md:text-xl">$10/year</label>
 			<input
 				type="radio"

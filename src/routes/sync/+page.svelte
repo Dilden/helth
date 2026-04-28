@@ -30,7 +30,7 @@
 	}
 </script>
 
-<div class="p-7">
+<div class="p-3 md:p-7">
 	{#await subscription.init()}
 		<Spinner />
 	{:then}
