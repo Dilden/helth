@@ -24,11 +24,12 @@
 <div class="flex flex-col gap-2 p-4 md:p-7">
 	<h2 class="text-center md:text-left">Cloud Sync</h2>
 	{#if $syncState?.error}
-		<p>
-			An error syncing your data has been encountered. Please contact <a
-				href="mailto:support@helth.app">support</a
-			>.
-		</p>
+		<span class="bg-emerald-950">
+			<p>
+				An error syncing your data has been encountered. Please contact <a href="mailto:support@helth.app">support</a> with the following error:
+			</p>
+			<p>{$syncState.error}</p>
+		</span>
 	{/if}
 	{#if $user.userId != 'unauthorized'}
 		<div class="flex flex-col gap-y-5 md:gap-y-0">
