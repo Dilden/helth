@@ -245,6 +245,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.1</summary>
+		<ul class="list-disc">
+			<li>If a cloud sync error is encountered, show it on the /sync page so users can report it.</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.0</summary>
 		<ul class="list-disc">
 			<li>Introducing Cloud Sync! Never lose your helth.app data again!</li>
