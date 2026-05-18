@@ -11,8 +11,8 @@
 		"test": "playwright test && npm run test:unit",
 		"test:unit": "vitest run",
 		"test:e2e": "playwright test",
-		"lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
+		"lint": "prettier --check . && prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
+		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. . && prettier --write ."
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.57.0",
@@ -39,9 +39,9 @@
 		"jsdom": "^26.0.0",
 		"picomatch": "^4.0.3",
 		"postcss": "^8.4.32",
-		"prettier": "^3.3.3",
-		"prettier-plugin-svelte": "^3.2.6",
-		"prettier-plugin-tailwindcss": "^0.6.6",
+		"prettier": "^3.8.1",
+		"prettier-plugin-svelte": "^3.5.1",
+		"prettier-plugin-tailwindcss": "^0.7.2",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.2",
 		"tailwindcss": "^3.4.13",
