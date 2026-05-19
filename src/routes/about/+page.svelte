@@ -17,11 +17,11 @@
 		<p>
 			helth.app is a <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
 				>Progressive Web App</a
-			> (PWA) that allows users to track calories, nutrients, and water in-take. Essentially, it's a
-			website that can be installed on a device without having to be downloaded from an app store. The
-			idea arose from the frustration of using popular apps that provide similar functionality at the
-			cost of user privacy by including advertisements and extra features I didn't care for. Helth app
-			does NOT offer health or fitness advice.
+			> (PWA) that allows users to track calories, nutrients, and water in-take. Essentially, it's a website
+			that can be installed on a device without having to be downloaded from an app store. The idea arose
+			from the frustration of using popular apps that provide similar functionality at the cost of user
+			privacy by including advertisements and extra features I didn't care for. Helth app does NOT offer
+			health or fitness advice.
 		</p>
 	</details>
 	<details>
@@ -149,7 +149,9 @@
 			you log is not ideal. If that's the case, we'd suggest avoiding using the cloud sync service for
 			now.
 		</p>
-		<p>If you aren't using the cloud sync feature, then you and you alone have access to your data!</p>
+		<p>
+			If you aren't using the cloud sync feature, then you and you alone have access to your data!
+		</p>
 	</details>
 
 	<h3>misc</h3>
@@ -247,7 +249,9 @@
 	<details>
 		<summary>v1.0.1</summary>
 		<ul class="list-disc">
-			<li>If a cloud sync error is encountered, show it on the /sync page so users can report it.</li>
+			<li>
+				If a cloud sync error is encountered, show it on the /sync page so users can report it.
+			</li>
 		</ul>
 	</details>
 	<details>
@@ -256,8 +260,15 @@
 			<li>Introducing Cloud Sync! Never lose your helth.app data again!</li>
 			<li>Only cost $1 per month or $10 per year</li>
 			<li>Your subscription supports the development of helth.app</li>
-			<li>Cloud Sync is powered by <a href="https://dexie.org/cloud" target="_blank">Dexie Cloud</a></li>
-			<li>For an actual changelog, you're going to have to view the <a href="https://github.com/Dilden/helth/pull/242" target="_blank">PR on GitHub</a> b/c so many things changed.</li>
+			<li>
+				Cloud Sync is powered by <a href="https://dexie.org/cloud" target="_blank">Dexie Cloud</a>
+			</li>
+			<li>
+				For an actual changelog, you're going to have to view the <a
+					href="https://github.com/Dilden/helth/pull/242"
+					target="_blank">PR on GitHub</a
+				> b/c so many things changed.
+			</li>
 		</ul>
 	</details>
 	<details>

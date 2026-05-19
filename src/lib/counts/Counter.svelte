@@ -64,11 +64,11 @@
 	});
 </script>
 
-<div class="relative m-2 text-center">
+<div class="m-2 relative text-center">
 	<label for="countValue_{item.key}" class="text-2xl font-medium"
 		>{(item?.emoji ? item?.emoji + ' ' : '') + item.name + ` (${item.unit})`}</label
 	>
-	<div class="mx-0 mb-1 grid w-auto grid-cols-2 font-normal md:mx-2">
+	<div class="mx-0 mb-1 font-normal md:mx-2 grid w-auto grid-cols-2">
 		{#if !goalString && !limitString}
 			<br />&nbsp;
 		{:else}
@@ -80,9 +80,9 @@
 			</span>
 		{/if}
 	</div>
-	<div class="m-auto flex w-[90vw] content-center items-center gap-0 md:w-auto">
+	<div class="gap-0 md:w-auto m-auto flex w-[90vw] content-center items-center">
 		<button
-			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-xl rounded-r-none border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-xl hover:rounded-r-none hover:bg-neutral-300"
+			class="rounded-l-xl bg-slate-100 p-3 text-2xl hover:rounded-l-xl hover:bg-neutral-300 m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-r-none border-none transition duration-200 hover:rounded-r-none"
 			onclick={decrement}
 		>
 			-{interval}
@@ -90,14 +90,14 @@
 
 		<input
 			id="countValue_{item.key}"
-			class="m-auto w-auto min-w-0 flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none p-3 text-2xl focus-visible:border-none"
+			class="min-w-0 p-3 text-2xl m-auto w-auto flex-[2_1_auto] flex-shrink touch-manipulation appearance-none rounded-none border-none focus-visible:border-none"
 			bind:value={count}
 			type="number"
 			min="0"
 		/>
 
 		<button
-			class="m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-none rounded-r-xl border-none bg-slate-100 p-3 text-2xl transition duration-200 hover:rounded-l-none hover:rounded-r-xl hover:bg-neutral-300"
+			class="rounded-r-xl bg-slate-100 p-3 text-2xl hover:rounded-r-xl hover:bg-neutral-300 m-auto flex-auto grow-0 touch-manipulation appearance-none rounded-l-none border-none transition duration-200 hover:rounded-l-none"
 			onclick={increment}
 		>
 			+{interval}
@@ -106,7 +106,7 @@
 
 	<!-- Options -->
 	<button
-		class="absolute right-0 top-0 bg-transparent p-1 text-2xl text-[--fore-color] transition duration-200 hover:bg-transparent hover:text-neutral-200"
+		class="right-0 top-0 p-1 text-2xl hover:text-neutral-200 absolute bg-transparent text-[--fore-color] transition duration-200 hover:bg-transparent"
 		onclick={() => (showOptions = !showOptions)}
 		use:clickOutside={'#' + item.key + '_options'}
 		onclick_outside={() => (showOptions = false)}
@@ -116,11 +116,11 @@
 	{#if showOptions}
 		<span transition:fade={{ duration: 75 }}>
 			<div
-				class="z-11 absolute right-2 top-[43px] h-0 w-0 border-8 border-t-[0px] border-solid border-transparent border-x-transparent border-y-gray-200"
+				class="right-2 h-0 w-0 border-y-gray-200 absolute top-[43px] z-11 border-8 border-t-[0px] border-solid border-transparent border-x-transparent"
 			></div>
 			<div
 				id={item.key + '_options'}
-				class="absolute right-0 top-[42px] z-10 mt-2 w-full origin-top-right rounded-md bg-gray-200 pt-2 text-slate-700 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+				class="right-0 mt-2 rounded-md bg-gray-200 pt-2 text-slate-700 shadow-xl ring-black ring-opacity-5 absolute top-[42px] z-10 w-full origin-top-right ring-1 focus:outline-none"
 				role="menu"
 				aria-orientation="vertical"
 				aria-labelledby="menu-button"

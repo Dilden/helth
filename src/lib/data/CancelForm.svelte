@@ -29,9 +29,9 @@
 			);
 		}
 	}}
-	class="flex flex-col gap-4"
+	class="gap-4 flex flex-col"
 >
-	<fieldset class="flex w-auto flex-row justify-center gap-4">
+	<fieldset class="gap-4 flex w-auto flex-row justify-center">
 		<input
 			type="hidden"
 			name="subscriptionId"
@@ -39,6 +39,6 @@
 				? subscriptionId.substring(1)
 				: subscriptionId}
 		/>
-		<button class="w-auto grow-0 p-2">Cancel Subscription</button>
+		<button class="p-2 w-auto grow-0">Cancel Subscription</button>
 	</fieldset>
 </form>

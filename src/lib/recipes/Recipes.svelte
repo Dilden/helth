@@ -57,15 +57,15 @@
 	/>
 {/if}
 
-<div class="grid grid-cols-1 grid-rows-[1fr_auto] md:grid-cols-2">
-	<h3 class="col-start-1 col-end-3 md:col-end-2">Recipes</h3>
-	<div class="relative col-start-1 col-end-2 m-2 mt-0 md:col-start-2 md:col-end-3">
+<div class="md:grid-cols-2 grid grid-cols-1 grid-rows-[1fr_auto]">
+	<h3 class="md:col-end-2 col-start-1 col-end-3">Recipes</h3>
+	<div class="m-2 mt-0 md:col-start-2 md:col-end-3 relative col-start-1 col-end-2">
 		<Search bind:searchStoreVal={recipeSearch.query} searchTitle="Search Recipes" />
 	</div>
-	<ul class="col-start-1 col-end-2 mb-8 list-none p-0 md:col-end-3">
+	<ul class="mb-8 p-0 md:col-end-3 col-start-1 col-end-2 list-none">
 		{#await Promise.all(recipeSearchResults().results) then formatted}
 			{#each formatted.slice().reverse() as recipe, index}
-				<li class="m-3 p-2 odd:bg-[#1f2a2d] md:p-4" id="listitem-recipe-{recipe.id}">
+				<li class="m-3 p-2 md:p-4 odd:bg-[#1f2a2d]" id="listitem-recipe-{recipe.id}">
 					{#if editing?.id === recipe.id}
 						<RecipeForm
 							{recipe}

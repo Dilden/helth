@@ -1,6 +1,5 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
-
 	import { inventory } from '$stores/stores.svelte';
 	import { formatInventoryFormValues } from '$utils/formValues';
 	import AddNutrientInputs from './AddNutrientInputs.svelte';
@@ -29,7 +28,7 @@
 <form
 	name="AddItem"
 	onsubmit={preventDefault(handleSubmit)}
-	class="grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-3"
+	class="grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 md:grid-cols-3 grid grid-cols-1"
 >
 	{#if item?.id}
 		<input type="hidden" id="id" name="id" value={item.id} />
@@ -39,7 +38,7 @@
 		<input type="text" id="name" name="name" value={item.name ? item.name : ''} required />
 	</span>
 
-	<span class="col-start-1 col-end-2 md:col-start-2 md:col-end-3">
+	<span class="md:col-start-2 md:col-end-3 col-start-1 col-end-2">
 		<label for="description">Description</label>
 		<input
 			type="text"
@@ -50,7 +49,7 @@
 		/>
 	</span>
 
-	<span class="col-start-1 col-end-2 md:col-start-3 md:col-end-4">
+	<span class="md:col-start-3 md:col-end-4 col-start-1 col-end-2">
 		<label for="barcode">Barcode</label>
 		<input
 			type="text"
@@ -63,7 +62,7 @@
 	<AddNutrientInputs bind:validated nutrients={item.nutrients ? item.nutrients : {}} />
 	<input
 		type="submit"
-		class="col-start-1 col-end-2 md:col-start-2 md:col-end-3"
+		class="md:col-start-2 md:col-end-3 col-start-1 col-end-2"
 		value={item.id ? 'Update' : 'Save'}
 	/>
 </form>

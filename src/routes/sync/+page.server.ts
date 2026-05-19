@@ -112,7 +112,6 @@ export const load: PageServerLoad = async ({ url }) => {
 			accessToken
 		);
 
-
 		if (!res.ok) {
 			return {
 				...error,
@@ -132,7 +131,7 @@ export const load: PageServerLoad = async ({ url }) => {
 
 		const res2 = await updateCloudSubscription(subscriptionData, accessToken, email);
 		if (!res2.ok) {
-			console.log(await res2.text())
+			console.log(await res2.text());
 			return {
 				...error,
 				message:
@@ -140,9 +139,9 @@ export const load: PageServerLoad = async ({ url }) => {
 			};
 		}
 
-
 		return { ...success };
-	} else if (url.searchParams.has('cancelled')) { // cancelling subscription
+	} else if (url.searchParams.has('cancelled')) {
+		// cancelling subscription
 		if (!url.searchParams.has('subscriptionId')) {
 			return { ...error, message: 'Invalid or missing subscriptionId.' };
 		}

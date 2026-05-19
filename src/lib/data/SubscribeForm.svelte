@@ -1,12 +1,13 @@
 <script lang="typescript">
-	import {PUBLIC_MONTHLY_PROD_ID, PUBLIC_ANNUAL_PROD_ID } from '$env/static/public';
+	import { PUBLIC_MONTHLY_PROD_ID, PUBLIC_ANNUAL_PROD_ID } from '$env/static/public';
 </script>
+
 <!-- Subscribe Form -->
-<form method="POST" action="?/subscribe" class="flex flex-col gap-4">
-	<fieldset class="flex w-auto flex-row justify-center gap-4">
+<form method="POST" action="?/subscribe" class="gap-4 flex flex-col">
+	<fieldset class="gap-4 flex w-auto flex-row justify-center">
 		<div class="text-center">
 			<!-- Change Product Prices here -->
-			<label for="monthly" class="text-md w-full p-2 md:text-xl">$1/month</label>
+			<label for="monthly" class="text-md p-2 md:text-xl w-full">$1/month</label>
 			<input
 				type="radio"
 				id="monthly"
@@ -17,7 +18,7 @@
 			/>
 		</div>
 		<div class="text-center">
-			<label for="annually" class="text-md w-full p-2 md:text-xl">$10/year</label>
+			<label for="annually" class="text-md p-2 md:text-xl w-full">$10/year</label>
 			<input
 				type="radio"
 				id="annually"
@@ -29,5 +30,5 @@
 			/>
 		</div>
 	</fieldset>
-	<button class="w-auto grow-0 p-5">Subscribe</button>
+	<button class="p-5 w-auto grow-0">Subscribe</button>
 </form>
