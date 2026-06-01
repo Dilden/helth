@@ -11,7 +11,7 @@
 	let validated = $state(true);
 
 	// inventoryItems isn't reactive when it comes in but we can make it reactive...
-	let reactiveItems = $state(
+	let reactiveItems = $derived(
 		inventoryItems.map((item) => {
 			// need to set whether an item should be checked in the list
 			if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
