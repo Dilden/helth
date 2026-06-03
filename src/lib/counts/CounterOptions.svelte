@@ -22,7 +22,7 @@
 </div>
 <label for="interval_{key}" class="font-bold">Set -/+ interval: {interval}</label>
 <input
-	class="mx-auto block w-11/12 p-0 text-5xl"
+	class="p-0 text-5xl mx-auto block w-11/12"
 	aria-label="Adjust -/+ interval"
 	id="interval_{key}"
 	type="range"

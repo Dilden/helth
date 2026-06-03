@@ -50,7 +50,7 @@
 <Date />
 
 <div
-	class="flex-start flex flex-row flex-wrap justify-center gap-4 gap-y-2 transition-all md:justify-start md:gap-y-3"
+	class="flex-start gap-4 gap-y-2 md:justify-start md:gap-y-3 flex flex-row flex-wrap justify-center transition-all"
 >
 	{#await Promise.all([settings.init(), today.init(), limits.init(), goals.init()])}
 		<Spinner />
@@ -59,7 +59,7 @@
 			{#each enabled as nutrient, index (nutrient.key)}
 				<div
 					id="counter_{nutrient.key}"
-					class="relative top-1/2 m-auto flex-[2_1_auto] p-1 py-0.5 text-xl transition-all sm:max-w-full md:max-w-[65%] md:text-3xl lg:max-w-[30%]"
+					class="p-1 py-0.5 text-xl sm:max-w-full md:max-w-[65%] md:text-3xl lg:max-w-[30%] relative top-1/2 m-auto flex-[2_1_auto] transition-all"
 					transition:blur
 					animate:flip={{ duration: 900 }}
 				>

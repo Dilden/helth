@@ -38,11 +38,15 @@ export const updateUser = async (User: CloudUser, token: string) => {
 	});
 };
 
-export const updateCloudSubscription = async (subscription: Subscription, token: string, realmId: string) => {
+export const updateCloudSubscription = async (
+	subscription: Subscription,
+	token: string,
+	realmId: string
+) => {
 	const data = {
 		...subscription,
 		realmId: realmId
-	}
+	};
 	return await fetch(PUBLIC_DB_URL + '/all/subscription', {
 		method: 'POST',
 		headers: {
@@ -51,7 +55,7 @@ export const updateCloudSubscription = async (subscription: Subscription, token:
 		},
 		body: JSON.stringify([data])
 	});
-}
+};
 
 export const getCloudSubscription = async (userId: string, token: string) => {
 	return await fetch(PUBLIC_DB_URL + `/all/subscription?realmId=${userId}`, {
@@ -61,4 +65,4 @@ export const getCloudSubscription = async (userId: string, token: string) => {
 			'Authorization': 'Bearer ' + token
 		}
 	});
-}
+};

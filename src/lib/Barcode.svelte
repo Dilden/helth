@@ -67,18 +67,18 @@
 	}
 </script>
 
-<div class="grid-rows-[2fr .5fr .5fr] grid min-h-full gap-x-20 gap-y-5 p-0">
+<div class="grid-rows-[2fr .5fr .5fr] gap-x-20 gap-y-5 p-0 grid min-h-full">
 	{#await codeReader.listVideoInputDevices()}
 		<p>..waiting</p>
 	{:then inputs}
-		<div class="row-start-2 row-end-3 grid grid-cols-6 grid-rows-3 gap-y-3 text-center uppercase">
-			<label for="inputs" class="col-start-2 col-end-6 row-start-1 row-end-1 text-xl"
+		<div class="gap-y-3 row-start-2 row-end-3 grid grid-cols-6 grid-rows-3 text-center uppercase">
+			<label for="inputs" class="text-xl col-start-2 col-end-6 row-start-1 row-end-1"
 				>Select device</label
 			>
 			<select
 				id="inputs"
 				name="inputs"
-				class="col-start-2 col-end-6 row-start-2 row-end-2 border border-solid border-gray-500"
+				class="border-gray-500 col-start-2 col-end-6 row-start-2 row-end-2 border border-solid"
 				bind:value={selected}
 				onchange={() => scan()}
 			>
@@ -86,7 +86,7 @@
 					<option value={input}>{input.label}</option>
 				{/each}
 			</select>
-			<div class="col-start-2 col-end-6 grid grid-cols-2 grid-rows-1 gap-x-5">
+			<div class="gap-x-5 col-start-2 col-end-6 grid grid-cols-2 grid-rows-1">
 				<button class="col-start-1 col-end-2" onclick={cancel}>❌ STOP</button>
 				<button class="col-start-2 col-end-3" onclick={scan}>📷 SCAN</button>
 			</div>

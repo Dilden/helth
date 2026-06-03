@@ -47,12 +47,12 @@ test.describe('error handling', () => {
 	// TODO
 	// Need to use Stripe CLI to test the rest of these scenarios
 	// since Playwright doesn't support mocking an imported module
-	test.skip('handles duplicate events', async ({ request }) => { });
-	test.skip('listens for subscription renewal', async ({ request }) => { });
-	test.skip('listens for subscription cancel', async ({ request }) => { });
-	test.skip('listens for payment failure', async ({ request }) => { });
-	test.skip('rejects old requests', async ({ request }) => { });
-	test.skip('responds with 200 OK', async ({ request }) => { });
+	test.skip('handles duplicate events', async ({ request }) => {});
+	test.skip('listens for subscription renewal', async ({ request }) => {});
+	test.skip('listens for subscription cancel', async ({ request }) => {});
+	test.skip('listens for payment failure', async ({ request }) => {});
+	test.skip('rejects old requests', async ({ request }) => {});
+	test.skip('responds with 200 OK', async ({ request }) => {});
 	// test.skip('webhook exempt from CSRF', async ({ request }) => {
 	// not needed as SvelteKit doesn't apply CSRF to application/json requests
 	// https://svelte.dev/docs/kit/configuration#csrf

@@ -59,15 +59,15 @@
 				<Spinner />
 			{:then}
 				<div
-					class="flex-start flex w-full flex-row flex-wrap justify-center gap-4 gap-y-7 pt-2 md:justify-start md:gap-y-3"
+					class="flex-start gap-4 gap-y-7 pt-2 md:justify-start md:gap-y-3 flex w-full flex-row flex-wrap justify-center"
 				>
 					{#each enabled as nutrient, index (nutrient.key)}
 						<div
-							class="m-auto flex-[2_1_auto] flex-col bg-gray-200 px-1 pb-4 pt-2 text-center text-black sm:max-w-full md:max-w-[65%] lg:max-w-[30%]"
+							class="bg-gray-200 px-1 pb-4 pt-2 text-black sm:max-w-full md:max-w-[65%] lg:max-w-[30%] m-auto flex-[2_1_auto] flex-col text-center"
 							transition:blur
 							animate:flip={{ duration: 900 }}
 						>
-							<div class="w-full text-center text-xl font-medium">
+							<div class="text-xl font-medium w-full text-center">
 								{(nutrient?.emoji ? nutrient?.emoji + ' ' : '') +
 									nutrient.name +
 									` (${nutrient.unit})`}
@@ -132,8 +132,8 @@
 		</TabPanel>
 		<TabPanel>
 			<div class="flex flex-col justify-center">
-				<div class="mx-auto my-6 flex-auto"><ExportData /></div>
-				<div class="mx-auto my-6 flex-auto"><ImportData /></div>
+				<div class="my-6 mx-auto flex-auto"><ExportData /></div>
+				<div class="my-6 mx-auto flex-auto"><ImportData /></div>
 			</div>
 		</TabPanel>
 	</Tabs>
