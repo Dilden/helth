@@ -247,6 +247,14 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.3</summary>
+		<ul class="list-disc">
+			<li>Addressed type errors in compiler</li>
+			<li>Options for Counters were moved up slightly when clicking "..."</li>
+			<li>Hid a non-relevant warning from the compiler</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.2</summary>
 		<ul class="list-disc">
 			<li>Miscellaneous formatting fixes of files</li>

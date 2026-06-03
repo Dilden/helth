@@ -116,11 +116,11 @@
 	{#if showOptions}
 		<span transition:fade={{ duration: 75 }}>
 			<div
-				class="right-2 h-0 w-0 border-y-gray-200 absolute top-[43px] z-11 border-8 border-t-[0px] border-solid border-transparent border-x-transparent"
+				class="right-2 h-0 w-0 border-y-gray-200 absolute top-[40px] z-11 border-8 border-t-[0px] border-solid border-transparent border-x-transparent"
 			></div>
 			<div
 				id={item.key + '_options'}
-				class="right-0 mt-2 rounded-md bg-gray-200 pt-2 text-slate-700 shadow-xl ring-black ring-opacity-5 absolute top-[42px] z-10 w-full origin-top-right ring-1 focus:outline-none"
+				class="right-0 mt-2 rounded-md bg-gray-200 pt-2 text-slate-700 shadow-xl ring-black ring-opacity-5 absolute top-[39px] z-10 w-full origin-top-right ring-1 focus:outline-none"
 				role="menu"
 				aria-orientation="vertical"
 				aria-labelledby="menu-button"
