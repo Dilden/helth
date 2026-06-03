@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
+import { vi, afterEach, beforeEach } from 'vitest';
 
 // required for svelte5 + jsdom as jsdom does not support matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -15,5 +15,20 @@ Object.defineProperty(window, 'matchMedia', {
 	}))
 });
 
+const mockAnimations = () => {
+	const prevAnimate = Element.prototype.animate;
+
+	beforeEach(() => {
+		Element.prototype.animate = vi.fn().mockImplementation(() => ({
+			cancel: vi.fn(),
+			finished: Promise.resolve()
+		}));
+	});
+
+	afterEach(() => {
+		Element.prototype.animate = prevAnimate;
+	});
+};
+
+mockAnimations();
 // add more mocks here if you need them
-Element.prototype.animate = () => ({ cancel: vi.fn(), finished: Promise.resolve() });
