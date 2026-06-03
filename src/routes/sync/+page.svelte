@@ -5,10 +5,11 @@
 	import { successToast, infoToast, errorToast } from '$utils/toast';
 	import { subscription } from '$stores/stores.svelte';
 	import { db } from '$stores/db';
-	import type { PageProps } from './$types';
+	import type { PageData } from './$types';
 	import Spinner from '$lib/Spinner.svelte';
 
-	let { data }: PageProps = $props();
+	let { data }: { data: PageData } = $props();
+	// svelte-ignore state_referenced_locally
 	let { status, message } = { ...data };
 
 	onMount(async () => {
