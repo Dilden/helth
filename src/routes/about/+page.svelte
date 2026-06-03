@@ -247,6 +247,13 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.2</summary>
+		<ul class="list-disc">
+			<li>Miscellaneous formatting fixes of files</li>
+			<li>Updated development dependencies</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.1</summary>
 		<ul class="list-disc">
 			<li>
