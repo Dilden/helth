@@ -247,6 +247,14 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.5</summary>
+		<ul class="list-disc">
+			<li>Removed/mocked a dependency for testing</li>
+			<li>Updated Vite + Svelte Vite plugin</li>
+			<li>Default PR about release tagging</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.4</summary>
 		<ul class="list-disc">
 			<li>Fixed "Invalid Date" shown on charts</li>
@@ -294,31 +302,12 @@
 		</ul>
 	</details>
 	<details>
-		<summary>v0.4.1</summary>
-		<ul>
-			<li>Added custom headers based for Cloudflare</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.4.0</summary>
-		<ul>
-			<li>Migrated application to Svelte 5</li>
-			<li>Moved custom stores to rune-based objects for improved performance</li>
-			<li>More bug fixes than I was able to count</li>
-			<li>
-				I mean honestly, just check out <a
-					href="https://github.com/Dilden/helth/pull/210/files"
-					target="_blank">this chunky boi</a
-				>
-			</li>
-		</ul>
-	</details>
-	<details>
 		<summary>Older versions</summary>
 		<ul>
 			<li>
-				See the <a href="https://github.com/Dilden/helth" target="_blank">GitHub repository</a> for more
-				information
+				See the <a href="https://github.com/Dilden/helth/releases" target="_blank"
+					>GitHub repository</a
+				> for more information
 			</li>
 		</ul>
 	</details>

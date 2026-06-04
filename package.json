@@ -1,6 +1,6 @@
 {
 	"name": "helth.app",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"scripts": {
 		"cloud": "dexie-cloud",
 		"dev": "vite dev --host",
