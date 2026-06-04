@@ -247,6 +247,14 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.6</summary>
+		<ul class="list-disc">
+			<li>Updated more dev dependencies</li>
+			<li>Really, you shouldn't even notice anything different here but trust me bro...</li>
+			<li>...it is different</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.5</summary>
 		<ul class="list-disc">
 			<li>Removed/mocked a dependency for testing</li>
