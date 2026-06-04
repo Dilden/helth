@@ -20,6 +20,7 @@
 		color = '#2417fc'
 	} = $props();
 
+	// svelte-ignore state_referenced_locally
 	const data = [
 		{
 			label: label,
@@ -29,6 +30,7 @@
 		}
 	];
 
+	// svelte-ignore state_referenced_locally
 	const annotation = {
 		type: 'line',
 		borderColor: 'grey',
