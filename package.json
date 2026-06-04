@@ -1,6 +1,6 @@
 {
 	"name": "helth.app",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"scripts": {
 		"cloud": "dexie-cloud",
 		"dev": "vite dev --host",
@@ -16,8 +16,8 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.57.0",
-		"@sveltejs/adapter-cloudflare": "^6.0.1",
-		"@sveltejs/kit": "^2.17.2",
+		"@sveltejs/adapter-cloudflare": "^7.2.8",
+		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.7",
@@ -33,7 +33,7 @@
 		"autoprefixer": "^10.4.16",
 		"eslint": "^9.11.1",
 		"eslint-config-prettier": "^10.1.1",
-		"eslint-plugin-svelte": "^3.5.0",
+		"eslint-plugin-svelte": "^3.19.0",
 		"fake-indexeddb": "^6.0.0",
 		"jsdom": "^26.0.0",
 		"picomatch": "^4.0.3",
@@ -41,8 +41,8 @@
 		"prettier": "^3.8.1",
 		"prettier-plugin-svelte": "^3.5.1",
 		"prettier-plugin-tailwindcss": "^0.7.2",
-		"svelte": "^5.0.0",
-		"svelte-check": "^4.0.2",
+		"svelte": "^5.56.2",
+		"svelte-check": "^4.6.0",
 		"tailwindcss": "^3.4.13",
 		"tslib": "^2.6.2",
 		"typescript": "^5.5.0",
