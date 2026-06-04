@@ -30,6 +30,7 @@
 		"@typescript-eslint/parser": "^8.7.0",
 		"@vite-pwa/sveltekit": "^1.1.0",
 		"@vitejs/plugin-basic-ssl": "^2.0.0",
+		"@zxing/library": "^0.23.0",
 		"autoprefixer": "^10.4.16",
 		"eslint": "^9.11.1",
 		"eslint-config-prettier": "^10.1.1",
@@ -51,7 +52,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@zxing/library": "^0.21.3",
 		"chart.js": "^4.3.3",
 		"chartjs-plugin-annotation": "^3.0.1",
 		"dexie": "^4.1.0-beta.43",
