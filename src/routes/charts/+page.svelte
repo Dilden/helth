@@ -1,5 +1,6 @@
 <script>
 	import { list } from '$utils/nutrients';
+	import { utcToHuman } from '$utils/dates';
 	import { history, goals, limits, settings } from '$stores/stores.svelte';
 	import { onMount } from 'svelte';
 	import Chart from '$lib/charts/Chart.svelte';
@@ -48,10 +49,7 @@
 							.slice(Number(-range))}
 						labels={history
 							.get()
-							.map((el) => {
-								let date = new Date(el.date);
-								return date.toLocaleDateString();
-							})
+							.map((el) => utcToHuman(Number(el.date.substring(1))))
 							.slice(Number(-range))}
 						unit={trackableItem.unit}
 						goal={goals.get()[trackableItem.key]?.value ? goals.get()[trackableItem.key]?.value : 0}

@@ -247,6 +247,13 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.4</summary>
+		<ul class="list-disc">
+			<li>Fixed "Invalid Date" shown on charts</li>
+			<li>Hid compiler warnings about state_referenced_locally</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.3</summary>
 		<ul class="list-disc">
 			<li>Addressed type errors in compiler</li>
@@ -304,65 +311,6 @@
 					target="_blank">this chunky boi</a
 				>
 			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.3.4</summary>
-		<ul>
-			<li>
-				Migrated Inventory + Recipe PK's to cryptographically secure UID to prevent collisions. This
-				is prepatory work for implementing cloud sync functionality with Dexie Cloud.
-			</li>
-			<li>
-				Converted some files from <code>.js</code> to <code>.ts</code>
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.3.3</summary>
-		<ul>
-			<li>
-				Changes to menu CSS styling. Bigger, better button for more pressing action! (also, it's
-				Tailwind now. Sorry not sorry!)
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.3.2</summary>
-		<ul>
-			<li>
-				⭐ New feature ⭐ Dupliacte an inventory or recipe item! Doing so will not copy over the
-				barcode of any duplicated items. Names, descriptions, nutrients, will be kept but this will
-				show up as another item in your inventory or recipe list so be sure to make appropriate
-				changes right away!
-			</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.3.1</summary>
-		<ul>
-			<li>Addressed issue of data sometimes being lost on app refresh</li>
-		</ul>
-	</details>
-	<details>
-		<summary>v0.3.0</summary>
-		<ul>
-			<li>
-				Users can now select dates in the past by tapping the date button at the top of the tracking
-				page. Doing so will open a date picker which will set the actively edited date. Any previous
-				values for that date will be loaded into each counter and subsequent changes to those values
-				will persist.
-			</li>
-			<li>
-				Note: Safari on iOS does not respect the <code>max</code> attribute for date pickers. As such,
-				selecting a date in the future will show an error message and force the user to select another
-				date.
-			</li>
-			<li>
-				If a date is selected in which a nutrient didn't previously exist, the value will default to
-				0.
-			</li>
-			<li>Added button to cancel or go to today's date under date picker.</li>
 		</ul>
 	</details>
 	<details>
