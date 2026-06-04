@@ -15,20 +15,24 @@ Object.defineProperty(window, 'matchMedia', {
 	}))
 });
 
-const mockAnimations = () => {
+// add more mocks here if you need them
+const mocks = () => {
 	const prevAnimate = Element.prototype.animate;
+	const prevCanvas = HTMLCanvasElement.prototype.getContext;
 
 	beforeEach(() => {
 		Element.prototype.animate = vi.fn().mockImplementation(() => ({
 			cancel: vi.fn(),
 			finished: Promise.resolve()
 		}));
+
+		HTMLCanvasElement.prototype.getContext = vi.fn();
 	});
 
 	afterEach(() => {
 		Element.prototype.animate = prevAnimate;
+		HTMLCanvasElement.prototype.getContext = prevCanvas;
 	});
 };
 
-mockAnimations();
-// add more mocks here if you need them
+mocks();
