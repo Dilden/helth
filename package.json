@@ -1,6 +1,6 @@
 {
 	"name": "helth.app",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"scripts": {
 		"cloud": "dexie-cloud",
 		"dev": "vite dev --host",
@@ -54,10 +54,10 @@
 	"dependencies": {
 		"chart.js": "^4.3.3",
 		"chartjs-plugin-annotation": "^3.0.1",
-		"dexie": "^4.1.0-beta.43",
-		"dexie-cloud": "^2.0.1",
-		"dexie-cloud-addon": "^4.1.0-beta.48",
-		"dexie-export-import": "^4.1.4",
+		"dexie": "^4.4.3",
+		"dexie-cloud": "^3.0.4",
+		"dexie-cloud-addon": "^4.4.13",
+		"dexie-export-import": "^4.4.0",
 		"stripe": "^18.3.0"
 	},
 	"jest": {

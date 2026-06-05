@@ -247,6 +247,13 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.9</summary>
+		<ul class="list-disc">
+			<li>Updated Dexie + Dexie Cloud + related dependencies</li>
+			<li>If something broke, this was the update that did it (YOLO)</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.8</summary>
 		<ul class="list-disc">
 			<li>Updated TypeScript + related dependencies</li>
