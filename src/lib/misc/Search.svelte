@@ -14,9 +14,9 @@
 <label class="m-0 block w-full" id="searching-{searchTitle}" for="search-{searchTitle}"
 	>{searchTitle}</label
 >
-<span class="flex justify-start focus-within:outline">
+<span class="flex justify-start focus-within:outline-solid">
 	<input
-		class="m-0 block w-full border-none focus-within:outline-none"
+		class="m-0 block w-full border-none bg-slate-100 focus-within:outline-hidden"
 		id="search-{searchTitle}"
 		bind:value={searchStoreVal}
 		type="text"
