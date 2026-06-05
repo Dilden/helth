@@ -12,10 +12,10 @@
 	<h4 class="ml-0">Nutrients</h4>
 	<em>Enter quantities based on individual serving size</em>
 	<fieldset
-		class="gap-15px m-0 px-1 py-0 col-start-1 col-end-4 flex flex-row flex-wrap justify-center border-none"
+		class="gap-15px col-start-1 col-end-4 m-0 flex flex-row flex-wrap justify-center border-none px-1 py-0"
 	>
 		{#if !validated}
-			<div class="p-4 block w-full bg-[#794949]">At least one nutrient is required!</div>
+			<div class="block w-full bg-[#794949] p-4">At least one nutrient is required!</div>
 		{/if}
 		{#await settings.init()}
 			<Spinner />
@@ -29,7 +29,7 @@
 				>
 					<label class="block" for={nutrient.key}>{nutrient.name}</label>
 					<input
-						class="block"
+						class="block bg-slate-100"
 						id={nutrient.key}
 						name={nutrient.key}
 						type="text"
