@@ -3,6 +3,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { svelteTesting } from '@testing-library/svelte/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -41,6 +42,7 @@ const config = {
 		APP_VERSION: JSON.stringify(process.env.npm_package_version)
 	},
 	plugins: [
+		tailwindcss(),
 		sveltekit(),
 		svelteTesting(),
 		// // enabling basicSsl plugin breaks tests

@@ -7,6 +7,19 @@
 	let { nutrients = [], validated = true } = $props();
 </script>
 
+{#snippet input(nutrient)}
+	<label class="block" for={nutrient.key}>{nutrient.name}</label>
+	<input
+		class="block bg-slate-100"
+		id={nutrient.key}
+		name={nutrient.key}
+		type="text"
+		placeholder={nutrient.unit}
+		value={nutrients.length && nutrients.find(({ key }) => key === nutrient.key)
+			? nutrients.find(({ key }) => key === nutrient.key).quantity
+			: ''}
+	/>
+{/snippet}
 <div class="col-start-1 col-end-4">
 	<hr />
 	<h4 class="ml-0">Nutrients</h4>
@@ -22,23 +35,15 @@
 		{:then}
 			{#each list as nutrient}
 				<!-- only hiding values so they any new items scanned will have all possible data -->
-				<span
-					class="nutrient p-1 {nutrient.key} {settings.get()[nutrient.key]?.value?.enabled
-						? 'inline-block'
-						: 'hidden'}"
-				>
-					<label class="block" for={nutrient.key}>{nutrient.name}</label>
-					<input
-						class="block bg-slate-100"
-						id={nutrient.key}
-						name={nutrient.key}
-						type="text"
-						placeholder={nutrient.unit}
-						value={nutrients.length && nutrients.find(({ key }) => key === nutrient.key)
-							? nutrients.find(({ key }) => key === nutrient.key).quantity
-							: ''}
-					/>
-				</span>
+				{#if settings.get()[nutrient.key]?.value?.enabled}
+					<span class="nutrient p-1 {nutrient.key} inline-block">
+						{@render input(nutrient)}
+					</span>
+				{:else}
+					<span class="nutrient p-1 {nutrient.key} hidden">
+						{@render input(nutrient)}
+					</span>
+				{/if}
 			{/each}
 		{/await}
 	</fieldset>
