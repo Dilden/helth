@@ -11,6 +11,7 @@ yarn-error.log
 vite.config.js.timestamp*.mjs
 /test-results
 dexie-cloud*
+.wrangler/*
 
 # Playwright
 /playwright-report/
