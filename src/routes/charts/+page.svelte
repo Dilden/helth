@@ -29,7 +29,7 @@
 	<h2 class="text-center">📈 charts</h2>
 	<div>
 		<label for="chartRange">Show previous</label>
-		<select id="chartRange" bind:value={range} class="p-2 max-w-max">
+		<select id="chartRange" bind:value={range} class="max-w-max bg-slate-100 p-2">
 			{#each historyRange as option}
 				<option value={option}>{option ? `${option} entries` : 'all entries'}</option>
 			{/each}
