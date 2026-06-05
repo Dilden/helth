@@ -247,6 +247,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.8</summary>
+		<ul class="list-disc">
+			<li>Updated TypeScript + related dependencies</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.7</summary>
 		<ul class="list-disc">
 			<li>
