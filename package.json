@@ -1,6 +1,6 @@
 {
 	"name": "helth.app",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"scripts": {
 		"cloud": "dexie-cloud",
 		"dev": "vite dev --host",
@@ -29,7 +29,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.7.0",
 		"@typescript-eslint/parser": "^8.7.0",
 		"@vite-pwa/sveltekit": "^1.1.0",
-		"@vitejs/plugin-basic-ssl": "^2.0.0",
+		"@vitejs/plugin-basic-ssl": "^2.3.0",
 		"@zxing/library": "^0.23.0",
 		"autoprefixer": "^10.5.0",
 		"eslint": "^10.4.1",

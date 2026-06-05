@@ -247,6 +247,16 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.7</summary>
+		<ul class="list-disc">
+			<li>
+				Updated barcode scanning library to <a href="https://github.com/zxing-js/library/releases"
+					>latest version</a
+				>
+			</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.6</summary>
 		<ul class="list-disc">
 			<li>Updated more dev dependencies</li>

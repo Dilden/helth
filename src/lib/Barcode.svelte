@@ -1,5 +1,5 @@
 <script>
-	import { BrowserMultiFormatReader } from '@zxing/library';
+	import { BrowserBarcodeReader, BrowserMultiFormatReader } from '@zxing/library';
 	import { getInventory, addInventory } from '$stores/db';
 	import { today } from '$stores/stores.svelte';
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
@@ -10,7 +10,7 @@
 	// scanner
 	let selected = $state();
 
-	const codeReader = new BrowserMultiFormatReader();
+	const codeReader = new BrowserBarcodeReader();
 
 	async function scan() {
 		codeReader
@@ -36,7 +36,7 @@
 				});
 			})
 			.catch((error) => {
-				console.log(error);
+				// console.log(error);
 			})
 			.finally(() => codeReader.reset());
 	}
