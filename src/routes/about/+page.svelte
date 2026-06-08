@@ -238,6 +238,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.11</summary>
+		<ul class="list-disc">
+			<li>upgrading various dependencies</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.10</summary>
 		<ul class="list-disc">
 			<li>Tailwind v4!</li>
