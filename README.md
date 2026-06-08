@@ -1,10 +1,11 @@
 # helth.app
 
-Helth.app aims to be a minimalist web app for tracking calories, sodium, and water intake. It's a PWA built with [`SvelteKit`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte). Helth.app doesn't use any third-party services for managing your data. Instead, data is stored locally on the device. It also has a sweet barcode scanner that can magically ✨ download packaged food items and the nutrients for that particular food by connecting you to the [Open Food Facts](https://world.openfoodfacts.org/) API.
+helth.app aims to be a minimalist web app for tracking calories, sodium, and water intake. It's a PWA built with [`Svelte & SvelteKit`](SvelteKit). Data is stored locally on the device unless you'd like to purchase a premium subscription to use Cloud Sync features with [Dexie Cloud](https://dexie.org/cloud). It also has a sweet barcode scanner that can magically ✨ download packaged food items and the nutrients for that particular food by connecting you to the [Open Food Facts](https://world.openfoodfacts.org/) API.
 
 ## Getting started developing helth.app
 
 - Clone or fork this [repository](https://github.com/Dilden/helth)
+- copy `.env.example` to `.env` and fill in the fields
 - `npm install`
 - `npm run dev`
 
@@ -18,7 +19,7 @@ Various reusable components are located in `src/lib/`. All data is stored locall
 
 This development of this app is made easier by utilizing the following tools:
 
-- [SvelteKit](https://github.com/sveltejs/kit/)
+- [Svelte & SvelteKit](https://github.com/sveltejs/kit/)
 - [Chart.js](https://www.chartjs.org/)
 - [zxing-js](https://github.com/zxing-js/library)
 - [Vite PWA](https://github.com/vite-pwa/vite-plugin-pwa)
@@ -32,4 +33,4 @@ To create a production version of helth.app:
 npm run build
 ```
 
-Production builds can be previewed with `npm run preview`. Helth.app currently uses the [Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare) but aims to be a static web application meaning it could be hosted from anywhere that can serve HTML, CSS, and JS files. This can be accomplished switching out the adapter with the SvelteKit [static adapter](https://kit.svelte.dev/docs/adapter-static).
+Production builds can be previewed with `npm run preview`. helth.app currently uses the [Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare) but aims to be a static web application meaning it could be hosted from anywhere that can serve HTML, CSS, and JS files. This can be accomplished switching out the adapter with the SvelteKit [static adapter](https://kit.svelte.dev/docs/adapter-static).

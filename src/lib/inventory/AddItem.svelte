@@ -28,28 +28,36 @@
 <form
 	name="AddItem"
 	onsubmit={preventDefault(handleSubmit)}
-	class="grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 md:grid-cols-3 grid grid-cols-1"
+	class="grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-3"
 >
 	{#if item?.id}
 		<input type="hidden" id="id" name="id" value={item.id} />
 	{/if}
 	<span class="col-start-1 col-end-2">
 		<label for="name">Name</label>
-		<input type="text" id="name" name="name" value={item.name ? item.name : ''} required />
+		<input
+			class="bg-slate-100"
+			type="text"
+			id="name"
+			name="name"
+			value={item.name ? item.name : ''}
+			required
+		/>
 	</span>
 
-	<span class="md:col-start-2 md:col-end-3 col-start-1 col-end-2">
+	<span class="col-start-1 col-end-2 md:col-start-2 md:col-end-3">
 		<label for="description">Description</label>
 		<input
 			type="text"
 			id="description"
 			name="description"
 			value={item.description ? item.description : ''}
+			class="bg-slate-100"
 			required
 		/>
 	</span>
 
-	<span class="md:col-start-3 md:col-end-4 col-start-1 col-end-2">
+	<span class="col-start-1 col-end-2 md:col-start-3 md:col-end-4">
 		<label for="barcode">Barcode</label>
 		<input
 			type="text"
@@ -57,12 +65,13 @@
 			name="barcode"
 			value={item.barcode ? item.barcode : ''}
 			placeholder="UPC/Unique ID"
+			class="bg-slate-100"
 		/>
 	</span>
 	<AddNutrientInputs bind:validated nutrients={item.nutrients ? item.nutrients : {}} />
 	<input
 		type="submit"
-		class="md:col-start-2 md:col-end-3 col-start-1 col-end-2"
+		class="col-start-1 col-end-2 md:col-start-2 md:col-end-3"
 		value={item.id ? 'Update' : 'Save'}
 	/>
 </form>

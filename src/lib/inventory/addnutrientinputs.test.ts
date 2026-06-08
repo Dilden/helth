@@ -31,8 +31,8 @@ describe('add nutrients to an item form inputs', () => {
 		expect(await screen.findByLabelText('Total Sugars')).toBeVisible();
 		expect(await screen.findByLabelText('Sodium')).toBeVisible();
 		expect(await screen.findByLabelText('Added Sugars')).toBeVisible();
-		expect(await screen.findByLabelText('Fiber')).not.toBeVisible();
-		expect(await screen.findByLabelText('Magnesium')).not.toBeVisible();
+		expect((await screen.findByLabelText('Fiber')).parentElement).toHaveClass('hidden');
+		expect((await screen.findByLabelText('Magnesium')).parentElement).toHaveClass('hidden');
 	});
 });
 

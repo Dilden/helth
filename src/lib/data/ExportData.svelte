@@ -13,11 +13,11 @@
 	});
 </script>
 
-<div class="gap-1 flex flex-col">
+<div class="flex flex-col gap-1">
 	{#await Dexie.getDatabaseNames()}
 		<Spinner />
 	{:then names}
-		<select class="rounded-sm px-3 py-1 border-none" bind:value={selectedDB}>
+		<select class="rounded-xs border-none bg-slate-100 px-3 py-1" bind:value={selectedDB}>
 			{#each names as dbname}
 				{#if dbname === db.name}
 					<option value={dbname} selected>{dbname + ' <-- current'}</option>

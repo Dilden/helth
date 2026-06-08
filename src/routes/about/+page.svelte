@@ -37,9 +37,7 @@
 		<summary>Ok, but who are you?</summary>
 		<p>
 			Oh, right, sorry. My name is Dylan and I like to build web apps. I do some writing about web
-			application development over at <a href="https://www.closingtags.com/"
-				>https://www.closingtags.com/</a
-			>
+			application development over at <a href="https://www.closingtags.com/">closingtags.com</a>
 			if you're into that sort of thing. I have a short bio that you can read on my
 			<a href="https://www.closingtags.com/about">about page</a>. You'll also find links to my
 			social media and a <a href="https://www.closingtags.com/contact/">contact form</a> on my website
@@ -60,19 +58,16 @@
 			in the bottom right corner, you'll be presented with a pop-up which has the tabs "Inventory",
 			"Recipes", and "Scan". Navigating to the "Scan" tab will allow you to scan the barcode (after
 			you grant the app permission to use your camera) of a food's packaging. Once scanned, that
-			item <i>should</i> be automatically added to your Inventory. From the Inventory, any values of
-			the scanned items can be modified, added to the daily total, or added to a Recipe. Recipes are
-			convenient for adding multiple items to the daily total at once.
-			<strike
-				>Recipes do not currently support servings per Item but that is a feature planned for a
-				future release!</strike
-			> You can totally customize the servings per item in a Recipe now.
+			item <i>should</i> be automatically added to your Inventory. Note that not every item may be listed
+			in the OpenFoodFacts Database. From the Inventory, any values of the scanned items can be modified,
+			added to the daily total, or added to a Recipe. Recipes are convenient for adding multiple items
+			to the daily total at once.
 		</p>
 		<p>
 			Its recommended to install helth.app on your device for the most consistent experience. For
-			instructions on how to do this with your device, see here: <a
+			instructions on how to do this with your device, see <a
 				href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing"
-				>https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing</a
+				>this guide from Mozilla</a
 			>. You can also use it just like a normal website in your device's web browser.
 		</p>
 	</details>
@@ -99,7 +94,7 @@
 		</p>
 		<p>
 			When you scan a barcode with the barcode scanner, your device connects to the Open Food Facts
-			API to retrieve the appropriate data. The helth app server currently doesn't have any clue
+			API to retrieve the appropriate data. The helth.app server currently doesn't have any clue
 			what you're looking up.
 		</p>
 	</details>
@@ -132,10 +127,11 @@
 			If losing your device and data is a concern, consider purchasing a subscription to helth.app.
 			Not only does your money contribute to making the app better, but your data will be stored in
 			a cloud service provider. That way, if you lose your device or completely wipe your data,
-			you'll be able to sync it from another device and recover your data. Neat, huh? If that's too
-			much for you, consider exporting your data regularly. Your data will be downloaded from your
-			device in an easy-to-read (for computers) file that can then be imported into helth.app on
-			another device. Export/import your data at the <a href="/data">settings page</a>.
+			you'll be able to sync it from another device and recover your data later. Neat, huh? If
+			you're not okay with this due to privacy concerns, I get it. You should then consider
+			exporting your data regularly via the <a href="/data">settings page</a>. Your data will be
+			downloaded from your device in an easy-to-read (for computers) file that can then be imported
+			into helth.app on another device.
 		</p>
 	</details>
 	<details>
@@ -236,16 +232,18 @@
 		<p>
 			To sponsor me on GitHub, visit <a href="https://github.com/sponsors/Dilden"
 				>https://github.com/sponsors/Dilden</a
-			>. If you don't have a GitHub account, you can also make a one-time donation via Stripe for
-			<a href="https://buy.stripe.com/bIY7sX4IP2tjcVydQQ">$5</a>,
-			<a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$10</a>,
-			<a href="https://buy.stripe.com/fZe8x13ELec15t67sv">$20</a>,
-			<a href="https://buy.stripe.com/28o28D4IP9VL5t68wx">$50</a>, or
-			<a href="https://buy.stripe.com/14k4gL1wD9VLg7K6os">$100</a>.
+			>.
 		</p>
 	</details>
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
+	<details>
+		<summary>v1.0.10</summary>
+		<ul class="list-disc">
+			<li>Tailwind v4!</li>
+			<li>Lots of inputs needed background colors added to them</li>
+		</ul>
+	</details>
 	<details>
 		<summary>v1.0.9</summary>
 		<ul class="list-disc">
