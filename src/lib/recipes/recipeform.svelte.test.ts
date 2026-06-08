@@ -21,7 +21,7 @@ it('inventorySearch text hides elements from inventory', () => {
 
 	// parent element is actually hidden
 	expect(screen.getByLabelText('test')).toBeVisible();
-	expect(screen.getByLabelText('demo').parentElement).toHaveClass('hidden');
+	expect(screen.getByLabelText('demo').parentElement?.parentElement).toHaveClass('hidden');
 });
 
 vi.mock('$stores/stores.svelte', async () => {

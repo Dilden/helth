@@ -42,6 +42,7 @@
 	};
 </script>
 
+<!-- checkbox input + label  + servings input-->
 {#snippet checkboxItem(item)}
 	<span
 		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2"
@@ -58,35 +59,28 @@
 			{item.name}
 		</label>
 	</span>
-{/snippet}
 
-{#snippet servings(item, hidden = 'flex')}
-	<div
-		class="{hidden} w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) lg:w-auto lg:flex-col lg:justify-start"
-	>
-		{@render checkboxItem(item)}
-		{#if item.checked}
-			<span class="relative w-auto max-w-20" transition:blur>
-				<label
-					class="absolute inset-s-2.5 top-4 z-10 origin-left -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:rtl:left-auto peer-focus:rtl:translate-x-1/4 dark:text-gray-200 dark:peer-focus:text-blue-500"
-					for="inventoryItemServing-{item.id}"
-				>
-					Servings
-				</label>
-				<input
-					id="inventoryItemServing-{item.id}"
-					type="number"
-					class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pt-4 pb-1 text-sm text-gray-900 focus:border-blue-600 focus:ring-0 focus:outline-hidden dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
-					placeholder=" "
-					required
-					value={recipe.items && recipe.items.map((item) => item.id).includes(item.id)
-						? recipe.items.find((el) => item.id === el.id).servings
-						: 1}
-					step="any"
-				/>
-			</span>
-		{/if}
-	</div>
+	{#if item.checked}
+		<span class="relative w-auto max-w-20" transition:blur>
+			<label
+				class="absolute inset-s-2.5 top-4 z-10 origin-left -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:rtl:left-auto peer-focus:rtl:translate-x-1/4 dark:text-gray-200 dark:peer-focus:text-blue-500"
+				for="inventoryItemServing-{item.id}"
+			>
+				Servings
+			</label>
+			<input
+				id="inventoryItemServing-{item.id}"
+				type="number"
+				class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pt-4 pb-1 text-sm text-gray-900 focus:border-blue-600 focus:ring-0 focus:outline-hidden dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
+				placeholder=" "
+				required
+				value={recipe.items && recipe.items.map((item) => item.id).includes(item.id)
+					? recipe.items.find((el) => item.id === el.id).servings
+					: 1}
+				step="any"
+			/>
+		</span>
+	{/if}
 {/snippet}
 
 <form
@@ -145,9 +139,15 @@
 				{#each reactiveItems as item}
 					<!-- hide items here based on inventorySearch.query value as removing them entirely breaks the form -->
 					{#if item.name.toLowerCase().includes(recipesInventoryFilter.query.toLowerCase())}
-						{@render servings(item)}
+						<div
+							class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) lg:w-auto lg:flex-col lg:justify-start"
+						>
+							{@render checkboxItem(item)}
+						</div>
 					{:else}
-						{@render servings(item, 'hidden')}
+						<div class="hidden">
+							{@render checkboxItem(item)}
+						</div>
 					{/if}
 				{/each}
 			</div>
