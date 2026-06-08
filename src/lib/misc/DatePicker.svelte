@@ -6,4 +6,12 @@
 </script>
 
 <label for="entry-date">Select date</label>
-<input name="entry-date" id="entry-date" type="date" onchange={callback} {value} max={value} />
+<input
+	class="bg-slate-100"
+	name="entry-date"
+	id="entry-date"
+	type="date"
+	onchange={callback}
+	{value}
+	max={value}
+/>
