@@ -241,6 +241,7 @@
 		<summary>v1.0.10</summary>
 		<ul class="list-disc">
 			<li>Tailwind v4!</li>
+			<li>Lots of inputs needed background colors added to them</li>
 		</ul>
 	</details>
 	<details>
