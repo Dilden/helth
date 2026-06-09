@@ -58,7 +58,7 @@
 		"dexie-cloud": "^3.0.4",
 		"dexie-cloud-addon": "^4.4.13",
 		"dexie-export-import": "^4.4.0",
-		"stripe": "^18.3.0"
+		"stripe": "^22.2.0"
 	},
 	"jest": {
 		"setupFilesAfterEnv": [
