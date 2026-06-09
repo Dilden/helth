@@ -238,6 +238,13 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.12</summary>
+		<ul class="list-disc">
+			<li>updated payment processor SDK</li>
+			<li>show "helth.app" in title instead of "helth app"</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.11</summary>
 		<ul class="list-disc">
 			<li>upgrading various dependencies</li>
