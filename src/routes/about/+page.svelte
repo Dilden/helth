@@ -238,6 +238,12 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.0.13</summary>
+		<ul class="list-disc">
+			<li>added meta description to show accurate description in search results</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.12</summary>
 		<ul class="list-disc">
 			<li>updated payment processor SDK</li>
