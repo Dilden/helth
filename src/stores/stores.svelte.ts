@@ -119,6 +119,32 @@ const recS: SearchResults<Promise<Recipe>> = $derived.by(() => {
 });
 export const recipeSearchResults = () => recS;
 
+// unified search
+export const q: Search = $state({ query: '' });
+const results: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(async () => {
+	// console.log({ results: [...inventory.get(), ...recipes.get()] });
+	const queriedInventory = inventory
+		.get()
+		.filter(
+			(item) =>
+				item.name.toLowerCase().includes(q.query.toLowerCase()) ||
+				item.description.toLowerCase().includes(q.query.toLowerCase())
+		);
+
+	const queriedRecipes = recipes
+		.get()
+		.filter(
+			(recipe) =>
+				recipe.name.toLowerCase().includes(q.query.toLowerCase()) ||
+				recipe.description.toLowerCase().includes(q.query.toLowerCase())
+		);
+
+	const results = [...queriedInventory, ...queriedRecipes];
+
+	return { results };
+});
+export const searchResults = () => results;
+
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
 	let workingDate: string = $state(new Date().setHours(0, 0, 0, 0).toString());
@@ -148,8 +174,8 @@ function createTodayStore(): TodayStore<JournalEntry> {
 		workingDate = date;
 		await init();
 	}
-	function remove() {}
-	async function add() {}
+	function remove() { }
+	async function add() { }
 
 	return { init, add, update, get, setDate, remove };
 }

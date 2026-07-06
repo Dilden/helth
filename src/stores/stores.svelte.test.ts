@@ -3,7 +3,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { inventory, recipes, goals, settings, today } from '$stores/stores.svelte';
 import { defaultTodayStoreValues } from '../vitest/defaultTodayStore';
 
-describe.sequential('inventory', () => {
+describe('inventory', () => {
 	it('can add an item', async () => {
 		await inventory.add(testItem);
 
@@ -62,7 +62,7 @@ describe.sequential('inventory', () => {
 	});
 });
 
-describe.sequential('recipes', () => {
+describe('recipes', () => {
 	it('can add a recipe', async () => {
 		await recipes.add(recipe1);
 
@@ -149,7 +149,7 @@ it('removes a linked item from a recipe when an item is deleted', async () => {
 	);
 });
 
-describe.sequential('name value stores', () => {
+describe('name value stores', () => {
 	it('can add a goal', async () => {
 		await goals.add(testGoal1);
 		expect(goals.get()).toHaveProperty('ayylmfao', expect.objectContaining(testGoal1));
@@ -168,14 +168,14 @@ describe.sequential('name value stores', () => {
 	});
 });
 
-describe.sequential('setting store', () => {
+describe('setting store', () => {
 	it('can add a setting', async () => {
 		await settings.add(testSetting);
 		expect(settings.get()).toHaveProperty('derp', expect.objectContaining(testSetting));
 	});
 });
 
-describe.sequential('today store', () => {
+describe('today store', () => {
 	beforeAll(async () => {
 		await today.setDate(defaultTodayStoreValues.date.toString());
 	});
