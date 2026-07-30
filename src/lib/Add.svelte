@@ -8,14 +8,11 @@
 <Modal>
 	<Tabs>
 		<TabList>
-			<Tab>Inventory + Recipes</Tab>
+			<Tab>Your Items</Tab>
 			<Tab>Scan</Tab>
 		</TabList>
 		<TabPanel>
-			<Inventory />
-		</TabPanel>
-		<TabPanel>
-			<Recipes />
+			<List />
 		</TabPanel>
 		<TabPanel>
 			<Barcode />
