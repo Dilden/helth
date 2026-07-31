@@ -21,7 +21,21 @@ beforeAll(async () => {
 });
 
 describe('unified search', () => {
-	it('shows all options', async () => {
+	it('not setting query shows all', async () => {
+		const res = await searchResults();
+		expect(res.results).toHaveLength(6);
+		expect(res.results).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ name: 'Coca-Cola' }),
+				expect.objectContaining({ name: 'Water' }),
+				expect.objectContaining({ name: 'Syrup' }),
+				expect.objectContaining({ name: 'toxic waste' }),
+				expect.objectContaining({ name: 'beezchurger' }),
+				expect.objectContaining({ name: 'gnarly mess' })
+			])
+		);
+	});
+	it('blank query shows all options', async () => {
 		q.query = '';
 		const res = await searchResults();
 		expect(res.results).toHaveLength(6);

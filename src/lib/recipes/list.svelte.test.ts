@@ -1,18 +1,41 @@
 import 'fake-indexeddb/auto';
 import { defaultInventory, defaultRecipes } from '../../vitest/defaultInventory';
+import { recipes, inventory, searchResults, q } from '$stores/stores.svelte';
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import List from './List.svelte';
 
-// afterEach(() => {
-// 	vi.restoreAllMocks();
-// });
+beforeAll(async () => {
+  for (const item of defaultInventory) {
+    await inventory.add(item);
+  }
+  for (const recipe of defaultRecipes) {
+    await recipes.add(recipe);
+  }
+});
 
-describe.skip('search', () => {
-  it('shows all inventory + recipes', () => { });
-  it('only shows inventory item when searched by it', () => { });
-  it('only shows recipe when searched by it', () => { });
+describe('search', () => {
+  it('shows all inventory + recipes', async () => {
+    render(List);
+    expect(await screen.findByRole('heading', { name: 'Water' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Syrup' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Coca-Cola' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'toxic waste' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'beezchurger' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'gnarly mess' })).toBeVisible();
+  });
+  it('only shows inventory item when searched by it', async () => {
+    q.query = 'Water';
+    render(List);
+    expect(await screen.findByRole('heading', { name: 'Water' })).toBeVisible();
+    expect(screen.queryByRole('heading', { name: 'Syrup' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Coca-Cola' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'toxic waste' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'beezchurger' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'gnarly mess' })).not.toBeInTheDocument();
+  });
+  it.skip('only shows recipe when searched by it', () => { });
 });
 describe('interface', () => {
   it('has a title', () => {
