@@ -121,7 +121,7 @@ export const recipeSearchResults = () => recS;
 
 // unified search
 export const q: Search = $state({ query: '' });
-const results: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(async () => {
+const r: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(async () => {
 	// console.log({ results: [...inventory.get(), ...recipes.get()] });
 	const queriedInventory = inventory
 		.get()
@@ -139,11 +139,23 @@ const results: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(asyn
 				recipe.description.toLowerCase().includes(q.query.toLowerCase())
 		);
 
-	const results = [...queriedInventory, ...queriedRecipes];
+	const recipesWithItems = queriedRecipes.map(async (recipe: Recipe) => {
+		const _items = lookupItems(recipe);
+		const lookedUpItems = await Promise.all(_items);
 
-	return { results };
+		const items = lookedUpItems.map((item) => {
+			let found = recipe.items.find((x) => x.id == item.id);
+
+			// default servings to 1 if not set
+			return { servings: 1, ...found, ...item };
+		});
+
+		return { ...recipe, items };
+	});
+
+	return { results: [...queriedInventory, ...(await Promise.all(recipesWithItems))] };
 });
-export const searchResults = () => results;
+export const searchResults = () => r;
 
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
