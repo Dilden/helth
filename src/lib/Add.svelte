@@ -3,6 +3,8 @@
 	import List from '$lib/recipes/List.svelte';
 	import Modal from '$lib/Modal.svelte';
 	import { Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
+	import { inventory, recipes } from '$stores/stores.svelte';
+	import Spinner from '$lib/Spinner.svelte';
 </script>
 
 <Modal>
@@ -12,7 +14,11 @@
 			<Tab>Scan</Tab>
 		</TabList>
 		<TabPanel>
-			<List />
+			{#await Promise.all([inventory.init(), recipes.init()])}
+				<Spinner />
+			{:then}
+				<List />
+			{/await}
 		</TabPanel>
 		<TabPanel>
 			<Barcode />

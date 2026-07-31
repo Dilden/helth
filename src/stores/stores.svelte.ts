@@ -122,7 +122,6 @@ export const recipeSearchResults = () => recS;
 // unified search
 export const q: Search = $state({ query: '' });
 const r: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(async () => {
-	// console.log({ results: [...inventory.get(), ...recipes.get()] });
 	const queriedInventory = inventory
 		.get()
 		.filter(

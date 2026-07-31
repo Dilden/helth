@@ -14,19 +14,21 @@
 		<Search bind:searchStoreVal={q.query} searchTitle="Search" />
 	</div>
 
-	<ul class="mb-8 p-0 md:col-end-3 col-start-1 col-end-2 list-none">
-		{#await searchResults()}
-			<Spinner />
-		{:then { results }}
+	{#await searchResults()}
+		<Spinner />
+	{:then { results }}
+		<ul class="mb-8 p-0 md:col-end-3 col-start-1 col-end-2 list-none">
 			{#each results as x}
-				{#if 'items' in x}
-					<RecipeItem recipe={x} />
-				{:else if 'nutrients' in x}
-					<Item item={x} />
-				{:else}
-					<p>Unknown Item type</p>
-				{/if}
+				<li>
+					{#if 'items' in x}
+						<RecipeItem recipe={x} />
+					{:else if 'nutrients' in x}
+						<Item item={x} />
+					{:else}
+						<p>Unknown Item type</p>
+					{/if}
+				</li>
 			{/each}
-		{/await}
-	</ul>
+		</ul>
+	{/await}
 </div>

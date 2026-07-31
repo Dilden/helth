@@ -11,16 +11,7 @@ describe('Add dialog component', () => {
 
 		await user.click(screen.queryByRole('button', { name: '➕' }));
 
-		// For some reason, these buttons are still hidden in the tests
-		// but actually show up in the browser.
-		// It's as if the 'click' code isn't actually being run.
-		expect(screen.getByRole('button', { name: 'Your Items' })).toBeInTheDocument();
-		// expect(
-		// 	await screen.findByRole('button', { name: 'Inventory & Recipes', hidden: true })
-		// ).toBeInTheDocument();
-		// expect(
-		// 	await screen.findByRole('button', { name: 'Recipes', hidden: true })
-		// ).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: 'Scan' })).toBeInTheDocument();
+		expect(await screen.findByText('Your Items')).toBeInTheDocument();
+		expect(await screen.findByText('Scan')).toBeInTheDocument();
 	});
 });
