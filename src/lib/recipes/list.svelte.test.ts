@@ -45,6 +45,11 @@ describe('search', () => {
     expect(screen.queryByRole('heading', { name: 'toxic waste' })).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'gnarly mess' })).not.toBeInTheDocument();
   });
+  it('knows how to display all items', async () => {
+    q.query = '';
+    render(List);
+    expect(screen.queryByRole('paragraph', { name: 'Unknown Item type' })).not.toBeInTheDocument();
+  });
 });
 describe('interface', () => {
   it('has a title', () => {
