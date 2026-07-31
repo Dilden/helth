@@ -21,7 +21,7 @@ it('shows counters for all nutrients', async () => {
 });
 
 vi.mock('$stores/stores.svelte', async () => {
-	let s = $state({ query: '' });
+	// let s = $state({ query: '' });
 	let q = $state({ query: '' });
 	return {
 		history: {
@@ -65,8 +65,12 @@ vi.mock('$stores/stores.svelte', async () => {
 			init: vi.fn(() => Promise.resolve()),
 			get: vi.fn(() => defaultInventory)
 		},
-		inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
-		inventorySearch: s,
+		recipes: {
+			init: vi.fn(() => Promise.resolve()),
+			get: vi.fn(() => defaultRecipes)
+		},
+		// inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
+		// inventorySearch: s,
 		subscription: {
 			init: vi.fn(() => Promise.resolve())
 		},
