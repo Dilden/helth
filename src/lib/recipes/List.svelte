@@ -15,8 +15,6 @@
 	</div>
 
 	<ul class="mb-8 p-0 md:col-end-3 col-start-1 col-end-2 list-none">
-		<!-- TODO  -->
-		<!-- searchResults() or searchResults().results?? which is correct?? -->
 		{#await searchResults()}
 			<Spinner />
 		{:then { results }}

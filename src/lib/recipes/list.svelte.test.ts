@@ -25,7 +25,7 @@ describe('search', () => {
     expect(await screen.findByRole('heading', { name: 'beezchurger' })).toBeVisible();
     expect(await screen.findByRole('heading', { name: 'gnarly mess' })).toBeVisible();
   });
-  it('only shows inventory item when searched by it', async () => {
+  it('filters everything except given item', async () => {
     q.query = 'Water';
     render(List);
     expect(await screen.findByRole('heading', { name: 'Water' })).toBeVisible();
@@ -35,7 +35,16 @@ describe('search', () => {
     expect(screen.queryByRole('heading', { name: 'beezchurger' })).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'gnarly mess' })).not.toBeInTheDocument();
   });
-  it.skip('only shows recipe when searched by it', () => { });
+  it('filters everything except given recipe', async () => {
+    q.query = 'beezchurger';
+    render(List);
+    expect(await screen.findByRole('heading', { name: 'beezchurger' })).toBeVisible();
+    expect(screen.queryByRole('heading', { name: 'Water' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Syrup' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Coca-Cola' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'toxic waste' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'gnarly mess' })).not.toBeInTheDocument();
+  });
 });
 describe('interface', () => {
   it('has a title', () => {
