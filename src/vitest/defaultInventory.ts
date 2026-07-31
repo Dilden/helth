@@ -55,8 +55,8 @@ export const defaultRecipes = [
 		name: 'toxic waste',
 		description: 'heaping garbage dumpster fire',
 		items: [
-			{ id: 1, servings: 1 },
-			{ id: 2, servings: 2 }
+			{ id: '1', servings: 1 },
+			{ id: '2', servings: 2 }
 		]
 	},
 	{
@@ -64,8 +64,8 @@ export const defaultRecipes = [
 		name: 'beezchurger',
 		description: 'yum yum',
 		items: [
-			{ id: 1, servings: 1 },
-			{ id: 3, servings: 1.5 }
+			{ id: '1', servings: 1 },
+			{ id: '3', servings: 1.5 }
 		]
 	},
 	{
@@ -73,9 +73,9 @@ export const defaultRecipes = [
 		name: 'gnarly mess',
 		description: 'lorem ipsum',
 		items: [
-			{ id: 1, servings: 1 },
-			{ id: 2, servings: 1 },
-			{ id: 3, servings: 1 }
+			{ id: '1', servings: 1 },
+			{ id: '2', servings: 1 },
+			{ id: '3', servings: 1 }
 		]
 	}
 ];
