@@ -3,6 +3,6 @@
 	let { nutrient } = $props();
 </script>
 
-<li class="mx-2 my-0 text-xs inline-block italic">
+<li class="mx-2 my-0 text-xs inline-block italic" role="listitem">
 	{nutrient.name}: {nutrient.quantity}{nutrient.unit}
 </li>
