@@ -23,7 +23,8 @@ beforeEach(() => {
 					key: 'added_sugars'
 				}
 			],
-			servings: 1
+			servings: 1,
+			created: 1782
 		},
 		{
 			name: 'Pepsi',
@@ -49,12 +50,14 @@ beforeEach(() => {
 					unit: 'mg'
 				}
 			],
-			servings: 2
+			servings: 2,
+			created: 1790
 		},
 		{
 			name: 'Mt. Dew',
 			description: 'will actually kill you',
 			barcode: '9888',
+			created: 1790,
 			nutrients: [
 				{
 					key: 'calories',
@@ -117,6 +120,7 @@ it('returns the items with servings applied to nutrients', () => {
 				name: 'Coca-Cola',
 				description: 'sweet nectar of the gods',
 				barcode: '9886',
+				created: 1782,
 				nutrients: [
 					{
 						name: 'Calories',
@@ -137,6 +141,7 @@ it('returns the items with servings applied to nutrients', () => {
 				name: 'Pepsi',
 				description: 'a toxic waste spill sold to consumers in a can',
 				barcode: '9887',
+				created: 1790,
 				nutrients: [
 					{
 						key: 'calories',
@@ -163,6 +168,7 @@ it('returns the items with servings applied to nutrients', () => {
 				name: 'Mt. Dew',
 				description: 'will actually kill you',
 				barcode: '9888',
+				created: 1790,
 				nutrients: [
 					{
 						key: 'calories',

@@ -7,6 +7,7 @@ import Item from './Item.svelte';
 const coke = {
 	name: 'Coca-Cola',
 	description: 'a carbonated beverage that will rot your teeth',
+	created: 1782,
 	nutrients: [
 		{
 			key: 'calories',
@@ -27,6 +28,7 @@ describe('inventory items', () => {
 	it('shows an item with title', () => {
 		render(Item, { item: { name: 'Coca-Cola' } });
 		expect(screen.queryByText('Coca-Cola')).toBeVisible();
+		expect(screen.queryByText('Item')).toBeVisible();
 	});
 
 	it('shows actionable buttons on an item', () => {

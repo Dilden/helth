@@ -151,8 +151,14 @@ const r: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(async () =
 
 		return { ...recipe, items };
 	});
-
-	return { results: [...queriedInventory, ...(await Promise.all(recipesWithItems))] };
+	const z = [...queriedInventory, ...(await Promise.all(recipesWithItems))];
+	const sorted = z.sort((a, b) => {
+		if (a?.created && b?.created) {
+			return b.created - a.created;
+		}
+		return b?.created ? -1 : a?.created ? 1 : 0;
+	});
+	return { results: sorted };
 });
 export const searchResults = () => r;
 

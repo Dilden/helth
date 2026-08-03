@@ -15,6 +15,7 @@ describe('recipe items', () => {
 		});
 		expect(screen.getByRole('heading', { name: 'This is a recipe title' })).toBeVisible();
 		expect(screen.getByText('test desc')).toBeVisible();
+		expect(screen.getByText('Recipe')).toBeVisible();
 		expect(screen.getByRole('spinbutton', { name: 'Servings' })).toHaveValue(1);
 	});
 	it('shows inventory items in recipe with quantities summed', () => {

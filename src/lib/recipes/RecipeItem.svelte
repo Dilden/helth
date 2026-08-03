@@ -3,6 +3,7 @@
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
 	import { recipes, today } from '$stores/stores.svelte';
+	import NutrientList from '$lib/nutrients/NutrientList.svelte';
 
 	/** @type {{recipe?: any}} */
 	let { recipe = {} } = $props();
@@ -46,23 +47,20 @@
 	};
 </script>
 
-<h4 class="mx-0 ml-0 sm:my-1 md:my-2">{recipe.name}</h4>
+<div class="flex flex-row justify-between">
+	<h4 class="mx-0 ml-0 sm:my-1 md:my-2 text-md">{recipe.name}</h4>
+	<p class="font-bold text-xs">Recipe</p>
+</div>
 <div class="text-sm">{recipe.description}</div>
 <div>
 	<ul class="list-none sm:pl-0 sm:text-left md:text-center">
 		{#each recipe.items as item}
-			<li class="text-md mx-2 my-0 inline-block font-bold">
+			<li class="text-sm lg:text-md mx-2 my-0 inline-block font-bold">
 				{item.name}
 			</li>
 		{/each}
 	</ul>
-	<ul class="list-none text-center sm:pl-0">
-		{#each itemNutrientSums as nutrient}
-			<li class="mx-2 my-1 inline-block text-sm italic">
-				{nutrient.name + ': ' + nutrient.quantity + nutrient.unit}
-			</li>
-		{/each}
-	</ul>
+	<NutrientList list={itemNutrientSums} />
 </div>
 
 <div class="relative inline-block align-middle">
@@ -90,4 +88,4 @@
 	title="Add Recipe nutients (multiplied by specified servings) to Daily Total">➕</button
 >
 <!-- remove from db -->
-<button class="float-right m-1 sm:m-2" onclick={confirmDelete} title="Delete Recipe">🗑️</button>
+<button class="m-1 sm:m-2" onclick={confirmDelete} title="Delete Recipe">🗑️</button>

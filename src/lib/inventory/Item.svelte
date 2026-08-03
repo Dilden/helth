@@ -2,6 +2,7 @@
 	import { successToast, errorToast, confirmDialog } from '$utils/toast.js';
 	import { today, inventory, recipes } from '$stores/stores.svelte';
 	import { toTwoDecimals } from '$utils/numbers';
+	import NutrientList from '$lib/nutrients/NutrientList.svelte';
 
 	/** @type {{item: any}} */
 	let { item } = $props();
@@ -48,19 +49,14 @@
 	};
 </script>
 
-<h4 class="ml-0 sm:mb-1 md:mb-2">{item.name}</h4>
+<div class="flex flex-row justify-between">
+	<h4 class="ml-0 sm:mb-1 md:mb-2">{item.name}</h4>
+	<p class="font-bold text-xs">Item</p>
+</div>
 <div>
 	<div class="text-sm">{item.description}</div>
 	{#if item.nutrients}
-		<ul class="sm:pl-0 sm:text-left md:text-center list-none">
-			{#each item.nutrients as nutrient}
-				{#if nutrient.quantity > 0}
-					<li class="mx-2 my-0 text-xs inline-block italic">
-						{nutrient.name}: {nutrient.quantity}{nutrient.unit}
-					</li>
-				{/if}
-			{/each}
-		</ul>
+		<NutrientList list={item.nutrients} />
 	{/if}
 </div>
 
@@ -90,6 +86,4 @@
 >
 <!-- <button title="Add to Recipe">📑</button> <!-- add to recipe -->
 <!-- remove from db -->
-<button class="m-1 sm:m-2 float-right" onclick={confirmDelete} title="Delete Item from Inventory">
-	🗑️
-</button>
+<button class="m-1 sm:m-2" onclick={confirmDelete} title="Delete Item from Inventory"> 🗑️ </button>

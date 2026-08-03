@@ -4,6 +4,7 @@ export const defaultInventory: Array<InventoryItem> = [
 		name: 'Coca-Cola',
 		description: 'a carbonated beverage that will rot your teeth',
 		barcode: '111111111111',
+		created: 1,
 		nutrients: [
 			{
 				key: 'calories',
@@ -24,6 +25,7 @@ export const defaultInventory: Array<InventoryItem> = [
 		name: 'Water',
 		description: 'hydrohomie 4 life',
 		barcode: '222222222222',
+		created: 2,
 		nutrients: [
 			{
 				key: 'calories',
@@ -38,6 +40,7 @@ export const defaultInventory: Array<InventoryItem> = [
 		name: 'Syrup',
 		description: 'sticky',
 		barcode: '333333333333',
+		created: 3,
 		nutrients: [
 			{
 				key: 'calories',
@@ -54,6 +57,7 @@ export const defaultRecipes = [
 		id: '4',
 		name: 'toxic waste',
 		description: 'heaping garbage dumpster fire',
+		created: 4,
 		items: [
 			{ id: '1', servings: 1 },
 			{ id: '2', servings: 2 }
@@ -63,6 +67,7 @@ export const defaultRecipes = [
 		id: '5',
 		name: 'beezchurger',
 		description: 'yum yum',
+		created: 5,
 		items: [
 			{ id: '1', servings: 1 },
 			{ id: '3', servings: 1.5 }
@@ -72,6 +77,7 @@ export const defaultRecipes = [
 		id: '6',
 		name: 'gnarly mess',
 		description: 'lorem ipsum',
+		created: 6,
 		items: [
 			{ id: '1', servings: 1 },
 			{ id: '2', servings: 1 },
