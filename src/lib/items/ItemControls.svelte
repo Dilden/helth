@@ -1,12 +1,12 @@
-<script lang="typescrip">
+<script lang="typescript">
 	/** @type {{item: InventoryItem | Nutrient}} */
 	let { item } = $props();
 	let servings = $state(1);
 </script>
 
 <!--add to daily total -->
-<div class="flex flex-row justify-start">
-	<div class="relative inline-block align-middle">
+<div class="flex flex-row justify-start align-middle">
+	<div class="relative m-2">
 		<label
 			class="absolute inset-s-2.5 top-4 z-10 origin-left -translate-y-4 scale-75 transform text-xs text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:rtl:left-auto peer-focus:rtl:translate-x-1/4 dark:text-gray-200 dark:peer-focus:text-blue-500"
 			for="itemServing-{item.id}"
