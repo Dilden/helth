@@ -5,10 +5,17 @@
 		onEditClick: () => void;
 		onDuplicateClick: () => void;
 		onDeleteClick: () => void;
+		servings: number;
 	}
 
-	let { item, onAddClick, onEditClick, onDuplicateClick, onDeleteClick }: Props = $props();
-	let servings = $state(1);
+	let {
+		servings = $bindable(),
+		item,
+		onAddClick,
+		onEditClick,
+		onDuplicateClick,
+		onDeleteClick
+	}: Props = $props();
 </script>
 
 <!--add to daily total -->

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Spinner from '$lib/Spinner.svelte';
 	import Search from '$lib/misc/Search.svelte';
-	import { q, searchResults } from '$stores/stores.svelte';
+	import { q, searchResults, today } from '$stores/stores.svelte';
 	import Item from '../inventory/Item.svelte';
 	import RecipeItem from '../recipes/RecipeItem.svelte';
 	import AddItem from '$lib/inventory/AddItem.svelte';

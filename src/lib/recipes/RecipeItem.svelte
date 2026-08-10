@@ -62,5 +62,5 @@
 		{/each}
 	</ul>
 	<NutrientList list={itemNutrientSums} />
-	<ItemControls item={recipe} />
+	<ItemControls item={recipe} onAddClick={addToToday} onDeleteClick={confirmDelete} bind:servings />
 </div>

@@ -59,5 +59,5 @@
 	{#if item.nutrients}
 		<NutrientList list={item.nutrients} />
 	{/if}
-	<ItemControls {item} />
+	<ItemControls {item} onAddClick={addToToday} onDeleteClick={confirmDelete} bind:servings />
 </div>
