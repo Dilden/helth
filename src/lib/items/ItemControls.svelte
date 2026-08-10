@@ -1,6 +1,13 @@
-<script lang="typescript">
-	/** @type {{item: InventoryItem | Nutrient}} */
-	let { item } = $props();
+<script lang="ts">
+	interface Props {
+		item: InventoryItem | Recipe;
+		onAddClick: () => void;
+		onEditClick: () => void;
+		onDuplicateClick: () => void;
+		onDeleteClick: () => void;
+	}
+
+	let { item, onAddClick, onEditClick, onDuplicateClick, onDeleteClick }: Props = $props();
 	let servings = $state(1);
 </script>
 
@@ -24,11 +31,11 @@
 			title="Number of servings to add to daily total"
 		/>
 	</div>
-	<button class="m-2" title="Add to Daily Total">➕</button>
+	<button onclick={() => onAddClick()} title="Add to Daily Total" class="m-2">➕</button>
 	<!-- edit	-->
-	<button onclick={() => {}} title="Edit" class="m-2">✏️</button>
+	<button onclick={() => onEditClick()} title="Edit" class="m-2">✏️</button>
 	<!-- duplicate	-->
-	<button onclick={() => {}} title="Duplicate" class="m-2">⏩</button>
+	<button onclick={() => onDuplicateClick()} title="Duplicate" class="m-2">⏩</button>
 	<!-- remove from db -->
-	<button class="m-2" title="Delete">🗑️</button>
+	<button onclick={() => onDeleteClick()} title="Delete" class="m-2">🗑️</button>
 </div>

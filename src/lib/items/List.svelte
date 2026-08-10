@@ -3,9 +3,9 @@
 	import Search from '$lib/misc/Search.svelte';
 	import { q, searchResults } from '$stores/stores.svelte';
 	import Item from '../inventory/Item.svelte';
-	import RecipeItem from './RecipeItem.svelte';
+	import RecipeItem from '../recipes/RecipeItem.svelte';
 	import AddItem from '$lib/inventory/AddItem.svelte';
-	import RecipeForm from './RecipeForm.svelte';
+	import RecipeForm from '../recipes/RecipeForm.svelte';
 </script>
 
 <div class="md:grid-cols-2 grid grid-cols-1 grid-rows-[1fr_auto]">

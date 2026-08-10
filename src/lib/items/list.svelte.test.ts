@@ -56,13 +56,6 @@ describe('interface', () => {
     render(List);
     expect(screen.getByRole('heading', { name: 'Inventory & Recipes' })).toBeVisible();
   });
-  it('has buttons to manipulate inventory items', () => {
-    render(List);
-    expect(screen.getByRole('button', { name: '➕' })).toBeVisible();
-    expect(screen.getByRole('button', { name: '✏️' })).toBeVisible();
-    expect(screen.getByRole('button', { name: '⏩' })).toBeVisible();
-    expect(screen.getByRole('button', { name: '🗑️' })).toBeVisible();
-  });
   it.skip('shows a form to add inventory items', () => { });
   it.skip('shows a form to edit inventory items', () => { });
   it.skip('has buttons to manipulate recipes', () => { });

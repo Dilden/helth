@@ -1,6 +1,6 @@
 <script>
 	import Barcode from '$lib/Barcode.svelte';
-	import List from '$lib/recipes/List.svelte';
+	import List from '$lib/items/List.svelte';
 	import Modal from '$lib/Modal.svelte';
 	import { Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
 	import { inventory, recipes } from '$stores/stores.svelte';
