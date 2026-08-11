@@ -19,7 +19,7 @@
 	{:then { results }}
 		<ul class="mb-8 p-0 md:col-end-3 col-start-1 col-end-2 list-none">
 			{#each results as x}
-				<li class="my-2 py-2 px-4 md:my-3 lg:my-4 odd:bg-[#1f2a2d]">
+				<li class="py-1 px-4 md:my-2 lg:my-4 odd:bg-[#1f2a2d]">
 					{#if 'items' in x}
 						<RecipeItem recipe={x} />
 					{:else if 'nutrients' in x}
