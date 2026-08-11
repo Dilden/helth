@@ -48,6 +48,12 @@
 			.catch(() => errorToast('Error deleting item!'));
 		await recipes.init(); // recipes store must be re-initialized as its state will remain stale otherwise
 	};
+
+	const duplicateItem = async () => {
+		const { id, barcode, created, ...rest } = item;
+		await inventory.add(rest);
+		successToast(`Duplicated ${rest.name}!`);
+	};
 </script>
 
 <div class="flex flex-row justify-between">
@@ -59,5 +65,11 @@
 	{#if item.nutrients}
 		<NutrientList list={item.nutrients} />
 	{/if}
-	<ItemControls {item} onAddClick={addToToday} onDeleteClick={confirmDelete} bind:servings />
+	<ItemControls
+		{item}
+		onAddClick={addToToday}
+		onDeleteClick={confirmDelete}
+		onDuplicateClick={duplicateItem}
+		bind:servings
+	/>
 </div>

@@ -39,7 +39,8 @@ describe('inventory items', () => {
 
 		expect(buttonTypes).toEqual([
 			expect.stringContaining('➕'),
-			// expect.stringContaining('📑'),
+			expect.stringContaining('✏️'),
+			expect.stringContaining('⏩'),
 			expect.stringContaining('🗑️')
 		]);
 	});

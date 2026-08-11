@@ -14,7 +14,7 @@
 	let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
 
 	const confirmDelete = () => {
-		confirmDialog('Are you sure you want to delete this item?', deleteRecipe, () => false);
+		confirmDialog('Are you sure you want to delete this recipe?', deleteRecipe, () => false);
 	};
 
 	const addToToday = () => {
@@ -46,6 +46,12 @@
 			.then(() => successToast('Removed recipe!'))
 			.catch(() => errorToast('Error deleting recipe!'));
 	};
+
+	const duplicateRecipe = async () => {
+		const { id, created, ...rest } = recipe;
+		await recipes.add(rest);
+		successToast(`Duplicated ${rest.name}!`);
+	};
 </script>
 
 <div class="flex flex-row justify-between">
@@ -62,5 +68,11 @@
 		{/each}
 	</ul>
 	<NutrientList list={itemNutrientSums} />
-	<ItemControls item={recipe} onAddClick={addToToday} onDeleteClick={confirmDelete} bind:servings />
+	<ItemControls
+		item={recipe}
+		bind:servings
+		onAddClick={addToToday}
+		onDeleteClick={confirmDelete}
+		onDuplicateClick={duplicateRecipe}
+	/>
 </div>
