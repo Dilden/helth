@@ -1,12 +1,18 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 	import { blur } from 'svelte/transition';
-	import { recipes, recipesInventoryFilter } from '$stores/stores.svelte';
+	import { recipes, recipesInventoryFilter, inventory } from '$stores/stores.svelte';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
 	/** @type {{recipe?: any, inventoryItems?: Array<InventoryItem>, submitCallback?: any}} */
-	let { recipe = {}, inventoryItems = [], submitCallback = () => false } = $props();
+	let {
+		recipe = {},
+		inventoryItems = inventory
+			.get()
+			.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
+		submitCallback = () => false
+	} = $props();
 
 	let validated = $state(true);
 
