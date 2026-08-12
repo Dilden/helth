@@ -5,7 +5,7 @@
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
-	/** @type {{recipe?: any, inventoryItems?: any, submitCallback?: any}} */
+	/** @type {{recipe?: any, inventoryItems?: Array<InventoryItem>, submitCallback?: any}} */
 	let { recipe = {}, inventoryItems = [], submitCallback = () => false } = $props();
 
 	let validated = $state(true);
