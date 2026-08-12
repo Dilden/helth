@@ -1,17 +1,48 @@
 <script lang="ts">
 	import Spinner from '$lib/Spinner.svelte';
 	import Search from '$lib/misc/Search.svelte';
-	import { q, searchResults, today } from '$stores/stores.svelte';
+	import { q, searchResults } from '$stores/stores.svelte';
 	import Item from '../inventory/Item.svelte';
 	import RecipeItem from '../recipes/RecipeItem.svelte';
 	import AddItem from '$lib/inventory/AddItem.svelte';
 	import RecipeForm from '../recipes/RecipeForm.svelte';
+
+	let showNewItemForm = $state(false);
+	let showNewRecipeForm = $state(false);
 </script>
 
 <div class="md:grid-cols-2 grid grid-cols-1 grid-rows-[1fr_auto]">
 	<h3 class="md:col-end-2 col-start-1 col-end-3">Inventory & Recipes</h3>
 	<div class="m-2 mt-0 md:col-start-2 md:col-end-3 relative col-start-1 col-end-2">
 		<Search bind:searchStoreVal={q.query} searchTitle="Search" />
+	</div>
+	<div class="col-start-1 col-end-3">
+		<button
+			class="mx-2 my-1"
+			onclick={() => {
+				showNewItemForm = !showNewItemForm;
+				showNewRecipeForm = false;
+			}}
+		>
+			{!showNewItemForm ? 'Add Item' : 'Cancel'}
+		</button>
+		<button
+			class="mx-2 my-1"
+			onclick={() => {
+				showNewRecipeForm = !showNewRecipeForm;
+				showNewItemForm = false;
+			}}
+		>
+			{!showNewRecipeForm ? 'Add Recipe' : 'Cancel'}
+		</button>
+	</div>
+	<div class="col-start-1 col-end-3">
+		{#if showNewItemForm && !showNewRecipeForm}
+			<AddItem />
+		{/if}
+		{#if showNewRecipeForm && !showNewItemForm}
+			<RecipeForm />
+		{/if}
 	</div>
 
 	{#await searchResults()}

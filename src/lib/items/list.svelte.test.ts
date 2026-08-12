@@ -56,9 +56,30 @@ describe('interface', () => {
     render(List);
     expect(screen.getByRole('heading', { name: 'Inventory & Recipes' })).toBeVisible();
   });
-  it.skip('shows a form to add inventory items', () => { });
-  it.skip('shows a form to edit inventory items', () => { });
-  it.skip('has buttons to manipulate recipes', () => { });
-  it.skip('shows a form to add recipes', () => { });
-  it.skip('shows a form to edit recipes', () => { });
+  it('shows buttons to add items + recipes', () => {
+    render(List);
+    expect(screen.getByRole('button', { name: 'Add Item' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Add Recipe' })).toBeVisible();
+  });
+  it('can show a form to add an item', async () => {
+    const user = userEvent.setup();
+    render(List);
+    await user.click(screen.queryByRole('button', { name: 'Add Item' }) as Element);
+
+    expect(screen.getByLabelText('Name', { selector: 'input' })).toBeVisible();
+    expect(screen.getByLabelText('Description', { selector: 'input' })).toBeVisible();
+    expect(screen.getByLabelText('Barcode', { selector: 'input' })).toBeVisible();
+
+    expect(screen.queryByRole('button', { name: 'Cancel' })).toBeVisible();
+  });
+  it('can show a form to add a recipe', async () => {
+    const user = userEvent.setup();
+    render(List);
+    await user.click(screen.queryByRole('button', { name: 'Add Recipe' }) as Element);
+
+    expect(screen.getByLabelText('Recipe Name')).toBeVisible();
+    expect(screen.getByLabelText('Recipe Description')).toBeVisible();
+
+    expect(screen.queryByRole('button', { name: 'Cancel' })).toBeVisible();
+  });
 });
