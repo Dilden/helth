@@ -26,7 +26,7 @@
 </script>
 
 <form
-	name="AddItem"
+	name="New Item"
 	onsubmit={preventDefault(handleSubmit)}
 	class="grid-rows-[1fr 1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-3"
 >
