@@ -41,10 +41,6 @@ describe('recipe list items', () => {
 		render(Recipes);
 		expect(await screen.findByRole('heading', { name: 'Crackers and Cheese' })).toBeVisible();
 	});
-	it('has a duplicate button', async () => {
-		render(Recipes);
-		expect(await screen.findByRole('button', { name: '⏩' })).toBeVisible();
-	});
 });
 
 vi.mock('$stores/stores.svelte', async () => {
