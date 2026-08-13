@@ -4,8 +4,8 @@
 	import { formatInventoryFormValues } from '$utils/formValues';
 	import AddNutrientInputs from './AddNutrientInputs.svelte';
 
-	/** @type {{item?: any, submitCallback?: any}} */
-	let { item = {}, submitCallback = () => false } = $props();
+	/** @type {{item?: any, submitCallback?: any, cancelCallback?: any}} */
+	let { item = {}, submitCallback = () => false, cancelCallback = () => {} } = $props();
 	let validated = $state(true);
 
 	const handleSubmit = async (event) => {
@@ -25,6 +25,7 @@
 	};
 </script>
 
+<button onclick={() => cancelCallback()}>Cancel</button>
 <form
 	name="New Item"
 	onsubmit={preventDefault(handleSubmit)}
