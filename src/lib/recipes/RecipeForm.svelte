@@ -5,13 +5,14 @@
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
-	/** @type {{recipe?: any, inventoryItems?: Array<InventoryItem>, submitCallback?: any}} */
+	/** @type {{recipe?: any, inventoryItems?: Array<InventoryItem>, submitCallback?: any, cancelCallback?: any}} */
 	let {
 		recipe = {},
 		inventoryItems = inventory
 			.get()
 			.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
-		submitCallback = () => false
+		submitCallback = () => false,
+		cancelCallback = () => false
 	} = $props();
 
 	let validated = $state(true);
@@ -89,6 +90,7 @@
 	{/if}
 {/snippet}
 
+<button onclick={() => cancelCallback()}>Cancel</button>
 <form
 	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-8"
 	name="AddRecipe"

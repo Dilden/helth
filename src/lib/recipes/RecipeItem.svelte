@@ -5,12 +5,14 @@
 	import { recipes, today } from '$stores/stores.svelte';
 	import NutrientList from '$lib/items/NutrientList.svelte';
 	import ItemControls from '$lib/items/ItemControls.svelte';
+	import RecipeForm from './RecipeForm.svelte';
 
-	/** @type {{recipe?: any}} */
+	/** @type {{recipe?: Recipe}} */
 	let { recipe = {} } = $props();
 
 	let servings = $state(1);
 	let itemNutrientSums = $derived(nutrientSumsFromList(applyServings(recipe.items)));
+	let edit = $state(false);
 
 	const confirmDelete = () => {
 		confirmDialog('Are you sure you want to delete this recipe?', deleteRecipe, () => false);
@@ -53,25 +55,30 @@
 	};
 </script>
 
-<div class="flex flex-row justify-between">
-	<h4 class="mx-0 ml-0 sm:my-1 md:my-2 text-md">{recipe.name}</h4>
-	<p class="font-bold text-xs uppercase">Recipe</p>
-</div>
-<div class="text-sm">{recipe.description}</div>
-<div>
-	<ul class="list-none sm:pl-0 sm:text-left md:text-center">
-		{#each recipe.items as item}
-			<li class="text-sm lg:text-md mx-2 my-0 inline-block font-bold">
-				{item.name}
-			</li>
-		{/each}
-	</ul>
-	<NutrientList list={itemNutrientSums} />
-	<ItemControls
-		item={recipe}
-		bind:servings
-		onAddClick={addToToday}
-		onDeleteClick={confirmDelete}
-		onDuplicateClick={duplicateRecipe}
-	/>
-</div>
+{#if edit}
+	<RecipeForm recipe />
+{:else}
+	<div class="flex flex-row justify-between">
+		<h4 class="mx-0 ml-0 sm:my-1 md:my-2 text-md">{recipe.name}</h4>
+		<p class="font-bold text-xs uppercase">Recipe</p>
+	</div>
+	<div class="text-sm">{recipe.description}</div>
+	<div>
+		<ul class="list-none sm:pl-0 sm:text-left md:text-center">
+			{#each recipe.items as item}
+				<li class="text-sm lg:text-md mx-2 my-0 inline-block font-bold">
+					{item.name}
+				</li>
+			{/each}
+		</ul>
+		<NutrientList list={itemNutrientSums} />
+		<ItemControls
+			item={recipe}
+			bind:servings
+			onAddClick={addToToday}
+			onDeleteClick={confirmDelete}
+			onDuplicateClick={duplicateRecipe}
+			onEditClick={() => (edit = !edit)}
+		/>
+	</div>
+{/if}
