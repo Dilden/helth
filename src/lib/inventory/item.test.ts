@@ -1,9 +1,22 @@
 // @ts-ignore
 import 'fake-indexeddb/auto';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
 import Item from './Item.svelte';
+import { defaultSettingsStoreValues } from '../../vitest/defaultSettingsStoreValues';
 
+vi.mock('$stores/stores.svelte', async () => {
+	return {
+		settings: {
+			get: vi.fn(() => defaultSettingsStoreValues),
+			add: vi.fn(),
+			update: vi.fn(),
+			remove: vi.fn(),
+			init: vi.fn(() => Promise.resolve())
+		}
+	};
+});
 const coke = {
 	name: 'Coca-Cola',
 	description: 'a carbonated beverage that will rot your teeth',
@@ -52,9 +65,23 @@ describe('inventory items', () => {
 	});
 });
 
-describe('add to daily total', () => {
+describe('item control interactions', () => {
 	it('shows a number input next to plus ➕ button', () => {
 		render(Item, { item: coke });
 		expect(screen.getByRole('spinbutton', { name: 'Servings' })).toHaveValue(1);
+	});
+
+	it('shows a form when editing', async () => {
+		const user = userEvent.setup();
+		render(Item, { item: coke });
+
+		await user.click(screen.queryByRole('button', { name: '✏️' }) as Element);
+
+		expect(screen.getByLabelText('Name')).toHaveValue('Coca-Cola');
+		expect(screen.getByLabelText('Description')).toHaveValue(
+			'a carbonated beverage that will rot your teeth'
+		);
+		expect(screen.getByLabelText('Calories')).toHaveValue('200');
+		expect(screen.getByLabelText('Added Sugars')).toHaveValue('300');
 	});
 });

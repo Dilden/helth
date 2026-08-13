@@ -4,10 +4,12 @@
 	import { toTwoDecimals } from '$utils/numbers';
 	import NutrientList from '$lib/items/NutrientList.svelte';
 	import ItemControls from '$lib/items/ItemControls.svelte';
+	import AddItem from '$lib/inventory/AddItem.svelte';
 
 	/** @type {{item: any}} */
 	let { item } = $props();
 	let servings = $state(1);
+	let edit = $state(false);
 
 	const addToToday = () => {
 		try {
@@ -61,15 +63,20 @@
 	<p class="font-bold text-xs uppercase">Item</p>
 </div>
 <div>
-	<div class="text-sm">{item.description}</div>
-	{#if item.nutrients}
-		<NutrientList list={item.nutrients} />
+	{#if edit}
+		<AddItem {item} submitCallback={() => (edit = false)} />
+	{:else}
+		<div class="text-sm">{item.description}</div>
+		{#if item.nutrients}
+			<NutrientList list={item.nutrients} />
+		{/if}
+		<ItemControls
+			{item}
+			onAddClick={addToToday}
+			onDeleteClick={confirmDelete}
+			onDuplicateClick={duplicateItem}
+			onEditClick={() => (edit = !edit)}
+			bind:servings
+		/>
 	{/if}
-	<ItemControls
-		{item}
-		onAddClick={addToToday}
-		onDeleteClick={confirmDelete}
-		onDuplicateClick={duplicateItem}
-		bind:servings
-	/>
 </div>
