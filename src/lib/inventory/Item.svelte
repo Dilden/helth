@@ -58,14 +58,14 @@
 	};
 </script>
 
-<div class="flex flex-row justify-between">
-	<h4 class="ml-0 sm:mb-1 md:mb-2">{item.name}</h4>
-	<p class="font-bold text-xs uppercase">Item</p>
-</div>
-<div>
-	{#if edit}
-		<AddItem {item} submitCallback={() => (edit = false)} cancelCallback={() => (edit = false)} />
-	{:else}
+{#if edit}
+	<AddItem {item} submitCallback={() => (edit = false)} cancelCallback={() => (edit = false)} />
+{:else}
+	<div class="flex flex-row justify-between">
+		<h4 class="ml-0 sm:mb-1 md:mb-2">{item.name}</h4>
+		<p class="font-bold text-xs uppercase">Item</p>
+	</div>
+	<div>
 		<div class="text-sm">{item.description}</div>
 		{#if item.nutrients}
 			<NutrientList list={item.nutrients} />
@@ -78,5 +78,5 @@
 			onEditClick={() => (edit = !edit)}
 			bind:servings
 		/>
-	{/if}
-</div>
+	</div>
+{/if}
