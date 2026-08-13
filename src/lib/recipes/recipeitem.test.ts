@@ -1,4 +1,3 @@
-// @ts-ignore
 import 'fake-indexeddb/auto';
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
@@ -41,7 +40,7 @@ describe('recipe items', () => {
 								unit: 'g'
 							}
 						],
-						servings: 1
+						servings: 2
 					},
 					{
 						name: 'Pepsi',
@@ -67,7 +66,7 @@ describe('recipe items', () => {
 		});
 		expect(screen.getByText('Coca-Cola')).toBeVisible();
 		expect(screen.getByText('Pepsi')).toBeVisible();
-		expect(screen.getByText('Calories: 450kcal')).toBeVisible();
-		expect(screen.getByText('Added Sugars: 800g')).toBeVisible();
+		expect(screen.getByText('Calories: 650kcal')).toBeVisible();
+		expect(screen.getByText('Added Sugars: 1100g')).toBeVisible();
 	});
 });

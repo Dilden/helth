@@ -10,8 +10,7 @@
 	let { recipe = {} } = $props();
 
 	let servings = $state(1);
-	// svelte-ignore state_referenced_locally
-	let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
+	let itemNutrientSums = $derived(nutrientSumsFromList(applyServings(recipe.items)));
 
 	const confirmDelete = () => {
 		confirmDialog('Are you sure you want to delete this recipe?', deleteRecipe, () => false);
