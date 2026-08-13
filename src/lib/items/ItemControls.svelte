@@ -11,10 +11,10 @@
 	let {
 		servings = $bindable(),
 		item,
-		onAddClick,
-		onEditClick,
-		onDuplicateClick,
-		onDeleteClick
+		onAddClick = () => {},
+		onEditClick = () => {},
+		onDuplicateClick = () => {},
+		onDeleteClick = () => {}
 	}: Props = $props();
 </script>
 
