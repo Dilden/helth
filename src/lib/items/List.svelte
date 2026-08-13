@@ -17,15 +17,17 @@
 		<Search bind:searchStoreVal={q.query} searchTitle="Search" />
 	</div>
 	<div class="col-start-1 col-end-3">
-		<button
-			class="mx-2 my-1"
-			onclick={() => {
-				showNewItemForm = !showNewItemForm;
-				showNewRecipeForm = false;
-			}}
-		>
-			{!showNewItemForm ? 'Add Item' : 'Cancel'}
-		</button>
+		{#if !showNewItemForm && !showNewRecipeForm}
+			<button
+				class="mx-2 my-1"
+				onclick={() => {
+					showNewItemForm = !showNewItemForm;
+					showNewRecipeForm = false;
+				}}
+			>
+				Add Item
+			</button>
+		{/if}
 		<button
 			class="mx-2 my-1"
 			onclick={() => {
@@ -38,7 +40,12 @@
 	</div>
 	<div class="col-start-1 col-end-3">
 		{#if showNewItemForm && !showNewRecipeForm}
-			<AddItem />
+			<AddItem
+				cancelCallback={() => {
+					showNewItemForm = !showNewItemForm;
+					showNewRecipeForm = false;
+				}}
+			/>
 		{/if}
 		{#if showNewRecipeForm && !showNewItemForm}
 			<RecipeForm />
