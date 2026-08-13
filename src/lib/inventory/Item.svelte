@@ -64,7 +64,7 @@
 </div>
 <div>
 	{#if edit}
-		<AddItem {item} submitCallback={() => (edit = false)} />
+		<AddItem {item} submitCallback={() => (edit = false)} cancelCallback={() => (edit = false)} />
 	{:else}
 		<div class="text-sm">{item.description}</div>
 		{#if item.nutrients}

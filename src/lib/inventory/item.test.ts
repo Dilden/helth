@@ -84,4 +84,17 @@ describe('item control interactions', () => {
 		expect(screen.getByLabelText('Calories')).toHaveValue('200');
 		expect(screen.getByLabelText('Added Sugars')).toHaveValue('300');
 	});
+	it('can cancel editing and hide form', async () => {
+		const user = userEvent.setup();
+		render(Item, { item: coke });
+
+		await user.click(screen.queryByRole('button', { name: '✏️' }) as Element);
+		expect(screen.getByLabelText('Name')).toHaveValue('Coca-Cola');
+
+		await user.click(screen.queryByRole('button', { name: 'Cancel' }) as Element);
+		expect(screen.queryByLabelText('Name')).toBeNull();
+		expect(screen.queryByLabelText('Description')).toBeNull();
+		expect(screen.queryByRole('button', { name: 'Cancel' })).toBeNull();
+		expect(screen.getByText('Coca-Cola')).toBeVisible();
+	});
 });
