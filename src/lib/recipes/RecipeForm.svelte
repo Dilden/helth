@@ -1,35 +1,37 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 	import { blur } from 'svelte/transition';
-	import { recipes, recipesInventoryFilter, inventory } from '$stores/stores.svelte';
+	import {
+		recipes,
+		inventorySearchResults,
+		inventorySearch,
+		inventory
+	} from '$stores/stores.svelte';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
-	/** @type {{recipe?: any, inventoryItems?: Array<InventoryItem>, submitCallback?: any, cancelCallback?: any}} */
+	/** @type {{recipe?: any, submitCallback?: any, cancelCallback?: any}} */
 	let {
 		recipe = {},
-		inventoryItems = inventory
-			.get()
-			.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
+		// inventoryItems = inventory
+		// 	.get()
+		// 	.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
 		submitCallback = () => false,
 		cancelCallback = () => false
 	} = $props();
 
 	let validated = $state(true);
 
-	// inventoryItems isn't reactive when it comes in but we can make it reactive...
-	let reactiveItems = $state(
-		// svelte-ignore state_referenced_locally
-		inventoryItems.map((item) => {
-			// need to set whether an item should be checked in the list
-			if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+	let reactiveInv = inventorySearchResults()
+		.results.map((item) => {
+			if (recipe.items && recipe.items.map((i) => i.id).includes(item.id)) {
 				item.checked = true;
 			} else {
 				item.checked = false;
 			}
 			return item;
 		})
-	);
+		.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
 	const handleSubmit = async (event) => {
 		const vals = formatRecipeFormValues(event.target);
@@ -40,6 +42,8 @@
 			} else {
 				await recipes.add(vals);
 			}
+			inventorySearch.query = '';
+			await inventory.init();
 
 			event.target.reset();
 			submitCallback();
@@ -52,8 +56,9 @@
 <!-- checkbox input + label  + servings input-->
 {#snippet checkboxItem(item)}
 	<span
-		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2"
+		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 w-full"
 	>
+		<!-- svelte-ignore binding_property_non_reactive -->
 		<input
 			id="inventoryItem-{item.id}"
 			type="checkbox"
@@ -128,14 +133,13 @@
 		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 md:col-start-2 md:col-end-8"
 	>
 		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
-			<!-- recipesInventoryFilter.query is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
 				scrollTo={false}
-				bind:searchStoreVal={recipesInventoryFilter.query}
+				bind:searchStoreVal={inventorySearch.query}
 			/>
 		</div>
-		{#if reactiveItems?.length}
+		{#if reactiveInv.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
 					At least one item must be selected!
@@ -144,9 +148,9 @@
 			<div
 				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
 			>
-				{#each reactiveItems as item}
+				{#each reactiveInv as item}
 					<!-- hide items here based on inventorySearch.query value as removing them entirely breaks the form -->
-					{#if item.name.toLowerCase().includes(recipesInventoryFilter.query.toLowerCase())}
+					{#if item.name.toLowerCase().includes(inventorySearch.query.toLowerCase())}
 						<div
 							class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) lg:w-auto lg:flex-col lg:justify-start"
 						>
