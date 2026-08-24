@@ -25,7 +25,7 @@
 	};
 </script>
 
-<button onclick={() => cancelCallback()}>Cancel</button>
+<button class="mx-2 my-1" onclick={() => cancelCallback()}>Cancel</button>
 <form
 	name="New Item"
 	onsubmit={preventDefault(handleSubmit)}

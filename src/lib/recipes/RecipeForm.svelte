@@ -55,9 +55,12 @@
 
 <!-- checkbox input + label  + servings input-->
 {#snippet checkboxItem(item)}
+	{console.log(item)}
 	<span
 		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 w-full"
 	>
+		<!-- checked needs to be bound but svelte doesn't seem to like it -->
+		<!-- showing the servings doesn't work without it though -->
 		<!-- svelte-ignore binding_property_non_reactive -->
 		<input
 			id="inventoryItem-{item.id}"
@@ -95,7 +98,7 @@
 	{/if}
 {/snippet}
 
-<button onclick={() => cancelCallback()}>Cancel</button>
+<button class="mx-2 my-1" onclick={() => cancelCallback()}>Cancel</button>
 <form
 	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-8"
 	name="AddRecipe"
@@ -139,6 +142,7 @@
 				bind:searchStoreVal={inventorySearch.query}
 			/>
 		</div>
+		<input type="submit" class="col-start-3 col-end-7" value={recipe.id ? 'Update' : 'Save'} />
 		{#if reactiveInv.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">

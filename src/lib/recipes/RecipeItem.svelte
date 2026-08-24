@@ -2,7 +2,7 @@
 	import { nutrientSumsFromList, applyServings } from '$utils/item';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
-	import { recipes, today } from '$stores/stores.svelte';
+	import { recipes, today, inventory } from '$stores/stores.svelte';
 	import NutrientList from '$lib/items/NutrientList.svelte';
 	import ItemControls from '$lib/items/ItemControls.svelte';
 	import RecipeForm from './RecipeForm.svelte';
@@ -56,7 +56,15 @@
 </script>
 
 {#if edit}
-	<RecipeForm recipe />
+	<!-- TODO -->
+	<!-- RecipeForm should be dependent on inventory store -->
+	<RecipeForm
+		{recipe}
+		,
+		cancelCallback={() => {
+			edit = false;
+		}}
+	/>
 {:else}
 	<div class="flex flex-row justify-between">
 		<h4 class="mx-0 ml-0 sm:my-1 md:my-2 text-md">{recipe.name}</h4>

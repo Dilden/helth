@@ -27,16 +27,16 @@
 			>
 				Add Item
 			</button>
+			<button
+				class="mx-2 my-1"
+				onclick={() => {
+					showNewRecipeForm = !showNewRecipeForm;
+					showNewItemForm = false;
+				}}
+			>
+				Add Recipe
+			</button>
 		{/if}
-		<button
-			class="mx-2 my-1"
-			onclick={() => {
-				showNewRecipeForm = !showNewRecipeForm;
-				showNewItemForm = false;
-			}}
-		>
-			{!showNewRecipeForm ? 'Add Recipe' : 'Cancel'}
-		</button>
 	</div>
 	<div class="col-start-1 col-end-3">
 		{#if showNewItemForm && !showNewRecipeForm}
@@ -48,7 +48,12 @@
 			/>
 		{/if}
 		{#if showNewRecipeForm && !showNewItemForm}
-			<RecipeForm />
+			<RecipeForm
+				cancelCallback={() => {
+					showNewRecipeForm = !showNewRecipeForm;
+					showNewItemForm = false;
+				}}
+			/>
 		{/if}
 	</div>
 

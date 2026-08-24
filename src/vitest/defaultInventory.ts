@@ -59,7 +59,7 @@ export const defaultRecipes = [
 		description: 'heaping garbage dumpster fire',
 		created: 4,
 		items: [
-			{ id: '1', servings: 1 },
+			{ id: '1', servings: 1 }, // 200kcal, 300 Added Sugars
 			{ id: '2', servings: 2 }
 		]
 	},
