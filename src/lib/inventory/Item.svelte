@@ -48,7 +48,6 @@
 			.remove(item.id)
 			.then(() => successToast('Removed item!'))
 			.catch(() => errorToast('Error deleting item!'));
-		await recipes.init(); // recipes store must be re-initialized as its state will remain stale otherwise
 	};
 
 	const duplicateItem = async () => {
