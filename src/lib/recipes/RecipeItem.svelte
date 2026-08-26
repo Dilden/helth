@@ -28,7 +28,6 @@
 				let newTotal = {
 					[item.key]: toAdd + today.get()[item.key]
 				};
-				// console.log(newTotal);
 				return Object.assign(obj, newTotal);
 			}, {});
 
@@ -56,11 +55,12 @@
 </script>
 
 {#if edit}
-	<!-- TODO -->
-	<!-- RecipeForm should be dependent on inventory store -->
 	<RecipeForm
 		{recipe}
 		,
+		submitCallback="{() => {
+			edit = false;
+		}},"
 		cancelCallback={() => {
 			edit = false;
 		}}

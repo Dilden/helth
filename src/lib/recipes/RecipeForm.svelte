@@ -24,7 +24,7 @@
 
 	let reactiveInv = inventorySearchResults()
 		.results.map((item) => {
-			if (recipe.items && recipe.items.map((i) => i.id).includes(item.id)) {
+			if (recipe.items != undefined && recipe.items.map((i) => i.id).includes(item.id)) {
 				item.checked = true;
 			} else {
 				item.checked = false;
@@ -55,20 +55,17 @@
 
 <!-- checkbox input + label  + servings input-->
 {#snippet checkboxItem(item)}
-	{console.log(item)}
 	<span
 		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 w-full"
 	>
-		<!-- checked needs to be bound but svelte doesn't seem to like it -->
-		<!-- showing the servings doesn't work without it though -->
-		<!-- svelte-ignore binding_property_non_reactive -->
 		<input
 			id="inventoryItem-{item.id}"
 			type="checkbox"
 			class="m-0 scale-125 md:scale-150"
 			value={item.id}
 			name={item.name}
-			bind:checked={item.checked}
+			checked={item.checked}
+			onchange={() => (item.checked = !item.checked)}
 		/>
 		<label class="m-0 ml-2 w-full lg:w-auto" for="inventoryItem-{item.id}">
 			{item.name}
@@ -76,7 +73,7 @@
 	</span>
 
 	{#if item.checked}
-		<span class="relative w-auto max-w-20" transition:blur>
+		<span class="relative w-auto max-w-14 md:max-w-20" transition:blur>
 			<label
 				class="absolute inset-s-2.5 top-4 z-10 origin-left -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:rtl:left-auto peer-focus:rtl:translate-x-1/4 dark:text-gray-200 dark:peer-focus:text-blue-500"
 				for="inventoryItemServing-{item.id}"
@@ -150,13 +147,13 @@
 				</div>
 			{/if}
 			<div
-				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
+				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-1 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each reactiveInv as item}
 					<!-- hide items here based on inventorySearch.query value as removing them entirely breaks the form -->
 					{#if item.name.toLowerCase().includes(inventorySearch.query.toLowerCase())}
 						<div
-							class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) lg:w-auto lg:flex-col lg:justify-start"
+							class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) odd:py-1 lg:w-auto lg:flex-col lg:justify-start"
 						>
 							{@render checkboxItem(item)}
 						</div>

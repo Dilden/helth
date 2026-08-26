@@ -188,7 +188,7 @@ vi.mock('$stores/stores.svelte', async () => {
 
 	let recipeSearch = $state({ query: '' });
 	let recipesInventoryFilter = $state({ query: '' });
-	let s = $state('');
+	let inventorySearch = $state({ query: '' });
 	return {
 		recipes: {
 			init: vi.fn(),
@@ -199,7 +199,7 @@ vi.mock('$stores/stores.svelte', async () => {
 			results: defaultRecipes
 		})),
 		recipesInventoryFilter,
-		inventorySearch: s,
+		inventorySearch: inventorySearch,
 		inventorySearchResults: vi.fn(() => {
 			return {
 				results: defaultInventory
