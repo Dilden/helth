@@ -57,10 +57,9 @@
 {#if edit}
 	<RecipeForm
 		{recipe}
-		,
-		submitCallback="{() => {
+		submitCallback={() => {
 			edit = false;
-		}},"
+		}}
 		cancelCallback={() => {
 			edit = false;
 		}}

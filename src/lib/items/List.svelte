@@ -11,7 +11,6 @@
 	let showNewRecipeForm = $state(false);
 	const submitCallback = () => {
 		showNewItemForm = showNewRecipeForm = false;
-		console.log('yoo');
 	};
 	const cancelCallback = () => {
 		showNewItemForm = showNewRecipeForm = false;
