@@ -5,13 +5,13 @@ import userEvent from '@testing-library/user-event';
 import { defaultRecipes } from '../../vitest/defaultInventory';
 import { inventorySearchResults, inventorySearch } from '$stores/stores.svelte';
 
-it.skip('has text inputs for name and description', async () => {
+it('has text inputs for name and description', async () => {
 	render(RecipeForm);
 	expect(screen.getByLabelText('Recipe Name')).toBeVisible();
 	expect(screen.getByLabelText('Recipe Description')).toBeVisible();
 });
 
-it.skip('shows inventory items in checkboxes', async () => {
+it('shows inventory items in checkboxes', async () => {
 	inventorySearch.query = '';
 	render(RecipeForm);
 
@@ -19,7 +19,7 @@ it.skip('shows inventory items in checkboxes', async () => {
 	expect(screen.getByRole('checkbox', { name: 'Water' })).toBeVisible();
 });
 
-it.skip('inventorySearch text hides elements from inventory', () => {
+it('inventorySearch text hides elements from inventory', () => {
 	inventorySearch.query = 'coc';
 
 	render(RecipeForm);
@@ -29,7 +29,7 @@ it.skip('inventorySearch text hides elements from inventory', () => {
 	expect(screen.getByLabelText('Water').parentElement?.parentElement).toHaveClass('hidden');
 });
 
-it.skip('prefills the fields with data from provided item', () => {
+it('prefills the fields with data from provided item', () => {
 	render(RecipeForm, { recipe: defaultRecipes[0] });
 
 	expect(screen.getByLabelText('Recipe Name')).toHaveValue('toxic waste');
@@ -39,12 +39,12 @@ it.skip('prefills the fields with data from provided item', () => {
 	expect(screen.getByLabelText('Syrup')).not.toBeChecked();
 });
 
-it.skip('shows a search box to filter inventory items', () => {
+it('shows a search box to filter inventory items', () => {
 	render(RecipeForm);
 	expect(screen.getByLabelText('Filter inventory')).toBeVisible();
 });
 
-it.skip('calls a cancel callback fn', async () => {
+it('calls a cancel callback fn', async () => {
 	const cancel = vi.fn();
 	const user = userEvent.setup();
 
@@ -54,12 +54,23 @@ it.skip('calls a cancel callback fn', async () => {
 	expect(cancel).toHaveBeenCalledOnce();
 });
 
+it('calls a submit callback fn', async () => {
+	const submit = vi.fn();
+	const user = userEvent.setup();
+
+	render(RecipeForm, { recipe: defaultRecipes[0], submitCallback: submit });
+
+	const updateBtns = screen.getAllByRole('button', { name: 'Update' }) as Element[];
+	await user.click(updateBtns[0]);
+	expect(submit).toHaveBeenCalledOnce();
+});
+
 describe('servings', () => {
 	beforeAll(() => {
 		inventorySearch.query = '';
 	});
 
-	it.skip('has serving quantity inputs next to checkboxes', () => {
+	it('has serving quantity inputs next to checkboxes', () => {
 		render(RecipeForm, { recipe: defaultRecipes[0] });
 
 		const boxAncestor: HTMLElement = screen
@@ -75,7 +86,7 @@ describe('servings', () => {
 		expect(within(box2Ancestor).getByLabelText('Servings')).toHaveValue(2);
 	});
 
-	it.skip('hides servings inputs for unchecked boxes', () => {
+	it('hides servings inputs for unchecked boxes', () => {
 		render(RecipeForm, { recipe: defaultRecipes[0] });
 
 		const boxAncestor: HTMLElement = screen

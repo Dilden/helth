@@ -11,14 +11,7 @@
 	import Search from '$lib/misc/Search.svelte';
 
 	/** @type {{recipe?: any, submitCallback?: any, cancelCallback?: any}} */
-	let {
-		recipe = {},
-		// inventoryItems = inventory
-		// 	.get()
-		// 	.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
-		submitCallback = () => false,
-		cancelCallback = () => false
-	} = $props();
+	let { recipe = {}, submitCallback = () => false, cancelCallback = () => false } = $props();
 
 	let validated = $state(true);
 

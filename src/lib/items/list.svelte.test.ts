@@ -1,9 +1,9 @@
 import 'fake-indexeddb/auto';
 import { defaultInventory, defaultRecipes } from '../../vitest/defaultInventory';
-import { recipes, inventory, searchResults, q } from '$stores/stores.svelte';
+import { recipes, inventory, q } from '$stores/stores.svelte';
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import List from './List.svelte';
 
 beforeAll(async () => {

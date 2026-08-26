@@ -9,6 +9,13 @@
 
 	let showNewItemForm = $state(false);
 	let showNewRecipeForm = $state(false);
+	const submitCallback = () => {
+		showNewItemForm = showNewRecipeForm = false;
+		console.log('yoo');
+	};
+	const cancelCallback = () => {
+		showNewItemForm = showNewRecipeForm = false;
+	};
 </script>
 
 <div class="md:grid-cols-2 grid grid-cols-1 grid-rows-[1fr_auto]">
@@ -40,20 +47,10 @@
 	</div>
 	<div class="col-start-1 col-end-3">
 		{#if showNewItemForm && !showNewRecipeForm}
-			<AddItem
-				cancelCallback={() => {
-					showNewItemForm = !showNewItemForm;
-					showNewRecipeForm = false;
-				}}
-			/>
+			<AddItem {submitCallback} {cancelCallback} />
 		{/if}
 		{#if showNewRecipeForm && !showNewItemForm}
-			<RecipeForm
-				cancelCallback={() => {
-					showNewRecipeForm = !showNewRecipeForm;
-					showNewItemForm = false;
-				}}
-			/>
+			<RecipeForm {submitCallback} {cancelCallback} />
 		{/if}
 	</div>
 
