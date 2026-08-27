@@ -18,7 +18,7 @@
 </script>
 
 <div class="md:grid-cols-2 grid grid-cols-1 grid-rows-[1fr_auto]">
-	<h3 class="md:col-end-2 col-start-1 col-end-3">Inventory & Recipes</h3>
+	<h3 class="md:col-end-2 col-start-1 col-end-3">Items & Recipes</h3>
 	<div class="m-2 mt-0 md:col-start-2 md:col-end-3 relative col-start-1 col-end-2">
 		<Search bind:searchStoreVal={q.query} searchTitle="Search" />
 	</div>

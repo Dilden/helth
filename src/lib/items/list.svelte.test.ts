@@ -54,7 +54,7 @@ describe('search', () => {
 describe('interface', () => {
   it('has a title', () => {
     render(List);
-    expect(screen.getByRole('heading', { name: 'Inventory & Recipes' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Items & Recipes' })).toBeVisible();
   });
   it('shows buttons to add items + recipes', () => {
     render(List);

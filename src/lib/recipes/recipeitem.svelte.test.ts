@@ -8,12 +8,6 @@ import { defaultRecipes, defaultInventory } from '../../vitest/defaultInventory'
 const testRecipe: any = defaultRecipes[0]; // lol idgaf
 testRecipe.items[0] = { ...defaultRecipes[0].items[0], ...defaultInventory[0] };
 testRecipe.items[1] = { ...defaultRecipes[0].items[1], ...defaultInventory[1] };
-// beforeAll(() => {
-// 	testRecipe.items = [];
-// 	defaultRecipes[0].items.forEach((r) => {
-// 		testRecipe.items.push({ ...defaultInventory.find((i) => i.id === r.id) });
-// 	});
-// });
 
 describe('recipe items', () => {
 	it('shows a recipe title & description', () => {
