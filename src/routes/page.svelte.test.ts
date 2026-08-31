@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { defaultSettingsStoreValues } from '../vitest/defaultSettingsStoreValues';
 import { defaultTodayStoreValues } from '../vitest/defaultTodayStore';
-import { defaultInventory } from '../vitest/defaultInventory';
+import { defaultInventory, defaultRecipes } from '../vitest/defaultInventory';
 import { defaultLimitStore, defaultGoalStore } from '../vitest/defaultGoalLimitStore';
 import { it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
@@ -21,7 +21,8 @@ it('shows counters for all nutrients', async () => {
 });
 
 vi.mock('$stores/stores.svelte', async () => {
-	let s = $state({ query: '' });
+	// let s = $state({ query: '' });
+	let q = $state({ query: '' });
 	return {
 		history: {
 			set: vi.fn(),
@@ -64,10 +65,21 @@ vi.mock('$stores/stores.svelte', async () => {
 			init: vi.fn(() => Promise.resolve()),
 			get: vi.fn(() => defaultInventory)
 		},
-		inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
-		inventorySearch: s,
+		recipes: {
+			init: vi.fn(() => Promise.resolve()),
+			get: vi.fn(() => defaultRecipes)
+		},
+		// inventorySearchResults: vi.fn(() => ({ results: defaultInventory })),
+		// inventorySearch: s,
 		subscription: {
 			init: vi.fn(() => Promise.resolve())
-		}
+		},
+		q: q,
+		searchResults: vi.fn(() => {
+			const x = defaultRecipes.map((r) =>
+				r.items.map((i) => defaultInventory.find((y) => y.id == i.id))
+			);
+			return { results: [...defaultInventory, ...x] };
+		})
 	};
 });

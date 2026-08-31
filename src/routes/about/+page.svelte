@@ -238,6 +238,13 @@
 	<h3>changelog</h3>
 	<p>You are running version {version}</p>
 	<details>
+		<summary>v1.1.0</summary>
+		<ul class="list-disc">
+			<li>unified the search of saved items & recipes</li>
+			<li>several bug fixes</li>
+		</ul>
+	</details>
+	<details>
 		<summary>v1.0.13</summary>
 		<ul class="list-disc">
 			<li>added meta description to show accurate description in search results</li>

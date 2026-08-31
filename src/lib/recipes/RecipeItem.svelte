@@ -2,17 +2,20 @@
 	import { nutrientSumsFromList, applyServings } from '$utils/item';
 	import { toTwoDecimals } from '$utils/numbers';
 	import { confirmDialog, successToast, errorToast } from '$utils/toast.js';
-	import { recipes, today } from '$stores/stores.svelte';
+	import { recipes, today, inventory } from '$stores/stores.svelte';
+	import NutrientList from '$lib/items/NutrientList.svelte';
+	import ItemControls from '$lib/items/ItemControls.svelte';
+	import RecipeForm from './RecipeForm.svelte';
 
-	/** @type {{recipe?: any}} */
+	/** @type {{recipe?: Recipe}} */
 	let { recipe = {} } = $props();
 
 	let servings = $state(1);
-	// svelte-ignore state_referenced_locally
-	let itemNutrientSums = nutrientSumsFromList(applyServings(recipe.items));
+	let itemNutrientSums = $derived(nutrientSumsFromList(applyServings(recipe.items)));
+	let edit = $state(false);
 
 	const confirmDelete = () => {
-		confirmDialog('Are you sure you want to delete this item?', deleteRecipe, () => false);
+		confirmDialog('Are you sure you want to delete this recipe?', deleteRecipe, () => false);
 	};
 
 	const addToToday = () => {
@@ -25,7 +28,6 @@
 				let newTotal = {
 					[item.key]: toAdd + today.get()[item.key]
 				};
-				// console.log(newTotal);
 				return Object.assign(obj, newTotal);
 			}, {});
 
@@ -44,50 +46,46 @@
 			.then(() => successToast('Removed recipe!'))
 			.catch(() => errorToast('Error deleting recipe!'));
 	};
+
+	const duplicateRecipe = async () => {
+		const { id, created, ...rest } = recipe;
+		await recipes.add(rest);
+		successToast(`Duplicated ${rest.name}!`);
+	};
 </script>
 
-<h4 class="mx-0 ml-0 sm:my-1 md:my-2">{recipe.name}</h4>
-<div class="text-sm">{recipe.description}</div>
-<div>
-	<ul class="list-none sm:pl-0 sm:text-left md:text-center">
-		{#each recipe.items as item}
-			<li class="text-md mx-2 my-0 inline-block font-bold">
-				{item.name}
-			</li>
-		{/each}
-	</ul>
-	<ul class="list-none text-center sm:pl-0">
-		{#each itemNutrientSums as nutrient}
-			<li class="mx-2 my-1 inline-block text-sm italic">
-				{nutrient.name + ': ' + nutrient.quantity + nutrient.unit}
-			</li>
-		{/each}
-	</ul>
-</div>
-
-<div class="relative inline-block align-middle">
-	<label
-		class="absolute inset-s-2.5 top-4 z-10 origin-left -translate-y-4 scale-75 transform text-xs text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:rtl:left-auto peer-focus:rtl:translate-x-1/4 dark:text-gray-200 dark:peer-focus:text-blue-500"
-		for="recipeServing-{recipe.id}"
-	>
-		Servings
-	</label>
-	<input
-		id="recipeServing-{recipe.id}"
-		type="number"
-		class="peer block w-14 appearance-none border-0 border-b-2 border-gray-300 bg-gray-50 px-1 pt-4 pb-2 text-sm text-gray-900 focus:border-blue-600 focus:ring-0 focus:outline-hidden dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500"
-		placeholder="1"
-		required
-		bind:value={servings}
-		step="any"
-		title="Number of servings to add to daily total"
+{#if edit}
+	<RecipeForm
+		{recipe}
+		submitCallback={() => {
+			edit = false;
+		}}
+		cancelCallback={() => {
+			edit = false;
+		}}
 	/>
-</div>
-<!--add to daily total -->
-<button
-	class="mx-1 my-0 sm:mx-2"
-	onclick={addToToday}
-	title="Add Recipe nutients (multiplied by specified servings) to Daily Total">➕</button
->
-<!-- remove from db -->
-<button class="float-right m-1 sm:m-2" onclick={confirmDelete} title="Delete Recipe">🗑️</button>
+{:else}
+	<div class="flex flex-row justify-between">
+		<h4 class="mx-0 ml-0 sm:my-1 md:my-2 text-md">{recipe.name}</h4>
+		<p class="font-bold text-xs uppercase">Recipe</p>
+	</div>
+	<div class="text-sm">{recipe.description}</div>
+	<div>
+		<ul class="list-none sm:pl-0 sm:text-left md:text-center">
+			{#each recipe.items as item}
+				<li class="text-sm lg:text-md mx-2 my-0 inline-block font-bold">
+					{item.name}
+				</li>
+			{/each}
+		</ul>
+		<NutrientList list={itemNutrientSums} />
+		<ItemControls
+			item={recipe}
+			bind:servings
+			onAddClick={addToToday}
+			onDeleteClick={confirmDelete}
+			onDuplicateClick={duplicateRecipe}
+			onEditClick={() => (edit = !edit)}
+		/>
+	</div>
+{/if}

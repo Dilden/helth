@@ -31,7 +31,7 @@ test.describe('add items dialog', () => {
 		});
 
 		test('inventory is shown by default', async ({ page }) => {
-			await expect(page.getByText('Saved Items')).toBeVisible();
+			await expect(page.getByText('Items & Recipes')).toBeVisible();
 		});
 
 		test('add items to inventory form is hidden by default', async ({ page }) => {
@@ -80,8 +80,11 @@ test.describe('add items dialog', () => {
 
 			test('add item in inventory to daily total', async () => {
 				await page.getByText('Servings').fill('2');
+
 				await page
-					.getByTitle('Add Item nutients (times specified servings) to Daily Total')
+					.getByRole('listitem')
+					.filter({ hasText: 'Sample Item X' })
+					.getByText('➕')
 					.click();
 				await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
@@ -100,7 +103,7 @@ test.describe('add items dialog', () => {
 					.getByRole('button', { name: '✏️' })
 					.click();
 
-				await page.getByLabel('inventory-list').locator('#name').fill('New Sample Item');
+				await page.getByRole('listitem').locator('#name').fill('New Sample Item');
 				await page.getByPlaceholder('kcal').fill('200');
 				await page.getByRole('button', { name: 'Update' }).click();
 
@@ -175,13 +178,12 @@ test.describe('add items dialog', () => {
 		});
 
 		test('saves a recipe to the DB', async () => {
-			await page.getByRole('button', { name: 'Recipes' }).click();
 			await page.getByRole('button', { name: 'Add Recipe' }).click();
 			await page.getByLabel('Recipe Name').fill('Soda');
 			await page.getByLabel('Description').fill('horrid concoction');
 			await page.getByLabel('Coca-Cola').check();
 			await page.getByLabel('Pepsi').check();
-			await page.getByRole('button', { name: 'Save' }).click();
+			await page.getByRole('button', { name: 'Save' }).first().click();
 
 			// await expect(page.getByLabel('Name')).toBeEmpty();
 			await expect(page.getByText('Soda')).toBeVisible();
@@ -202,17 +204,13 @@ test.describe('add items dialog', () => {
 			await expect(page.getByLabel('Coca-Cola')).not.toBeVisible();
 
 			await page.getByLabel('Filter inventory').fill('');
-			await page.getByRole('button', { name: 'Save' }).click();
+			await page.getByRole('button', { name: 'Save' }).first().click();
 		});
 
 		test('adds a recipe to the current daily total', async () => {
 			// await page.locator('li').filter({ hasText: 'Soda' }).getByTitle('Add to Daily Total').click();
-			await page.getByText('Servings').fill('2');
-			await page
-				.locator('li')
-				.filter({ hasText: 'Soda' })
-				.getByTitle('Add Recipe nutients (multiplied by specified servings) to Daily Total')
-				.click();
+			await page.locator('li').filter({ hasText: 'Soda' }).getByText('Servings').fill('2');
+			await page.locator('li').filter({ hasText: 'Soda' }).getByText('➕').click();
 			await page.getByRole('button', { name: 'Close Add Dialog' }).click();
 
 			await expect(page.getByText('Added 2 servings of Soda to daily total!')).toBeVisible();
@@ -222,7 +220,9 @@ test.describe('add items dialog', () => {
 
 		test('edits a recipe', async () => {
 			await page.getByRole('button', { name: 'Open Add Dialog' }).click();
-			await page.getByRole('button', { name: 'Recipes' }).click();
+
+			await page.getByRole('button', { name: 'Cancel' }).click();
+
 			await page
 				.getByRole('listitem')
 				.filter({ hasText: 'Soda' })
@@ -230,30 +230,35 @@ test.describe('add items dialog', () => {
 				.click();
 
 			// doing this on the wrong form
-			await page.locator('li').getByLabel('Recipe Name').fill('Soda 2');
-			await page.locator('li').getByLabel('Description').fill('better w/o that garbage');
-			await page.locator('li').getByLabel('Pepsi').uncheck();
-			await page.getByRole('button', { name: 'Update' }).click();
+			await page.getByRole('textbox', { name: 'Recipe Name' }).fill('Soda 2');
+			await page
+				.getByRole('textbox', { name: 'Recipe Description' })
+				.fill('better w/o that garbage');
+			await page.getByRole('listitem').getByLabel('Pepsi').uncheck();
+			await page.locator('li').getByRole('button', { name: 'Update' }).first().click();
 
 			await expect(page.locator('li').getByText('Soda 2')).toBeVisible();
 			await expect(page.locator('li').getByText('better w/o that garbage')).toBeVisible();
-			await expect(page.locator('li').getByText('Pepsi')).not.toBeVisible();
+
+			await expect(
+				await page.getByRole('listitem').filter({ hasText: 'Soda 2' }).getByText('Pepsi')
+			).not.toBeVisible();
 		});
 
 		test('can delete a recipe', async () => {
 			await page
 				.getByRole('listitem')
-				.filter({ hasText: 'Soda' })
+				.filter({ hasText: 'Soda 2' })
 				.getByRole('button', { name: '🗑️' })
 				.click();
 
 			await page
 				.locator('li')
-				.filter({ hasText: 'Are you sure you want to delete this item? Yes No' })
+				.filter({ hasText: 'Are you sure you want to delete this recipe? Yes No' })
 				.getByTitle('Yes')
 				.click();
 
-			await expect(page.getByText('Soda', { exact: true })).not.toBeVisible();
+			await expect(page.getByText('Soda 2', { exact: true })).not.toBeVisible();
 		});
 	});
 	// test.describe('scanner', () => {

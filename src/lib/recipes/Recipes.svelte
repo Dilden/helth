@@ -50,7 +50,6 @@
 
 {#if showAddForm}
 	<RecipeForm
-		inventoryItems={sortedInventory}
 		submitCallback={() => {
 			showAddForm = false;
 		}}

@@ -1,28 +1,30 @@
 <script>
 	import { preventDefault } from 'svelte/legacy';
 	import { blur } from 'svelte/transition';
-	import { recipes, recipesInventoryFilter } from '$stores/stores.svelte';
+	import {
+		recipes,
+		inventorySearchResults,
+		inventorySearch,
+		inventory
+	} from '$stores/stores.svelte';
 	import { formatRecipeFormValues } from '$utils/formValues';
 	import Search from '$lib/misc/Search.svelte';
 
-	/** @type {{recipe?: any, inventoryItems?: any, submitCallback?: any}} */
-	let { recipe = {}, inventoryItems = [], submitCallback = () => false } = $props();
+	/** @type {{recipe?: any, submitCallback?: any, cancelCallback?: any}} */
+	let { recipe = {}, submitCallback = () => false, cancelCallback = () => false } = $props();
 
 	let validated = $state(true);
 
-	// inventoryItems isn't reactive when it comes in but we can make it reactive...
-	let reactiveItems = $state(
-		// svelte-ignore state_referenced_locally
-		inventoryItems.map((item) => {
-			// need to set whether an item should be checked in the list
-			if (recipe.items && recipe.items.map((item) => item.id).includes(item.id)) {
+	let reactiveInv = inventorySearchResults()
+		.results.map((item) => {
+			if (recipe.items != undefined && recipe.items.map((i) => i.id).includes(item.id)) {
 				item.checked = true;
 			} else {
 				item.checked = false;
 			}
 			return item;
 		})
-	);
+		.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
 	const handleSubmit = async (event) => {
 		const vals = formatRecipeFormValues(event.target);
@@ -33,6 +35,8 @@
 			} else {
 				await recipes.add(vals);
 			}
+			inventorySearch.query = '';
+			await inventory.init();
 
 			event.target.reset();
 			submitCallback();
@@ -45,7 +49,7 @@
 <!-- checkbox input + label  + servings input-->
 {#snippet checkboxItem(item)}
 	<span
-		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2"
+		class="flex flex-row content-stretch items-center justify-start gap-2 justify-self-auto p-2 w-full"
 	>
 		<input
 			id="inventoryItem-{item.id}"
@@ -53,7 +57,8 @@
 			class="m-0 scale-125 md:scale-150"
 			value={item.id}
 			name={item.name}
-			bind:checked={item.checked}
+			checked={item.checked}
+			onchange={() => (item.checked = !item.checked)}
 		/>
 		<label class="m-0 ml-2 w-full lg:w-auto" for="inventoryItem-{item.id}">
 			{item.name}
@@ -61,7 +66,7 @@
 	</span>
 
 	{#if item.checked}
-		<span class="relative w-auto max-w-20" transition:blur>
+		<span class="relative w-auto max-w-14 md:max-w-20" transition:blur>
 			<label
 				class="absolute inset-s-2.5 top-4 z-10 origin-left -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:rtl:left-auto peer-focus:rtl:translate-x-1/4 dark:text-gray-200 dark:peer-focus:text-blue-500"
 				for="inventoryItemServing-{item.id}"
@@ -83,6 +88,7 @@
 	{/if}
 {/snippet}
 
+<button class="mx-2 my-1" onclick={() => cancelCallback()}>Cancel</button>
 <form
 	class="grid-rows-[1fr 1fr auto 1fr] md:grid-rows-[1fr auto 1fr] m-4 grid grid-cols-1 md:grid-cols-8"
 	name="AddRecipe"
@@ -120,27 +126,27 @@
 		class="inventory col-span-full col-start-1 col-end-2 row-auto mb-4 grid grid-cols-8 gap-2 md:col-start-2 md:col-end-8"
 	>
 		<div class="col-span-8 mx-8 my-2 md:col-span-6 md:col-start-2">
-			<!-- recipesInventoryFilter.query is used later on to hide items so users can filter large inventories quickly -->
 			<Search
 				searchTitle="Filter inventory"
 				scrollTo={false}
-				bind:searchStoreVal={recipesInventoryFilter.query}
+				bind:searchStoreVal={inventorySearch.query}
 			/>
 		</div>
-		{#if reactiveItems?.length}
+		<input type="submit" class="col-start-3 col-end-7" value={recipe.id ? 'Update' : 'Save'} />
+		{#if reactiveInv.length}
 			{#if !validated}
 				<div class="col-start-1 col-end-7 block w-full bg-[#794949] p-2">
 					At least one item must be selected!
 				</div>
 			{/if}
 			<div
-				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-2 lg:grid-cols-4 xl:grid-cols-6"
+				class="col-span-full grid grid-cols-1 content-center items-start justify-center gap-1 lg:grid-cols-4 xl:grid-cols-6"
 			>
-				{#each reactiveItems as item}
+				{#each reactiveInv as item}
 					<!-- hide items here based on inventorySearch.query value as removing them entirely breaks the form -->
-					{#if item.name.toLowerCase().includes(recipesInventoryFilter.query.toLowerCase())}
+					{#if item.name.toLowerCase().includes(inventorySearch.query.toLowerCase())}
 						<div
-							class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) lg:w-auto lg:flex-col lg:justify-start"
+							class="flex w-full flex-row items-center justify-between gap-y-1 odd:bg-(--back-color) odd:py-1 lg:w-auto lg:flex-col lg:justify-start"
 						>
 							{@render checkboxItem(item)}
 						</div>

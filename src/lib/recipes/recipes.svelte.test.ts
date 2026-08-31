@@ -41,10 +41,6 @@ describe('recipe list items', () => {
 		render(Recipes);
 		expect(await screen.findByRole('heading', { name: 'Crackers and Cheese' })).toBeVisible();
 	});
-	it('has a duplicate button', async () => {
-		render(Recipes);
-		expect(await screen.findByRole('button', { name: '⏩' })).toBeVisible();
-	});
 });
 
 vi.mock('$stores/stores.svelte', async () => {
@@ -192,6 +188,7 @@ vi.mock('$stores/stores.svelte', async () => {
 
 	let recipeSearch = $state({ query: '' });
 	let recipesInventoryFilter = $state({ query: '' });
+	let inventorySearch = $state({ query: '' });
 	return {
 		recipes: {
 			init: vi.fn(),
@@ -202,6 +199,12 @@ vi.mock('$stores/stores.svelte', async () => {
 			results: defaultRecipes
 		})),
 		recipesInventoryFilter,
+		inventorySearch: inventorySearch,
+		inventorySearchResults: vi.fn(() => {
+			return {
+				results: defaultInventory
+			};
+		}),
 		inventory: {
 			get: vi.fn(() => defaultInventory),
 			init: vi.fn()

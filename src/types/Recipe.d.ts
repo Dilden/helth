@@ -8,4 +8,5 @@ interface Recipe {
 	name: string;
 	description: string;
 	items: RecipeItem[];
+	created?: number;
 }

@@ -1,23 +1,24 @@
 <script>
 	import Barcode from '$lib/Barcode.svelte';
-	import Inventory from '$lib/inventory/List.svelte';
-	import Recipes from '$lib/recipes/Recipes.svelte';
+	import List from '$lib/items/List.svelte';
 	import Modal from '$lib/Modal.svelte';
 	import { Tabs, TabList, TabPanel, Tab } from '$lib/tabs/tabs.js';
+	import { inventory, recipes } from '$stores/stores.svelte';
+	import Spinner from '$lib/Spinner.svelte';
 </script>
 
 <Modal>
 	<Tabs>
 		<TabList>
-			<Tab>Inventory</Tab>
-			<Tab>Recipes</Tab>
+			<Tab>Your Items</Tab>
 			<Tab>Scan</Tab>
 		</TabList>
 		<TabPanel>
-			<Inventory />
-		</TabPanel>
-		<TabPanel>
-			<Recipes />
+			{#await Promise.all([inventory.init(), recipes.init()])}
+				<Spinner />
+			{:then}
+				<List />
+			{/await}
 		</TabPanel>
 		<TabPanel>
 			<Barcode />

@@ -119,6 +119,49 @@ const recS: SearchResults<Promise<Recipe>> = $derived.by(() => {
 });
 export const recipeSearchResults = () => recS;
 
+// unified search
+export const q: Search = $state({ query: '' });
+const r: Promise<SearchResults<InventoryItem | Recipe>> = $derived.by(async () => {
+	const queriedInventory = inventory
+		.get()
+		.filter(
+			(item) =>
+				item.name.toLowerCase().includes(q.query.toLowerCase()) ||
+				item.description.toLowerCase().includes(q.query.toLowerCase())
+		);
+
+	const queriedRecipes = recipes
+		.get()
+		.filter(
+			(recipe) =>
+				recipe.name.toLowerCase().includes(q.query.toLowerCase()) ||
+				recipe.description.toLowerCase().includes(q.query.toLowerCase())
+		);
+
+	const recipesWithItems = queriedRecipes.map(async (recipe: Recipe) => {
+		const _items = lookupItems(recipe);
+		const lookedUpItems = await Promise.all(_items);
+
+		const items = lookedUpItems.map((item) => {
+			let found = recipe.items.find((x) => x.id == item.id);
+
+			// default servings to 1 if not set
+			return { servings: 1, ...found, ...item };
+		});
+
+		return { ...recipe, items };
+	});
+	const z = [...queriedInventory, ...(await Promise.all(recipesWithItems))];
+	const sorted = z.sort((a, b) => {
+		if (a?.created && b?.created) {
+			return b.created - a.created;
+		}
+		return b?.created ? -1 : a?.created ? 1 : 0;
+	});
+	return { results: sorted };
+});
+export const searchResults = () => r;
+
 // today
 function createTodayStore(): TodayStore<JournalEntry> {
 	let workingDate: string = $state(new Date().setHours(0, 0, 0, 0).toString());
@@ -148,8 +191,8 @@ function createTodayStore(): TodayStore<JournalEntry> {
 		workingDate = date;
 		await init();
 	}
-	function remove() {}
-	async function add() {}
+	function remove() { }
+	async function add() { }
 
 	return { init, add, update, get, setDate, remove };
 }
