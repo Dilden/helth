@@ -1,2 +1,8 @@
 /*
   X-Frame-Options: DENY
+  X-XSS-Protection: 0
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: text/html; charset=UTF-8
+  Content-Type: text/html: charset=UTF-8
+  Content-Security-Policy: default-src 'self'; script-src 'self' static.cloudflareinsights.com
